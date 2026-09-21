@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel - Planning</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .avail-dot { width: 10px; height: 10px; border-radius: 9999px; }
+  .hidden-init { display: none; }
+  .backdrop { background: rgba(17, 24, 39, 0.45); }
+  .panel-hidden { transform: translateX(100%); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spin { animation: spin 1s linear infinite; }
+  @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .toast-in { animation: toast-in .2s ease-out; }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0" style="width:256px;">
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Backoffice</p>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 ml-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-600"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1">
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span class="font-medium">Accueil</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+          <span class="font-medium">Planning</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-clients.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Clients</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span class="font-medium">Services</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-interimaires.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Missions</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevés d'heures</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
+          <span class="font-medium">Paramètres</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span class="font-medium">Compte</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-auto flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end gap-3 sticky top-0 z-40">
+      <button type="button" class="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-900 shadow-sm transition-all hover:bg-gray-50 w-10 px-0" title="Mode clair">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+      </button>
+      <div class="relative">
+        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications (12 non lues)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-colors text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">12</span>
+          <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full border border-white bg-green-500"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="flex-1">
+      <div class="p-6 space-y-6">
+
+        <!-- TITLE -->
+        <div class="mb-2 max-w-[1500px] mx-auto flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <h1 class="text-3xl font-bold mb-2 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Planning</h1>
+            <p class="text-gray-600">Placement des intérimaires sur les commandes du jour</p>
+          </div>
+          <button type="button" onclick="refreshMatches()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 h-10 px-4 gap-2">
+            <svg id="refresh-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+            Actualiser les best matchs
+          </button>
+        </div>
+
+        <!-- STATS -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 max-w-[1500px] mx-auto">
+          <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border-l-4 border-l-[#A63629]">
+            <div class="p-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1 font-medium">Commandes du jour</p>
+                  <p class="text-2xl font-bold text-[#A63629]">10</p>
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-br from-red-100 to-red-200 rounded-2xl flex items-center justify-center shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#A63629]"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border-l-4 border-l-red-400">
+            <div class="p-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1 font-medium">Non pourvues</p>
+                  <p class="text-2xl font-bold text-red-600" id="stat-non-pourvu">3</p>
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-br from-red-100 to-red-200 rounded-2xl flex items-center justify-center shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-red-600"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border-l-4 border-l-amber-400">
+            <div class="p-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1 font-medium">En attente de validation</p>
+                  <p class="text-2xl font-bold text-amber-600" id="stat-attente">2</p>
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-br from-amber-100 to-amber-200 rounded-2xl flex items-center justify-center shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-amber-600"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border-l-4 border-l-green-500">
+            <div class="p-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1 font-medium">Confirmées</p>
+                  <p class="text-2xl font-bold text-green-600" id="stat-confirme">2</p>
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl flex items-center justify-center shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-green-600"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DATE NAV + VIEW TOGGLE + FILTERS -->
+        <div class="max-w-[1500px] mx-auto space-y-3">
+          <div class="flex items-center justify-between gap-4 flex-wrap">
+            <div class="flex items-center gap-2">
+              <button type="button" class="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors border border-gray-200 bg-white shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m15 18-6-6 6-6"></path></svg>
+              </button>
+              <div class="px-4 py-2 rounded-lg border border-gray-200 bg-white shadow-sm text-sm font-semibold text-gray-900 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629]"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                Lundi 21 septembre 2026
+              </div>
+              <button type="button" class="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors border border-gray-200 bg-white shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m9 18 6-6-6-6"></path></svg>
+              </button>
+              <button type="button" class="px-3 py-2 rounded-lg text-sm font-semibold text-[#A63629] hover:bg-red-50 transition-colors">Aujourd'hui</button>
+            </div>
+            <div class="flex gap-2" id="view-tabs">
+              <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white shadow" data-tab="jour">Vue jour</button>
+              <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50" data-tab="semaine">Vue semaine</button>
+            </div>
+          </div>
+
+          <form class="flex gap-3 flex-wrap" onsubmit="return false;">
+            <div class="relative flex-1 min-w-[220px]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+              <input class="flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A63629] focus-visible:border-transparent pl-11 shadow-sm" placeholder="Rechercher un client, un poste, un intérimaire..." type="text">
+            </div>
+            <select class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              <option>Tous les clients</option>
+              <option>Hôtel Le Meurice</option>
+              <option>Potel et Chabot Traiteur</option>
+              <option>Fouquet's Barrière</option>
+              <option>Hyatt Regency Paris Étoile</option>
+            </select>
+            <select class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              <option>Tous les secteurs</option>
+              <option>Hôtellerie</option>
+              <option>Restauration</option>
+              <option>Événementiel</option>
+            </select>
+            <select class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              <option>Tous les statuts</option>
+              <option>Non pourvu</option>
+              <option>Proposition automatique</option>
+              <option>En attente de validation</option>
+              <option>Confirmé</option>
+              <option>Refusé</option>
+            </select>
+          </form>
+
+          <!-- LEGEND -->
+          <div class="flex items-center gap-5 text-xs text-gray-600 px-1 flex-wrap">
+            <span class="font-semibold text-gray-700">Légende :</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded border-2 border-dashed border-red-300 bg-red-50"></span>Non pourvu</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded border-2 border-dashed border-purple-300 bg-purple-50"></span>Proposition automatique (IA)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded border border-amber-300 bg-amber-50"></span>En attente de validation</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded border border-green-300 bg-green-50"></span>Confirmé</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded border border-gray-300 bg-gray-100"></span>Refusé</span>
+          </div>
+        </div>
+
+        <!-- COLUMN HEADER -->
+        <div class="hidden md:grid grid-cols-[100px_minmax(260px,2fr)_110px_1.3fr_150px] items-center gap-4 px-5 py-2 max-w-[1500px] mx-auto text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <div>Horaire</div>
+          <div>Client &amp; poste</div>
+          <div class="text-center">Taux</div>
+          <div>Intérimaire</div>
+          <div class="text-right">Statut</div>
+        </div>
+
+        <!-- PLANNING LIST -->
+        <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden mb-4 max-w-[1500px] mx-auto">
+          <div class="divide-y divide-gray-100" id="planning-list">
+
+            <!-- ROW 0 : nouvelle commande, calcul en cours -> placement auto en direct -->
+            <div id="row-0"
+                 class="grid grid-cols-[100px_minmax(260px,2fr)_110px_1.3fr_150px] items-center gap-4 p-5 border-l-4 border-l-purple-400 cursor-pointer transition-colors duration-150 hover:bg-gray-50"
+                 data-poste="Concierge" data-heure="07:00–15:00" data-client="Hôtel Le Meurice" data-chantier="Accueil — Conciergerie"
+                 data-adresse="228 Rue de Rivoli, 75001 Paris 1er" data-vehicule="Non requis" data-etoiles="4/5 minimum"
+                 data-logiciel="Opera PMS" data-cadence="Service continu" data-taux="13,40 €/h" data-tenue="Costume sombre Adaptel, badge visible"
+                 onclick="openPanel(this)">
+              <div class="text-sm font-semibold text-gray-900">07:00<br>15:00</div>
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-11 h-11 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-900 truncate">Hôtel Le Meurice</p>
+                  <p class="text-xs text-gray-500 truncate">Concierge</p>
+                  <div class="flex items-center gap-1.5 mt-1">
+                    <span class="inline-flex items-center gap-1 rounded-full bg-purple-100 text-purple-700 text-[10px] font-semibold px-2 py-0.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path></svg>
+                      Commande reçue à l'instant
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-sm font-semibold text-gray-900 text-center">13,40&nbsp;€/h</div>
+              <div id="cell-0" class="rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 px-3 py-2 flex items-center gap-2">
+                <svg class="w-4 h-4 text-gray-400 spin flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                <span class="text-xs text-gray-500 font-medium">Calcul des meilleurs matchs en cours…</span>
+              </div>
+              <div class="flex justify-end">
+                <span id="status-0" class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-600 text-xs font-semibold px-2.5 py-1">Calcul en cours</span>
+              </div>
+            </div>
+
+            <!-- ROW 1 : non pourvu, multi-jours -->
+            <div class="grid grid-cols-[100px_minmax(260px,2fr)_110px_1.3fr_150px] items-center gap-4 p-5 border-l-4 border-l-red-400 cursor-pointer transition-colors duration-150 hover:bg-gray-50"
+                 data-poste="Chef de rang" data-heure="11:00–19:00" data-client="Hôtel Le Meurice" data-chantier="Restaurant gastronomique — Salle"
+                 data-adresse="228 Rue de Rivoli, 75001 Paris 1er" data-vehicule="Non requis" data-etoiles="5/5 minimum"
+                 data-logiciel="Opera PMS" data-cadence="Coupure 15h–18h" data-taux="14,20 €/h" data-tenue="Costume noir, chemise blanche, tablier long"
+                 onclick="openPanel(this)">
+              <div class="text-sm font-semibold text-gray-900">11:00<br>19:00</div>
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-11 h-11 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-900 truncate">Hôtel Le Meurice</p>
+                  <p class="text-xs text-gray-500 truncate">Chef de rang</p>
+                  <div class="flex items-center gap-1.5 mt-1">
+                    <span class="inline-flex items-center rounded-full bg-gray-100 text-gray-600 text-[10px] font-semibold px-2 py-0.5">5 jours</span>
+                    <button type="button" onclick="event.stopPropagation(); openObservation(this)" class="inline-flex items-center gap-1 text-[10px] font-medium text-gray-500 hover:text-[#A63629]" title="Modifier l'observation">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
+                      Observation
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="text-sm font-semibold text-gray-900 text-center">14,20&nbsp;€/h</div>
+              <div class="interim-cell rounded-lg border-2 border-dashed border-red-300 bg-red-50/60 px-3 py-2 flex items-center gap-2" onclick="event.stopPropagation(); openMatches(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-red-500 flex-shrink-0"><path d="M5 12h14"></path></svg>
+                <div>
+                  <p class="text-xs font-semibold text-red-700">Non pourvu</p>
+                  <p class="text-[10px] text-red-500">Cliquer pour voir les meilleurs matchs</p>
+                </div>
+              </div>
+              <div class="flex justify-end">
+                <span class="inline-flex items-center rounded-full border border-transparent bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1">Non pourvu</span>
+              </div>
+            </div>
+
+            <!-- ROW 2 : non pourvu -->
+            <div class="grid grid-cols-[100px_minmax(260px,2fr)_110px_1.3fr_150px] items-center gap-4 p-5 border-l-4 border-l-red-400 cursor-pointer transition-colors duration-150 hover:bg-gray-50"
+                 data-poste="Femme de chambre" data-heure="08:00–14:00" data-client="Hyatt Regency Paris Étoile" data-chantier="Étage Prestige — Housekeeping"
+                 data-adresse="3 Place du Général Koenig, 75017 Paris" data-vehicule="Non requis" data-etoiles="4/5 minimum"
+                 data-logiciel="Opera PMS" data-cadence="Service continu" data-taux="12,80 €/h" data-tenue="Tenue Housekeeping fournie par l'établissement"
+                 onclick="openPanel(this)">
+              <div class="text-sm font-semibold text-gray-900">08:00<br>14:00</div>
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-11 h-11 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-900 truncate">Hyatt Regency Paris Étoile</p>
+                  <p class="text-xs text-gray-500 truncate">Femme de chambre</p>
+                </div>
+              </div>
+              <div class="text-sm font-semibold text-gray-900 text-center">12,80&nbsp;€/h</div>
+              <div class="interim-cell rounded-lg border-2 border-dashed border-red-300 bg-red-50/60 px-3 py-2 flex items-center gap-2" onclick="event.stopPropagation(); openMatches(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-red-500 flex-shrink-0"><path d="M5 12h14"></path></svg>
+                <div>
+                  <p class="text-xs font-semibold text-red-700">Non pourvu</p>
+                  <p class="text-[10px] text-red-500">Cliquer pour voir les meilleurs matchs</p>
+                </div>
+              </div>
+              <div class="flex justify-end">
+                <span class="inline-flex items-center rounded-full border border-transparent bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1">Non pourvu</span>
+              </div>
+            </div>
+
+            <!-- ROW 3 : proposition automatique -->
+            <div class="grid grid-cols-[100px_minmax(260px,2fr)_110px_1.3fr_150px] items-center gap-4 p-5 border-l-4 border-l-purple-400 cursor-pointer transition-colors duration-150 hover:bg-gray-50"
+                 data-poste="Plongeur" data-heure="07:00–15:00" data-client="Hôtel Le Meurice" data-chantier="Cuisine centrale"
+                 data-adresse="228 Rue de Rivoli, 75001 Paris 1er" data-vehicule="Non requis" data-etoiles="Non noté"
+                 data-logiciel="—" data-cadence="Service continu" data-taux="12,50 €/h" data-tenue="Tenue de cuisine fournie sur place"
+                 onclick="openPanel(this)">
+              <div class="text-sm font-semibold text-gray-900">07:00<br>15:00</div>
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-11 h-11 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-900 truncate">Hôtel Le Meurice</p>
+                  <p class="text-xs text-gray-500 truncate">Plongeur</p>
+                </div>
+              </div>
+              <div class="text-sm font-semibold text-gray-900 text-center">12,50&nbsp;€/h</div>
+              <div class="interim-cell rounded-lg border-2 border-dashed border-purple-300 bg-purple-50 px-3 py-2 flex items-center justify-between gap-2" onclick="event.stopPropagation(); openMatches(this)">
+                <div class="flex items-center gap-2 min-w-0">
+                  <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-[10px] font-bold text-[#A63629]">KD</span>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-xs font-semibold text-gray-900 truncate">Karim DIALLO</p>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-purple-700">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path></svg>
+                      Proposition IA
+                    </span>
+                  </div>
+                </div>
+                <div class="relative group flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 hover:text-[#A63629]"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                  <div class="hidden group-hover:block absolute right-0 top-6 z-30 w-56 rounded-xl border border-gray-200 bg-white shadow-xl p-3">
+                    <div class="flex items-center gap-2 mb-2">
+                      <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-[10px] font-bold text-[#A63629]">KD</span></div>
+                      <div><p class="text-xs font-semibold text-gray-900">Karim DIALLO</p><p class="text-[10px] text-gray-500">Plongeur / Cuisinier</p></div>
+                    </div>
+                    <p class="text-xs text-gray-600 flex items-center gap-1.5 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>07 65 32 10 44</p>
+                    <a href="maquette-interimaires.html" class="text-[11px] font-semibold text-[#A63629] hover:underline">Voir la fiche complète →</a>
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-end">
+                <span class="inline-flex items-center rounded-full border border-transparent bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-1">Proposition auto</span>
+              </div>
+            </div>
+
+            <!-- ROW 4 : proposition automatique -->
+            <div class="grid grid-cols-[100px_minmax(260px,2fr)_110px_1.3fr_150px] items-center gap-4 p-5 border-l-4 border-l-purple-400 cursor-pointer transition-colors duration-150 hover:bg-gray-50"
+                 data-poste="Réceptionniste" data-heure="15:00–23:00" data-client="Pullman Paris Tour Eiffel" data-chantier="Accueil — Réception"
+                 data-adresse="18 Avenue de Suffren, 75015 Paris" data-vehicule="Non requis" data-etoiles="4/5 minimum"
+                 data-logiciel="Opera PMS" data-cadence="Service continu" data-taux="13,50 €/h" data-tenue="Tailleur/costume Pullman fourni sur place"
+                 onclick="openPanel(this)">
+              <div class="text-sm font-semibold text-gray-900">15:00<br>23:00</div>
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-11 h-11 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-900 truncate">Pullman Paris Tour Eiffel</p>
+                  <p class="text-xs text-gray-500 truncate">Réceptionniste</p>
+                </div>
+              </div>
+              <div class="text-sm font-semibold text-gray-900 text-center">13,50&nbsp;€/h</div>
+              <div class="interim-cell rounded-lg border-2 border-dashed border-purple-300 bg-purple-50 px-3 py-2 flex items-center justify-between gap-2" onclick="event.stopPropagation(); openMatches(this)">
+                <div class="flex items-center gap-2 min-w-0">
+                  <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-[10px] font-bold text-[#A63629]">LR</span>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-xs font-semibold text-gray-900 truncate">Léa ROUSSEL</p>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-purple-700">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path></svg>
+                      Proposition IA
+                    </span>
+                  </div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+              </div>
+              <div class="flex justify-end">
+                <span class="inline-flex items-center rounded-full border border-transparent bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-1">Proposition auto</span>
+              </div>
+            </div>
+
+            <!-- ROW 5 : en attente de validation + avertissement repos -->
+            <div class="grid grid-cols-[100px_minmax(260px,2fr)_110px_1.3fr_150px] items-center gap-4 p-5 border-l-4 border-l-amber-400 cursor-pointer transition-colors duration-150 hover:bg-gray-50"
+                 data-poste="Extra service" data-heure="18:00–01:00" data-client="Potel et Chabot Traiteur" data-chantier="Réception privée — Salons Hoche"
+                 data-adresse="3 Avenue Hoche, 75008 Paris" data-vehicule="Requis (matériel à transporter)" data-etoiles="Non applicable"
+                 data-logiciel="—" data-cadence="Service en continu, coupure repas 21h" data-taux="13,80 €/h" data-tenue="Chemise blanche, gilet noir, nœud papillon (fournis par Potel)"
+                 onclick="openPanel(this)">
+              <div class="text-sm font-semibold text-gray-900">18:00<br>01:00</div>
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-11 h-11 bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-purple-600"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-900 truncate">Potel et Chabot Traiteur</p>
+                  <p class="text-xs text-gray-500 truncate">Extra service</p>
+                  <button type="button" onclick="event.stopPropagation(); openRepos()" class="inline-flex items-center gap-1 mt-1 text-[10px] font-semibold text-amber-600 hover:text-amber-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+                    Repos à vérifier
+                  </button>
+                </div>
+              </div>
+              <div class="text-sm font-semibold text-gray-900 text-center">13,80&nbsp;€/h</div>
+              <div class="interim-cell rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 flex items-center justify-between gap-2" onclick="event.stopPropagation(); openMatches(this)">
+                <div class="flex items-center gap-2 min-w-0">
+                  <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-[10px] font-bold text-[#A63629]">SM</span>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-xs font-semibold text-gray-900 truncate">Sofia MARTINS</p>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-700">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                      Notification envoyée
+                    </span>
+                  </div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+              </div>
+              <div class="flex justify-end">
+                <span class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-1">En attente</span>
+              </div>
+            </div>
+
+            <!-- ROW 6 : en attente de validation -->
+            <div class="grid grid-cols-[100px_minmax(260px,2fr)_110px_1.3fr_150px] items-center gap-4 p-5 border-l-4 border-l-amber-400 cursor-pointer transition-colors duration-150 hover:bg-gray-50"
+                 data-poste="Housekeeping" data-heure="09:00–17:00" data-client="Novotel Paris Est" data-chantier="Étages — Housekeeping"
+                 data-adresse="1 Rue de la Pointe, 93170 Bagnolet" data-vehicule="Non requis" data-etoiles="3/5 minimum"
+                 data-logiciel="Opera PMS" data-cadence="Service continu" data-taux="12,60 €/h" data-tenue="Tenue Housekeeping fournie sur place"
+                 onclick="openPanel(this)">
+              <div class="text-sm font-semibold text-gray-900">09:00<br>17:00</div>
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-11 h-11 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-900 truncate">Novotel Paris Est</p>
+                  <p class="text-xs text-gray-500 truncate">Housekeeping</p>
+                </div>
+              </div>
+              <div class="text-sm font-semibold text-gray-900 text-center">12,60&nbsp;€/h</div>
+              <div class="interim-cell rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 flex items-center justify-between gap-2" onclick="event.stopPropagation(); openMatches(this)">
+                <div class="flex items-center gap-2 min-w-0">
+                  <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-[10px] font-bold text-[#A63629]">NF</span>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-xs font-semibold text-gray-900 truncate">Nadia FONTAINE</p>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-700">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                      Notification envoyée
+                    </span>
+                  </div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+              </div>
+              <div class="flex justify-end">
+                <span class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-1">En attente</span>
+              </div>
+            </div>
+
+            <!-- ROW 7 : confirmé -->
+            <div class="grid grid-cols-[100px_minmax(260px,2fr)_110px_1.3fr_150px] items-center gap-4 p-5 border-l-4 border-l-green-500 cursor-pointer transition-colors duration-150 hover:bg-gray-50"
+                 data-poste="Commis de cuisine" data-heure="09:00–17:00" data-client="Fouquet's Barrière" data-chantier="Cuisine — Brigade froide"
+                 data-adresse="99 Avenue des Champs-Élysées, 75008 Paris" data-vehicule="Non requis" data-etoiles="5/5 minimum"
+                 data-logiciel="—" data-cadence="Service continu" data-taux="13,10 €/h" data-tenue="Tenue de cuisine fournie sur place"
+                 onclick="openPanel(this)">
+              <div class="text-sm font-semibold text-gray-900">09:00<br>17:00</div>
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-11 h-11 bg-gradient-to-br from-orange-100 to-orange-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-orange-600"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></svg>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-900 truncate">Fouquet's Barrière</p>
+                  <p class="text-xs text-gray-500 truncate">Commis de cuisine</p>
+                </div>
+              </div>
+              <div class="text-sm font-semibold text-gray-900 text-center">13,10&nbsp;€/h</div>
+              <div class="interim-cell rounded-lg border border-green-300 bg-green-50 px-3 py-2 flex items-center justify-between gap-2" onclick="event.stopPropagation(); openMatches(this)">
+                <div class="flex items-center gap-2 min-w-0">
+                  <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-[10px] font-bold text-[#A63629]">MK</span>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-xs font-semibold text-gray-900 truncate">Mehdi KACI</p>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                      Confirmé
+                    </span>
+                  </div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+              </div>
+              <div class="flex justify-end">
+                <span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1">Confirmé</span>
+              </div>
+            </div>
+
+            <!-- ROW 8 : confirmé -->
+            <div class="grid grid-cols-[100px_minmax(260px,2fr)_110px_1.3fr_150px] items-center gap-4 p-5 border-l-4 border-l-green-500 cursor-pointer transition-colors duration-150 hover:bg-gray-50"
+                 data-poste="Serveur" data-heure="07:30–15:30" data-client="Café de Flore" data-chantier="Salle — Terrasse"
+                 data-adresse="172 Boulevard Saint-Germain, 75006 Paris" data-vehicule="Non requis" data-etoiles="Non applicable"
+                 data-logiciel="—" data-cadence="Service continu" data-taux="12,90 €/h" data-tenue="Tablier noir Café de Flore fourni sur place"
+                 onclick="openPanel(this)">
+              <div class="text-sm font-semibold text-gray-900">07:30<br>15:30</div>
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-11 h-11 bg-gradient-to-br from-orange-100 to-orange-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-orange-600"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></svg>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-gray-900 truncate">Café de Flore</p>
+                  <p class="text-xs text-gray-500 truncate">Serveur</p>
+                </div>
+              </div>
+              <div class="text-sm font-semibold text-gray-900 text-center">12,90&nbsp;€/h</div>
+              <div class="interim-cell rounded-lg border border-green-300 bg-green-50 px-3 py-2 flex items-center justify-between gap-2" onclick="event.stopPropagation(); openMatches(this)">
+                <div class="flex items-center gap-2 min-w-0">
+                  <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-[10px] font-bold text-[#A63629]">EL</span>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-xs font-semibold text-gray-900 truncate">Emma LEFEBVRE</p>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-green-700">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                      Confirmé
+                    </span>
+                  </div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+              </div>
+              <div class="flex justify-end">
+                <span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1">Confirmé</span>
+              </div>
+            </div>
+
+            <!-- ROW 9 : refusé -->
+            <div id="row-9" class="border-l-4 border-l-gray-400">
+              <div class="grid grid-cols-[100px_minmax(260px,2fr)_110px_1.3fr_150px] items-center gap-4 p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50"
+                   data-poste="Barman" data-heure="19:00–02:00" data-client="Radisson Collection Lyon" data-chantier="Bar — Rooftop"
+                   data-adresse="20 Quai Gailleton, 69002 Lyon" data-vehicule="Non requis" data-etoiles="4/5 minimum"
+                   data-logiciel="Opera PMS" data-cadence="Service continu" data-taux="13,20 €/h" data-tenue="Chemise noire, tablier long fournis par l'établissement"
+                   onclick="openPanel(this)">
+                <div class="text-sm font-semibold text-gray-900">19:00<br>02:00</div>
+                <div class="flex items-center gap-3 min-w-0">
+                  <div class="w-11 h-11 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-sm font-semibold text-gray-900 truncate">Radisson Collection Lyon</p>
+                    <p class="text-xs text-gray-500 truncate">Barman</p>
+                  </div>
+                </div>
+                <div class="text-sm font-semibold text-gray-900 text-center">13,20&nbsp;€/h</div>
+                <div class="interim-cell rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 flex items-center justify-between gap-2" onclick="event.stopPropagation(); openMatches(this)">
+                  <div class="flex items-center gap-2 min-w-0">
+                    <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-[10px] font-bold text-[#A63629]">YM</span>
+                    </div>
+                    <div class="min-w-0">
+                      <p class="text-xs font-semibold text-gray-400 truncate line-through">Yanis MOKRANE</p>
+                      <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                        Refusé
+                      </span>
+                    </div>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                </div>
+                <div class="flex justify-end">
+                  <span id="status-9" class="inline-flex items-center rounded-full border border-transparent bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-1">Refusé</span>
+                </div>
+              </div>
+              <div id="refus-banner-9" class="mx-5 mb-4 -mt-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
+                <p class="text-xs text-amber-800 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 flex-shrink-0"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+                  <span><strong>Refusé par Yanis MOKRANE.</strong> Proposer une indisponibilité sur ce créneau ?</span>
+                </p>
+                <div class="flex gap-2">
+                  <button type="button" onclick="handleRefusOui()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-600 text-white hover:bg-amber-700 transition-colors">Oui, indisponibiliser</button>
+                  <button type="button" onclick="handleRefusNon()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-amber-300 text-amber-700 hover:bg-amber-100 transition-colors">Non merci</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <p class="max-w-[1500px] mx-auto text-xs text-gray-500 px-1">
+          Le clic droit sur un intérimaire de la liste des meilleurs matchs vaut validation immédiate — comportement identique dans Recherche de disponibilité.
+        </p>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ===================== SIDE PANEL (bandeau d'info croisée) ===================== -->
+<div id="panel-backdrop" class="fixed inset-0 backdrop z-40 hidden" onclick="closePanel()"></div>
+<aside id="side-panel" class="fixed top-0 right-0 h-screen w-full sm:w-[420px] bg-white shadow-2xl z-50 border-l border-gray-200 transform transition-transform duration-300 panel-hidden overflow-y-auto">
+  <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3 sticky top-0 bg-white">
+    <div>
+      <p id="panel-poste" class="text-lg font-bold text-gray-900">Poste</p>
+      <p id="panel-heure" class="text-sm text-gray-500">Horaire</p>
+    </div>
+    <button onclick="closePanel()" class="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+    </button>
+  </div>
+
+  <div class="p-5 space-y-5">
+    <!-- CLIENT -->
+    <div class="rounded-xl border border-gray-200 p-4">
+      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-[#A63629]"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+        Client
+      </h3>
+      <a href="maquette-client-detail.html" id="panel-client" class="text-base font-semibold text-gray-900 hover:text-[#A63629] hover:underline">Nom du client</a>
+      <p id="panel-chantier" class="text-sm text-gray-500 mt-0.5">Chantier</p>
+      <p id="panel-adresse" class="text-sm text-gray-600 mt-2 flex items-start gap-1.5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 flex-shrink-0 mt-0.5"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <span>Adresse</span>
+      </p>
+      <a href="maquette-clients.html" class="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-[#A63629] hover:underline">
+        Voir la fiche client complète
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+      </a>
+    </div>
+
+    <!-- CHANTIER / MISSION -->
+    <div class="rounded-xl border border-gray-200 p-4 space-y-3">
+      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-[#A63629]"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        Infos du chantier
+      </h3>
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-gray-500 flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>Véhiculé requis</span>
+        <span id="panel-vehicule" class="font-semibold text-gray-900">—</span>
+      </div>
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-gray-500 flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>Étoiles client</span>
+        <span id="panel-etoiles" class="font-semibold text-gray-900">—</span>
+      </div>
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-gray-500 flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line></svg>Logiciel sur site</span>
+        <span id="panel-logiciel" class="font-semibold text-gray-900">—</span>
+      </div>
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-gray-500 flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>Cadence</span>
+        <span id="panel-cadence" class="font-semibold text-gray-900 text-right">—</span>
+      </div>
+    </div>
+
+    <!-- TAUX -->
+    <div class="rounded-xl border border-gray-200 p-4 flex items-center justify-between">
+      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Taux horaire de la commande</h3>
+      <p id="panel-taux" class="text-xl font-bold text-[#A63629]">—</p>
+    </div>
+
+    <!-- TENUE -->
+    <div class="rounded-xl border border-gray-200 p-4">
+      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-[#A63629]"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 .55.45 1 1 1h10c.55 0 1-.45 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"></path></svg>
+        Tenue demandée
+      </h3>
+      <p id="panel-tenue" class="text-sm text-gray-700">—</p>
+    </div>
+  </div>
+</aside>
+
+<!-- ===================== MODAL : MEILLEURS MATCHS ===================== -->
+<div id="matches-backdrop" class="fixed inset-0 backdrop z-50 hidden items-center justify-center p-4" onclick="closeMatches(event)">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto" onclick="event.stopPropagation()">
+    <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3 sticky top-0 bg-white rounded-t-2xl">
+      <div>
+        <p class="text-lg font-bold text-gray-900">Meilleurs matchs</p>
+        <p id="matches-subtitle" class="text-sm text-gray-500">Poste — Client · Horaire</p>
+      </div>
+      <button onclick="closeMatches()" class="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+
+    <!-- Filters -->
+    <div class="p-5 border-b border-gray-100 flex items-center gap-2 flex-wrap">
+      <button type="button" class="filter-pill px-3 py-1.5 rounded-full text-xs font-semibold border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition-colors">Véhiculé</button>
+      <button type="button" class="filter-pill px-3 py-1.5 rounded-full text-xs font-semibold border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition-colors">Favori client</button>
+      <button type="button" class="filter-pill px-3 py-1.5 rounded-full text-xs font-semibold border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition-colors">A déjà travaillé sur ce chantier</button>
+      <select class="h-8 rounded-full border border-gray-200 bg-white px-3 text-xs text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+        <option>Étoiles / logiciel : tous</option>
+        <option>4-5 étoiles uniquement</option>
+        <option>Maîtrise du logiciel du site</option>
+      </select>
+    </div>
+
+    <!-- Candidate list -->
+    <div class="divide-y divide-gray-100">
+
+      <div class="p-4 flex items-center justify-between gap-3 flex-wrap hover:bg-gray-50 transition-colors" oncontextmenu="return rightClickAssign(event, 'Sofia MARTINS', 'SM', true)">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">SM</span></div>
+          <div class="min-w-0">
+            <p class="text-sm font-semibold text-gray-900">Sofia MARTINS</p>
+            <p class="text-xs text-gray-500">Paris 11e · 4,8 km</p>
+            <div class="flex items-center gap-1.5 mt-1 flex-wrap">
+              <span class="inline-flex items-center gap-1 rounded-full bg-yellow-100 text-yellow-800 text-[10px] font-semibold px-2 py-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
+                Favori client
+              </span>
+              <span class="inline-flex items-center rounded-full bg-blue-100 text-blue-700 text-[10px] font-semibold px-2 py-0.5">Déjà venu</span>
+              <span class="inline-flex items-center rounded-full bg-green-100 text-green-700 text-[10px] font-semibold px-2 py-0.5">Disponible</span>
+            </div>
+          </div>
+        </div>
+        <button type="button" onclick="selectCandidate('Sofia MARTINS', 'SM', true)" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow hover:opacity-95 transition-opacity flex-shrink-0">Sélectionner</button>
+      </div>
+
+      <div class="p-4 flex items-center justify-between gap-3 flex-wrap hover:bg-gray-50 transition-colors" oncontextmenu="return rightClickAssign(event, 'Karim DIALLO', 'KD', true)">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">KD</span></div>
+          <div class="min-w-0">
+            <p class="text-sm font-semibold text-gray-900">Karim DIALLO</p>
+            <p class="text-xs text-gray-500">Boulogne-Billancourt · 6,1 km</p>
+            <div class="flex items-center gap-1.5 mt-1 flex-wrap">
+              <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 text-gray-700 text-[10px] font-semibold px-2 py-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+                Véhiculé
+              </span>
+              <span class="inline-flex items-center rounded-full bg-green-100 text-green-700 text-[10px] font-semibold px-2 py-0.5">Disponible</span>
+            </div>
+          </div>
+        </div>
+        <button type="button" onclick="selectCandidate('Karim DIALLO', 'KD', true)" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow hover:opacity-95 transition-opacity flex-shrink-0">Sélectionner</button>
+      </div>
+
+      <div class="p-4 flex items-center justify-between gap-3 flex-wrap hover:bg-gray-50 transition-colors" oncontextmenu="return rightClickAssign(event, 'Rachid BENALI', 'RB', false)">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">RB</span></div>
+          <div class="min-w-0">
+            <p class="text-sm font-semibold text-gray-900">Rachid BENALI</p>
+            <p class="text-xs text-gray-500">Rueil-Malmaison · 9,4 km</p>
+            <div class="flex items-center gap-1.5 mt-1 flex-wrap">
+              <span class="inline-flex items-center rounded-full bg-amber-100 text-amber-800 text-[10px] font-semibold px-2 py-0.5 flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+                Indisponible déclaré
+              </span>
+            </div>
+          </div>
+        </div>
+        <button type="button" onclick="selectCandidate('Rachid BENALI', 'RB', false)" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-amber-300 text-amber-700 hover:bg-amber-50 transition-colors flex-shrink-0">Sélectionner quand même</button>
+      </div>
+
+      <!-- Vivier / candidatures -->
+      <div class="px-4 pt-3 pb-1 bg-gray-50">
+        <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Candidatures aptes (vivier)</p>
+      </div>
+      <div class="p-4 flex items-center justify-between gap-3 flex-wrap bg-gray-50/60 hover:bg-gray-100 transition-colors" oncontextmenu="return rightClickAssign(event, 'Inès CARVALHO', 'IC', true)">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-10 h-10 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-gray-500">IC</span></div>
+          <div class="min-w-0">
+            <p class="text-sm font-semibold text-gray-700">Inès CARVALHO</p>
+            <p class="text-xs text-gray-500">Candidature validée — jamais missionnée</p>
+          </div>
+        </div>
+        <button type="button" onclick="selectCandidate('Inès CARVALHO', 'IC', true)" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">Sélectionner</button>
+      </div>
+    </div>
+
+    <div class="p-4 bg-gray-50 rounded-b-2xl">
+      <p class="text-xs text-gray-500">Clic droit sur un candidat = validation immédiate et notification à l'intérimaire.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== POPUP : CONFIRMATION INDISPONIBLE ===================== -->
+<div id="confirm-backdrop" class="fixed inset-0 backdrop z-[60] hidden items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 text-center">
+    <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-3">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-amber-600"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+    </div>
+    <p class="text-base font-bold text-gray-900 mb-1">Êtes-vous sûr ?</p>
+    <p id="confirm-text" class="text-sm text-gray-600 mb-5">Cet intérimaire est déclaré indisponible sur ce créneau. Le placer quand même ?</p>
+    <div class="flex gap-3">
+      <button type="button" onclick="closeConfirm()" class="flex-1 px-4 py-2 rounded-lg text-sm font-semibold border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors">Annuler</button>
+      <button type="button" onclick="confirmAssign()" class="flex-1 px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow hover:opacity-95 transition-opacity">Confirmer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== POPUP : REPOS MINIMUM ===================== -->
+<div id="repos-backdrop" class="fixed inset-0 backdrop z-[60] hidden items-center justify-center p-4" onclick="closeRepos(event)">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 text-center" onclick="event.stopPropagation()">
+    <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-3">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-red-600"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+    </div>
+    <p class="text-base font-bold text-gray-900 mb-1">Repos minimum non respecté</p>
+    <p class="text-sm text-gray-600 mb-5">Sofia MARTINS termine une mission à 21h00 le même jour et reprend ici à 18h00 — le repos de 11h (12h en hébergement) n'est pas respecté. Le placement reste possible mais est signalé pour vérification.</p>
+    <button type="button" onclick="closeRepos()" class="w-full px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow hover:opacity-95 transition-opacity">Compris</button>
+  </div>
+</div>
+
+<!-- ===================== POPUP : OBSERVATION / HORAIRES (multi-jours) ===================== -->
+<div id="observation-backdrop" class="fixed inset-0 backdrop z-[60] hidden items-center justify-center p-4" onclick="closeObservation(event)">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6" onclick="event.stopPropagation()">
+    <p class="text-base font-bold text-gray-900 mb-1">Modifier l'observation du jour</p>
+    <p class="text-xs text-gray-500 mb-4">Hôtel Le Meurice — Chef de rang · Lundi 21 septembre 2026</p>
+    <textarea class="w-full h-24 rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#A63629] resize-none" placeholder="Ex : prévoir passage badge à l'accueil avant 10h45">Prévoir passage badge à l'accueil avant 10h45.</textarea>
+    <div class="flex gap-3 mt-4">
+      <button type="button" onclick="closeObservation()" class="flex-1 px-4 py-2 rounded-lg text-sm font-semibold border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors">Annuler</button>
+      <button type="button" onclick="saveObservation()" class="flex-1 px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow hover:opacity-95 transition-opacity">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== POPUP : ETENDRE A TOUS LES JOURS ===================== -->
+<div id="extend-backdrop" class="fixed inset-0 backdrop z-[60] hidden items-center justify-center p-4" onclick="closeExtend(event)">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 text-center" onclick="event.stopPropagation()">
+    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-blue-600"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+    </div>
+    <p class="text-base font-bold text-gray-900 mb-1">Étendre à toute la commande ?</p>
+    <p class="text-sm text-gray-600 mb-5">Cette commande s'étend sur 5 jours. Appliquer cette observation aux 4 autres jours (mardi → vendredi) ?</p>
+    <div class="flex gap-3">
+      <button type="button" onclick="closeExtend()" class="flex-1 px-4 py-2 rounded-lg text-sm font-semibold border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors">Ce jour seulement</button>
+      <button type="button" onclick="confirmExtend()" class="flex-1 px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow hover:opacity-95 transition-opacity">Étendre aux 5 jours</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TOASTS ===================== -->
+<div id="toast-container" class="fixed bottom-6 right-6 z-[70] space-y-2 w-80"></div>
+
+<script>
+  /* ---------- Cosmetic view/status tabs ---------- */
+  document.querySelectorAll('#view-tabs .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#view-tabs .tab-btn').forEach(b => {
+        b.classList.remove('bg-[#A63629]', 'text-white', 'shadow');
+        b.classList.add('text-gray-700', 'bg-white', 'border', 'border-gray-200');
+      });
+      btn.classList.remove('text-gray-700', 'bg-white', 'border', 'border-gray-200');
+      btn.classList.add('bg-[#A63629]', 'text-white', 'shadow');
+    });
+  });
+  document.querySelectorAll('.filter-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const active = btn.classList.toggle('bg-[#A63629]');
+      btn.classList.toggle('text-white', active);
+      btn.classList.toggle('border-[#A63629]', active);
+      btn.classList.toggle('text-gray-700', !active);
+      btn.classList.toggle('bg-white', !active);
+      btn.classList.toggle('border-gray-200', !active);
+    });
+  });
+
+  /* ---------- Toast ---------- */
+  function showToast(message, tone) {
+    tone = tone || 'default';
+    const colors = {
+      default: 'border-l-gray-300',
+      success: 'border-l-green-500',
+      warning: 'border-l-amber-500',
+      info: 'border-l-purple-500'
+    };
+    const el = document.createElement('div');
+    el.className = 'toast-in bg-white rounded-lg shadow-xl border border-gray-200 border-l-4 ' + (colors[tone] || colors.default) + ' px-4 py-3 text-sm text-gray-800';
+    el.textContent = message;
+    const container = document.getElementById('toast-container');
+    container.appendChild(el);
+    setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .3s'; setTimeout(() => el.remove(), 300); }, 3800);
+  }
+
+  /* ---------- Side panel (bandeau d'info croisée) ---------- */
+  function openPanel(row) {
+    document.getElementById('panel-poste').textContent = row.dataset.poste;
+    document.getElementById('panel-heure').textContent = row.dataset.heure;
+    document.getElementById('panel-client').textContent = row.dataset.client;
+    document.getElementById('panel-chantier').textContent = row.dataset.chantier;
+    document.getElementById('panel-adresse').lastElementChild.textContent = row.dataset.adresse;
+    document.getElementById('panel-vehicule').textContent = row.dataset.vehicule;
+    document.getElementById('panel-etoiles').textContent = row.dataset.etoiles;
+    document.getElementById('panel-logiciel').textContent = row.dataset.logiciel;
+    document.getElementById('panel-cadence').textContent = row.dataset.cadence;
+    document.getElementById('panel-taux').textContent = row.dataset.taux;
+    document.getElementById('panel-tenue').textContent = row.dataset.tenue;
+
+    document.getElementById('panel-backdrop').classList.remove('hidden');
+    const panel = document.getElementById('side-panel');
+    requestAnimationFrame(() => panel.classList.remove('panel-hidden'));
+  }
+  function closePanel() {
+    document.getElementById('side-panel').classList.add('panel-hidden');
+    setTimeout(() => document.getElementById('panel-backdrop').classList.add('hidden'), 250);
+  }
+
+  /* ---------- Best matches modal ---------- */
+  var currentCell = null;
+  function openMatches(cellOrRow) {
+    const row = cellOrRow.closest('[data-poste]');
+    currentCell = cellOrRow.classList && cellOrRow.classList.contains('interim-cell') ? cellOrRow : cellOrRow.querySelector('.interim-cell') || cellOrRow;
+    document.getElementById('matches-subtitle').textContent = row.dataset.poste + ' — ' + row.dataset.client + ' · ' + row.dataset.heure;
+    const backdrop = document.getElementById('matches-backdrop');
+    backdrop.classList.remove('hidden');
+    backdrop.classList.add('flex');
+  }
+  function closeMatches(e) {
+    const backdrop = document.getElementById('matches-backdrop');
+    backdrop.classList.add('hidden');
+    backdrop.classList.remove('flex');
+  }
+
+  /* ---------- Candidate selection ---------- */
+  var pendingCandidate = null;
+  function selectCandidate(name, initials, available) {
+    if (!available) {
+      pendingCandidate = { name: name, initials: initials };
+      document.getElementById('confirm-text').textContent = 'Cet intérimaire (' + name + ') est déclaré indisponible sur ce créneau. Le placer quand même ?';
+      const cb = document.getElementById('confirm-backdrop');
+      cb.classList.remove('hidden'); cb.classList.add('flex');
+      return;
+    }
+    assign(name, initials);
+  }
+  function confirmAssign() {
+    if (pendingCandidate) assign(pendingCandidate.name, pendingCandidate.initials);
+    closeConfirm();
+  }
+  function closeConfirm() {
+    pendingCandidate = null;
+    const cb = document.getElementById('confirm-backdrop');
+    cb.classList.add('hidden'); cb.classList.remove('flex');
+  }
+  function rightClickAssign(event, name, initials, available) {
+    event.preventDefault();
+    assign(name, initials);
+    return false;
+  }
+  function assign(name, initials) {
+    if (currentCell) {
+      currentCell.className = 'interim-cell rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 flex items-center justify-between gap-2';
+      currentCell.setAttribute('onclick', 'event.stopPropagation(); openMatches(this)');
+      currentCell.innerHTML =
+        '<div class="flex items-center gap-2 min-w-0">' +
+          '<div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-[10px] font-bold text-[#A63629]">' + initials + '</span></div>' +
+          '<div class="min-w-0"><p class="text-xs font-semibold text-gray-900 truncate">' + name + '</p>' +
+          '<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-700"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>Notification envoyée</span></div>' +
+        '</div>' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>';
+
+      const row = currentCell.closest('[data-poste]');
+      const statusBadge = row.querySelector('.grid > div:last-child span, .flex.justify-end span');
+      if (statusBadge) {
+        statusBadge.className = 'inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-1';
+        statusBadge.textContent = 'En attente';
+      }
+      row.classList.remove('border-l-red-400', 'border-l-purple-400', 'border-l-gray-400');
+      row.classList.add('border-l-amber-400');
+    }
+    closeMatches();
+    showToast('Notification envoyée à ' + name + ' — en attente de confirmation.', 'success');
+  }
+
+  /* ---------- Repos warning ---------- */
+  function openRepos() {
+    const rb = document.getElementById('repos-backdrop');
+    rb.classList.remove('hidden'); rb.classList.add('flex');
+  }
+  function closeRepos() {
+    const rb = document.getElementById('repos-backdrop');
+    rb.classList.add('hidden'); rb.classList.remove('flex');
+  }
+
+  /* ---------- Observation / extend to all days ---------- */
+  function openObservation(btn) {
+    const ob = document.getElementById('observation-backdrop');
+    ob.classList.remove('hidden'); ob.classList.add('flex');
+  }
+  function closeObservation() {
+    const ob = document.getElementById('observation-backdrop');
+    ob.classList.add('hidden'); ob.classList.remove('flex');
+  }
+  function saveObservation() {
+    closeObservation();
+    const eb = document.getElementById('extend-backdrop');
+    eb.classList.remove('hidden'); eb.classList.add('flex');
+  }
+  function closeExtend() {
+    const eb = document.getElementById('extend-backdrop');
+    eb.classList.add('hidden'); eb.classList.remove('flex');
+    showToast('Observation enregistrée pour ce jour uniquement.', 'default');
+  }
+  function confirmExtend() {
+    const eb = document.getElementById('extend-backdrop');
+    eb.classList.add('hidden'); eb.classList.remove('flex');
+    showToast('Observation appliquée aux 5 jours de la commande.', 'success');
+  }
+
+  /* ---------- Refusal banner ---------- */
+  function handleRefusOui() {
+    document.getElementById('refus-banner-9').remove();
+    const status9 = document.getElementById('status-9');
+    status9.className = 'inline-flex items-center rounded-full border border-transparent bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1';
+    status9.textContent = 'Non pourvu';
+    document.getElementById('row-9').classList.remove('border-l-gray-400');
+    document.getElementById('row-9').classList.add('border-l-red-400');
+    showToast('Indisponibilité enregistrée pour Yanis MOKRANE sur ce créneau (démonstration).', 'warning');
+  }
+  function handleRefusNon() {
+    document.getElementById('refus-banner-9').remove();
+  }
+
+  /* ---------- Live demo: automatic placement on new order ---------- */
+  function refreshMatches() {
+    const icon = document.getElementById('refresh-icon');
+    icon.classList.add('spin');
+    setTimeout(() => {
+      icon.classList.remove('spin');
+      showToast('Meilleurs matchs recalculés pour les commandes en cours.', 'info');
+    }, 900);
+  }
+
+  setTimeout(() => {
+    const cell = document.getElementById('cell-0');
+    cell.outerHTML =
+      '<div id="cell-0" class="interim-cell rounded-lg border-2 border-dashed border-purple-300 bg-purple-50 px-3 py-2 flex items-center justify-between gap-2" onclick="event.stopPropagation(); openMatches(this)">' +
+        '<div class="flex items-center gap-2 min-w-0">' +
+          '<div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-[10px] font-bold text-[#A63629]">CD</span></div>' +
+          '<div class="min-w-0"><p class="text-xs font-semibold text-gray-900 truncate">Camille DUBOIS</p>' +
+          '<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-purple-700"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path></svg>Proposition IA</span></div>' +
+        '</div>' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>' +
+      '</div>';
+    const status0 = document.getElementById('status-0');
+    status0.className = 'inline-flex items-center rounded-full border border-transparent bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-1';
+    status0.textContent = 'Proposition auto';
+    document.getElementById('row-0').classList.remove('border-l-purple-400');
+    document.getElementById('row-0').classList.add('border-l-purple-400');
+    showToast('Meilleur match trouvé pour Concierge — Hôtel Le Meurice : Camille DUBOIS placée automatiquement.', 'info');
+  }, 2600);
+</script>
+
+</body>
+</html>

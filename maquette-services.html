@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel - Services</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0" style="width:256px;">
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Backoffice</p>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 ml-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-600"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1">
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span class="font-medium">Accueil</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Clients</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-services.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span class="font-medium">Services</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-interimaires.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Missions</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevés d'heures</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
+          <span class="font-medium">Paramètres</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span class="font-medium">Compte</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-auto flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end gap-3 sticky top-0 z-40">
+      <button type="button" class="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-900 shadow-sm transition-all hover:bg-gray-50 w-10 px-0" title="Mode clair">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+      </button>
+      <div class="relative">
+        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications (5 non lues)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-colors text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">5</span>
+          <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full border border-white bg-green-500"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="flex-1">
+      <div class="p-6 space-y-6">
+
+        <!-- TITLE -->
+        <div class="mx-auto max-w-[1400px] flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div class="space-y-2">
+            <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Services</h1>
+            <p class="text-sm text-gray-600">Gérer et valider les demandes de services en un clin d'œil</p>
+            <span class="inline-flex items-center rounded-full border border-transparent bg-white text-gray-700 shadow-sm px-2.5 py-0.5 text-xs font-semibold">1 842 services enregistrés</span>
+          </div>
+          <button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+            Ajouter un service
+          </button>
+        </div>
+
+        <!-- SEARCH + FILTERS -->
+        <div class="mx-auto max-w-[1400px]">
+          <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-6">
+            <form class="flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center" onsubmit="return false;">
+              <div class="relative flex-1 min-w-[250px]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+                <input class="flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm pl-11" placeholder="Rechercher par raison sociale..." type="text">
+              </div>
+              <select class="px-4 py-2 border border-gray-200 rounded-lg bg-white min-w-[200px] text-sm text-gray-700">
+                <option>Tous les clients</option>
+                <option>CONSTELLATION ETOILE - HYATT REGENCY P</option>
+                <option>1PULSE9</option>
+                <option>POTEL ET CHABOT</option>
+              </select>
+              <select class="px-4 py-2 border border-gray-200 rounded-lg bg-white min-w-[160px] text-sm text-gray-700">
+                <option>Tous les statuts</option>
+                <option>En attente</option>
+                <option>Validés</option>
+              </select>
+              <select class="px-4 py-2 border border-gray-200 rounded-lg bg-white min-w-[140px] text-sm text-gray-700">
+                <option>Tous</option>
+                <option>Actifs</option>
+                <option>Suspendus</option>
+              </select>
+              <button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4 gap-2" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+                Rechercher
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- LIST -->
+        <div class="mx-auto max-w-[1400px]">
+          <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+            <div class="flex flex-col space-y-1.5 p-6 border-b border-gray-200 bg-gray-50">
+              <h3 class="text-lg font-semibold text-gray-900">Liste des services</h3>
+              <p class="text-sm text-gray-500">Consultez et validez les demandes de services</p>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-3 text-left font-semibold w-10"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></th>
+                    <th class="px-4 py-3 text-left font-semibold">Immat</th>
+                    <th class="px-4 py-3 text-left font-semibold">Raison sociale</th>
+                    <th class="px-4 py-3 text-left font-semibold">Adresse</th>
+                    <th class="px-4 py-3 text-left font-semibold">Ville</th>
+                    <th class="px-4 py-3 text-left font-semibold">SIRET</th>
+                    <th class="px-4 py-3 text-left font-semibold">Date</th>
+                    <th class="px-4 py-3 text-left font-semibold">Statut</th>
+                    <th class="px-4 py-3 text-right font-semibold">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+
+                  <!-- Row 1 : clickable service -->
+                  <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="window.location.href='maquette-service-detail.html'" title="Voir la fiche du service">
+                    <td class="px-4 py-3 align-middle" onclick="event.stopPropagation()"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                    <td class="px-4 py-3 align-middle">
+                      <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
+                        <div class="inline-flex items-center rounded-md border-2 border-[#A63629] bg-gradient-to-r from-[#A63629]/5 to-[#8B2B1F]/5 px-3 py-1.5">
+                          <span class="font-mono text-sm font-bold text-[#A63629]">007707010000153</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-4 py-3 align-middle font-medium text-gray-900 hover:text-[#A63629] hover:underline">FLEXI BANQUET - HYATT REGENCY PARIS ETOILE</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">3 PLACE DU GENERAL KOENIG</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">75017 PARIS</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">79133980700020</td>
+                    <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-600">09/07/2024</td>
+                    <td class="px-4 py-3 align-middle">
+                      <span class="inline-flex items-center rounded-full border border-transparent bg-green-600 text-white text-xs font-semibold px-2.5 py-0.5">Validé</span>
+                    </td>
+                    <td class="px-4 py-3 align-middle text-right" onclick="event.stopPropagation()">
+                      <button class="p-2 rounded-lg text-gray-300 cursor-not-allowed" disabled title="Réservé aux administrateurs et chefs de département">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                    <td class="px-4 py-3 align-middle"><div class="inline-flex items-center rounded-md border-2 border-[#A63629] bg-gradient-to-r from-[#A63629]/5 to-[#8B2B1F]/5 px-3 py-1.5"><span class="font-mono text-sm font-bold text-[#A63629]">006900136100298</span></div></td>
+                    <td class="px-4 py-3 align-middle font-medium text-gray-900">10 DOIGTS</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">19 RUE DU TRIEU DU QUESNOY</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">59115 LEERS</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">47648011600054</td>
+                    <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-600">16/09/2022</td>
+                    <td class="px-4 py-3 align-middle"><span class="inline-flex items-center rounded-full border border-transparent bg-green-600 text-white text-xs font-semibold px-2.5 py-0.5">Validé</span></td>
+                    <td class="px-4 py-3 align-middle text-right">
+                      <button class="p-2 rounded-lg text-gray-300 cursor-not-allowed" disabled title="Réservé aux administrateurs et chefs de département">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                    <td class="px-4 py-3 align-middle"><div class="inline-flex items-center rounded-md border-2 border-[#A63629] bg-gradient-to-r from-[#A63629]/5 to-[#8B2B1F]/5 px-3 py-1.5"><span class="font-mono text-sm font-bold text-[#A63629]">001102469103548</span></div></td>
+                    <td class="px-4 py-3 align-middle font-medium text-gray-900">108 CAFE</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">IMPASSE DE JOINVILLE</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">75019 PARIS 19</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">79746773500016</td>
+                    <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-600">20/01/2014</td>
+                    <td class="px-4 py-3 align-middle"><span class="inline-flex items-center rounded-full border border-transparent bg-green-600 text-white text-xs font-semibold px-2.5 py-0.5">Validé</span></td>
+                    <td class="px-4 py-3 align-middle text-right">
+                      <button class="p-2 rounded-lg text-gray-300 cursor-not-allowed" disabled title="Réservé aux administrateurs et chefs de département">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                    <td class="px-4 py-3 align-middle"><div class="inline-flex items-center rounded-md border-2 border-[#A63629] bg-gradient-to-r from-[#A63629]/5 to-[#8B2B1F]/5 px-3 py-1.5"><span class="font-mono text-sm font-bold text-[#A63629]">002204228213819</span></div></td>
+                    <td class="px-4 py-3 align-middle font-medium text-gray-900">11BAUER ETAGES</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">11 RUE DU DOCTEUR BAUER</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">93400 SAINT-OUEN</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">82099158600018</td>
+                    <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-600">02/09/2025</td>
+                    <td class="px-4 py-3 align-middle"><span class="inline-flex items-center rounded-full border border-transparent bg-green-600 text-white text-xs font-semibold px-2.5 py-0.5">Validé</span></td>
+                    <td class="px-4 py-3 align-middle text-right">
+                      <button class="p-2 rounded-lg text-gray-300 cursor-not-allowed" disabled title="Réservé aux administrateurs et chefs de département">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                    <td class="px-4 py-3 align-middle"><div class="inline-flex items-center rounded-md border-2 border-[#A63629] bg-gradient-to-r from-[#A63629]/5 to-[#8B2B1F]/5 px-3 py-1.5"><span class="font-mono text-sm font-bold text-[#A63629]">002204228213818</span></div></td>
+                    <td class="px-4 py-3 align-middle font-medium text-gray-900">11BAUER RECEPTION</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">11 RUE DU DOCTEUR BAUER</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">93400 SAINT-OUEN</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">82099158600018</td>
+                    <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-600">02/09/2025</td>
+                    <td class="px-4 py-3 align-middle"><span class="inline-flex items-center rounded-full border border-transparent bg-green-600 text-white text-xs font-semibold px-2.5 py-0.5">Validé</span></td>
+                    <td class="px-4 py-3 align-middle text-right">
+                      <button class="p-2 rounded-lg text-gray-300 cursor-not-allowed" disabled title="Réservé aux administrateurs et chefs de département">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                    <td class="px-4 py-3 align-middle"><div class="inline-flex items-center rounded-md border-2 border-[#A63629] bg-gradient-to-r from-[#A63629]/5 to-[#8B2B1F]/5 px-3 py-1.5"><span class="font-mono text-sm font-bold text-[#A63629]">006900181100499</span></div></td>
+                    <td class="px-4 py-3 align-middle font-medium text-gray-900">1PULSE9</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">43 AVENUE DES PEUPLIERS</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">59274 MARQUILLIES</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">51258931800066</td>
+                    <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-600">23/06/2023</td>
+                    <td class="px-4 py-3 align-middle"><span class="inline-flex items-center rounded-full border border-transparent bg-green-600 text-white text-xs font-semibold px-2.5 py-0.5">Validé</span></td>
+                    <td class="px-4 py-3 align-middle text-right">
+                      <button class="p-2 rounded-lg text-gray-300 cursor-not-allowed" disabled title="Réservé aux administrateurs et chefs de département">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                    <td class="px-4 py-3 align-middle"><div class="inline-flex items-center rounded-md border-2 border-[#A63629] bg-gradient-to-r from-[#A63629]/5 to-[#8B2B1F]/5 px-3 py-1.5"><span class="font-mono text-sm font-bold text-[#A63629]">006900181101781</span></div></td>
+                    <td class="px-4 py-3 align-middle font-medium text-gray-900">1PULSE9 - ARTOIS EXPO</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">50 AVENUE ROGER SALANGRO</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">62223 SAINT-LAURENT-BLANGY</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">51258931800066</td>
+                    <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-600">10/04/2026</td>
+                    <td class="px-4 py-3 align-middle"><span class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5">En attente</span></td>
+                    <td class="px-4 py-3 align-middle text-right">
+                      <button class="p-2 rounded-lg text-gray-300 cursor-not-allowed" disabled title="Réservé aux administrateurs et chefs de département">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                    <td class="px-4 py-3 align-middle"><div class="inline-flex items-center rounded-md border-2 border-[#A63629] bg-gradient-to-r from-[#A63629]/5 to-[#8B2B1F]/5 px-3 py-1.5"><span class="font-mono text-sm font-bold text-[#A63629]">006900181100965</span></div></td>
+                    <td class="px-4 py-3 align-middle font-medium text-gray-900">1PULSE9 - COMPLEXE REGIONAL MARECHAL</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">128 CHEMIN DU VALOIS</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">62440 HARNES</td>
+                    <td class="px-4 py-3 align-middle text-gray-600">51258931800066</td>
+                    <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-600">28/08/2024</td>
+                    <td class="px-4 py-3 align-middle"><span class="inline-flex items-center rounded-full border border-transparent bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5">Suspendu</span></td>
+                    <td class="px-4 py-3 align-middle text-right">
+                      <button class="p-2 rounded-lg text-gray-300 cursor-not-allowed" disabled title="Réservé aux administrateurs et chefs de département">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                      </button>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="mx-auto max-w-[1400px]">
+          <div class="flex items-center justify-between px-4 py-3 border-t border-gray-200 bg-white rounded-b-xl">
+            <div class="text-sm text-gray-600">Affichage de <span class="font-semibold">1</span> à <span class="font-semibold">8</span> sur <span class="font-semibold">1 842</span> résultats</div>
+            <div class="flex items-center gap-2">
+              <button disabled class="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m15 18-6-6 6-6"></path></svg>
+              </button>
+              <button class="px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white">1</button>
+              <button class="px-3 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100">2</button>
+              <button class="px-3 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100">3</button>
+              <span class="px-2 text-gray-500">...</span>
+              <button class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors">231</button>
+              <button class="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m9 18 6-6-6-6"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

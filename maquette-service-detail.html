@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel - FLEXI BANQUET</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0" style="width:256px;">
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Backoffice</p>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 ml-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-600"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1">
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span class="font-medium">Accueil</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Clients</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-services.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span class="font-medium">Services</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-interimaires.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Missions</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevés d'heures</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
+          <span class="font-medium">Paramètres</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span class="font-medium">Compte</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-auto flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end gap-3 sticky top-0 z-40">
+      <button type="button" class="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-900 shadow-sm transition-all hover:bg-gray-50 w-10 px-0" title="Mode clair">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+      </button>
+      <div class="relative">
+        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications (5 non lues)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-colors text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">5</span>
+          <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full border border-white bg-green-500"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="flex-1">
+      <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+        <div class="mx-auto max-w-5xl space-y-6">
+
+          <!-- TITLE ROW -->
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center gap-4">
+              <a href="maquette-services.html" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs font-semibold text-gray-900 border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-8 px-3 gap-2 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+                Retour
+              </a>
+              <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-900">FLEXI BANQUET - HYATT REGENCY PARIS ETOILE</h1>
+                <p class="text-sm text-gray-600">Client : CONSTELLATION ETOILE - HYATT REGENCY P</p>
+              </div>
+            </div>
+            <div class="flex gap-3 items-center">
+              <button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm transition-all border bg-white shadow-sm h-10 px-4 py-2 gap-2 font-semibold text-gray-400 border-gray-200 cursor-not-allowed" disabled title="Réservé aux administrateurs et chefs de département">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                Suspendre
+              </button>
+              <span class="inline-flex items-center gap-2 rounded-full border border-transparent bg-green-600 text-white px-4 py-2 text-xs font-semibold">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                Validé
+              </span>
+            </div>
+          </div>
+
+          <!-- TABS -->
+          <div class="flex gap-1 border-b border-gray-200 overflow-x-auto" id="detail-tabs">
+            <button class="tab-btn flex items-center gap-2 px-4 py-3 font-medium transition-colors border-b-2 border-[#A63629] text-[#A63629] whitespace-nowrap" data-tab="details">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+              Détails
+            </button>
+            <button class="tab-btn flex items-center gap-2 px-4 py-3 font-medium transition-colors border-b-2 border-transparent text-gray-600 hover:text-gray-900 whitespace-nowrap" data-tab="parametres">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              Paramètres
+            </button>
+            <button class="tab-btn flex items-center gap-2 px-4 py-3 font-medium transition-colors border-b-2 border-transparent text-gray-600 hover:text-gray-900 whitespace-nowrap" data-tab="qualifications">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg>
+              Qualifications
+            </button>
+            <button class="tab-btn flex items-center gap-2 px-4 py-3 font-medium transition-colors border-b-2 border-transparent text-gray-600 hover:text-gray-900 whitespace-nowrap" data-tab="interdictions">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M4.929 4.929 19.071 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
+              Interdictions
+              <span class="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-red-500 rounded-full">2</span>
+            </button>
+            <button class="tab-btn flex items-center gap-2 px-4 py-3 font-medium transition-colors border-b-2 border-transparent text-gray-600 hover:text-gray-900 whitespace-nowrap" data-tab="favoris">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
+              Favoris
+            </button>
+            <button class="tab-btn flex items-center gap-2 px-4 py-3 font-medium transition-colors border-b-2 border-transparent text-gray-600 hover:text-gray-900 whitespace-nowrap" data-tab="facturation">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
+              Facturation
+            </button>
+          </div>
+
+          <!-- ================= PANEL: DETAILS ================= -->
+          <div id="panel-details" class="space-y-6">
+
+            <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm transition-all duration-200 hover:shadow-md">
+              <div class="flex flex-col space-y-1.5 p-6">
+                <h3 class="leading-none tracking-tight flex items-center gap-2 text-gray-900 font-bold">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-[#A63629]"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+                  Informations générales
+                </h3>
+              </div>
+              <div class="p-6 pt-0 grid gap-4 md:grid-cols-2">
+                <div class="md:col-span-2"><label class="text-sm text-gray-700 font-semibold">Raison sociale</label><p class="text-gray-900 font-medium">FLEXI BANQUET - HYATT REGENCY PARIS ETOILE</p></div>
+                <div><label class="text-sm text-gray-700 font-semibold">Code service</label><p class="text-gray-900 font-medium">007707010000153</p></div>
+                <div class="md:col-span-2">
+                  <label class="text-sm text-gray-700 font-semibold">Code ANAEL</label>
+                  <div class="mt-1 rounded-lg border-2 border-green-200 bg-green-50 p-3"><p class="font-mono text-lg font-semibold text-gray-900">000153</p></div>
+                </div>
+                <div class="md:col-span-2">
+                  <label class="text-sm text-gray-700 font-semibold">Matricule du service</label>
+                  <div class="mt-1 rounded-lg border-2 border-blue-200 bg-blue-50 p-3"><p class="font-mono text-lg font-semibold text-gray-900">007707010000153</p></div>
+                </div>
+                <div class="md:col-span-2">
+                  <label class="text-sm text-gray-700 font-semibold">Numéro interne</label>
+                  <div class="mt-1 rounded-lg border-2 border-blue-200 bg-blue-50 p-3"><p class="font-mono text-lg font-semibold text-gray-900">LlAxc7</p></div>
+                </div>
+                <div><label class="text-sm text-gray-700 font-semibold">SIRET</label><p class="text-gray-900 font-medium">79133980700020</p></div>
+                <div><label class="text-sm text-gray-700 font-semibold">SIREN</label><p class="text-gray-500 font-medium">N/A</p></div>
+                <div><label class="text-sm text-gray-700 font-semibold">AEP</label><p class="text-gray-900 font-medium">5510</p></div>
+                <div><label class="text-sm text-gray-700 font-semibold">Chargé d'affaire</label><p class="text-gray-900 font-medium">007</p></div>
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm transition-all duration-200 hover:shadow-md">
+              <div class="flex flex-col space-y-1.5 p-6">
+                <h3 class="leading-none tracking-tight flex items-center gap-2 text-gray-900 font-bold">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-[#A63629]"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  Coordonnées
+                </h3>
+              </div>
+              <div class="p-6 pt-0 grid gap-4 md:grid-cols-2">
+                <div class="md:col-span-2"><label class="text-sm text-gray-700 font-semibold">Adresse</label><p class="text-gray-900 font-medium">3 PLACE DU GENERAL KOENIG</p></div>
+                <div><label class="text-sm text-gray-700 font-semibold">Code postal</label><p class="text-gray-900 font-medium">75017</p></div>
+                <div><label class="text-sm text-gray-700 font-semibold">Ville</label><p class="text-gray-900 font-medium">PARIS</p></div>
+                <div><label class="text-sm text-gray-700 font-semibold">Email</label><p class="text-gray-500 font-medium">N/A</p></div>
+                <div>
+                  <label class="text-sm text-gray-700 font-semibold">Téléphone</label>
+                  <a href="tel:33140685512" class="flex items-center gap-2 text-[#A63629] hover:underline font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                    33 1 40 68 55 12
+                  </a>
+                </div>
+                <div><label class="text-sm text-gray-700 font-semibold">Fax</label><p class="text-gray-500 font-medium">N/A</p></div>
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm transition-all duration-200 hover:shadow-md">
+              <div class="flex flex-col space-y-1.5 p-6">
+                <h3 class="leading-none tracking-tight flex items-center gap-2 text-gray-900 font-bold">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-[#A63629]"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                  Informations temporelles
+                </h3>
+              </div>
+              <div class="p-6 pt-0 grid gap-4 md:grid-cols-2">
+                <div><label class="text-sm text-gray-700 font-semibold">Date de création</label><p class="text-gray-900 font-medium">09/07/2024</p></div>
+                <div><label class="text-sm text-gray-700 font-semibold">Date de modification</label><p class="text-gray-900 font-medium">21/07/2026</p></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ================= PANEL: PARAMETRES ================= -->
+          <div id="panel-parametres" class="space-y-6 hidden">
+
+            <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm transition-all duration-200 hover:shadow-md">
+              <div class="flex flex-col space-y-1.5 p-6 pb-2">
+                <h3 class="leading-none tracking-tight flex items-center gap-2 text-gray-900 font-bold">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-[#A63629]"><path d="M12 20h9"></path><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"></path></svg>
+                  Département &amp; champs conditionnels
+                </h3>
+                <p class="text-xs text-gray-500">Le champ affiché ci-dessous dépend du département du chantier : Hôtellerie → étoiles ; Hébergement → logiciel utilisé + cadence ; Restauration → type de restauration.</p>
+              </div>
+              <div class="p-6 pt-2 grid gap-4 md:grid-cols-2">
+                <div>
+                  <label class="text-sm text-gray-700 font-semibold">Département</label>
+                  <p class="mt-1"><span class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-xs font-semibold px-3 py-1">Restauration</span></p>
+                </div>
+                <div>
+                  <label class="text-sm text-gray-700 font-semibold">Type de restauration attendu</label>
+                  <p class="mt-1"><span class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1">Banquet / Événementiel</span></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm transition-all duration-200 hover:shadow-md">
+              <div class="flex flex-col space-y-1.5 p-6 pb-2">
+                <h3 class="leading-none tracking-tight flex items-center gap-2 text-gray-900 font-bold">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-[#A63629]"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+                  Exigences d'affectation
+                </h3>
+              </div>
+              <div class="p-6 pt-2 space-y-4">
+                <div class="flex items-center justify-between rounded-lg border border-gray-200 p-4">
+                  <div>
+                    <p class="font-semibold text-gray-900">Requiert un intérimaire véhiculé</p>
+                    <p class="text-xs text-gray-500 mt-0.5">Modifiable uniquement par les chefs de département et les profils administratifs.</p>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center rounded-full border border-transparent bg-gray-200 text-gray-700 text-xs font-semibold px-3 py-1">Non</span>
+                    <button class="p-2 rounded-lg text-gray-300 cursor-not-allowed" disabled title="Réservé aux administrateurs et chefs de département">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ================= PANEL: QUALIFICATIONS ================= -->
+          <div id="panel-qualifications" class="space-y-4 hidden">
+            <p class="text-xs text-gray-500 px-1">Qualifications requises sur ce chantier, avec leur taux horaire et leurs instructions permanentes. Ces instructions apparaissent automatiquement sur toutes les missions publiées pour cette qualification — elles peuvent être renseignées par le client ou par les Opérations.</p>
+            <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden">
+              <div class="divide-y divide-gray-100">
+
+                <div class="p-5 space-y-3" data-instructions-block>
+                  <div class="flex items-center justify-between flex-wrap gap-2">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-[#A63629]"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg>
+                      </div>
+                      <div>
+                        <p class="font-semibold text-gray-900">Chef de rang</p>
+                        <p class="text-xs text-gray-500">Service à l'assiette et au plateau, banquets</p>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <span class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1">Principale</span>
+                      <span class="text-lg font-bold text-[#A63629]">14,50 €/h</span>
+                    </div>
+                  </div>
+                  <div class="rounded-lg bg-gray-50 border border-gray-200 p-3">
+                    <div class="flex items-center justify-between mb-1 gap-2">
+                      <p class="text-xs font-semibold text-gray-700">Instructions permanentes (visibles sur toutes les missions)</p>
+                      <button type="button" class="toggle-instructions-btn text-xs text-[#A63629] hover:underline font-medium flex-shrink-0">Modifier</button>
+                    </div>
+                    <p class="text-sm text-gray-700 instructions-view">Tenue : costume noir, chemise blanche, nœud papillon. Arrivée 30 min avant le service. Présentation obligatoire au chef de rang référent Hyatt à l'arrivée.</p>
+                    <div class="instructions-edit hidden mt-2 space-y-2">
+                      <textarea rows="3" class="flex w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">Tenue : costume noir, chemise blanche, nœud papillon. Arrivée 30 min avant le service. Présentation obligatoire au chef de rang référent Hyatt à l'arrivée.</textarea>
+                      <div class="flex gap-2">
+                        <button type="button" class="save-instructions-btn inline-flex items-center justify-center rounded-md text-xs font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white h-7 px-3">Enregistrer</button>
+                        <button type="button" class="cancel-instructions-btn inline-flex items-center justify-center rounded-md text-xs font-semibold border border-gray-200 bg-white h-7 px-3">Annuler</button>
+                      </div>
+                    </div>
+                    <p class="text-[11px] text-gray-400 mt-2 instructions-meta">Dernière modification : Client · 15/08/2026</p>
+                  </div>
+                </div>
+
+                <div class="p-5 space-y-3" data-instructions-block>
+                  <div class="flex items-center justify-between flex-wrap gap-2">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-gray-600"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg>
+                      </div>
+                      <div>
+                        <p class="font-semibold text-gray-900">Maître d'hôtel</p>
+                        <p class="text-xs text-gray-500">Encadrement de salle sur les grands événements</p>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <span class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1">Secondaire</span>
+                      <span class="text-lg font-bold text-[#A63629]">16,00 €/h</span>
+                    </div>
+                  </div>
+                  <div class="rounded-lg bg-gray-50 border border-gray-200 p-3">
+                    <div class="flex items-center justify-between mb-1 gap-2">
+                      <p class="text-xs font-semibold text-gray-700">Instructions permanentes (visibles sur toutes les missions)</p>
+                      <button type="button" class="toggle-instructions-btn text-xs text-[#A63629] hover:underline font-medium flex-shrink-0">Modifier</button>
+                    </div>
+                    <p class="text-sm text-gray-700 instructions-view">Briefing quotidien à 17h30 avec le directeur de salle. Rapport de fin de service à envoyer par email au chargé d'affaire.</p>
+                    <div class="instructions-edit hidden mt-2 space-y-2">
+                      <textarea rows="3" class="flex w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">Briefing quotidien à 17h30 avec le directeur de salle. Rapport de fin de service à envoyer par email au chargé d'affaire.</textarea>
+                      <div class="flex gap-2">
+                        <button type="button" class="save-instructions-btn inline-flex items-center justify-center rounded-md text-xs font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white h-7 px-3">Enregistrer</button>
+                        <button type="button" class="cancel-instructions-btn inline-flex items-center justify-center rounded-md text-xs font-semibold border border-gray-200 bg-white h-7 px-3">Annuler</button>
+                      </div>
+                    </div>
+                    <p class="text-[11px] text-gray-400 mt-2 instructions-meta">Dernière modification : Opérations · 02/09/2026</p>
+                  </div>
+                </div>
+
+                <div class="p-5 space-y-3" data-instructions-block>
+                  <div class="flex items-center justify-between flex-wrap gap-2">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-gray-600"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg>
+                      </div>
+                      <div>
+                        <p class="font-semibold text-gray-900">Plongeur</p>
+                        <p class="text-xs text-gray-500">Renfort cuisine lors des banquets</p>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <span class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1">Secondaire</span>
+                      <span class="text-lg font-bold text-[#A63629]">12,50 €/h</span>
+                    </div>
+                  </div>
+                  <div class="rounded-lg bg-gray-50 border border-gray-200 p-3">
+                    <div class="flex items-center justify-between mb-1 gap-2">
+                      <p class="text-xs font-semibold text-gray-700">Instructions permanentes (visibles sur toutes les missions)</p>
+                      <button type="button" class="toggle-instructions-btn text-xs text-[#A63629] hover:underline font-medium flex-shrink-0">Modifier</button>
+                    </div>
+                    <p class="text-sm text-gray-700 instructions-view">Entrée par le quai de livraison, badge à retirer à l'accueil sécurité avant le début du service.</p>
+                    <div class="instructions-edit hidden mt-2 space-y-2">
+                      <textarea rows="3" class="flex w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">Entrée par le quai de livraison, badge à retirer à l'accueil sécurité avant le début du service.</textarea>
+                      <div class="flex gap-2">
+                        <button type="button" class="save-instructions-btn inline-flex items-center justify-center rounded-md text-xs font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white h-7 px-3">Enregistrer</button>
+                        <button type="button" class="cancel-instructions-btn inline-flex items-center justify-center rounded-md text-xs font-semibold border border-gray-200 bg-white h-7 px-3">Annuler</button>
+                      </div>
+                    </div>
+                    <p class="text-[11px] text-gray-400 mt-2 instructions-meta">Dernière modification : Client · 01/07/2026</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= PANEL: INTERDICTIONS ================= -->
+          <div id="panel-interdictions" class="space-y-4 hidden">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <p class="text-xs text-gray-500 max-w-2xl">Intérimaires interdits d'affectation sur ce chantier.</p>
+              <button id="btn-add-interdiction" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-9 px-3 gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
+                Ajouter une interdiction
+              </button>
+            </div>
+
+            <!-- Add-interdiction form (cosmetic, hidden by default) -->
+            <div id="form-add-interdiction" class="rounded-xl border border-gray-200 bg-white shadow-sm p-6 space-y-4 hidden">
+              <h4 class="font-bold text-gray-900">Nouvelle interdiction</h4>
+              <div class="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label class="text-sm text-gray-700 font-semibold">Type</label>
+                  <select class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                    <option>Intérimaire spécifique</option>
+                    <option>Toute qualification confondue</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-sm text-gray-700 font-semibold">ID intérimaire</label>
+                  <input type="text" placeholder="ex. 006904283" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                </div>
+                <div class="md:col-span-2">
+                  <label class="text-sm text-gray-700 font-semibold">Intérimaire</label>
+                  <input type="text" placeholder="Rechercher un intérimaire..." class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                </div>
+                <div>
+                  <label class="text-sm text-gray-700 font-semibold">Date de l'interdiction</label>
+                  <input type="date" value="2026-09-21" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                </div>
+                <div>
+                  <label class="text-sm text-gray-700 font-semibold">Note</label>
+                  <input type="text" placeholder="ex. Retard répété" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                </div>
+                <div class="md:col-span-2">
+                  <label class="text-sm text-gray-700 font-semibold">Commentaires</label>
+                  <textarea rows="2" class="mt-1 flex w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm" placeholder="Détails complémentaires..."></textarea>
+                </div>
+              </div>
+              <div class="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2.5 flex items-start gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-amber-600 flex-shrink-0 mt-0.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+                <div>
+                  <p class="text-sm text-amber-900 font-medium">Ce chantier appartient à CONSTELLATION ETOILE - HYATT REGENCY P</p>
+                  <p class="text-xs text-amber-800 mt-0.5">À la confirmation, une pop-up proposera d'étendre cette interdiction aux autres chantiers de ce client.</p>
+                  <label class="flex items-center gap-2 text-xs text-amber-900 font-medium mt-2">
+                    <input type="checkbox" class="text-[#A63629] focus:ring-[#A63629]"> Étendre à tous les chantiers de ce client
+                  </label>
+                </div>
+              </div>
+              <div class="flex gap-3 pt-1">
+                <button id="btn-cancel-interdiction" type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-9 px-4">Annuler</button>
+                <button type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-9 px-4">Enregistrer</button>
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr class="text-left text-xs uppercase tracking-wider text-gray-500">
+                      <th class="px-5 py-3 font-semibold">Type</th>
+                      <th class="px-5 py-3 font-semibold">ID intérimaire</th>
+                      <th class="px-5 py-3 font-semibold">Intérimaire</th>
+                      <th class="px-5 py-3 font-semibold">Date</th>
+                      <th class="px-5 py-3 font-semibold">Note</th>
+                      <th class="px-5 py-3 font-semibold">Commentaires</th>
+                      <th class="px-5 py-3 font-semibold text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-100">
+                    <tr class="hover:bg-gray-50">
+                      <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-red-100 text-red-800 text-xs font-semibold px-3 py-1">Intérimaire</span></td>
+                      <td class="px-5 py-4 font-mono text-gray-700">006904283</td>
+                      <td class="px-5 py-4 font-medium text-gray-900">AARAB Nadia</td>
+                      <td class="px-5 py-4 whitespace-nowrap text-gray-700">12/08/2026</td>
+                      <td class="px-5 py-4 text-gray-700">Comportement inapproprié avec le client</td>
+                      <td class="px-5 py-4 text-gray-500">Signalé par le chef de rang</td>
+                      <td class="px-5 py-4 text-right"><button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-xs font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-8 px-3">Retirer</button></td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                      <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-red-100 text-red-800 text-xs font-semibold px-3 py-1">Intérimaire</span></td>
+                      <td class="px-5 py-4 font-mono text-gray-700">005812234</td>
+                      <td class="px-5 py-4 font-medium text-gray-900">BENSAID Karim</td>
+                      <td class="px-5 py-4 whitespace-nowrap text-gray-700">20/07/2026</td>
+                      <td class="px-5 py-4 text-gray-700">Retard répété</td>
+                      <td class="px-5 py-4 text-gray-500">3 retards constatés en 2026</td>
+                      <td class="px-5 py-4 text-right"><button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-xs font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-8 px-3">Retirer</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= PANEL: FAVORIS ================= -->
+          <div id="panel-favoris" class="space-y-4 hidden">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <p class="text-xs text-gray-500 max-w-2xl">Intérimaires favoris de ce chantier, visibles lors de l'affectation à une commande. Synchronisés entre la vue Client et Opérations.</p>
+              <button id="btn-add-favori" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-9 px-3 gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
+                Ajouter un favori
+              </button>
+            </div>
+
+            <!-- Add-favori form (cosmetic, hidden by default) -->
+            <div id="form-add-favori" class="rounded-xl border border-gray-200 bg-white shadow-sm p-6 space-y-4 hidden">
+              <h4 class="font-bold text-gray-900">Ajouter un intérimaire favori</h4>
+              <div>
+                <label class="text-sm text-gray-700 font-semibold">Intérimaire</label>
+                <input type="text" placeholder="Rechercher un intérimaire..." class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+              </div>
+              <div class="flex gap-3 pt-1">
+                <button id="btn-cancel-favori" type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-9 px-4">Annuler</button>
+                <button type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-9 px-4">Ajouter</button>
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden">
+              <div class="divide-y divide-gray-100">
+                <div class="p-5 flex items-center justify-between flex-wrap gap-2">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">SM</span>
+                    </div>
+                    <div>
+                      <a href="maquette-interimaire-detail.html" class="font-semibold text-gray-900 hover:text-[#A63629] hover:underline">Sofia MARTINS</a>
+                      <p class="text-xs text-gray-500">Chef de rang · 06 12 45 78 90</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="text-right">
+                      <span class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1">Ajouté depuis : Opérations</span>
+                      <p class="text-[11px] text-gray-400 mt-1">Ajouté le 10/05/2026</p>
+                    </div>
+                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-xs font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-8 px-3">Retirer</button>
+                  </div>
+                </div>
+                <div class="p-5 flex items-center justify-between flex-wrap gap-2">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">PG</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Paul GAUTHIER</p>
+                      <p class="text-xs text-gray-500">Maître d'hôtel · 07 34 56 78 90</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="text-right">
+                      <span class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1">Ajouté depuis : Vue Client</span>
+                      <p class="text-[11px] text-gray-400 mt-1">Ajouté le 22/06/2026</p>
+                    </div>
+                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-xs font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-8 px-3">Retirer</button>
+                  </div>
+                </div>
+                <div class="p-5 flex items-center justify-between flex-wrap gap-2">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">CD</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Camille DUBOIS</p>
+                      <p class="text-xs text-gray-500">Sommelière · 06 55 44 33 22</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="text-right">
+                      <span class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1">Ajouté depuis : Opérations</span>
+                      <p class="text-[11px] text-gray-400 mt-1">Ajouté le 03/09/2026</p>
+                    </div>
+                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-xs font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-8 px-3">Retirer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= PANEL: FACTURATION ================= -->
+          <div id="panel-facturation" class="space-y-4 hidden">
+            <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm p-6">
+              <p class="text-sm text-gray-500">Aucune donnée de facturation spécifique à ce service pour le moment. Les factures sont gérées au niveau du client.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  // Cosmetic-only tab switching: shows/hides static panels, no data fetching.
+  const tabs = document.querySelectorAll('#detail-tabs .tab-btn');
+  const panels = {
+    details: document.getElementById('panel-details'),
+    parametres: document.getElementById('panel-parametres'),
+    qualifications: document.getElementById('panel-qualifications'),
+    interdictions: document.getElementById('panel-interdictions'),
+    favoris: document.getElementById('panel-favoris'),
+    facturation: document.getElementById('panel-facturation'),
+  };
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(b => {
+        b.classList.remove('border-[#A63629]', 'text-[#A63629]');
+        b.classList.add('border-transparent', 'text-gray-600');
+      });
+      btn.classList.remove('border-transparent', 'text-gray-600');
+      btn.classList.add('border-[#A63629]', 'text-[#A63629]');
+      Object.entries(panels).forEach(([key, el]) => {
+        el.classList.toggle('hidden', key !== btn.dataset.tab);
+      });
+    });
+  });
+
+  // Cosmetic: toggle the "add interdiction" inline form
+  const btnAddInterdiction = document.getElementById('btn-add-interdiction');
+  const formAddInterdiction = document.getElementById('form-add-interdiction');
+  const btnCancelInterdiction = document.getElementById('btn-cancel-interdiction');
+  btnAddInterdiction.addEventListener('click', () => formAddInterdiction.classList.toggle('hidden'));
+  btnCancelInterdiction.addEventListener('click', () => formAddInterdiction.classList.add('hidden'));
+
+  // Cosmetic: toggle the "add favori" inline form
+  const btnAddFavori = document.getElementById('btn-add-favori');
+  const formAddFavori = document.getElementById('form-add-favori');
+  const btnCancelFavori = document.getElementById('btn-cancel-favori');
+  btnAddFavori.addEventListener('click', () => formAddFavori.classList.toggle('hidden'));
+  btnCancelFavori.addEventListener('click', () => formAddFavori.classList.add('hidden'));
+
+  // Cosmetic: edit the permanent instructions of a qualification (client or Opérations can both do this)
+  document.querySelectorAll('[data-instructions-block]').forEach(block => {
+    const view = block.querySelector('.instructions-view');
+    const edit = block.querySelector('.instructions-edit');
+    const textarea = edit.querySelector('textarea');
+    const meta = block.querySelector('.instructions-meta');
+    block.querySelector('.toggle-instructions-btn').addEventListener('click', () => {
+      textarea.value = view.textContent;
+      view.classList.add('hidden');
+      edit.classList.remove('hidden');
+    });
+    block.querySelector('.cancel-instructions-btn').addEventListener('click', () => {
+      edit.classList.add('hidden');
+      view.classList.remove('hidden');
+    });
+    block.querySelector('.save-instructions-btn').addEventListener('click', () => {
+      view.textContent = textarea.value;
+      const today = new Date().toLocaleDateString('fr-FR');
+      meta.textContent = 'Dernière modification : Opérations · ' + today;
+      edit.classList.add('hidden');
+      view.classList.remove('hidden');
+    });
+  });
+</script>
+
+</body>
+</html>

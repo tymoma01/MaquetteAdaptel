@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel - Intérimaires</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .avail-dot { width: 10px; height: 10px; border-radius: 9999px; }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0" style="width:256px;">
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Backoffice</p>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 ml-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-600"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1">
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span class="font-medium">Accueil</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Clients</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span class="font-medium">Services</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Missions</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevés d'heures</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
+          <span class="font-medium">Paramètres</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span class="font-medium">Compte</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-auto flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end gap-3 sticky top-0 z-40">
+      <button type="button" class="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-900 shadow-sm transition-all hover:bg-gray-50 w-10 px-0" title="Mode clair">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+      </button>
+      <div class="relative">
+        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications (5 non lues)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-colors text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">5</span>
+          <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full border border-white bg-green-500"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="flex-1">
+      <div class="p-6 space-y-6">
+
+        <!-- TITLE -->
+        <div class="mb-2 max-w-[1400px] mx-auto">
+          <h1 class="text-3xl font-bold mb-2 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Intérimaires</h1>
+          <p class="text-gray-600">Gestion des intérimaires et de leurs disponibilités</p>
+        </div>
+
+        <!-- STATS -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 max-w-[1400px] mx-auto">
+          <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border-l-4 border-l-[#A63629]">
+            <div class="p-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1 font-medium">Total intérimaires</p>
+                  <p class="text-2xl font-bold text-[#A63629]">247</p>
+                  <div class="flex items-center gap-1 mt-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3 text-green-600"><path d="M16 7h6v6"></path><path d="m22 7-8.5 8.5-5-5L2 17"></path></svg>
+                    <span class="text-xs text-green-600 font-medium">Actifs</span>
+                  </div>
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-br from-red-100 to-red-200 rounded-2xl flex items-center justify-center shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#A63629]"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border-l-4 border-l-green-500">
+            <div class="p-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1 font-medium">Disponibles aujourd'hui</p>
+                  <p class="text-2xl font-bold text-green-600">86</p>
+                  <div class="flex items-center gap-1 mt-1">
+                    <span class="text-xs text-gray-500 font-medium">soit 35% du vivier</span>
+                  </div>
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl flex items-center justify-center shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-green-600"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border-l-4 border-l-amber-500">
+            <div class="p-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1 font-medium">En mission</p>
+                  <p class="text-2xl font-bold text-amber-600">132</p>
+                  <div class="flex items-center gap-1 mt-1">
+                    <span class="text-xs text-gray-500 font-medium">sur des services en cours</span>
+                  </div>
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-br from-amber-100 to-amber-200 rounded-2xl flex items-center justify-center shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-amber-600"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border-l-4 border-l-gray-400">
+            <div class="p-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1 font-medium">Nouveaux ce mois</p>
+                  <p class="text-2xl font-bold text-gray-700">14</p>
+                  <div class="flex items-center gap-1 mt-1">
+                    <span class="text-xs text-gray-500 font-medium">Septembre 2026</span>
+                  </div>
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-gray-600"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEARCH + FILTERS -->
+        <div class="mb-2 space-y-3 max-w-[1400px] mx-auto">
+          <form class="flex gap-3" onsubmit="return false;">
+            <div class="relative flex-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+              <input class="flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A63629] focus-visible:border-transparent pl-11 shadow-sm" placeholder="Rechercher par nom, qualification ou ville..." type="text">
+            </div>
+            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 h-10 px-4 py-2 gap-2" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+              Rechercher
+            </button>
+            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm transition-all border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4 py-2 gap-2 font-semibold text-gray-900" type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"></path></svg>
+              Filtres
+            </button>
+            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 py-2 gap-2" type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+              Nouvel intérimaire
+            </button>
+          </form>
+
+          <!-- STATUS TABS (cosmetic only) -->
+          <div class="flex gap-2" id="status-tabs">
+            <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white shadow" data-tab="tous">Tous (247)</button>
+            <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50" data-tab="dispo">Disponibles (86)</button>
+            <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50" data-tab="mission">En mission (132)</button>
+            <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50" data-tab="indispo">Indisponibles (29)</button>
+          </div>
+
+          <!-- Legend for availability grid -->
+          <div class="flex items-center gap-4 text-xs text-gray-500 px-1">
+            <span class="font-medium text-gray-600">Disponibilités (7 prochains jours) :</span>
+            <span class="flex items-center gap-1.5"><span class="avail-dot bg-green-500"></span>Disponible</span>
+            <span class="flex items-center gap-1.5"><span class="avail-dot bg-amber-400"></span>En mission</span>
+            <span class="flex items-center gap-1.5"><span class="avail-dot bg-gray-300"></span>Indisponible</span>
+          </div>
+        </div>
+
+        <!-- LIST (table with sticky column headers) -->
+        <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm mb-4 max-w-[1400px] mx-auto">
+          <table class="w-full text-sm border-collapse" id="interimaire-table">
+            <thead class="sticky top-[65px] z-20 bg-gray-50">
+              <tr class="text-left text-xs uppercase tracking-wider text-gray-500 border-b border-gray-200">
+                <th class="px-5 py-3 font-semibold rounded-tl-xl">Intérimaire</th>
+                <th class="px-5 py-3 font-semibold">Qualification</th>
+                <th class="px-5 py-3 font-semibold">Disponibilités (7 jours)</th>
+                <th class="px-5 py-3 font-semibold text-center">Missions (30j)</th>
+                <th class="px-5 py-3 font-semibold rounded-tr-xl">Dispo. maintenant</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="window.location.href='maquette-interimaire-detail.html'" title="Voir la fiche de Sofia Martins">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">SM</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900 hover:text-[#A63629] hover:underline">Sofia MARTINS</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        06 12 45 78 90 · Paris 11e
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1">Chef de rang</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-green-500" title="Lun"></span><span class="avail-dot bg-green-500" title="Mar"></span><span class="avail-dot bg-amber-400" title="Mer"></span><span class="avail-dot bg-amber-400" title="Jeu"></span><span class="avail-dot bg-green-500" title="Ven"></span><span class="avail-dot bg-green-500" title="Sam"></span><span class="avail-dot bg-gray-300" title="Dim"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">9</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">KD</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Karim DIALLO</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        07 65 32 10 44 · Boulogne-Billancourt
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-xs font-medium px-3 py-1">Cuisinier</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">14</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1">En mission</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">LR</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Léa ROUSSEL</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        06 78 90 12 33 · Lyon 3e
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-purple-100 text-purple-800 text-xs font-medium px-3 py-1">Réceptionniste</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">3</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">TN</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Thomas NGUYEN</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        06 23 56 89 21 · Roubaix
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-xs font-medium px-3 py-1">Plongeur</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-gray-200 text-gray-700 font-semibold text-sm px-3 py-1">0</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-gray-200 text-gray-700 text-xs font-semibold px-3 py-1">Indisponible</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">AB</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Amandine BERTIN</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        06 44 12 87 65 · Neuilly-sur-Seine
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-pink-100 text-pink-800 text-xs font-medium px-3 py-1">Pâtissière</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">7</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1">En mission</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">YM</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Yanis MOKRANE</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        07 11 22 33 44 · Villeneuve-d'Ascq
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1">Barman</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">11</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">CD</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Camille DUBOIS</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        06 55 44 33 22 · Paris 8e
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-teal-100 text-teal-800 text-xs font-medium px-3 py-1">Sommelière</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">6</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">MK</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Mehdi KACI</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        07 88 99 00 11 · Gentilly
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-xs font-medium px-3 py-1">Commis de cuisine</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-gray-300"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">18</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1">En mission</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">JP</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Julie PETIT</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        06 33 22 11 00 · Plaisir
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-purple-100 text-purple-800 text-xs font-medium px-3 py-1">Hôtesse d'accueil</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-gray-200 text-gray-700 font-semibold text-sm px-3 py-1">0</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-gray-200 text-gray-700 text-xs font-semibold px-3 py-1">Indisponible</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">RB</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Rachid BENALI</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        06 90 80 70 60 · Rueil-Malmaison
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-xs font-medium px-3 py-1">Chef cuisinier</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-green-500"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">10</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">EL</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Emma LEFEBVRE</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        06 21 43 65 87 · Lille
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1">Serveuse</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">12</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">PG</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Paul GAUTHIER</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        07 34 56 78 90 · Paris 17e
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-indigo-100 text-indigo-800 text-xs font-medium px-3 py-1">Maître d'hôtel</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">15</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1">En mission</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">NF</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Nadia FONTAINE</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        06 66 77 88 99 · Ivry-sur-Seine
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-purple-100 text-purple-800 text-xs font-medium px-3 py-1">Femme de chambre</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-gray-300"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">5</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="px-5 py-4 rounded-bl-xl">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">VL</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Victor LAMBERT</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        07 45 67 89 01 · Guyancourt
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 text-xs font-medium px-3 py-1">Extra polyvalent</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">8</span></td>
+                <td class="px-5 py-4 rounded-br-xl"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- PAGINATION -->
+        <div>
+          <div class="flex items-center justify-between px-4 py-3 border-t border-gray-200 bg-white rounded-b-xl max-w-[1400px] mx-auto">
+            <div class="text-sm text-gray-600">Affichage de <span class="font-semibold">1</span> à <span class="font-semibold">15</span> sur <span class="font-semibold">247</span> résultats</div>
+            <div class="flex items-center gap-2">
+              <button disabled class="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m15 18-6-6 6-6"></path></svg>
+              </button>
+              <button class="px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white">1</button>
+              <button class="px-3 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100">2</button>
+              <button class="px-3 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100">3</button>
+              <button class="px-3 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 hover:bg-gray-100">4</button>
+              <span class="px-2 text-gray-500">...</span>
+              <button class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors">17</button>
+              <button class="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m9 18 6-6-6-6"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  // Cosmetic-only tab switching: just toggles active styling, no real filtering.
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('bg-[#A63629]', 'text-white', 'shadow');
+        b.classList.add('text-gray-700', 'bg-white', 'border', 'border-gray-200');
+      });
+      btn.classList.remove('text-gray-700', 'bg-white', 'border', 'border-gray-200');
+      btn.classList.add('bg-[#A63629]', 'text-white', 'shadow');
+    });
+  });
+</script>
+
+</body>
+</html>

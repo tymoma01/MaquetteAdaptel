@@ -119,19 +119,6 @@
             <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Disponibilités</h1>
             <p class="text-sm text-gray-600 mt-1">Vue consolidée des disponibilités de tous les intérimaires, sur 2 semaines à partir d'aujourd'hui.</p>
           </div>
-
-          <div class="rounded-lg bg-blue-50 border border-blue-200 px-4 py-3 flex items-start gap-2.5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5"><path d="M12 16v-4"></path><path d="M12 8h.01"></path><circle cx="12" cy="12" r="10"></circle></svg>
-            <div>
-              <p class="text-sm text-blue-900 font-medium">Cette donnée alimente directement le calcul des meilleurs matchs sur le Planning</p>
-              <p class="text-xs text-blue-800 mt-0.5">Sans disponibilité fiable et à jour, l'étape d'exclusion des intérimaires non disponibles perd toute pertinence — ce n'est pas un onglet de confort, mais un prérequis du placement automatisé.</p>
-            </div>
-          </div>
-
-          <div class="rounded-lg bg-gray-100 border border-gray-200 px-4 py-2.5 flex items-center gap-2.5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-gray-500 flex-shrink-0"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
-            <p class="text-xs text-gray-600">Onglet visible uniquement pour les <span class="font-semibold">collaborateurs d'agence</span> et les <span class="font-semibold">chefs de département</span> — masqué pour les comptes Administratif Adaptel.</p>
-          </div>
         </div>
 
         <!-- FILTERS -->
@@ -142,10 +129,10 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
                 <input id="filter-name" type="text" placeholder="Rechercher un intérimaire par nom..." class="flex h-10 w-full rounded-lg border border-gray-200 bg-white pl-9 pr-3 py-2 text-sm">
               </div>
-              <select id="filter-qual" class="px-4 py-2 border border-gray-200 rounded-lg bg-white min-w-[190px] text-sm text-gray-700">
-                <option value="">Toutes les qualifications</option>
-                <option>Barman</option><option>Chef de rang</option><option>Cuisinier</option><option>Maître d'hôtel</option><option>Plongeur</option><option>Pâtissière</option><option>Réceptionniste</option><option>Sommelière</option>
-              </select>
+              <div class="relative flex-1 min-w-[220px]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
+                <input id="filter-qual" type="text" placeholder="Rechercher une qualification..." class="flex h-10 w-full rounded-lg border border-gray-200 bg-white pl-9 pr-3 py-2 text-sm">
+              </div>
               <select id="filter-agence" class="px-4 py-2 border border-gray-200 rounded-lg bg-white min-w-[190px] text-sm text-gray-700">
                 <option value="">Toutes les agences / secteurs</option>
                 <option>Adaptel Nord</option><option>Adaptel Paris IDF</option><option>Adaptel Rhône-Alpes</option>
@@ -359,28 +346,31 @@
 <script>
   // Cosmetic: filter rows by name / qualification / agence (client-side only, static dataset)
   const nameInput = document.getElementById('filter-name');
-  const qualSelect = document.getElementById('filter-qual');
+  const qualInput = document.getElementById('filter-qual');
   const agenceSelect = document.getElementById('filter-agence');
   const rows = Array.from(document.querySelectorAll('#avail-tbody tr'));
   const countLabel = document.getElementById('filter-count');
 
   function applyFilters() {
     const name = nameInput.value.trim().toLowerCase();
-    const qual = qualSelect.value;
+    const qual = qualInput.value.trim().toLowerCase();
     const agence = agenceSelect.value;
+    
     let visible = 0;
     rows.forEach(row => {
       const matchName = !name || row.dataset.name.toLowerCase().includes(name);
-      const matchQual = !qual || row.dataset.qual === qual;
+      const matchQual = !qual || row.dataset.qual.toLowerCase().includes(qual);
       const matchAgence = !agence || row.dataset.agence === agence;
+      
       const show = matchName && matchQual && matchAgence;
       row.classList.toggle('hidden', !show);
       if (show) visible++;
     });
     countLabel.textContent = visible + ' intérimaire' + (visible > 1 ? 's' : '') + ' affiché' + (visible > 1 ? 's' : '');
   }
+  
   nameInput.addEventListener('input', applyFilters);
-  qualSelect.addEventListener('change', applyFilters);
+  qualInput.addEventListener('input', applyFilters);
   agenceSelect.addEventListener('change', applyFilters);
 
   // Cosmetic: add/edit availability modal, with a real conflict check against the clicked cell's current status

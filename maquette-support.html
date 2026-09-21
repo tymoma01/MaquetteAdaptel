@@ -29,25 +29,26 @@
     </div>
 
     <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
-      <a class="block" href="#">
+      <a class="block" href="#" onclick="switchTab('accueil')">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
           <span class="font-medium">Accueil</span>
         </div>
       </a>
-      <a class="block" href="maquette-planning.html">
+      <a class="block" href="#" onclick="switchTab('planning')">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
           <span class="font-medium">Planning</span>
         </div>
       </a>
-      <a class="block" href="maquette-recherche-de-dispo.html">
+      <a class="block" href="#" onclick="switchTab('recherche')">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
           <span class="font-medium">Recherche dispo.</span>
         </div>
       </a>
-      <a class="block" href="maquette-support.html">
+      <!-- ONGLET SUPPORT -->
+      <a class="block" href="#" onclick="switchTab('support')">
         <div id="nav-support" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
           <div class="flex items-center gap-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path></svg>
@@ -56,52 +57,16 @@
           <span id="support-badge" class="bg-white text-[#A63629] text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
         </div>
       </a>
-      <a class="block" href="maquette-clients.html">
+      <a class="block" href="#" onclick="switchTab('clients')">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
           <span class="font-medium">Clients</span>
         </div>
       </a>
-      <a class="block" href="maquette-services.html">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
-          <span class="font-medium">Services</span>
-        </div>
-      </a>
-      <a class="block" href="maquette-interimaires.html">
+      <a class="block" href="#" onclick="switchTab('interimaires')">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
           <span class="font-medium">Intérimaires</span>
-        </div>
-      </a>
-      <a class="block" href="maquette-disponibilites.html">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
-          <span class="font-medium">Disponibilités</span>
-        </div>
-      </a>
-      <a class="block" href="#">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Missions</span>
-        </div>
-      </a>
-      <a class="block" href="#">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
-          <span class="font-medium">Relevés d'heures</span>
-        </div>
-      </a>
-      <a class="block" href="#">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
-          <span class="font-medium">Paramètres</span>
-        </div>
-      </a>
-      <a class="block" href="#">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
-          <span class="font-medium">Compte</span>
         </div>
       </a>
     </nav>
@@ -117,18 +82,22 @@
   <!-- MAIN AREA -->
   <main class="flex-1 overflow-auto flex flex-col min-w-0">
 
-    <!-- HEADER -->
+    <!-- HEADER AVEC SELECTEUR DE SIMULATION DE CONNEXION -->
     <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 z-20">
       <div class="flex items-center gap-2 text-sm text-gray-500 font-medium">
         <span>Adaptel Backoffice</span>
         <span>/</span>
         <span id="header-breadcrumb" class="text-gray-900 font-bold">Support & Demandes</span>
       </div>
-      <div class="relative flex items-center gap-3">
-        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
-          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">3</span>
-        </button>
+      
+      <!-- SIMULATEUR DE PROFIL CONNECTÉ (POUR TESTER LA REGLE D'ASSIGNATION) -->
+      <div class="flex items-center gap-3 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg shadow-sm">
+        <span class="text-xs font-bold text-amber-800 uppercase">Profil connecté simulé :</span>
+        <select id="current-user-select" onchange="changeConnectedUser()" class="text-xs font-semibold bg-white border border-amber-300 rounded px-2 py-1 focus:outline-none">
+          <option value="Thomas D.|standard">Thomas D. (Collaborateur Standard)</option>
+          <option value="Marie L.|standard">Marie L. (Collaborateur Standard)</option>
+          <option value="Admin Principal|admin">Administrateur (Accès Global)</option>
+        </select>
       </div>
     </header>
 
@@ -223,7 +192,7 @@
   </main>
 </div>
 
-<!-- MODAL DE TRAITEMENT / DETAILS D'UNE DEMANDE -->
+<!-- MODAL DE TRAITEMENT -->
 <div id="request-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
   <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden border border-gray-100 flex flex-col max-h-[90vh]">
     <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
@@ -245,7 +214,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           </div>
           <div>
-            <span class="text-xs text-indigo-700 uppercase tracking-wider font-bold block">Profil de l'émetteur</span>
+            <span class="text-xs text-indigo-700 uppercase tracking-wider font-bold block">Profil de l'émetteur de la question</span>
             <span id="modal-user-name" class="font-bold text-gray-900 text-sm"></span>
           </div>
         </div>
@@ -261,7 +230,7 @@
           <span id="modal-date" class="font-bold text-gray-800"></span>
         </div>
         <div>
-          <span class="text-xs text-gray-500 block font-medium">Entité reliée (Navigation croisée) :</span>
+          <span class="text-xs text-gray-500 block font-medium">Entité reliée :</span>
           <a id="modal-entity-link" href="#" onclick="alert('Redirection vers la fiche entité correspondante'); return false;" class="font-bold text-[#A63629] hover:underline flex items-center gap-1 mt-0.5">
             <span id="modal-entity-text"></span>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
@@ -285,11 +254,11 @@
         </div>
         <div class="space-y-1.5">
           <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Attribuer au collaborateur</label>
-          <select id="modal-select-collab" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-            <option value="Non assigné">Non assigné</option>
-            <option value="Marie L.">Marie L.</option>
-            <option value="Thomas D.">Thomas D.</option>
-          </select>
+          
+          <!-- Conteneur géré dynamiquement selon si l'utilisateur est admin ou standard -->
+          <div id="collab-assignment-container">
+            <!-- Injecté par JS -->
+          </div>
         </div>
       </div>
 
@@ -312,7 +281,12 @@
 </div>
 
 <script>
-  // Base de données simulée enrichie avec les profils utilisateurs (Administratif, Commerciaux, Opérations)
+  // Données utilisateur courant simulé (par défaut : Thomas D., standard)
+  let currentUser = {
+    name: "Thomas D.",
+    role: "standard" // "standard" ou "admin"
+  };
+
   let supportDemands = [
     {
       id: 1,
@@ -356,7 +330,13 @@
     updateSupportBadgeCount();
   });
 
-  // Rendu du tableau sans la colonne "Canal" et avec l'extrait de question
+  // Changement de l'utilisateur connecté via le sélecteur en haut à droite
+  function changeConnectedUser() {
+    const val = document.getElementById("current-user-select").value.split("|");
+    currentUser.name = val[0];
+    currentUser.role = val[1];
+  }
+
   function renderSupportTable(data) {
     const tbody = document.getElementById("support-table-body");
     tbody.innerHTML = "";
@@ -438,7 +418,7 @@
     }
   }
 
-  // Ouverture de la modale avec le récapitulatif de l'utilisateur
+  // Ouverture de la modale avec gestion conditionnelle de l'assignation selon le rôle
   function openModal(id) {
     currentEditingId = id;
     const item = supportDemands.find(d => d.id === id);
@@ -448,7 +428,6 @@
     document.getElementById("modal-badge-statut").className = "px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider " + 
       (item.statut === 'Nouvelle' ? 'bg-amber-100 text-amber-800' : item.statut === 'En cours' ? 'bg-blue-100 text-blue-800' : 'bg-emerald-100 text-emerald-800');
     
-    // Remplissage du bloc récapitulatif utilisateur
     document.getElementById("modal-user-name").innerText = item.userProfile.nom;
     document.getElementById("modal-user-team").innerText = "Équipe : " + item.userProfile.equipe;
     
@@ -463,10 +442,32 @@
     document.getElementById("modal-entity-text").innerText = item.entiteNom;
     document.getElementById("modal-date").innerText = item.date;
     document.getElementById("modal-message").innerText = item.message;
-
     document.getElementById("modal-select-statut").value = item.statut;
-    document.getElementById("modal-select-collab").value = item.collab;
     document.getElementById("modal-comment").value = "";
+
+    // GESTION DE LA REGLE D'ASSIGNATION (ADMIN vs STANDARD)
+    const container = document.getElementById("collab-assignment-container");
+    if(currentUser.role === "admin") {
+      // L'admin peut assigner à qui il veut via un select complet
+      container.innerHTML = `
+        <select id="modal-select-collab" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          <option value="Non assigné">Non assigné</option>
+          <option value="Marie L.">Marie L.</option>
+          <option value="Thomas D.">Thomas D.</option>
+        </select>
+      `;
+      document.getElementById("modal-select-collab").value = item.collab;
+    } else {
+      // Un utilisateur standard ne peut pas l'assigner à quelqu'un d'autre que lui-même
+      container.innerHTML = `
+        <div class="flex items-center gap-2">
+          <input type="text" id="modal-input-collab-fixed" readonly value="${item.collab}" class="h-10 w-full rounded-lg border border-gray-200 bg-gray-100 px-3 text-sm text-gray-700 shadow-sm cursor-not-allowed">
+          <button type="button" onclick="assignToMe()" class="px-3 h-10 bg-indigo-50 border border-indigo-200 text-indigo-700 font-semibold text-xs rounded-lg hover:bg-indigo-100 transition-colors whitespace-nowrap">
+            M'assigner (${currentUser.name})
+          </button>
+        </div>
+      `;
+    }
 
     const historyDiv = document.getElementById("history-content");
     if(item.commentaires.length === 0) {
@@ -482,6 +483,16 @@
     document.getElementById("request-modal").classList.remove("hidden");
   }
 
+  // Fonction permettant à l'utilisateur standard de s'assigner la tâche directement
+  function assignToMe() {
+    const item = supportDemands.find(d => d.id === currentEditingId);
+    if(item) {
+      item.collab = currentUser.name;
+      document.getElementById("modal-input-collab-fixed").value = currentUser.name;
+      alert(`La demande vous a été assignée avec succès (${currentUser.name}).`);
+    }
+  }
+
   function closeModal() {
     document.getElementById("request-modal").classList.add("hidden");
     currentEditingId = null;
@@ -492,14 +503,19 @@
     const item = supportDemands.find(d => d.id === currentEditingId);
     
     item.statut = document.getElementById("modal-select-statut").value;
-    item.collab = document.getElementById("modal-select-collab").value;
+
+    // Récupération de l'assignation selon le profil
+    if(currentUser.role === "admin") {
+      item.collab = document.getElementById("modal-select-collab").value;
+    }
+    // Si standard, l'assignation a déjà été modifiée par le bouton "M'assigner" ou est restée inchangée.
 
     const newCommentText = document.getElementById("modal-comment").value.trim();
     if(newCommentText !== "") {
       const now = new Date();
       const dateStr = now.toLocaleDateString() + " à " + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
       item.commentaires.push({
-        auteur: item.collab !== "Non assigné" ? item.collab : "Collaborateur",
+        auteur: item.collab !== "Non assigné" ? item.collab : currentUser.name,
         date: dateStr,
         texte: newCommentText
       });
@@ -531,7 +547,7 @@
     renderSupportTable(supportDemands);
     updateSupportBadgeCount();
 
-    alert(`🔔 NOTIFICATION INTERNE :\n\nNouvelle demande support reçue de « The Peninsula Paris » (Équipe Administratif).\nUn badge a été mis à jour dans le menu.`);
+    alert(`🔔 NOTIFICATION INTERNE :\n\nNouvelle demande support reçue de « The Peninsula Paris » (Équipe Administratif).`);
   }
 
   function updateSupportBadgeCount() {

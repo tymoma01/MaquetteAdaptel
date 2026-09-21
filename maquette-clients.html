@@ -225,13 +225,13 @@
         </div>
 
         <!-- COLUMN HEADER -->
-        <div class="hidden md:flex items-center justify-between gap-4 px-5 py-2 max-w-[1400px] mx-auto text-xs font-semibold text-gray-500 uppercase tracking-wider">
-          <div class="min-w-[300px] pl-9">Client</div>
-          <div class="w-[168px] text-left">Type d'établissement</div>
-          <div class="w-[102px] text-center">Activité (7j)</div>
-          <div class="w-[90px] text-center">Services (30j)</div>
-          <div class="w-[110px] text-center">Intérimaires en poste</div>
-          <div class="w-[130px] text-right">Statut</div>
+        <div class="hidden md:grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4 px-5 py-2 max-w-[1400px] mx-auto text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <div>Client</div>
+          <div>Type d'établissement</div>
+          <div class="text-center">Activité (7j)</div>
+          <div class="text-center">Services (30j)</div>
+          <div class="text-center">Intérimaires en poste</div>
+          <div class="text-right">Statut</div>
         </div>
 
         <!-- LIST -->
@@ -240,8 +240,8 @@
 
             <!-- Row 1 -->
             <a href="maquette-client-detail.html" class="block p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
-              <div class="flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-4 min-w-[300px]">
+              <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
+                <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
                   <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
@@ -255,7 +255,7 @@
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1">Hôtellerie</div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
                   <span class="avail-dot bg-green-500" title="Lun"></span><span class="avail-dot bg-green-500" title="Mar"></span><span class="avail-dot bg-green-500" title="Mer"></span><span class="avail-dot bg-amber-400" title="Jeu"></span><span class="avail-dot bg-green-500" title="Ven"></span><span class="avail-dot bg-green-500" title="Sam"></span><span class="avail-dot bg-green-500" title="Dim"></span>
                 </div>
                 <div class="text-center">
@@ -266,14 +266,14 @@
                   <p class="text-xs text-gray-600 mb-1">Intérimaires en poste</p>
                   <div class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 font-semibold text-base px-3 py-1">9</div>
                 </div>
-                <div class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
+                <div class="inline-flex items-center justify-self-end rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
               </div>
             </a>
 
             <!-- Row 2 -->
             <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
-              <div class="flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-4 min-w-[300px]">
+              <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
+                <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
                   <div class="w-12 h-12 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-purple-600"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
@@ -287,7 +287,7 @@
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1">Traiteur événementiel</div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
                   <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span>
                 </div>
                 <div class="text-center">
@@ -298,14 +298,14 @@
                   <p class="text-xs text-gray-600 mb-1">Intérimaires en poste</p>
                   <div class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 font-semibold text-base px-3 py-1">17</div>
                 </div>
-                <div class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
+                <div class="inline-flex items-center justify-self-end rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
               </div>
             </div>
 
             <!-- Row 3 -->
             <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
-              <div class="flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-4 min-w-[300px]">
+              <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
+                <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
                   <div class="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-orange-600"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></svg>
@@ -319,7 +319,7 @@
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-sm font-medium px-3 py-1">Restaurant gastronomique</div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
                   <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span>
                 </div>
                 <div class="text-center">
@@ -330,14 +330,14 @@
                   <p class="text-xs text-gray-600 mb-1">Intérimaires en poste</p>
                   <div class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 font-semibold text-base px-3 py-1">6</div>
                 </div>
-                <div class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
+                <div class="inline-flex items-center justify-self-end rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
               </div>
             </div>
 
             <!-- Row 4 -->
             <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
-              <div class="flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-4 min-w-[300px]">
+              <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
+                <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
                   <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
@@ -351,7 +351,7 @@
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1">Hôtellerie</div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
                   <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span>
                 </div>
                 <div class="text-center">
@@ -362,14 +362,14 @@
                   <p class="text-xs text-gray-600 mb-1">Intérimaires en poste</p>
                   <div class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 font-semibold text-base px-3 py-1">13</div>
                 </div>
-                <div class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
+                <div class="inline-flex items-center justify-self-end rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
               </div>
             </div>
 
             <!-- Row 5 -->
             <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
-              <div class="flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-4 min-w-[300px]">
+              <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
+                <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
                   <div class="w-12 h-12 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-purple-600"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
@@ -383,7 +383,7 @@
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1">Traiteur événementiel</div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
                   <span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span>
                 </div>
                 <div class="text-center">
@@ -394,14 +394,14 @@
                   <p class="text-xs text-gray-600 mb-1">Intérimaires en poste</p>
                   <div class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 font-semibold text-base px-3 py-1">11</div>
                 </div>
-                <div class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-sm font-semibold px-3 py-1">En pause</div>
+                <div class="inline-flex items-center justify-self-end rounded-full border border-transparent bg-amber-100 text-amber-800 text-sm font-semibold px-3 py-1">En pause</div>
               </div>
             </div>
 
             <!-- Row 6 -->
             <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
-              <div class="flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-4 min-w-[300px]">
+              <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
+                <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
                   <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
@@ -415,7 +415,7 @@
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1">Hôtellerie</div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
                   <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span>
                 </div>
                 <div class="text-center">
@@ -426,14 +426,14 @@
                   <p class="text-xs text-gray-600 mb-1">Intérimaires en poste</p>
                   <div class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 font-semibold text-base px-3 py-1">8</div>
                 </div>
-                <div class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
+                <div class="inline-flex items-center justify-self-end rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
               </div>
             </div>
 
             <!-- Row 7 -->
             <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
-              <div class="flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-4 min-w-[300px]">
+              <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
+                <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
                   <div class="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-orange-600"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></svg>
@@ -447,7 +447,7 @@
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-sm font-medium px-3 py-1">Brasserie</div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
                   <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span>
                 </div>
                 <div class="text-center">
@@ -458,14 +458,14 @@
                   <p class="text-xs text-gray-600 mb-1">Intérimaires en poste</p>
                   <div class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 font-semibold text-base px-3 py-1">5</div>
                 </div>
-                <div class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
+                <div class="inline-flex items-center justify-self-end rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
               </div>
             </div>
 
             <!-- Row 8 -->
             <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
-              <div class="flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-4 min-w-[300px]">
+              <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
+                <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
                   <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
@@ -479,7 +479,7 @@
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1">Hôtellerie</div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
                   <span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span>
                 </div>
                 <div class="text-center">
@@ -490,14 +490,14 @@
                   <p class="text-xs text-gray-600 mb-1">Intérimaires en poste</p>
                   <div class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 font-semibold text-base px-3 py-1">6</div>
                 </div>
-                <div class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
+                <div class="inline-flex items-center justify-self-end rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
               </div>
             </div>
 
             <!-- Row 9 -->
             <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
-              <div class="flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-4 min-w-[300px]">
+              <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
+                <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
                   <div class="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-orange-600"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></svg>
@@ -511,7 +511,7 @@
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-sm font-medium px-3 py-1">Restaurant</div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
                   <span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span>
                 </div>
                 <div class="text-center">
@@ -522,14 +522,14 @@
                   <p class="text-xs text-gray-600 mb-1">Intérimaires en poste</p>
                   <div class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 font-semibold text-base px-3 py-1">0</div>
                 </div>
-                <div class="inline-flex items-center rounded-full border border-transparent bg-red-100 text-red-800 text-sm font-semibold px-3 py-1">Litige facturation</div>
+                <div class="inline-flex items-center justify-self-end rounded-full border border-transparent bg-red-100 text-red-800 text-sm font-semibold px-3 py-1">Litige facturation</div>
               </div>
             </div>
 
             <!-- Row 10 -->
             <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
-              <div class="flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-4 min-w-[300px]">
+              <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
+                <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
                   <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
@@ -543,7 +543,7 @@
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1">Hôtellerie</div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
                   <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span>
                 </div>
                 <div class="text-center">
@@ -554,14 +554,14 @@
                   <p class="text-xs text-gray-600 mb-1">Intérimaires en poste</p>
                   <div class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 font-semibold text-base px-3 py-1">7</div>
                 </div>
-                <div class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
+                <div class="inline-flex items-center justify-self-end rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
               </div>
             </div>
 
             <!-- Row 11 -->
             <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
-              <div class="flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-4 min-w-[300px]">
+              <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
+                <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
                   <div class="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-orange-600"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></svg>
@@ -575,7 +575,7 @@
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-sm font-medium px-3 py-1">Restaurant</div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
                   <span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-green-500"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-green-500"></span>
                 </div>
                 <div class="text-center">
@@ -586,14 +586,14 @@
                   <p class="text-xs text-gray-600 mb-1">Intérimaires en poste</p>
                   <div class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 font-semibold text-base px-3 py-1">3</div>
                 </div>
-                <div class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
+                <div class="inline-flex items-center justify-self-end rounded-full border border-transparent bg-green-100 text-green-800 text-sm font-semibold px-3 py-1">Actif</div>
               </div>
             </div>
 
             <!-- Row 12 -->
             <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
-              <div class="flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-4 min-w-[300px]">
+              <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
+                <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
                   <div class="w-12 h-12 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-purple-600"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
@@ -607,7 +607,7 @@
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1">Traiteur événementiel</div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
                   <span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span>
                 </div>
                 <div class="text-center">
@@ -618,7 +618,7 @@
                   <p class="text-xs text-gray-600 mb-1">Intérimaires en poste</p>
                   <div class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 font-semibold text-base px-3 py-1">0</div>
                 </div>
-                <div class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-sm font-semibold px-3 py-1">En pause</div>
+                <div class="inline-flex items-center justify-self-end rounded-full border border-transparent bg-amber-100 text-amber-800 text-sm font-semibold px-3 py-1">En pause</div>
               </div>
             </div>
 

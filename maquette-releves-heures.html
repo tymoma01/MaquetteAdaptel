@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel - Relevés d'heures</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0" style="width:256px;">
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Backoffice</p>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 ml-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-600"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span class="font-medium">Accueil</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-planning.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+          <span class="font-medium">Planning</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-recherche-de-dispo.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <span class="font-medium">Recherche dispo.</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-support.html">
+        <div id="nav-support" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path></svg>
+            <span class="font-medium">Support</span>
+          </div>
+          <span id="support-badge" class="bg-[#A63629] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-clients.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Clients</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-services.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span class="font-medium">Services</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-interimaires.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-disponibilites.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+          <span class="font-medium">Disponibilités</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Missions</span>
+        </div>
+      </a>
+      <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
+        <div id="nav-releves" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevés d'heures</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
+          <span class="font-medium">Paramètres</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span class="font-medium">Compte</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-auto flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end gap-3 sticky top-0 z-40">
+      <!-- Demo-only role switcher: controls whether this tab is exposed, per section 3 -->
+      <div class="flex items-center gap-2 mr-auto">
+        <span class="text-xs text-gray-400 uppercase tracking-wider font-medium">Aperçu démo — rôle :</span>
+        <select id="role-select" class="h-9 rounded-lg border border-gray-200 bg-white px-2 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          <option value="admin" selected>Administratif Adaptel</option>
+          <option value="chef">Chef de département</option>
+          <option value="collab">Collaborateur d'agence</option>
+        </select>
+      </div>
+      <button type="button" class="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-900 shadow-sm transition-all hover:bg-gray-50 w-10 px-0" title="Mode clair">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+      </button>
+      <div class="relative">
+        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications (5 non lues)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-colors text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">5</span>
+          <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full border border-white bg-green-500"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="flex-1">
+      <div class="p-6 space-y-6">
+
+        <!-- AUTHORIZED VIEW -->
+        <div id="releves-content" class="space-y-6">
+
+          <!-- TITLE -->
+          <div class="mx-auto max-w-[1500px] flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div class="space-y-2">
+              <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Relevés d'heures</h1>
+              <p class="text-sm text-gray-600">Suivi et validation des heures travaillées par les intérimaires</p>
+              <span class="inline-flex items-center rounded-full border border-transparent bg-white text-gray-700 shadow-sm px-2.5 py-0.5 text-xs font-semibold">10 relevés sur la période</span>
+            </div>
+            <button type="button" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M20 6 9 17l-5-5"></path></svg>
+              Valider la sélection
+            </button>
+          </div>
+
+          <!-- STAT CARDS -->
+          <div class="mx-auto max-w-[1500px] grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div class="bg-white rounded-xl border border-gray-200 border-l-4 border-l-slate-300 shadow-sm p-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-gray-100 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-500"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
+                </div>
+                <div>
+                  <p class="text-xs font-medium text-gray-500">Total</p>
+                  <p class="text-xl font-bold text-gray-900">10</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-200 border-l-4 border-l-orange-300 shadow-sm p-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-orange-100 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-orange-600"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>
+                </div>
+                <div>
+                  <p class="text-xs font-medium text-gray-500">En attente</p>
+                  <p class="text-xl font-bold text-orange-600">5</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-200 border-l-4 border-l-green-300 shadow-sm p-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-green-100 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-green-600"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                </div>
+                <div>
+                  <p class="text-xs font-medium text-gray-500">Validés</p>
+                  <p class="text-xl font-bold text-green-600">4</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-200 border-l-4 border-l-red-300 shadow-sm p-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-red-100 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-red-600"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
+                </div>
+                <div>
+                  <p class="text-xs font-medium text-gray-500">Rejetés</p>
+                  <p class="text-xl font-bold text-red-600">1</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl border border-[#A63629]/20 shadow-sm p-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-[#A63629]/10 flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629]"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                </div>
+                <div>
+                  <p class="text-xs font-medium text-gray-500">Total heures</p>
+                  <p class="text-xl font-bold text-[#A63629]">62h</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FILTERS -->
+          <div class="mx-auto max-w-[1500px]">
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+              <button type="button" id="filters-toggle" class="w-full flex items-center justify-between px-6 py-4 cursor-pointer select-none">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-lg bg-[#A63629]/10 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-[#A63629]"><path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"></path></svg>
+                  </div>
+                  <span class="text-sm font-bold text-gray-900">Filtres de recherche</span>
+                </div>
+                <svg id="filters-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 transition-transform duration-200 rotate-180"><path d="m6 9 6 6 6-6"></path></svg>
+              </button>
+              <div id="filters-panel" class="px-6 pb-6 pt-1 border-t border-gray-100">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mt-3">
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Date début</label>
+                    <input class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="date" value="2026-09-01">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Date fin</label>
+                    <input class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="date" value="2026-09-30">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Statut</label>
+                    <select class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+                      <option value="">Tous les statuts</option>
+                      <option value="EN_ATTENTE">En attente</option>
+                      <option value="VALIDE">Validé</option>
+                      <option value="REJETE">Rejeté</option>
+                    </select>
+                  </div>
+                  <div class="relative">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Intérimaire</label>
+                    <div class="relative">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                      <input placeholder="Nom ou matricule..." class="w-full h-10 border border-gray-200 rounded-lg pl-9 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" autocomplete="off" type="text">
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Chantier / Service</label>
+                    <select class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+                      <option value="">Tous les chantiers</option>
+                      <option>FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE</option>
+                      <option>FLEXI STEWARDING - HYATT REGENCY PARIS ETOILE</option>
+                      <option>FLEXI HOTE/HOTESSE - HYATT REGENCY PARIS ETOILE</option>
+                      <option>Cuisine Centrale - Hôtel Le Meurice</option>
+                      <option>Restaurant Étoilé - Hôtel Le Meurice</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Qualification</label>
+                    <input placeholder="Ex: Cuisinier..." class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" autocomplete="off" type="text">
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100">
+                  <button type="button" class="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                    Réinitialiser
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TABLE -->
+          <div class="mx-auto max-w-[1500px]">
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+              <div class="flex flex-col space-y-1.5 p-6 border-b border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-semibold text-gray-900">Détail des relevés</h3>
+                <p class="text-sm text-gray-500">Consultez, corrigez les horaires et validez les heures déclarées</p>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
+                    <tr>
+                      <th class="px-4 py-3 text-left font-semibold w-10"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></th>
+                      <th class="px-4 py-3 text-left font-semibold">Intérimaire</th>
+                      <th class="px-4 py-3 text-left font-semibold">Client / Chantier</th>
+                      <th class="px-4 py-3 text-left font-semibold">Date</th>
+                      <th class="px-4 py-3 text-left font-semibold">Horaires</th>
+                      <th class="px-4 py-3 text-center font-semibold">Pause</th>
+                      <th class="px-4 py-3 text-center font-semibold">Heures</th>
+                      <th class="px-4 py-3 text-left font-semibold">Statut</th>
+                      <th class="px-4 py-3 text-center font-semibold">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-100">
+
+                    <tr class="hover:bg-gray-50 transition-colors">
+                      <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-2.5">
+                          <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">SM</span></div>
+                          <div>
+                            <p class="text-sm font-semibold text-gray-900">Sofia MARTINS</p>
+                            <p class="text-xs text-gray-500">Chef de rang</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <p class="text-sm font-medium text-gray-900">Hôtel Le Meurice</p>
+                        <p class="text-xs text-gray-500">Restaurant Étoilé</p>
+                      </td>
+                      <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                        <div class="flex items-center gap-1.5">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                          21 sept. 2026
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-1 text-xs">
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="07:00">
+                          <span class="text-gray-300">→</span>
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="15:00">
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="flex items-center justify-center gap-1">
+                          <input min="0" max="120" class="w-14 px-1.5 py-1 text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="number" value="0">
+                          <span class="text-[10px] text-gray-400">min</span>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center"><span class="text-sm font-bold text-[#A63629]">8h</span></td>
+                      <td class="px-4 py-3 align-middle"><span class="bg-orange-100 text-orange-700 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>En attente</span></td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="inline-flex items-center gap-1.5">
+                          <button class="p-1.5 rounded-lg text-green-600 hover:bg-green-50 transition-colors" title="Valider">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                          </button>
+                          <button class="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors" title="Rejeter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50 transition-colors">
+                      <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-2.5">
+                          <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">KD</span></div>
+                          <div>
+                            <p class="text-sm font-semibold text-gray-900">Karim DIALLO</p>
+                            <p class="text-xs text-gray-500">Cuisinier</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <p class="text-sm font-medium text-gray-900">Hôtel Le Meurice</p>
+                        <p class="text-xs text-gray-500">Cuisine Centrale</p>
+                      </td>
+                      <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                        <div class="flex items-center gap-1.5">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                          21 sept. 2026
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-1 text-xs">
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="06:00">
+                          <span class="text-gray-300">→</span>
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="14:00">
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="flex items-center justify-center gap-1">
+                          <input min="0" max="120" class="w-14 px-1.5 py-1 text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="number" value="60">
+                          <span class="text-[10px] text-gray-400">min</span>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center"><span class="text-sm font-bold text-[#A63629]">7h</span></td>
+                      <td class="px-4 py-3 align-middle"><span class="bg-green-100 text-green-700 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>Validé</span></td>
+                      <td class="px-4 py-3 align-middle text-center text-gray-300">—</td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50 transition-colors">
+                      <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-2.5">
+                          <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">LR</span></div>
+                          <div>
+                            <p class="text-sm font-semibold text-gray-900">Léa ROUSSEL</p>
+                            <p class="text-xs text-gray-500">Serveuse</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <p class="text-sm font-medium text-gray-900">Novotel Paris Est</p>
+                        <p class="text-xs text-gray-500">Restaurant Le Central</p>
+                      </td>
+                      <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                        <div class="flex items-center gap-1.5">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                          21 sept. 2026
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-1 text-xs">
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="11:00">
+                          <span class="text-gray-300">→</span>
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="15:00">
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="flex items-center justify-center gap-1">
+                          <input min="0" max="120" class="w-14 px-1.5 py-1 text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="number" value="0">
+                          <span class="text-[10px] text-gray-400">min</span>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center"><span class="text-sm font-bold text-[#A63629]">4h</span></td>
+                      <td class="px-4 py-3 align-middle"><span class="bg-orange-100 text-orange-700 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>En attente</span></td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="inline-flex items-center gap-1.5">
+                          <button class="p-1.5 rounded-lg text-green-600 hover:bg-green-50 transition-colors" title="Valider">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                          </button>
+                          <button class="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors" title="Rejeter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50 transition-colors">
+                      <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-2.5">
+                          <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">TN</span></div>
+                          <div>
+                            <p class="text-sm font-semibold text-gray-900">Thomas NGUYEN</p>
+                            <p class="text-xs text-gray-500">Plongeur</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <p class="text-sm font-medium text-gray-900">Constellation Étoile — Hyatt Regency Paris Étoile</p>
+                        <p class="text-xs text-gray-500">FLEXI STEWARDING</p>
+                      </td>
+                      <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                        <div class="flex items-center gap-1.5">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                          20 sept. 2026
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-1 text-xs">
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="22:00">
+                          <span class="text-gray-300">→</span>
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="06:00">
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="flex items-center justify-center gap-1">
+                          <input min="0" max="120" class="w-14 px-1.5 py-1 text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="number" value="30">
+                          <span class="text-[10px] text-gray-400">min</span>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center"><span class="text-sm font-bold text-[#A63629]">7h30</span></td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex flex-col gap-1">
+                          <span class="bg-red-100 text-red-700 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold w-fit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>Rejeté</span>
+                          <p class="text-[10px] text-gray-400">Écart avec le planning prévu</p>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center text-gray-300">—</td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50 transition-colors">
+                      <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-2.5">
+                          <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">AB</span></div>
+                          <div>
+                            <p class="text-sm font-semibold text-gray-900">Amandine BERTIN</p>
+                            <p class="text-xs text-gray-500">Femme de chambre</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <p class="text-sm font-medium text-gray-900">Constellation Étoile — Hyatt Regency Paris Étoile</p>
+                        <p class="text-xs text-gray-500">FLEXI HOUSEKEEPING</p>
+                      </td>
+                      <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                        <div class="flex items-center gap-1.5">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                          20 sept. 2026
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-1 text-xs">
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="07:00">
+                          <span class="text-gray-300">→</span>
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="12:00">
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="flex items-center justify-center gap-1">
+                          <input min="0" max="120" class="w-14 px-1.5 py-1 text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="number" value="0">
+                          <span class="text-[10px] text-gray-400">min</span>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center"><span class="text-sm font-bold text-[#A63629]">5h</span></td>
+                      <td class="px-4 py-3 align-middle"><span class="bg-green-100 text-green-700 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>Validé</span></td>
+                      <td class="px-4 py-3 align-middle text-center text-gray-300">—</td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50 transition-colors">
+                      <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-2.5">
+                          <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">YM</span></div>
+                          <div>
+                            <p class="text-sm font-semibold text-gray-900">Yanis MOKRANE</p>
+                            <p class="text-xs text-gray-500">Barman</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <p class="text-sm font-medium text-gray-900">La Table du Marais</p>
+                        <p class="text-xs text-gray-500">Bar à Vins</p>
+                      </td>
+                      <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                        <div class="flex items-center gap-1.5">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                          20 sept. 2026
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-1 text-xs">
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="18:00">
+                          <span class="text-gray-300">→</span>
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="23:00">
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="flex items-center justify-center gap-1">
+                          <input min="0" max="120" class="w-14 px-1.5 py-1 text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="number" value="0">
+                          <span class="text-[10px] text-gray-400">min</span>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center"><span class="text-sm font-bold text-[#A63629]">5h</span></td>
+                      <td class="px-4 py-3 align-middle"><span class="bg-orange-100 text-orange-700 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>En attente</span></td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="inline-flex items-center gap-1.5">
+                          <button class="p-1.5 rounded-lg text-green-600 hover:bg-green-50 transition-colors" title="Valider">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                          </button>
+                          <button class="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors" title="Rejeter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50 transition-colors">
+                      <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-2.5">
+                          <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">CD</span></div>
+                          <div>
+                            <p class="text-sm font-semibold text-gray-900">Camille DUBOIS</p>
+                            <p class="text-xs text-gray-500">Hôtesse d'accueil</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <p class="text-sm font-medium text-gray-900">Constellation Étoile — Hyatt Regency Paris Étoile</p>
+                        <p class="text-xs text-gray-500">FLEXI HOTE/HOTESSE</p>
+                      </td>
+                      <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                        <div class="flex items-center gap-1.5">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                          19 sept. 2026
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-1 text-xs">
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="06:30">
+                          <span class="text-gray-300">→</span>
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="10:30">
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="flex items-center justify-center gap-1">
+                          <input min="0" max="120" class="w-14 px-1.5 py-1 text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="number" value="0">
+                          <span class="text-[10px] text-gray-400">min</span>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center"><span class="text-sm font-bold text-[#A63629]">4h</span></td>
+                      <td class="px-4 py-3 align-middle"><span class="bg-green-100 text-green-700 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>Validé</span></td>
+                      <td class="px-4 py-3 align-middle text-center text-gray-300">—</td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50 transition-colors">
+                      <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-2.5">
+                          <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">MK</span></div>
+                          <div>
+                            <p class="text-sm font-semibold text-gray-900">Mehdi KACI</p>
+                            <p class="text-xs text-gray-500">Commis de cuisine</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <p class="text-sm font-medium text-gray-900">Potel et Chabot Traiteur</p>
+                        <p class="text-xs text-gray-500">Cuisine Événementielle</p>
+                      </td>
+                      <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                        <div class="flex items-center gap-1.5">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                          19 sept. 2026
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-1 text-xs">
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="08:00">
+                          <span class="text-gray-300">→</span>
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="16:00">
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="flex items-center justify-center gap-1">
+                          <input min="0" max="120" class="w-14 px-1.5 py-1 text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="number" value="60">
+                          <span class="text-[10px] text-gray-400">min</span>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center"><span class="text-sm font-bold text-[#A63629]">7h</span></td>
+                      <td class="px-4 py-3 align-middle"><span class="bg-orange-100 text-orange-700 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>En attente</span></td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="inline-flex items-center gap-1.5">
+                          <button class="p-1.5 rounded-lg text-green-600 hover:bg-green-50 transition-colors" title="Valider">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                          </button>
+                          <button class="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors" title="Rejeter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50 transition-colors">
+                      <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-2.5">
+                          <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">JP</span></div>
+                          <div>
+                            <p class="text-sm font-semibold text-gray-900">Julie PETIT</p>
+                            <p class="text-xs text-gray-500">Réceptionniste</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <p class="text-sm font-medium text-gray-900">Radisson Collection Lyon</p>
+                        <p class="text-xs text-gray-500">Réception</p>
+                      </td>
+                      <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                        <div class="flex items-center gap-1.5">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                          19 sept. 2026
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-1 text-xs">
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="07:00">
+                          <span class="text-gray-300">→</span>
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="15:00">
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="flex items-center justify-center gap-1">
+                          <input min="0" max="120" class="w-14 px-1.5 py-1 text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="number" value="30">
+                          <span class="text-[10px] text-gray-400">min</span>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center"><span class="text-sm font-bold text-[#A63629]">7h30</span></td>
+                      <td class="px-4 py-3 align-middle"><span class="bg-green-100 text-green-700 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>Validé</span></td>
+                      <td class="px-4 py-3 align-middle text-center text-gray-300">—</td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50 transition-colors">
+                      <td class="px-4 py-3 align-middle"><input type="checkbox" class="text-[#A63629] focus:ring-[#A63629] rounded"></td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-2.5">
+                          <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">RB</span></div>
+                          <div>
+                            <p class="text-sm font-semibold text-gray-900">Rachid BENALI</p>
+                            <p class="text-xs text-gray-500">Maître d'hôtel</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <p class="text-sm font-medium text-gray-900">Fouquet's Barrière</p>
+                        <p class="text-xs text-gray-500">Salle de Réception</p>
+                      </td>
+                      <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                        <div class="flex items-center gap-1.5">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                          18 sept. 2026
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle">
+                        <div class="flex items-center gap-1 text-xs">
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="12:00">
+                          <span class="text-gray-300">→</span>
+                          <input class="w-[70px] px-1.5 py-1 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="time" value="20:00">
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="flex items-center justify-center gap-1">
+                          <input min="0" max="120" class="w-14 px-1.5 py-1 text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" type="number" value="60">
+                          <span class="text-[10px] text-gray-400">min</span>
+                        </div>
+                      </td>
+                      <td class="px-4 py-3 align-middle text-center"><span class="text-sm font-bold text-[#A63629]">7h</span></td>
+                      <td class="px-4 py-3 align-middle"><span class="bg-orange-100 text-orange-700 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>En attente</span></td>
+                      <td class="px-4 py-3 align-middle text-center">
+                        <div class="inline-flex items-center gap-1.5">
+                          <button class="p-1.5 rounded-lg text-green-600 hover:bg-green-50 transition-colors" title="Valider">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                          </button>
+                          <button class="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors" title="Rejeter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- PAGINATION -->
+          <div class="mx-auto max-w-[1500px]">
+            <div class="flex items-center justify-between px-4 py-3 border-t border-gray-200 bg-white rounded-b-xl">
+              <div class="text-sm text-gray-600">Affichage de <span class="font-semibold">1</span> à <span class="font-semibold">10</span> sur <span class="font-semibold">10</span> résultats</div>
+              <div class="flex items-center gap-2">
+                <button disabled class="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m15 18-6-6 6-6"></path></svg>
+                </button>
+                <button class="px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white">1</button>
+                <button disabled class="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m9 18 6-6-6-6"></path></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ACCESS DENIED VIEW (Collaborateur d'agence) -->
+        <div id="releves-denied" class="hidden">
+          <div class="mx-auto max-w-[700px] mt-12 text-center bg-white rounded-xl border border-gray-200 shadow-sm p-10">
+            <div class="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-gray-400"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">Onglet non disponible pour votre rôle</h2>
+            <p class="text-sm text-gray-500 mt-2 max-w-md mx-auto">Le suivi et la validation des relevés d'heures sont réservés aux comptes Administratif Adaptel et Chef de département. Les comptes Collaborateur d'agence n'ont pas accès à cet onglet.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  // Demo-only: this tab is reserved for Administratif Adaptel and Chef de département (cf. section 3).
+  // Collaborateur d'agence accounts have it removed from the sidebar and see an access-denied panel.
+  const roleSelect = document.getElementById('role-select');
+  const navReleves = document.getElementById('nav-releves-link');
+  const relevesContent = document.getElementById('releves-content');
+  const relevesDenied = document.getElementById('releves-denied');
+
+  function applyRoleVisibility() {
+    const isCollab = roleSelect.value === 'collab';
+    navReleves.classList.toggle('hidden', isCollab);
+    relevesContent.classList.toggle('hidden', isCollab);
+    relevesDenied.classList.toggle('hidden', !isCollab);
+  }
+  roleSelect.addEventListener('change', applyRoleVisibility);
+  applyRoleVisibility();
+
+  // Cosmetic collapsible filters panel.
+  const filtersToggle = document.getElementById('filters-toggle');
+  const filtersPanel = document.getElementById('filters-panel');
+  const filtersChevron = document.getElementById('filters-chevron');
+  filtersToggle.addEventListener('click', () => {
+    filtersPanel.classList.toggle('hidden');
+    filtersChevron.classList.toggle('rotate-180');
+  });
+</script>
+
+</body>
+</html>

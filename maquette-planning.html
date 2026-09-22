@@ -693,6 +693,9 @@
   </div>
 </div>
 
+<!-- TOOLTIP CONTACT CANDIDAT : positionné en fixed via JS pour ne jamais être coupé par le scroll de la liste (ex : dernier candidat) -->
+<div id="cand-tooltip" class="hidden fixed z-[80] w-60 rounded-lg border border-gray-200 bg-white shadow-lg p-3 pointer-events-none"></div>
+
 <script>
   const sidePanel = document.getElementById('side-panel');
   const backdrop = document.getElementById('panel-backdrop');
@@ -750,7 +753,7 @@
   const interimRoster = [
     { name: 'Sofia MARTINS', init: 'SM', qual: 'Chef de rang', departement: 'Restauration', vehicule: true, dispo: true, note: '4.8/5', dernierContrat: '15 sept. 2026', phone: '06 12 45 78 90', email: 'sofia.martins@gmail.com', specialites: ['Gastronomique', 'Banquet / Événementiel'] },
     { name: 'Karim DIALLO', init: 'KD', qual: 'Cuisinier', departement: 'Restauration', vehicule: true, dispo: false, raisonIndispo: 'En mission (Le Meurice, jusqu\'au 25/09)', note: '4.3/5', dernierContrat: '02 sept. 2026', phone: '07 65 32 10 44', email: 'karim.diallo@gmail.com', specialites: ['Brunch'] },
-    { name: 'Léa ROUSSEL', init: 'LR', qual: 'Réceptionniste', departement: 'Hébergement', vehicule: true, dispo: true, note: '4.9/5', dernierContrat: '18 sept. 2026', phone: '06 78 90 12 33', email: 'lea.roussel@gmail.com', logiciels: ['Opera PMS', 'Fidelio', 'Mews'] },
+    { name: 'Léa ROUSSEL', init: 'LR', qual: 'Réceptionniste', departement: 'Hébergement', vehicule: true, dispo: true, note: '4.9/5', dernierContrat: '18 sept. 2026', phone: '06 78 90 12 33', email: 'lea.roussel@gmail.com', logiciels: ['Opera Cloud', 'Opera PMS', 'Fidelio', 'Mews'] },
     { name: 'Thomas NGUYEN', init: 'TN', qual: 'Plongeur', departement: 'Restauration', vehicule: false, dispo: false, raisonIndispo: 'Indisponibilité déclarée (jusqu\'au 27/09)', note: '4.0/5', dernierContrat: '28 août 2026', phone: '06 23 56 89 21', email: 'thomas.nguyen@gmail.com', specialites: ['Banquet / Événementiel'] },
     { name: 'Amandine BERTIN', init: 'AB', qual: 'Pâtissière', departement: 'Restauration', vehicule: true, dispo: true, note: '4.7/5', dernierContrat: '10 sept. 2026', phone: '06 44 12 87 65', email: 'amandine.bertin@gmail.com', specialites: ['Gastronomique'] },
     { name: 'Yanis MOKRANE', init: 'YM', qual: 'Barman', departement: 'Restauration', vehicule: false, dispo: true, note: '4.4/5', dernierContrat: '20 sept. 2026', phone: '07 11 22 33 44', email: 'yanis.mokrane@gmail.com', specialites: ['Banquet / Événementiel'] },
@@ -763,12 +766,13 @@
     { name: 'Nadia FONTAINE', init: 'NF', qual: 'Femme de chambre', departement: 'Housekeeping', vehicule: false, dispo: true, note: '4.6/5', dernierContrat: '16 sept. 2026', phone: '06 66 77 88 99', email: 'nadia.fontaine@gmail.com', etoiles: [3, 4, 5] }
   ];
 
-  // Config par mission : département (détermine le filtre conditionnel proposé), qualification exacte / proche, et qui connaît déjà ce chantier
+  // Config par mission : département (détermine le filtre conditionnel proposé), qualification exacte / proche, qui connaît déjà ce chantier,
+  // et condValue = l'exigence du chantier sur le filtre conditionnel (pré-appliquée automatiquement à l'ouverture des candidats)
   const missionConfig = {
-    'CMD-2609-01': { recap: 'Chef de rang · Hôtel Le Meurice · 11:00 - 19:00', current: null, departement: 'Restauration', exact: ['Chef de rang'], related: ["Maître d'hôtel", 'Serveuse'], connuPar: ['Sofia MARTINS', 'Paul GAUTHIER'] },
-    'CMD-2609-02': { recap: 'Extra service · Potel et Chabot Traiteur · 18:00 - 01:00', current: 'Sofia MARTINS', departement: 'Restauration', exact: [], related: ['Serveuse', "Hôtesse d'accueil", 'Chef de rang'], connuPar: ['Sofia MARTINS', 'Emma LEFEBVRE'] },
-    'CMD-2609-03': { recap: "Commis de cuisine · Fouquet's Barrière · 09:00 - 17:00", current: 'Mehdi KACI', departement: 'Restauration', exact: ['Commis de cuisine'], related: ['Cuisinier', 'Chef cuisinier', 'Pâtissière'], connuPar: ['Mehdi KACI', 'Rachid BENALI'] },
-    'CMD-2609-04': { recap: 'Réceptionniste · Novotel Paris Est · 07:00 - 15:00', current: 'Julie PETIT', departement: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Julie PETIT'] }
+    'CMD-2609-01': { recap: 'Chef de rang · Hôtel Le Meurice · 11:00 - 19:00', current: null, departement: 'Restauration', exact: ['Chef de rang'], related: ["Maître d'hôtel", 'Serveuse'], connuPar: ['Sofia MARTINS', 'Paul GAUTHIER'], condValue: 'Gastronomique' },
+    'CMD-2609-02': { recap: 'Extra service · Potel et Chabot Traiteur · 18:00 - 01:00', current: 'Sofia MARTINS', departement: 'Restauration', exact: [], related: ['Serveuse', "Hôtesse d'accueil", 'Chef de rang'], connuPar: ['Sofia MARTINS', 'Emma LEFEBVRE'], condValue: 'Banquet / Événementiel' },
+    'CMD-2609-03': { recap: "Commis de cuisine · Fouquet's Barrière · 09:00 - 17:00", current: 'Mehdi KACI', departement: 'Restauration', exact: ['Commis de cuisine'], related: ['Cuisinier', 'Chef cuisinier', 'Pâtissière'], connuPar: ['Mehdi KACI', 'Rachid BENALI'], condValue: 'Gastronomique' },
+    'CMD-2609-04': { recap: 'Réceptionniste · Novotel Paris Est · 07:00 - 15:00', current: 'Julie PETIT', departement: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Julie PETIT'], condValue: 'Opera Cloud' }
   };
 
   // Filtre conditionnel proposé selon le département de la mission (aligné sur les compétences déclaratives des fiches intérimaire)
@@ -873,7 +877,7 @@
       const connaitChantier = cfg.connuPar.includes(c.name);
       return `
         <div class="rounded-xl border ${isCurrent ? colors.ring + ' ring-1 ring-inset ring-current/10' : 'border-gray-200 bg-white'} p-3.5 flex items-start justify-between gap-3">
-          <div class="group relative flex items-center gap-3 min-w-0">
+          <div class="flex items-center gap-3 min-w-0" onmouseenter="showCandTooltip(event, '${c.phone.replace(/'/g, "\\'")}', '${c.email.replace(/'/g, "\\'")}')" onmouseleave="hideCandTooltip()">
             <div class="w-10 h-10 rounded-full ${colors.avatar} flex items-center justify-center font-bold text-sm flex-shrink-0 cursor-default">${c.init}</div>
             <div class="min-w-0 cursor-default">
               <p class="text-sm font-bold text-gray-900 truncate">${c.name}</p>
@@ -898,17 +902,6 @@
                 <span>Dernier contrat : ${c.dernierContrat}</span>
               </div>
             </div>
-            <div class="hidden group-hover:block absolute left-0 top-full mt-1.5 z-20 w-60 rounded-lg border border-gray-200 bg-white shadow-lg p-3">
-              <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-1.5">Contact</p>
-              <p class="text-xs text-gray-700 flex items-center gap-1.5">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-                ${c.phone}
-              </p>
-              <p class="text-xs text-gray-700 flex items-center gap-1.5 mt-1 truncate">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>
-                <span class="truncate">${c.email}</span>
-              </p>
-            </div>
           </div>
           ${isCurrent
             ? `<span class="inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-gray-100 text-gray-400 h-8 px-3 flex-shrink-0 gap-1 mt-0.5">
@@ -922,13 +915,64 @@
     }).join('');
   }
 
+  // Tooltip contact positionné en fixed (relatif au viewport) au lieu d'être ancré dans la liste scrollable,
+  // pour ne pas être rogné quand le candidat survolé est en bas de la liste (ex : dernier candidat).
+  const candTooltip = document.getElementById('cand-tooltip');
+
+  function showCandTooltip(evt, phone, email) {
+    candTooltip.innerHTML = `
+      <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-1.5">Contact</p>
+      <p class="text-xs text-gray-700 flex items-center gap-1.5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+        ${phone}
+      </p>
+      <p class="text-xs text-gray-700 flex items-center gap-1.5 mt-1 truncate">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>
+        <span class="truncate">${email}</span>
+      </p>
+    `;
+
+    const rect = evt.currentTarget.getBoundingClientRect();
+    const tooltipWidth = 240;
+    const tooltipHeight = 90;
+    const margin = 8;
+
+    let left = rect.left;
+    if (left + tooltipWidth > window.innerWidth - margin) left = window.innerWidth - tooltipWidth - margin;
+    if (left < margin) left = margin;
+
+    let top = rect.bottom + 6;
+    if (top + tooltipHeight > window.innerHeight - margin) top = rect.top - tooltipHeight - 6;
+    if (top < margin) top = margin;
+
+    candTooltip.style.left = left + 'px';
+    candTooltip.style.top = top + 'px';
+    candTooltip.classList.remove('hidden');
+  }
+
+  function hideCandTooltip() {
+    candTooltip.classList.add('hidden');
+  }
+
+  document.getElementById('candidates-list').addEventListener('scroll', hideCandTooltip);
+
   function resetCandidateFilters(cmd) {
+    const cfg = missionConfig[cmd];
     candFilterQualif.value = '';
-    candFilterDepartement.value = missionConfig[cmd] ? missionConfig[cmd].departement : '';
+    candFilterDepartement.value = cfg ? cfg.departement : '';
     candFilterChantier.checked = false;
     candFilterDispo.checked = false;
     candFilterVehicule.checked = false;
     renderConditionalFilter(candFilterDepartement.value);
+
+    // Le filtre conditionnel (spécialité / logiciel / étoiles) est pré-rempli avec l'exigence du chantier pour cette mission
+    if (cfg && cfg.condValue) {
+      const condCfg = conditionalFilterConfig[cfg.departement];
+      if (condCfg) {
+        const el = document.getElementById(condCfg.id);
+        if (el) el.value = cfg.condValue;
+      }
+    }
   }
 
   function openCandidatesModal(cmd) {
@@ -943,6 +987,7 @@
     candidatesBackdrop.classList.add('hidden');
     candidatesModal.classList.add('hidden');
     currentCandCmd = null;
+    hideCandTooltip();
   }
 
   function assignCandidate(cmd, name) {

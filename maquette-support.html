@@ -137,14 +137,15 @@
         <span id="header-breadcrumb" class="text-gray-900 font-bold">Support & Demandes</span>
       </div>
       
-      <!-- SIMULATEUR DE PROFIL CONNECTÉ (POUR TESTER LA REGLE D'ASSIGNATION) -->
+      <!-- SIMULATEUR DE PROFIL CONNECTÉ (POUR TESTER LA REGLE D'ASSIGNATION ET LA VISIBILITÉ PAR PÔLE/DÉPARTEMENT) -->
       <div class="flex items-center gap-3 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg shadow-sm">
         <span class="text-xs font-bold text-amber-800 uppercase">Profil connecté simulé :</span>
         <select id="current-user-select" onchange="changeConnectedUser()" class="text-xs font-semibold bg-white border border-amber-300 rounded px-2 py-1 focus:outline-none">
-          <option value="Thomas D.|standard">Thomas D. (Collaborateur Standard)</option>
-          <option value="Marie L.|standard">Marie L. (Collaborateur Standard)</option>
-          <option value="Admin Principal|admin">Administrateur (Accès Global)</option>
+          <option value="Thomas D.|standard|Restauration">Thomas D. (Collaborateur d'agence — Restauration)</option>
+          <option value="Marie L.|standard|Hôtellerie">Marie L. (Collaborateur d'agence — Hôtellerie)</option>
+          <option value="Admin Principal|admin|Tous">Administrateur (Accès Global — tous départements)</option>
         </select>
+        <span id="current-user-dept-badge" class="text-[11px] font-bold px-2 py-1 rounded bg-white border border-amber-300 text-amber-900 whitespace-nowrap"></span>
       </div>
     </header>
 
@@ -193,7 +194,10 @@
           </div>
 
           <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Département</label>
+            <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider flex items-center justify-between">
+              <span>Département</span>
+              <button type="button" id="btn-my-dept" onclick="filterByMyDepartment()" class="text-[10px] font-bold text-[#A63629] hover:underline normal-case hidden">Mon département</button>
+            </label>
             <select id="filter-dept" onchange="filterSupportTable()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
               <option value="">Tous les départements</option>
               <option value="Hôtellerie">Hôtellerie</option>
@@ -345,7 +349,8 @@
   // Données utilisateur courant simulé (par défaut : Thomas D., standard)
   let currentUser = {
     name: "Thomas D.",
-    role: "standard" // "standard" ou "admin"
+    role: "standard", // "standard" (collaborateur d'agence) ou "admin"
+    departement: "Restauration" // département auquel l'opérateur est rattaché
   };
 
   let supportDemands = [
@@ -364,12 +369,12 @@
       id: 2,
       statut: "En cours",
       date: "21/09/2026 à 11:04",
-      entiteNom: "DUPONT, Alice",
+      entiteNom: "Brasserie Lipp",
       dept: "Restauration",
       collab: "Marie L.",
-      userProfile: { nom: "Alice Dupont", equipe: "Opérations", departement: "Restauration" },
-      message: "Bonjour, je n'ai pas reçu mon attestation de fin de mission pour ma mission de la semaine dernière.",
-      commentaires: [{ auteur: "Marie L.", date: "21/09/2026 à 12:30", texte: "Attestation relancée auprès du service paie." }]
+      userProfile: { nom: "Alice Moreau", equipe: "Opérations", departement: "Restauration" },
+      message: "Bonjour, nous avons été facturés pour une vacation de plongeur samedi soir alors qu'aucun intérimaire n'était présent ce jour-là. Pouvez-vous vérifier et corriger la facture ?",
+      commentaires: [{ auteur: "Marie L.", date: "21/09/2026 à 12:30", texte: "Vérification en cours auprès du service facturation." }]
     },
     {
       id: 3,
@@ -399,17 +404,23 @@
 
   let currentEditingId = null;
 
+  // Les demandes support ne proviennent jamais d'intérimaires : uniquement de contacts côté client (userProfile.equipe).
+  // Un collaborateur d'agence (rôle "standard") voit toutes les demandes opérationnelles mais jamais celles
+  // rattachées au pôle Commerciaux ou Administratif du client — réservées au rôle admin (accès global).
+  function getVisibleDemands() {
+    if (currentUser.role === "admin") return supportDemands;
+    return supportDemands.filter(d => d.userProfile.equipe !== "Commerciaux" && d.userProfile.equipe !== "Administratif");
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
-    renderSupportTable(supportDemands);
-    renderOngoingConversations();
-    updateSupportBadgeCount();
+    changeConnectedUser();
   });
 
   // Espace dédié : liste des conversations "En cours" avec aperçu du dernier message et accès direct pour continuer l'échange
   function renderOngoingConversations() {
     const container = document.getElementById("ongoing-conversations-list");
     const countBadge = document.getElementById("ongoing-conversations-count");
-    const ongoing = supportDemands.filter(d => d.statut === "En cours");
+    const ongoing = getVisibleDemands().filter(d => d.statut === "En cours");
 
     countBadge.innerText = ongoing.length;
 
@@ -447,6 +458,24 @@
     const val = document.getElementById("current-user-select").value.split("|");
     currentUser.name = val[0];
     currentUser.role = val[1];
+    currentUser.departement = val[2];
+
+    const deptBadge = document.getElementById("current-user-dept-badge");
+    deptBadge.innerText = currentUser.role === "admin" ? "Tous départements" : "Département : " + currentUser.departement;
+
+    const myDeptBtn = document.getElementById("btn-my-dept");
+    myDeptBtn.classList.toggle("hidden", currentUser.role === "admin");
+
+    filterSupportTable();
+    renderOngoingConversations();
+    updateSupportBadgeCount();
+  }
+
+  // Raccourci pour qu'un collaborateur d'agence filtre directement sur son propre département
+  function filterByMyDepartment() {
+    if (currentUser.role === "admin") return;
+    document.getElementById("filter-dept").value = currentUser.departement;
+    filterSupportTable();
   }
 
   function renderSupportTable(data) {
@@ -493,7 +522,7 @@
     const client = document.getElementById("filter-client").value.toLowerCase();
     const collab = document.getElementById("filter-collab").value;
 
-    let filtered = supportDemands.filter(item => {
+    let filtered = getVisibleDemands().filter(item => {
       let matchStatut = !statut || item.statut === statut;
       let matchDept = !dept || item.dept === dept;
       let matchClient = !client || item.entiteNom.toLowerCase().includes(client);
@@ -509,7 +538,7 @@
     document.getElementById("filter-dept").value = "";
     document.getElementById("filter-client").value = "";
     document.getElementById("filter-collab").value = "";
-    renderSupportTable(supportDemands);
+    renderSupportTable(getVisibleDemands());
   }
 
   function switchTab(tab) {
@@ -532,9 +561,10 @@
 
   // Ouverture de la modale avec gestion conditionnelle de l'assignation selon le rôle
   function openModal(id) {
-    currentEditingId = id;
     const item = supportDemands.find(d => d.id === id);
     if(!item) return;
+    if(currentUser.role !== "admin" && (item.userProfile.equipe === "Commerciaux" || item.userProfile.equipe === "Administratif")) return;
+    currentEditingId = id;
 
     document.getElementById("modal-badge-statut").innerText = item.statut;
     document.getElementById("modal-badge-statut").className = "px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider " + statutBadgeClass(item.statut);
@@ -653,7 +683,7 @@
 
     document.getElementById("modal-comment").value = "";
     renderModalThread(item);
-    renderSupportTable(supportDemands);
+    filterSupportTable();
     renderOngoingConversations();
     updateSupportBadgeCount();
   }
@@ -691,39 +721,54 @@
 
     item.statut = document.getElementById("modal-select-statut").value;
 
-    renderSupportTable(supportDemands);
+    filterSupportTable();
     renderOngoingConversations();
     updateSupportBadgeCount();
     closeModal();
   }
 
+  // Pool de demandes clients de démo, volontairement variées sur l'axe pôle (Opérations / Commerciaux / Administratif)
+  // pour pouvoir démontrer la règle de visibilité selon le profil connecté simulé.
+  const demoIncomingPool = [
+    { entiteNom: "The Peninsula Paris", dept: "Hôtellerie", nom: "Sophie Marceau", equipe: "Administratif", departement: null, message: "Urgent : Demande d'ajout d'un veilleur de nuit supplémentaire pour ce samedi soir." },
+    { entiteNom: "Hôtel Le Meurice", dept: "Hôtellerie", nom: "Pierre Lacombe", equipe: "Opérations", departement: "Hôtellerie", message: "Bonjour, le voiturier affecté ce matin n'a pas les habilitations requises, pouvez-vous le remplacer ?" },
+    { entiteNom: "Novotel Paris Est", dept: "Restauration", nom: "Isabelle Roche", equipe: "Commerciaux", departement: null, message: "Nous préparons un événement la semaine prochaine, pouvez-vous nous envoyer un devis pour du personnel supplémentaire ?" }
+  ];
+  let demoIncomingIndex = 0;
+
   function simulateNewIncomingRequest() {
     const newId = supportDemands.length + 1;
     const now = new Date();
     const dateStr = now.toLocaleDateString() + " à " + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    const tpl = demoIncomingPool[demoIncomingIndex % demoIncomingPool.length];
+    demoIncomingIndex++;
 
     const newReq = {
       id: newId,
       statut: "Nouvelle",
       date: dateStr,
-      entiteNom: "The Peninsula Paris",
-      dept: "Hôtellerie",
+      entiteNom: tpl.entiteNom,
+      dept: tpl.dept,
       collab: "Non assigné",
-      userProfile: { nom: "Sophie Marceau", equipe: "Administratif", departement: null },
-      message: "Urgent : Demande d'ajout d'un veilleur de nuit supplémentaire pour ce samedi soir.",
+      userProfile: { nom: tpl.nom, equipe: tpl.equipe, departement: tpl.departement },
+      message: tpl.message,
       commentaires: []
     };
 
     supportDemands.unshift(newReq);
-    renderSupportTable(supportDemands);
+    filterSupportTable();
     renderOngoingConversations();
     updateSupportBadgeCount();
 
-    alert(`🔔 NOTIFICATION INTERNE :\n\nNouvelle demande support reçue de « The Peninsula Paris » (Équipe Administratif).`);
+    const hiddenForCurrentUser = currentUser.role !== "admin" && (tpl.equipe === "Commerciaux" || tpl.equipe === "Administratif");
+    const visibilityNote = hiddenForCurrentUser
+      ? `\n\n⚠️ Cette demande relève du pôle ${tpl.equipe} : elle n'apparaît pas dans votre liste (profil Collaborateur d'agence).`
+      : "";
+    alert(`🔔 NOTIFICATION INTERNE :\n\nNouvelle demande support reçue de « ${tpl.entiteNom} » (Équipe ${tpl.equipe}).${visibilityNote}`);
   }
 
   function updateSupportBadgeCount() {
-    const newCount = supportDemands.filter(d => d.statut === "Nouvelle").length;
+    const newCount = getVisibleDemands().filter(d => d.statut === "Nouvelle").length;
     document.getElementById("support-badge").innerText = newCount;
     if(newCount === 0) {
       document.getElementById("support-badge").classList.add("hidden");

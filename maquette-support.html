@@ -83,6 +83,12 @@
           <span class="font-medium">Relevés d'heures</span>
         </div>
       </a>
+      <a class="block" id="nav-reporting-link" href="maquette-reporting.html">
+        <div id="nav-reporting" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+          <span class="font-medium">Reporting</span>
+        </div>
+      </a>
       <a class="block" href="maquette-support.html">
         <div id="nav-support" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
           <div class="flex items-center gap-3">
@@ -141,8 +147,8 @@
       <div class="flex items-center gap-3 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg shadow-sm">
         <span class="text-xs font-bold text-amber-800 uppercase">Profil connecté simulé :</span>
         <select id="current-user-select" onchange="changeConnectedUser()" class="text-xs font-semibold bg-white border border-amber-300 rounded px-2 py-1 focus:outline-none">
-          <option value="Thomas D.|standard|Restauration">Thomas D. (Collaborateur d'agence — Restauration)</option>
-          <option value="Marie L.|standard|Hôtellerie">Marie L. (Collaborateur d'agence — Hôtellerie)</option>
+          <option value="Julien P.|commercial|Restauration">Julien P. (Commercial — Restauration)</option>
+          <option value="Sarah M.|commercial|Hôtellerie">Sarah M. (Commerciale — Hôtellerie)</option>
           <option value="Admin Principal|admin|Tous">Administrateur (Accès Global — tous départements)</option>
         </select>
         <span id="current-user-dept-badge" class="text-[11px] font-bold px-2 py-1 rounded bg-white border border-amber-300 text-amber-900 whitespace-nowrap"></span>
@@ -159,7 +165,7 @@
         <div class="flex items-start justify-between gap-4 flex-wrap">
           <div>
             <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Support & Demandes clients</h1>
-            <p class="text-gray-600 text-sm mt-0.5">Centralisation et traitement des réclamations et questions posées par les utilisateurs</p>
+            <p class="text-gray-600 text-sm mt-0.5">Centralisation et traitement des réclamations et questions posées par les utilisateurs — réservé aux pôles Commercial et Administratif</p>
           </div>
           <button onclick="simulateNewIncomingRequest()" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold transition-all bg-[#A63629] text-white shadow hover:bg-[#8B2B1F] h-10 px-4 gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
@@ -215,8 +221,8 @@
             <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Collaborateur assigné</label>
             <select id="filter-collab" onchange="filterSupportTable()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
               <option value="">Tous les collaborateurs</option>
-              <option value="Marie L.">Marie L.</option>
-              <option value="Thomas D.">Thomas D.</option>
+              <option value="Sarah M.">Sarah M.</option>
+              <option value="Julien P.">Julien P.</option>
               <option value="Non assigné">Non assigné</option>
             </select>
           </div>
@@ -314,7 +320,7 @@
         <div class="space-y-1.5">
           <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Attribuer au collaborateur</label>
 
-          <!-- Conteneur géré dynamiquement selon si l'utilisateur est admin ou standard -->
+          <!-- Conteneur géré dynamiquement selon si l'utilisateur est admin ou commercial -->
           <div id="collab-assignment-container">
             <!-- Injecté par JS -->
           </div>
@@ -346,11 +352,11 @@
 </div>
 
 <script>
-  // Données utilisateur courant simulé (par défaut : Thomas D., standard)
+  // Données utilisateur courant simulé (par défaut : Julien P., commercial)
   let currentUser = {
-    name: "Thomas D.",
-    role: "standard", // "standard" (collaborateur d'agence) ou "admin"
-    departement: "Restauration" // département auquel l'opérateur est rattaché
+    name: "Julien P.",
+    role: "commercial", // "commercial" ou "admin"
+    departement: "Restauration" // département commercial auquel l'utilisateur est rattaché
   };
 
   let supportDemands = [
@@ -361,7 +367,7 @@
       entiteNom: "Hôtel Le Bristol",
       dept: "Hôtellerie",
       collab: "Non assigné",
-      userProfile: { nom: "Jean Dupont", equipe: "Opérations", departement: "Hôtellerie" },
+      userProfile: { nom: "Jean Dupont", equipe: "Administratif", departement: null },
       message: "Bonjour, nous constatons un écart sur la facturation de la vacation de chef de rang du week-end dernier. Pouvez-vous vérifier ?",
       commentaires: []
     },
@@ -371,10 +377,10 @@
       date: "21/09/2026 à 11:04",
       entiteNom: "Brasserie Lipp",
       dept: "Restauration",
-      collab: "Marie L.",
-      userProfile: { nom: "Alice Moreau", equipe: "Opérations", departement: "Restauration" },
+      collab: "Non assigné",
+      userProfile: { nom: "Alice Moreau", equipe: "Administratif", departement: null },
       message: "Bonjour, nous avons été facturés pour une vacation de plongeur samedi soir alors qu'aucun intérimaire n'était présent ce jour-là. Pouvez-vous vérifier et corriger la facture ?",
-      commentaires: [{ auteur: "Marie L.", date: "21/09/2026 à 12:30", texte: "Vérification en cours auprès du service facturation." }]
+      commentaires: [{ auteur: "Admin Principal", date: "21/09/2026 à 12:30", texte: "Vérification en cours auprès du service facturation." }]
     },
     {
       id: 3,
@@ -382,10 +388,10 @@
       date: "20/09/2026 à 16:40",
       entiteNom: "Novotel Paris Tour Eiffel",
       dept: "Gouvernante",
-      collab: "Thomas D.",
-      userProfile: { nom: "Marc Vasseur", equipe: "Commerciaux", departement: null },
-      message: "Demande de modification d'horaire pour la commande CMD-2609-02 (passage de 8h à 9h).",
-      commentaires: [{ auteur: "Thomas D.", date: "20/09/2026 à 17:00", texte: "Modification effectuée directement sur le planning client." }]
+      collab: "Admin Principal",
+      userProfile: { nom: "Marc Vasseur", equipe: "Administratif", departement: null },
+      message: "Demande de modification d'horaire pour la commande CMD-2609-02 (passage de 8h à 9h) — avenant à formaliser sur le contrat.",
+      commentaires: [{ auteur: "Admin Principal", date: "20/09/2026 à 17:00", texte: "Avenant formalisé et modification appliquée sur le contrat client." }]
     },
     {
       id: 4,
@@ -393,11 +399,11 @@
       date: "21/09/2026 à 09:20",
       entiteNom: "Café de Flore",
       dept: "Restauration",
-      collab: "Marie L.",
-      userProfile: { nom: "Karim Idrissi", equipe: "Opérations", departement: "Restauration" },
-      message: "Un intérimaire n'est pas arrivé ce matin, avez-vous une solution de remplacement en urgence ?",
+      collab: "Julien P.",
+      userProfile: { nom: "Karim Idrissi", equipe: "Commerciaux", departement: "Restauration" },
+      message: "Nous souhaitons ajouter deux étages supplémentaires à notre contrat de prestation, pouvez-vous nous transmettre une proposition tarifaire ?",
       commentaires: [
-        { auteur: "Marie L.", date: "21/09/2026 à 09:35", texte: "Recherche en cours auprès du vivier disponible ce jour." }
+        { auteur: "Julien P.", date: "21/09/2026 à 09:35", texte: "Proposition tarifaire en cours de préparation, retour sous 48h." }
       ]
     }
   ];
@@ -405,11 +411,11 @@
   let currentEditingId = null;
 
   // Les demandes support ne proviennent jamais d'intérimaires : uniquement de contacts côté client (userProfile.equipe).
-  // Un collaborateur d'agence (rôle "standard") voit toutes les demandes opérationnelles mais jamais celles
-  // rattachées au pôle Commerciaux ou Administratif du client — réservées au rôle admin (accès global).
+  // Seuls les pôles Commerciaux et Administratif utilisent Support (la partie opérationnelle a été retirée).
+  // Un commercial ne voit que les demandes de son pôle rattachées à son département ; l'admin voit tout (accès global).
   function getVisibleDemands() {
     if (currentUser.role === "admin") return supportDemands;
-    return supportDemands.filter(d => d.userProfile.equipe !== "Commerciaux" && d.userProfile.equipe !== "Administratif");
+    return supportDemands.filter(d => d.userProfile.equipe === "Commerciaux" && d.userProfile.departement === currentUser.departement);
   }
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -471,7 +477,7 @@
     updateSupportBadgeCount();
   }
 
-  // Raccourci pour qu'un collaborateur d'agence filtre directement sur son propre département
+  // Raccourci pour qu'un commercial filtre directement sur son propre département
   function filterByMyDepartment() {
     if (currentUser.role === "admin") return;
     document.getElementById("filter-dept").value = currentUser.departement;
@@ -563,7 +569,7 @@
   function openModal(id) {
     const item = supportDemands.find(d => d.id === id);
     if(!item) return;
-    if(currentUser.role !== "admin" && (item.userProfile.equipe === "Commerciaux" || item.userProfile.equipe === "Administratif")) return;
+    if(currentUser.role !== "admin" && !(item.userProfile.equipe === "Commerciaux" && item.userProfile.departement === currentUser.departement)) return;
     currentEditingId = id;
 
     document.getElementById("modal-badge-statut").innerText = item.statut;
@@ -573,7 +579,7 @@
     document.getElementById("modal-user-team").innerText = "Équipe : " + item.userProfile.equipe;
     
     const deptBadge = document.getElementById("modal-user-dept-badge");
-    if(item.userProfile.equipe === "Opérations" && item.userProfile.departement) {
+    if(item.userProfile.departement) {
       deptBadge.innerText = "Dépt : " + item.userProfile.departement;
       deptBadge.classList.remove("hidden");
     } else {
@@ -592,13 +598,13 @@
       container.innerHTML = `
         <select id="modal-select-collab" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
           <option value="Non assigné">Non assigné</option>
-          <option value="Marie L.">Marie L.</option>
-          <option value="Thomas D.">Thomas D.</option>
+          <option value="Sarah M.">Sarah M.</option>
+          <option value="Julien P.">Julien P.</option>
         </select>
       `;
       document.getElementById("modal-select-collab").value = item.collab;
     } else {
-      // Un utilisateur standard ne peut pas l'assigner à quelqu'un d'autre que lui-même
+      // Un commercial ne peut pas l'assigner à quelqu'un d'autre que lui-même
       container.innerHTML = `
         <div class="flex items-center gap-2">
           <input type="text" id="modal-input-collab-fixed" readonly value="${item.collab}" class="h-10 w-full rounded-lg border border-gray-200 bg-gray-100 px-3 text-sm text-gray-700 shadow-sm cursor-not-allowed">
@@ -688,7 +694,7 @@
     updateSupportBadgeCount();
   }
 
-  // Fonction permettant à l'utilisateur standard de s'assigner la tâche directement
+  // Fonction permettant à l'utilisateur commercial de s'assigner la tâche directement
   function assignToMe() {
     const item = supportDemands.find(d => d.id === currentEditingId);
     if(item) {
@@ -711,7 +717,7 @@
     if(currentUser.role === "admin") {
       item.collab = document.getElementById("modal-select-collab").value;
     }
-    // Si standard, l'assignation a déjà été modifiée par le bouton "M'assigner" ou est restée inchangée.
+    // Si commercial, l'assignation a déjà été modifiée par le bouton "M'assigner" ou est restée inchangée.
 
     // Si une réponse a été saisie sans être envoyée via le bouton "Envoyer", on la conserve quand même
     const pendingText = document.getElementById("modal-comment").value.trim();
@@ -727,12 +733,12 @@
     closeModal();
   }
 
-  // Pool de demandes clients de démo, volontairement variées sur l'axe pôle (Opérations / Commerciaux / Administratif)
+  // Pool de demandes clients de démo, volontairement variées sur l'axe pôle (Commerciaux / Administratif)
   // pour pouvoir démontrer la règle de visibilité selon le profil connecté simulé.
   const demoIncomingPool = [
-    { entiteNom: "The Peninsula Paris", dept: "Hôtellerie", nom: "Sophie Marceau", equipe: "Administratif", departement: null, message: "Urgent : Demande d'ajout d'un veilleur de nuit supplémentaire pour ce samedi soir." },
-    { entiteNom: "Hôtel Le Meurice", dept: "Hôtellerie", nom: "Pierre Lacombe", equipe: "Opérations", departement: "Hôtellerie", message: "Bonjour, le voiturier affecté ce matin n'a pas les habilitations requises, pouvez-vous le remplacer ?" },
-    { entiteNom: "Novotel Paris Est", dept: "Restauration", nom: "Isabelle Roche", equipe: "Commerciaux", departement: null, message: "Nous préparons un événement la semaine prochaine, pouvez-vous nous envoyer un devis pour du personnel supplémentaire ?" }
+    { entiteNom: "The Peninsula Paris", dept: "Hôtellerie", nom: "Sophie Marceau", equipe: "Administratif", departement: null, message: "Urgent : merci de nous confirmer la mise à jour de nos conditions contractuelles suite à l'avenant signé la semaine dernière." },
+    { entiteNom: "Hôtel Le Meurice", dept: "Hôtellerie", nom: "Pierre Lacombe", equipe: "Commerciaux", departement: "Hôtellerie", message: "Nous étudions une extension de notre partenariat sur l'ensemble de nos points de vente, pouvez-vous nous proposer un rendez-vous ?" },
+    { entiteNom: "Novotel Paris Est", dept: "Restauration", nom: "Isabelle Roche", equipe: "Commerciaux", departement: "Restauration", message: "Nous préparons un événement la semaine prochaine, pouvez-vous nous envoyer un devis pour du personnel supplémentaire ?" }
   ];
   let demoIncomingIndex = 0;
 
@@ -760,9 +766,10 @@
     renderOngoingConversations();
     updateSupportBadgeCount();
 
-    const hiddenForCurrentUser = currentUser.role !== "admin" && (tpl.equipe === "Commerciaux" || tpl.equipe === "Administratif");
+    const hiddenForCurrentUser = currentUser.role !== "admin" && !(tpl.equipe === "Commerciaux" && tpl.departement === currentUser.departement);
+    const deptNote = tpl.departement ? ` (${tpl.departement})` : "";
     const visibilityNote = hiddenForCurrentUser
-      ? `\n\n⚠️ Cette demande relève du pôle ${tpl.equipe} : elle n'apparaît pas dans votre liste (profil Collaborateur d'agence).`
+      ? `\n\n⚠️ Cette demande relève du pôle ${tpl.equipe}${deptNote} : elle n'apparaît pas dans votre liste (profil Commercial).`
       : "";
     alert(`🔔 NOTIFICATION INTERNE :\n\nNouvelle demande support reçue de « ${tpl.entiteNom} » (Équipe ${tpl.equipe}).${visibilityNote}`);
   }

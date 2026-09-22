@@ -83,6 +83,12 @@
           <span class="font-medium">Relevés d'heures</span>
         </div>
       </a>
+      <a class="block" id="nav-reporting-link" href="maquette-reporting.html">
+        <div id="nav-reporting" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+          <span class="font-medium">Reporting</span>
+        </div>
+      </a>
       <a class="block" href="maquette-support.html">
         <div id="nav-support" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <div class="flex items-center gap-3">
@@ -232,7 +238,13 @@
                     <td class="px-4 py-3 align-middle text-gray-600">79133980700020</td>
                     <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-600">09/07/2024</td>
                     <td class="px-4 py-3 align-middle">
-                      <span class="inline-flex items-center rounded-full border border-transparent bg-green-600 text-white text-xs font-semibold px-2.5 py-0.5">Validé</span>
+                      <div class="flex items-center gap-1.5 flex-wrap">
+                        <span class="inline-flex items-center rounded-full border border-transparent bg-green-600 text-white text-xs font-semibold px-2.5 py-0.5">Validé</span>
+                        <span class="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5 cursor-help" title="Retards de règlement récurrents sur les dernières échéances — vérifier la solvabilité avant d'engager de nouvelles missions.">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+                          À suivre
+                        </span>
+                      </div>
                     </td>
                     <td class="px-4 py-3 align-middle text-right" onclick="event.stopPropagation()">
                       <button class="p-2 rounded-lg text-gray-300 cursor-not-allowed" disabled title="Réservé aux administrateurs et chefs de département">

@@ -83,6 +83,12 @@
           <span class="font-medium">Relevés d'heures</span>
         </div>
       </a>
+      <a class="block" id="nav-reporting-link" href="maquette-reporting.html">
+        <div id="nav-reporting" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+          <span class="font-medium">Reporting</span>
+        </div>
+      </a>
       <a class="block" href="maquette-support.html">
         <div id="nav-support" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <div class="flex items-center gap-3">
@@ -168,6 +174,33 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
                 Validé
               </span>
+              <button id="btn-mark-suivi" type="button" onclick="markSuivi()" class="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50 text-amber-800 px-4 py-2 text-xs font-semibold hover:bg-amber-100 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+                Marquer à suivre
+              </button>
+              <span id="suivi-badge" onclick="toggleSuiviForm()" class="hidden items-center gap-2 rounded-full border border-amber-300 bg-amber-100 text-amber-800 px-4 py-2 text-xs font-semibold cursor-pointer" title="Cliquer pour consulter/modifier la justification">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+                À suivre
+              </span>
+            </div>
+          </div>
+
+          <!-- CHANTIER À SUIVRE : justification -->
+          <div id="suivi-panel" class="hidden rounded-xl border border-amber-200 bg-amber-50/60 p-4 space-y-2">
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <h3 class="text-xs font-semibold text-amber-800 uppercase tracking-wider">Chantier à suivre — justification</h3>
+              <div class="flex items-center gap-3">
+                <button id="btn-edit-suivi" type="button" onclick="startSuiviEdit()" class="text-xs font-semibold text-amber-800 hover:underline">Modifier</button>
+                <button type="button" onclick="unmarkSuivi()" class="text-xs font-semibold text-amber-800 hover:underline">Retirer le suivi</button>
+              </div>
+            </div>
+            <p id="suivi-text" class="text-sm text-gray-800 italic">Justification à renseigner.</p>
+            <div id="suivi-edit" class="hidden space-y-2">
+              <textarea id="suivi-textarea" rows="2" class="w-full rounded-lg border border-amber-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-400"></textarea>
+              <div class="flex gap-2">
+                <button type="button" onclick="saveSuiviJustification()" class="px-3 py-1.5 rounded-lg bg-amber-600 text-white text-xs font-semibold hover:bg-amber-700">Enregistrer</button>
+                <button type="button" onclick="cancelSuiviEdit()" class="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-xs font-semibold hover:bg-gray-50">Annuler</button>
+              </div>
             </div>
           </div>
 
@@ -652,9 +685,84 @@
 
           <!-- ================= PANEL: FACTURATION ================= -->
           <div id="panel-facturation" class="space-y-4 hidden">
-            <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm p-6">
-              <p class="text-sm text-gray-500">Aucune donnée de facturation spécifique à ce service pour le moment. Les factures sont gérées au niveau du client.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Missions facturées — sept. 2026</p>
+                <p class="text-2xl font-bold text-gray-900 mt-1">4</p>
+              </div>
+              <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Heures cumulées</p>
+                <p class="text-2xl font-bold text-gray-900 mt-1">31 h</p>
+              </div>
+              <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Montant HT du mois</p>
+                <p class="text-2xl font-bold text-[#A63629] mt-1">404,30 €</p>
+              </div>
             </div>
+
+            <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden">
+              <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                <h3 class="text-sm font-bold text-gray-900">Dépenses du mois en cours — septembre 2026</h3>
+                <span class="text-xs text-gray-400">Mis à jour le 22/09/2026</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
+                    <tr>
+                      <th class="px-4 py-2.5 text-left font-semibold">Date</th>
+                      <th class="px-4 py-2.5 text-left font-semibold">Intérimaire</th>
+                      <th class="px-4 py-2.5 text-left font-semibold">Poste</th>
+                      <th class="px-4 py-2.5 text-right font-semibold">Heures</th>
+                      <th class="px-4 py-2.5 text-right font-semibold">Taux</th>
+                      <th class="px-4 py-2.5 text-right font-semibold">Montant HT</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-100">
+                    <tr>
+                      <td class="px-4 py-2.5 whitespace-nowrap">02/09/2026</td>
+                      <td class="px-4 py-2.5 font-medium text-gray-900">Julie PETIT</td>
+                      <td class="px-4 py-2.5 text-gray-600">Réceptionniste</td>
+                      <td class="px-4 py-2.5 text-right">8 h</td>
+                      <td class="px-4 py-2.5 text-right whitespace-nowrap">12,90&nbsp;€/h</td>
+                      <td class="px-4 py-2.5 text-right font-semibold whitespace-nowrap">103,20&nbsp;€</td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-2.5 whitespace-nowrap">09/09/2026</td>
+                      <td class="px-4 py-2.5 font-medium text-gray-900">Camille DUBOIS</td>
+                      <td class="px-4 py-2.5 text-gray-600">Hôtesse d'accueil</td>
+                      <td class="px-4 py-2.5 text-right">7 h</td>
+                      <td class="px-4 py-2.5 text-right whitespace-nowrap">12,50&nbsp;€/h</td>
+                      <td class="px-4 py-2.5 text-right font-semibold whitespace-nowrap">87,50&nbsp;€</td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-2.5 whitespace-nowrap">14/09/2026</td>
+                      <td class="px-4 py-2.5 font-medium text-gray-900">Isabelle ROCHE</td>
+                      <td class="px-4 py-2.5 text-gray-600">Concierge</td>
+                      <td class="px-4 py-2.5 text-right">8 h</td>
+                      <td class="px-4 py-2.5 text-right whitespace-nowrap">13,80&nbsp;€/h</td>
+                      <td class="px-4 py-2.5 text-right font-semibold whitespace-nowrap">110,40&nbsp;€</td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-2.5 whitespace-nowrap">19/09/2026</td>
+                      <td class="px-4 py-2.5 font-medium text-gray-900">Julie PETIT</td>
+                      <td class="px-4 py-2.5 text-gray-600">Réceptionniste</td>
+                      <td class="px-4 py-2.5 text-right">8 h</td>
+                      <td class="px-4 py-2.5 text-right whitespace-nowrap">12,90&nbsp;€/h</td>
+                      <td class="px-4 py-2.5 text-right font-semibold whitespace-nowrap">103,20&nbsp;€</td>
+                    </tr>
+                    <tr class="bg-gray-50 font-semibold">
+                      <td class="px-4 py-2.5" colspan="3">Total</td>
+                      <td class="px-4 py-2.5 text-right">31 h</td>
+                      <td class="px-4 py-2.5 text-right">—</td>
+                      <td class="px-4 py-2.5 text-right text-[#A63629]">404,30&nbsp;€</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <p class="text-xs text-gray-500 px-1">Vue de consolidation des dépenses du chantier pour le mois en cours. Les factures définitives sont émises et gérées au niveau du client.</p>
           </div>
 
         </div>
@@ -725,6 +833,37 @@
       view.classList.remove('hidden');
     });
   });
+
+  // Statut "à suivre" du chantier : démonstration du workflow (marquer / consulter / modifier / retirer)
+  let suiviActive = false;
+  function toggleSuiviForm() {
+    document.getElementById('suivi-panel').classList.toggle('hidden');
+  }
+  function markSuivi() {
+    suiviActive = true;
+    document.getElementById('btn-mark-suivi').classList.add('hidden');
+    document.getElementById('suivi-badge').classList.remove('hidden');
+    document.getElementById('suivi-panel').classList.remove('hidden');
+    startSuiviEdit();
+  }
+  function unmarkSuivi() {
+    suiviActive = false;
+    document.getElementById('suivi-badge').classList.add('hidden');
+    document.getElementById('btn-mark-suivi').classList.remove('hidden');
+    document.getElementById('suivi-panel').classList.add('hidden');
+  }
+  function startSuiviEdit() {
+    document.getElementById('suivi-textarea').value = document.getElementById('suivi-text').innerText.trim();
+    document.getElementById('suivi-edit').classList.remove('hidden');
+  }
+  function cancelSuiviEdit() {
+    document.getElementById('suivi-edit').classList.add('hidden');
+  }
+  function saveSuiviJustification() {
+    const val = document.getElementById('suivi-textarea').value.trim();
+    if (val) document.getElementById('suivi-text').innerText = val;
+    document.getElementById('suivi-edit').classList.add('hidden');
+  }
 </script>
 
 </body>

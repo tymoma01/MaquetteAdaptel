@@ -3,11 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Adaptel - Recherche de disponibilité</title>
+<title>Adaptel - Reporting</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root { color-scheme: light; }
   body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .viz-root {
+    --series-hotellerie:    #2a78d6;
+    --series-restauration:  #eb6834;
+    --series-gouvernante:   #1baf7a;
+    --grid-line:            #e5e7eb;
+    --axis-text:            #6b7280;
+  }
+  .bar-seg { transition: opacity .12s ease; }
+  .bar-seg:hover { opacity: .82; cursor: pointer; }
+  #chart-tooltip { pointer-events: none; }
 </style>
 </head>
 <body class="antialiased bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen text-gray-900">
@@ -66,7 +76,7 @@
         </div>
       </a>
       <a class="block" href="maquette-recherche-de-dispo.html">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
           <span class="font-medium">Recherche dispo.</span>
         </div>
@@ -84,7 +94,7 @@
         </div>
       </a>
       <a class="block" id="nav-reporting-link" href="maquette-reporting.html">
-        <div id="nav-reporting" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+        <div id="nav-reporting" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
           <span class="font-medium">Reporting</span>
         </div>
@@ -147,131 +157,97 @@
 
     <div class="p-6 space-y-6 max-w-[1750px] w-full mx-auto">
 
-      <!-- TITRE ET ACTIONS -->
+      <!-- TITRE -->
       <div class="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Recherche de disponibilité</h1>
-          <p class="text-gray-600 text-sm mt-0.5">Interrogation manuelle de la base d'intérimaires selon des critères précis</p>
+          <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Reporting</h1>
+          <p class="text-gray-600 text-sm mt-0.5">Suivi du nombre de commandes par jour, département et agence</p>
         </div>
       </div>
 
-      <!-- FORMULAIRE DE RECHERCHE (Double-clic ou bouton pour valider) -->
-      <div id="search-filter-box" ondblclick="triggerSearch()" class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 hover:border-[#A63629]/50 cursor-pointer relative group">
-        
-        <!-- Badge indicatif pour le double-clic -->
-        <div class="absolute top-4 right-4 bg-red-50 text-[#A63629] text-xs font-semibold px-3 py-1.5 rounded-lg border border-red-100 flex items-center gap-1.5 pointer-events-none">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-          Double-cliquez n'importe où sur ce bloc pour lancer la recherche
-        </div>
-
-        <h2 class="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629]"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
-          Critères de sélection
-        </h2>
-
-        <form class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" onsubmit="return false;">
-          
-          <!-- Recherche par N° de commande (Auto-remplissage) -->
-          <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">N° de commande (Auto-remplissage)</label>
-            <input id="input-cmd" oninput="simulateAutofill(this.value)" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" placeholder="Ex: CMD-2609-01" type="text">
-          </div>
-
-          <!-- Agence (avec option 000 Paris) -->
-          <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Agence</label>
-            <select id="select-agence" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-              <option value="">Sélectionner une agence...</option>
-              <option value="000">000 - Regroupement Paris (001, 002, 004)</option>
-              <option value="001">001 - Paris Centre</option>
-              <option value="002">002 - Paris Nord</option>
-              <option value="004">004 - Paris Sud</option>
-              <option value="010">010 - Lyon</option>
+      <!-- FILTRES -->
+      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+        <form class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" onsubmit="return false;">
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Période</label>
+            <select id="filter-periode" onchange="renderReporting()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              <option value="cette-semaine">Cette semaine (21 → 27 sept.)</option>
+              <option value="semaine-derniere">Semaine dernière (14 → 20 sept.)</option>
             </select>
           </div>
-
-          <!-- Qualifications recherchées -->
-          <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Qualifications recherchées</label>
-            <input id="input-qualif" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" placeholder="Ex: Chef de rang, Réceptionniste..." type="text">
-          </div>
-
-          <!-- Véhiculé -->
-          <div class="space-y-1.5 flex flex-col justify-end">
-            <label class="flex items-center gap-2.5 h-10 px-3 rounded-lg border border-gray-200 bg-white cursor-pointer shadow-sm">
-              <input id="check-vehicule" type="checkbox" class="w-4 h-4 text-[#A63629] border-gray-300 rounded focus:ring-[#A63629]">
-              <span class="text-sm font-medium text-gray-700">Intérimaire véhiculé</span>
-            </label>
-          </div>
-
-          <!-- Date/Heure de début -->
-          <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Date & Heure de début</label>
-            <input id="input-debut" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" type="datetime-local">
-          </div>
-
-          <!-- Date/Heure de fin -->
-          <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Date & Heure de fin</label>
-            <input id="input-fin" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" type="datetime-local">
-          </div>
-
-          <!-- Étoiles (Hôtellerie) -->
-          <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Étoiles (Hôtellerie)</label>
-            <select id="select-etoiles" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-              <option value="">Indifférent</option>
-              <option value="3">3 étoiles</option>
-              <option value="4">4 étoiles</option>
-              <option value="5">5 étoiles / Palace</option>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Agence</label>
+            <select id="filter-agence" onchange="renderReporting()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              <option value="">Toutes agences</option>
+              <option value="Paris Hôtellerie">Paris Hôtellerie</option>
+              <option value="Paris Restauration">Paris Restauration</option>
             </select>
           </div>
-
-          <!-- Logiciel (Hébergement) -->
-          <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Logiciel (Hébergement)</label>
-            <input id="input-logiciel" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" placeholder="Ex: Opera, Mews..." type="text">
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Département</label>
+            <select id="filter-departement" onchange="renderReporting()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              <option value="">Tous les départements</option>
+              <option value="Hôtellerie">Hôtellerie</option>
+              <option value="Restauration">Restauration</option>
+              <option value="Gouvernante">Gouvernante</option>
+            </select>
           </div>
-
         </form>
-
-        <!-- Bouton pour lancer la recherche -->
-        <div class="mt-6 pt-4 border-t border-gray-100 flex justify-end">
-          <button type="button" onclick="triggerSearch(event)" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold transition-all bg-[#A63629] text-white shadow hover:bg-[#8B2B1F] h-10 px-6 gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
-            Lancer la recherche
-          </button>
-        </div>
-
       </div>
 
-      <!-- RÉSULTATS DE RECHERCHE (Masqué par défaut, affiché au double-clic ou clic sur le bouton) -->
-      <div id="results-container" class="hidden space-y-4">
-        
-        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center justify-between text-xs text-amber-900">
-          <div class="flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-amber-600 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-            <span><strong>Astuce :</strong> Faites un <strong>clic droit</strong> sur une ligne de résultat pour valider instantanément et placer l'intérimaire en attente sur la commande.</span>
-          </div>
-          <span class="font-bold">3 résultats correspondants</span>
+      <!-- KPI -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total commandes — période</p>
+          <p id="kpi-total" class="text-2xl font-bold text-gray-900 mt-1">—</p>
         </div>
-
-        <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden">
-          <div class="hidden lg:grid grid-cols-[1.5fr_110px_130px_1.3fr_1.3fr_150px_130px] items-center gap-4 px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider bg-gray-50 border-b border-gray-200">
-            <div>Nom de l'intérimaire</div>
-            <div>Note moyenne</div>
-            <div>Connaît chantier</div>
-            <div>Maîtrise logiciel</div>
-            <div>Maîtrise étoiles</div>
-            <div>Dernier contrat</div>
-            <div class="text-right">Statut déduit</div>
-          </div>
-
-          <div id="results-body" class="divide-y divide-gray-200">
-            <!-- Injecté dynamiquement par JS -->
-          </div>
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Moyenne / jour</p>
+          <p id="kpi-moyenne" class="text-2xl font-bold text-gray-900 mt-1">—</p>
         </div>
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Agence la plus active</p>
+          <p id="kpi-top-agence" class="text-2xl font-bold text-[#A63629] mt-1">—</p>
+        </div>
+      </div>
 
+      <!-- GRAPHIQUE -->
+      <div class="viz-root rounded-xl border border-gray-200 bg-white shadow-sm p-5">
+        <div class="flex items-center justify-between flex-wrap gap-3 mb-3">
+          <h3 class="text-sm font-bold text-gray-900">Commandes par jour, ventilées par département</h3>
+          <div id="chart-legend" class="flex items-center gap-4 text-xs font-medium text-gray-600"></div>
+        </div>
+        <div class="relative">
+          <svg id="chart-svg" viewBox="0 0 860 320" class="w-full h-[320px]"></svg>
+          <div id="chart-tooltip" class="hidden absolute z-10 rounded-lg bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 shadow-lg whitespace-nowrap"></div>
+        </div>
+      </div>
+
+      <!-- TABLEAU CROISÉ -->
+      <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+          <h3 class="text-sm font-bold text-gray-900">Détail Agence × Département</h3>
+          <span class="text-xs text-gray-400">Nombre de commandes par jour</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
+              <tr>
+                <th class="px-4 py-2.5 text-left font-semibold">Agence</th>
+                <th class="px-4 py-2.5 text-left font-semibold">Département</th>
+                <th id="th-day-0" class="px-4 py-2.5 text-right font-semibold"></th>
+                <th id="th-day-1" class="px-4 py-2.5 text-right font-semibold"></th>
+                <th id="th-day-2" class="px-4 py-2.5 text-right font-semibold"></th>
+                <th id="th-day-3" class="px-4 py-2.5 text-right font-semibold"></th>
+                <th id="th-day-4" class="px-4 py-2.5 text-right font-semibold"></th>
+                <th id="th-day-5" class="px-4 py-2.5 text-right font-semibold"></th>
+                <th id="th-day-6" class="px-4 py-2.5 text-right font-semibold"></th>
+                <th class="px-4 py-2.5 text-right font-semibold">Total</th>
+              </tr>
+            </thead>
+            <tbody id="reporting-table-body" class="divide-y divide-gray-100"></tbody>
+          </table>
+        </div>
       </div>
 
     </div>
@@ -279,76 +255,153 @@
 </div>
 
 <script>
-  // Simulation de l'auto-remplissage par numéro de commande
-  function simulateAutofill(value) {
-    if (value.trim().length > 2) {
-      document.getElementById('select-agence').value = "000";
-      document.getElementById('input-qualif').value = "Chef de rang";
-      document.getElementById('select-etoiles').value = "4";
-      document.getElementById('input-logiciel').value = "Opera";
-    }
+  const DAY_LABELS = ["Lun. 21/09", "Mar. 22/09", "Mer. 23/09", "Jeu. 24/09", "Ven. 25/09", "Sam. 26/09", "Dim. 27/09"];
+  const DAY_LABELS_PREV = ["Lun. 14/09", "Mar. 15/09", "Mer. 16/09", "Jeu. 17/09", "Ven. 18/09", "Sam. 19/09", "Dim. 20/09"];
+
+  // Données de démo : nombre de commandes par jour, pour chaque couple agence / département suivi par cette agence.
+  const REPORTING_DATA = {
+    "cette-semaine": [
+      { agence: "Paris Hôtellerie",   departement: "Hôtellerie",   values: [6, 5, 7, 4, 8, 3, 2] },
+      { agence: "Paris Restauration", departement: "Restauration", values: [4, 6, 5, 7, 6, 5, 3] },
+      { agence: "Paris Restauration", departement: "Gouvernante",  values: [2, 1, 3, 2, 2, 1, 1] }
+    ],
+    "semaine-derniere": [
+      { agence: "Paris Hôtellerie",   departement: "Hôtellerie",   values: [5, 6, 6, 5, 7, 4, 2] },
+      { agence: "Paris Restauration", departement: "Restauration", values: [5, 5, 4, 6, 7, 4, 2] },
+      { agence: "Paris Restauration", departement: "Gouvernante",  values: [1, 2, 2, 1, 3, 1, 0] }
+    ]
+  };
+
+  const SERIES_COLOR = {
+    "Hôtellerie":   "var(--series-hotellerie)",
+    "Restauration": "var(--series-restauration)",
+    "Gouvernante":  "var(--series-gouvernante)"
+  };
+  const SERIES_ORDER = ["Hôtellerie", "Restauration", "Gouvernante"];
+
+  function getFilteredRows() {
+    const periode = document.getElementById('filter-periode').value;
+    const agence = document.getElementById('filter-agence').value;
+    const dept = document.getElementById('filter-departement').value;
+    return REPORTING_DATA[periode].filter(r =>
+      (!agence || r.agence === agence) && (!dept || r.departement === dept)
+    );
   }
 
-  // Déclenchement de la recherche via le double-clic ou le bouton
-  function triggerSearch(event) {
-    // Si l'appel vient du bouton, on stoppe la propagation pour éviter les conflits
-    if(event) {
-      event.stopPropagation();
-    }
-    
-    const resultsContainer = document.getElementById('results-container');
-    resultsContainer.classList.remove('hidden');
-    renderResults();
-    
-    // Scroll fluide vers les résultats
-    resultsContainer.scrollIntoView({ behavior: 'smooth' });
+  function renderLegend(rows) {
+    const present = SERIES_ORDER.filter(dep => rows.some(r => r.departement === dep));
+    document.getElementById('chart-legend').innerHTML = present.map(dep => `
+      <span class="inline-flex items-center gap-1.5">
+        <span class="w-2.5 h-2.5 rounded-sm" style="background:${SERIES_COLOR[dep]}"></span>${dep}
+      </span>
+    `).join('');
   }
 
-  // Génération des lignes de résultats avec gestion du Clic Droit
-  function renderResults() {
-    const tbody = document.getElementById('results-body');
-    const data = [
-      { nom: "DUPONT, Alice", note: "4.8 / 5", chantier: "Oui", logiciel: "Opera (Avancé)", etoiles: "4, 5 étoiles", dernierContrat: "15 sept. 2026" },
-      { nom: "MARTIN, Lucas", note: "4.5 / 5", chantier: "Non", logiciel: "Mews (Intermédiaire)", etoiles: "3, 4 étoiles", dernierContrat: "02 sept. 2026" },
-      { nom: "BERNARD, Sophie", note: "4.9 / 5", chantier: "Oui", logiciel: "Opera, Sihot", etoiles: "5 étoiles / Palace", dernierContrat: "18 sept. 2026" }
-    ];
+  function renderChart(rows) {
+    const svg = document.getElementById('chart-svg');
+    const tooltip = document.getElementById('chart-tooltip');
+    const W = 860, H = 320;
+    const padL = 34, padR = 10, padT = 10, padB = 28;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const nDays = 7;
 
-    tbody.innerHTML = '';
-    data.forEach(item => {
-      const row = document.createElement('div');
-      // Style grille identique au header de la table
-      row.className = "grid grid-cols-1 lg:grid-cols-[1.5fr_110px_130px_1.3fr_1.3fr_150px_130px] items-center gap-4 p-4 hover:bg-gray-50/80 transition-colors cursor-context-menu";
-      
-      // Gestion du clic droit exigée par les requirements (vaut validation + ajout en attente)
-      row.oncontextmenu = function(e) {
-        e.preventDefault(); // Stoppe le menu contextuel natif du navigateur
-        validerSelection(item.nom);
-      };
+    const dayTotals = Array.from({length: nDays}, (_, d) => rows.reduce((s, r) => s + r.values[d], 0));
+    const maxVal = Math.max(1, ...dayTotals);
+    const niceMax = Math.ceil(maxVal / 5) * 5 || 5;
 
-      row.innerHTML = `
-        <div class="font-bold text-gray-900 text-sm flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-          ${item.nom}
-        </div>
-        <div class="text-xs font-semibold text-gray-700">${item.note}</div>
-        <div class="text-xs">
-          <span class="px-2 py-0.5 rounded font-medium ${item.chantier === 'Oui' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-600'}">${item.chantier}</span>
-        </div>
-        <div class="text-xs text-gray-700 font-medium">${item.logiciel}</div>
-        <div class="text-xs text-gray-700 font-medium">${item.etoiles}</div>
-        <div class="text-xs text-gray-500">${item.dernierContrat}</div>
-        <div class="text-right">
-          <span class="inline-flex items-center rounded-full border border-emerald-300 bg-emerald-100 text-emerald-900 text-xs font-semibold px-2.5 py-1 whitespace-nowrap">Dispo (Défaut)</span>
-        </div>
-      `;
-      tbody.appendChild(row);
+    const groupW = plotW / nDays;
+    const barGap = 4;
+    const barW = rows.length > 0 ? (groupW - 16 - barGap * (rows.length - 1)) / rows.length : 0;
+
+    let svgContent = "";
+
+    // Gridlines + axis labels (recessive)
+    const ticks = 5;
+    for (let i = 0; i <= ticks; i++) {
+      const val = Math.round((niceMax / ticks) * i);
+      const y = padT + plotH - (val / niceMax) * plotH;
+      svgContent += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="var(--grid-line)" stroke-width="1"></line>`;
+      svgContent += `<text x="${padL - 8}" y="${y + 3}" text-anchor="end" font-size="10" fill="var(--axis-text)">${val}</text>`;
+    }
+
+    for (let d = 0; d < nDays; d++) {
+      const groupX = padL + d * groupW + 8;
+      rows.forEach((r, i) => {
+        const val = r.values[d];
+        const barH = (val / niceMax) * plotH;
+        const x = groupX + i * (barW + barGap);
+        const y = padT + plotH - barH;
+        svgContent += `<rect class="bar-seg" data-day="${d}" data-dep="${r.departement}" data-agence="${r.agence}" data-val="${val}"
+          x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${Math.max(barW, 0).toFixed(1)}" height="${Math.max(barH, 0).toFixed(1)}"
+          rx="3" fill="${SERIES_COLOR[r.departement]}"></rect>`;
+      });
+      const labelX = padL + d * groupW + groupW / 2;
+      svgContent += `<text x="${labelX}" y="${H - 8}" text-anchor="middle" font-size="10" fill="var(--axis-text)">${DAY_LABELS[d].split(' ')[0]}</text>`;
+    }
+
+    svg.innerHTML = svgContent;
+
+    svg.querySelectorAll('.bar-seg').forEach(rect => {
+      rect.addEventListener('mousemove', (ev) => {
+        const day = DAY_LABELS[parseInt(rect.dataset.day, 10)];
+        tooltip.innerHTML = `<strong>${rect.dataset.val}</strong> commande(s) — ${rect.dataset.dep}<br>${rect.dataset.agence} · ${day}`;
+        tooltip.classList.remove('hidden');
+        const svgRect = svg.getBoundingClientRect();
+        tooltip.style.left = (ev.clientX - svgRect.left + 12) + 'px';
+        tooltip.style.top = (ev.clientY - svgRect.top - 36) + 'px';
+      });
+      rect.addEventListener('mouseleave', () => tooltip.classList.add('hidden'));
     });
   }
 
-  // Action exécutée lors du clic droit sur un candidat
-  function validerSelection(nomIntérimaire) {
-    alert(`✅ VALIDATION EFFECTUÉE (Clic droit) :\n\nL'intérimaire "${nomIntérimaire}" a été ajouté à la commande au statut « en attente de validation ».\nNotification/Appel immédiat déclenché.`);
+  function renderTable(rows) {
+    const periode = document.getElementById('filter-periode').value;
+    const labels = periode === 'semaine-derniere' ? DAY_LABELS_PREV : DAY_LABELS;
+    labels.forEach((l, i) => { document.getElementById('th-day-' + i).textContent = l.split(' ')[0]; });
+
+    const tbody = document.getElementById('reporting-table-body');
+    if (rows.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="10" class="px-4 py-6 text-center text-gray-500 text-sm">Aucune donnée pour ces filtres.</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = rows.map(r => {
+      const total = r.values.reduce((a, b) => a + b, 0);
+      const cells = r.values.map(v => `<td class="px-4 py-2.5 text-right">${v}</td>`).join('');
+      return `<tr>
+        <td class="px-4 py-2.5 font-medium text-gray-900">${r.agence}</td>
+        <td class="px-4 py-2.5 text-gray-600">
+          <span class="inline-flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-sm" style="background:${SERIES_COLOR[r.departement]}"></span>${r.departement}
+          </span>
+        </td>
+        ${cells}
+        <td class="px-4 py-2.5 text-right font-semibold">${total}</td>
+      </tr>`;
+    }).join('');
   }
+
+  function renderKpis(rows) {
+    const total = rows.reduce((s, r) => s + r.values.reduce((a, b) => a + b, 0), 0);
+    document.getElementById('kpi-total').textContent = total;
+    document.getElementById('kpi-moyenne').textContent = (total / 7).toLocaleString('fr-FR', { maximumFractionDigits: 1 });
+
+    const byAgence = {};
+    rows.forEach(r => {
+      byAgence[r.agence] = (byAgence[r.agence] || 0) + r.values.reduce((a, b) => a + b, 0);
+    });
+    const entries = Object.entries(byAgence).sort((a, b) => b[1] - a[1]);
+    document.getElementById('kpi-top-agence').textContent = entries.length > 0 ? `${entries[0][0]} (${entries[0][1]})` : "—";
+  }
+
+  function renderReporting() {
+    const rows = getFilteredRows();
+    renderLegend(rows);
+    renderChart(rows);
+    renderTable(rows);
+    renderKpis(rows);
+  }
+
+  document.addEventListener('DOMContentLoaded', renderReporting);
 </script>
 
 </body>

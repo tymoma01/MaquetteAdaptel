@@ -154,6 +154,19 @@
           </button>
         </div>
 
+        <!-- CONVERSATIONS EN COURS : espace dédié pour voir les échanges actifs et les reprendre -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-2.5 px-5 py-3.5 border-b border-gray-100">
+            <div class="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-blue-700"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>
+            </div>
+            <h2 class="text-sm font-bold text-gray-900">Conversations en cours</h2>
+            <span id="ongoing-conversations-count" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-bold">0</span>
+            <span class="text-xs text-gray-400 ml-auto hidden sm:inline">Cliquez pour reprendre l'échange</span>
+          </div>
+          <div id="ongoing-conversations-list" class="p-3 space-y-2 max-h-[280px] overflow-y-auto"></div>
+        </div>
+
         <!-- FILTRES DE RECHERCHE & STATUTS -->
         <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
           
@@ -273,11 +286,6 @@
         </div>
       </div>
 
-      <div class="space-y-1.5">
-        <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Question posée</label>
-        <div id="modal-message" class="p-4 rounded-xl bg-amber-50/60 border border-amber-100 text-sm text-gray-800 italic"></div>
-      </div>
-
       <div class="grid grid-cols-2 gap-4">
         <div class="space-y-1.5">
           <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Changer le statut</label>
@@ -289,7 +297,7 @@
         </div>
         <div class="space-y-1.5">
           <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Attribuer au collaborateur</label>
-          
+
           <!-- Conteneur géré dynamiquement selon si l'utilisateur est admin ou standard -->
           <div id="collab-assignment-container">
             <!-- Injecté par JS -->
@@ -297,14 +305,20 @@
         </div>
       </div>
 
-      <div class="space-y-1.5">
-        <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Réponse / Commentaire interne (horodaté)</label>
-        <textarea id="modal-comment" rows="3" class="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" placeholder="Saisir la réponse ou une note interne..."></textarea>
-      </div>
-
-      <div id="modal-history" class="text-xs text-gray-500 space-y-1 bg-gray-50 p-3 rounded-lg border border-gray-100">
-        <span class="font-semibold block text-gray-700">Historique des commentaires :</span>
-        <div id="history-content">Aucune note pour le moment.</div>
+      <!-- CONVERSATION : historique complet + zone pour la continuer -->
+      <div class="space-y-2">
+        <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>
+          Conversation
+        </label>
+        <div id="modal-thread" class="max-h-64 overflow-y-auto space-y-3 p-4 rounded-xl bg-gray-50 border border-gray-100"></div>
+        <div class="flex items-end gap-2">
+          <textarea id="modal-comment" rows="2" class="flex-1 rounded-lg border border-gray-200 bg-white p-3 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" placeholder="Continuer la conversation..."></textarea>
+          <button type="button" onclick="sendConversationReply()" class="h-[42px] px-4 rounded-lg bg-[#A63629] text-white text-sm font-semibold shadow hover:bg-[#8B2B1F] transition-colors flex items-center gap-1.5 flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m3 3 3 9-3 9 19-9Z"></path><path d="M6 12h16"></path></svg>
+            Envoyer
+          </button>
+        </div>
       </div>
     </div>
 
@@ -355,6 +369,19 @@
       userProfile: { nom: "Marc Vasseur", equipe: "Commerciaux", departement: null },
       message: "Demande de modification d'horaire pour la commande CMD-2609-02 (passage de 8h à 9h).",
       commentaires: [{ auteur: "Thomas D.", date: "20/09/2026 à 17:00", texte: "Modification effectuée directement sur le planning client." }]
+    },
+    {
+      id: 4,
+      statut: "En cours",
+      date: "21/09/2026 à 09:20",
+      entiteNom: "Café de Flore",
+      dept: "Restauration",
+      collab: "Marie L.",
+      userProfile: { nom: "Karim Idrissi", equipe: "Opérations", departement: "Restauration" },
+      message: "Un intérimaire n'est pas arrivé ce matin, avez-vous une solution de remplacement en urgence ?",
+      commentaires: [
+        { auteur: "Marie L.", date: "21/09/2026 à 09:35", texte: "Recherche en cours auprès du vivier disponible ce jour." }
+      ]
     }
   ];
 
@@ -362,8 +389,46 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     renderSupportTable(supportDemands);
+    renderOngoingConversations();
     updateSupportBadgeCount();
   });
+
+  // Espace dédié : liste des conversations "En cours" avec aperçu du dernier message et accès direct pour continuer l'échange
+  function renderOngoingConversations() {
+    const container = document.getElementById("ongoing-conversations-list");
+    const countBadge = document.getElementById("ongoing-conversations-count");
+    const ongoing = supportDemands.filter(d => d.statut === "En cours");
+
+    countBadge.innerText = ongoing.length;
+
+    if(ongoing.length === 0) {
+      container.innerHTML = `<div class="text-sm text-gray-400 text-center py-6">Aucune conversation en cours pour le moment.</div>`;
+      return;
+    }
+
+    container.innerHTML = ongoing.map(item => {
+      const last = item.commentaires.length > 0 ? item.commentaires[item.commentaires.length - 1] : null;
+      const lastText = last ? last.texte : item.message;
+      const lastMeta = last ? `${last.auteur} · ${last.date}` : `${item.userProfile.nom} · ${item.date}`;
+      return `
+        <button type="button" onclick="openModal(${item.id})" class="w-full text-left flex items-start gap-3 p-3 rounded-xl border border-gray-100 hover:border-[#A63629]/30 hover:bg-red-50/30 transition-colors">
+          <div class="w-9 h-9 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center text-xs font-bold flex-shrink-0">${initials(item.userProfile.nom)}</div>
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center justify-between gap-2">
+              <p class="text-sm font-bold text-gray-900 truncate">${item.entiteNom}</p>
+              <span class="text-[10px] font-semibold text-gray-400 flex-shrink-0">${item.collab}</span>
+            </div>
+            <p class="text-xs text-gray-500 truncate mt-0.5">${lastText}</p>
+            <p class="text-[10px] text-gray-400 mt-1">${lastMeta}</p>
+          </div>
+          <span class="text-[11px] font-semibold text-[#A63629] flex items-center gap-1 flex-shrink-0 self-center">
+            Continuer
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          </span>
+        </button>
+      `;
+    }).join('');
+  }
 
   // Changement de l'utilisateur connecté via le sélecteur en haut à droite
   function changeConnectedUser() {
@@ -460,9 +525,8 @@
     if(!item) return;
 
     document.getElementById("modal-badge-statut").innerText = item.statut;
-    document.getElementById("modal-badge-statut").className = "px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider " + 
-      (item.statut === 'Nouvelle' ? 'bg-amber-100 text-amber-800' : item.statut === 'En cours' ? 'bg-blue-100 text-blue-800' : 'bg-emerald-100 text-emerald-800');
-    
+    document.getElementById("modal-badge-statut").className = "px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider " + statutBadgeClass(item.statut);
+
     document.getElementById("modal-user-name").innerText = item.userProfile.nom;
     document.getElementById("modal-user-team").innerText = "Équipe : " + item.userProfile.equipe;
     
@@ -476,7 +540,6 @@
 
     document.getElementById("modal-entity-text").innerText = item.entiteNom;
     document.getElementById("modal-date").innerText = item.date;
-    document.getElementById("modal-message").innerText = item.message;
     document.getElementById("modal-select-statut").value = item.statut;
     document.getElementById("modal-comment").value = "";
 
@@ -504,18 +567,83 @@
       `;
     }
 
-    const historyDiv = document.getElementById("history-content");
-    if(item.commentaires.length === 0) {
-      historyDiv.innerHTML = "Aucune note interne enregistrée pour le moment.";
-    } else {
-      historyDiv.innerHTML = item.commentaires.map(c => `
-        <div class="border-l-2 border-[#A63629] pl-2 py-0.5 my-1">
-          <span class="font-bold text-gray-800">${c.auteur}</span> <span class="text-gray-400">(${c.date})</span> : ${c.texte}
-        </div>
-      `).join('');
-    }
+    renderModalThread(item);
 
     document.getElementById("request-modal").classList.remove("hidden");
+  }
+
+  // Initiales d'un nom pour l'avatar des bulles de conversation
+  function initials(name) {
+    return name.split(" ").filter(Boolean).map(w => w[0]).join("").substring(0, 2).toUpperCase();
+  }
+
+  function statutBadgeClass(statut) {
+    return statut === 'Nouvelle' ? 'bg-amber-100 text-amber-800' : statut === 'En cours' ? 'bg-blue-100 text-blue-800' : 'bg-emerald-100 text-emerald-800';
+  }
+
+  // Affiche le fil de conversation complet : question initiale du client + chaque réponse échangée
+  function renderModalThread(item) {
+    const thread = document.getElementById("modal-thread");
+
+    let html = `
+      <div class="flex items-start gap-2">
+        <div class="w-7 h-7 rounded-full bg-gray-300 text-gray-700 flex items-center justify-center text-[10px] font-bold flex-shrink-0">${initials(item.userProfile.nom)}</div>
+        <div class="max-w-[80%]">
+          <div class="bg-white border border-gray-200 rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-sm text-gray-800 shadow-sm">${item.message}</div>
+          <p class="text-[10px] text-gray-400 mt-1 ml-1">${item.userProfile.nom} · ${item.date}</p>
+        </div>
+      </div>
+    `;
+
+    item.commentaires.forEach(c => {
+      html += `
+        <div class="flex items-start gap-2 flex-row-reverse">
+          <div class="w-7 h-7 rounded-full bg-[#A63629] text-white flex items-center justify-center text-[10px] font-bold flex-shrink-0">${initials(c.auteur)}</div>
+          <div class="max-w-[80%]">
+            <div class="bg-[#A63629] text-white rounded-2xl rounded-tr-sm px-3.5 py-2.5 text-sm shadow-sm">${c.texte}</div>
+            <p class="text-[10px] text-gray-400 mt-1 mr-1 text-right">${c.auteur} · ${c.date}</p>
+          </div>
+        </div>
+      `;
+    });
+
+    thread.innerHTML = html;
+    thread.scrollTop = thread.scrollHeight;
+  }
+
+  // Ajoute une réponse à l'historique de la demande (utilisé par l'envoi rapide et par l'enregistrement global)
+  function appendComment(item, text) {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString() + " à " + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    item.commentaires.push({
+      auteur: item.collab !== "Non assigné" ? item.collab : currentUser.name,
+      date: dateStr,
+      texte: text
+    });
+  }
+
+  // Envoie une réponse et continue la conversation sans fermer la modale
+  function sendConversationReply() {
+    if(currentEditingId === null) return;
+    const item = supportDemands.find(d => d.id === currentEditingId);
+    const text = document.getElementById("modal-comment").value.trim();
+    if(text === "") return;
+
+    appendComment(item, text);
+
+    // Une demande "Nouvelle" qu'on continue devient automatiquement "En cours"
+    if(item.statut === "Nouvelle") {
+      item.statut = "En cours";
+      document.getElementById("modal-select-statut").value = "En cours";
+      document.getElementById("modal-badge-statut").innerText = "En cours";
+      document.getElementById("modal-badge-statut").className = "px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider " + statutBadgeClass("En cours");
+    }
+
+    document.getElementById("modal-comment").value = "";
+    renderModalThread(item);
+    renderSupportTable(supportDemands);
+    renderOngoingConversations();
+    updateSupportBadgeCount();
   }
 
   // Fonction permettant à l'utilisateur standard de s'assigner la tâche directement
@@ -536,8 +664,6 @@
   function saveRequestChanges() {
     if(currentEditingId === null) return;
     const item = supportDemands.find(d => d.id === currentEditingId);
-    
-    item.statut = document.getElementById("modal-select-statut").value;
 
     // Récupération de l'assignation selon le profil
     if(currentUser.role === "admin") {
@@ -545,18 +671,16 @@
     }
     // Si standard, l'assignation a déjà été modifiée par le bouton "M'assigner" ou est restée inchangée.
 
-    const newCommentText = document.getElementById("modal-comment").value.trim();
-    if(newCommentText !== "") {
-      const now = new Date();
-      const dateStr = now.toLocaleDateString() + " à " + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-      item.commentaires.push({
-        auteur: item.collab !== "Non assigné" ? item.collab : currentUser.name,
-        date: dateStr,
-        texte: newCommentText
-      });
+    // Si une réponse a été saisie sans être envoyée via le bouton "Envoyer", on la conserve quand même
+    const pendingText = document.getElementById("modal-comment").value.trim();
+    if(pendingText !== "") {
+      appendComment(item, pendingText);
     }
 
+    item.statut = document.getElementById("modal-select-statut").value;
+
     renderSupportTable(supportDemands);
+    renderOngoingConversations();
     updateSupportBadgeCount();
     closeModal();
   }
@@ -580,6 +704,7 @@
 
     supportDemands.unshift(newReq);
     renderSupportTable(supportDemands);
+    renderOngoingConversations();
     updateSupportBadgeCount();
 
     alert(`🔔 NOTIFICATION INTERNE :\n\nNouvelle demande support reçue de « The Peninsula Paris » (Équipe Administratif).`);

@@ -651,6 +651,20 @@
                   <input type="radio" name="dispo-type" value="indispo" class="text-red-600 focus:ring-red-600"> Indisponible
                 </label>
               </div>
+
+              <div id="indispo-reason-wrap" class="hidden">
+                <label class="text-sm text-gray-700 font-semibold">Raison de l'indisponibilité</label>
+                <select id="input-dispo-reason" class="mt-1 flex h-10 w-full max-w-xs rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                  <option>Congés payés</option>
+                  <option>Arrêt maladie</option>
+                  <option>Formation</option>
+                  <option>Indisponibilité personnelle</option>
+                  <option>Autre mission (hors Adaptel)</option>
+                  <option value="autre">Autre (préciser)</option>
+                </select>
+                <input id="input-dispo-reason-autre" type="text" placeholder="Précisez la raison..." class="hidden mt-2 flex h-10 w-full max-w-xs rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+              </div>
+
               <div class="grid gap-4 md:grid-cols-2">
                 <div>
                   <label class="text-sm text-gray-700 font-semibold">Date de début</label>
@@ -1178,6 +1192,19 @@
     document.getElementById('input-dispo-start').value = dateStr;
     formAddDispo.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
+
+  // Cosmetic: only ask for a reason when the type is "Indisponible"; "Autre" reveals a free-text field
+  const indispoReasonWrap = document.getElementById('indispo-reason-wrap');
+  const inputDispoReason = document.getElementById('input-dispo-reason');
+  const inputDispoReasonAutre = document.getElementById('input-dispo-reason-autre');
+  document.querySelectorAll('input[name="dispo-type"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      indispoReasonWrap.classList.toggle('hidden', radio.value !== 'indispo' || !radio.checked);
+    });
+  });
+  inputDispoReason.addEventListener('change', () => {
+    inputDispoReasonAutre.classList.toggle('hidden', inputDispoReason.value !== 'autre');
+  });
 
   // Cosmetic: demo the overlap-confirmation banner required by the spec
   document.getElementById('btn-simulate-overlap').addEventListener('click', () => {

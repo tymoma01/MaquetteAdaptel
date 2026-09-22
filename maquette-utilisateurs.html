@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel - Utilisateurs</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0" style="width:256px;">
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Backoffice</p>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 ml-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-600"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span class="font-medium">Accueil</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-clients.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Clients</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-services.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span class="font-medium">Services</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-interimaires.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-planning.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+          <span class="font-medium">Planning</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-disponibilites.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+          <span class="font-medium">Disponibilités</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-recherche-de-dispo.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <span class="font-medium">Recherche dispo.</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Missions</span>
+        </div>
+      </a>
+      <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
+        <div id="nav-releves" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevés d'heures</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-support.html">
+        <div id="nav-support" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path></svg>
+            <span class="font-medium">Support</span>
+          </div>
+          <span id="support-badge" class="bg-[#A63629] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+        </div>
+      </a>
+      <a class="block" id="nav-utilisateurs-link" href="maquette-utilisateurs.html">
+        <div id="nav-utilisateurs" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span class="font-medium">Utilisateurs</span>
+        </div>
+      </a>
+      <a class="block" id="nav-administration-link" href="maquette-administration.html">
+        <div id="nav-administration" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path></svg>
+          <span class="font-medium">Administration</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
+          <span class="font-medium">Paramètres</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span class="font-medium">Compte</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-auto flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end gap-3 sticky top-0 z-40">
+      <!-- Demo-only role switcher: controls whether this tab is exposed, per section 3 -->
+      <div class="flex items-center gap-2 mr-auto">
+        <span class="text-xs text-gray-400 uppercase tracking-wider font-medium">Aperçu démo — rôle :</span>
+        <select id="role-select" class="h-9 rounded-lg border border-gray-200 bg-white px-2 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          <option value="admin" selected>Administratif Adaptel</option>
+          <option value="chef">Chef de département</option>
+          <option value="collab">Collaborateur d'agence</option>
+        </select>
+      </div>
+      <button type="button" class="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-900 shadow-sm transition-all hover:bg-gray-50 w-10 px-0" title="Mode clair">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+      </button>
+      <div class="relative">
+        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications (5 non lues)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-colors text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">5</span>
+          <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full border border-white bg-green-500"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="flex-1">
+      <div class="p-6 space-y-6">
+
+        <!-- AUTHORIZED VIEW -->
+        <div id="users-content" class="space-y-6">
+
+          <!-- TITLE -->
+          <div class="mx-auto max-w-[1500px] flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div class="space-y-2">
+              <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Utilisateurs (Client)</h1>
+              <p class="text-sm text-gray-600 max-w-2xl">Vue transverse, tous clients confondus, sur les comptes utilisateurs côté Client. Gère les accès et rôles par établissement — ne concerne pas les comptes internes Opérations (cf. Administration) ni les interlocuteurs privilégiés Adaptel.</p>
+              <span id="users-count-badge" class="inline-flex items-center rounded-full border border-transparent bg-white text-gray-700 shadow-sm px-2.5 py-0.5 text-xs font-semibold">6 utilisateurs</span>
+            </div>
+            <button type="button" id="btn-add-user" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 gap-2 flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M19 8v6"></path><path d="M22 11h-6"></path></svg>
+              Ajouter un utilisateur
+            </button>
+          </div>
+
+          <!-- STAT CARDS -->
+          <div class="mx-auto max-w-[1500px] grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white rounded-xl border border-gray-200 border-l-4 border-l-slate-300 shadow-sm p-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-gray-100 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-500"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </div>
+                <div>
+                  <p class="text-xs font-medium text-gray-500">Total</p>
+                  <p class="text-xl font-bold text-gray-900">6</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-200 border-l-4 border-l-green-300 shadow-sm p-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-green-100 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-green-600"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                </div>
+                <div>
+                  <p class="text-xs font-medium text-gray-500">Actifs</p>
+                  <p class="text-xl font-bold text-green-600">4</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-200 border-l-4 border-l-amber-300 shadow-sm p-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-amber-100 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-amber-600"><path d="M22 6.5v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-11"></path><path d="m2 6.5 10 7 10-7"></path><rect width="20" height="14" x="2" y="4" rx="2"></rect></svg>
+                </div>
+                <div>
+                  <p class="text-xs font-medium text-gray-500">Invitation en attente</p>
+                  <p class="text-xl font-bold text-amber-600">1</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-200 border-l-4 border-l-gray-300 shadow-sm p-4">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-gray-100 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-500"><circle cx="12" cy="12" r="10"></circle><path d="m4.9 4.9 14.2 14.2"></path></svg>
+                </div>
+                <div>
+                  <p class="text-xs font-medium text-gray-500">Désactivés</p>
+                  <p class="text-xl font-bold text-gray-600">1</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FILTERS -->
+          <div class="mx-auto max-w-[1500px]">
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div class="lg:col-span-2 relative">
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Recherche</label>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-[38px] w-4 h-4 text-gray-400 pointer-events-none"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                <input id="filter-search" type="text" placeholder="Nom ou email..." class="w-full h-10 border border-gray-200 rounded-lg pl-9 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Client</label>
+                <select id="filter-client" class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+                  <option value="">Tous les clients</option>
+                  <option>Hôtel Le Meurice</option>
+                  <option>Potel et Chabot Traiteur</option>
+                  <option>Novotel Paris Est</option>
+                  <option>Fouquet's Barrière</option>
+                  <option>La Table du Marais</option>
+                  <option>CONSTELLATION ETOILE - HYATT REGENCY PARIS ÉTOILE</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Rôle</label>
+                <select id="filter-role" class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+                  <option value="">Tous les rôles</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Administrateur">Administrateur</option>
+                  <option value="Standard">Standard</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Statut</label>
+                <select id="filter-statut" class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+                  <option value="">Tous les statuts</option>
+                  <option value="Actif">Actif</option>
+                  <option value="Désactivé">Désactivé</option>
+                  <option value="Invitation en attente">Invitation en attente</option>
+                </select>
+              </div>
+              <div class="lg:col-span-5 flex justify-end">
+                <button type="button" id="btn-reset-filters" class="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                  Réinitialiser
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TABLE -->
+          <div class="mx-auto max-w-[1500px]">
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+              <div class="flex flex-col space-y-1.5 p-6 border-b border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-semibold text-gray-900">Liste des utilisateurs</h3>
+                <p id="filter-result-count" class="text-sm text-gray-500">6 utilisateurs affichés</p>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
+                    <tr>
+                      <th class="px-4 py-3 text-left font-semibold">Utilisateur</th>
+                      <th class="px-4 py-3 text-left font-semibold">Client</th>
+                      <th class="px-4 py-3 text-left font-semibold">Établissements</th>
+                      <th class="px-4 py-3 text-left font-semibold">Rôle</th>
+                      <th class="px-4 py-3 text-left font-semibold">Statut</th>
+                      <th class="px-4 py-3 text-left font-semibold">Dernière connexion</th>
+                      <th class="px-4 py-3 text-center font-semibold">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="users-table-body" class="divide-y divide-gray-100"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ACCESS DENIED VIEW (Collaborateur d'agence) -->
+        <div id="users-denied" class="hidden">
+          <div class="mx-auto max-w-[700px] mt-12 text-center bg-white rounded-xl border border-gray-200 shadow-sm p-10">
+            <div class="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-gray-400"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">Onglet non disponible pour votre rôle</h2>
+            <p class="text-sm text-gray-500 mt-2 max-w-md mx-auto">La gestion des accès étant une fonction sensible, cet onglet est réservé aux comptes Administratif Adaptel et Chef de département. Les comptes Collaborateur d'agence n'y ont pas accès.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL: FICHE UTILISATEUR -->
+<div id="user-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden border border-gray-100 flex flex-col max-h-[90vh]">
+    <div class="p-6 border-b border-gray-100 flex items-start justify-between bg-gray-50/50">
+      <div class="flex items-center gap-3">
+        <div id="modal-avatar" class="w-12 h-12 rounded-full bg-gradient-to-br from-[#A63629] to-[#8B2B1F] flex items-center justify-center text-white font-bold flex-shrink-0">--</div>
+        <div>
+          <h2 id="modal-nom" class="text-lg font-bold text-gray-900">—</h2>
+          <p id="modal-email" class="text-sm text-gray-500">—</p>
+        </div>
+      </div>
+      <button onclick="closeUserModal()" class="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <div class="p-6 space-y-5 overflow-y-auto flex-1">
+
+      <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl text-sm border border-gray-100">
+        <div>
+          <span class="text-xs text-gray-500 block font-medium">Téléphone</span>
+          <span id="modal-tel" class="font-bold text-gray-800">—</span>
+        </div>
+        <div>
+          <span class="text-xs text-gray-500 block font-medium">Statut du compte</span>
+          <div class="flex items-center gap-2 mt-0.5">
+            <span id="modal-statut-badge" class="inline-flex items-center rounded-full text-xs font-bold px-2.5 py-0.5"></span>
+            <button type="button" id="modal-toggle-statut" class="text-xs font-semibold text-[#A63629] hover:underline"></button>
+          </div>
+        </div>
+      </div>
+      <p class="text-[11px] text-gray-400 -mt-3">La désactivation coupe l'accès sans supprimer l'historique ni les données associées (favoris, commandes passées, etc.).</p>
+
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">Rattachements établissements</label>
+          <button type="button" id="btn-add-rattachement" class="text-xs font-semibold text-[#A63629] hover:underline">+ Ajouter un rattachement</button>
+        </div>
+        <div class="rounded-xl border border-gray-200 overflow-hidden">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
+              <tr>
+                <th class="px-3 py-2 text-left font-semibold">Établissement / Chantier</th>
+                <th class="px-3 py-2 text-left font-semibold w-40">Rôle</th>
+                <th class="px-3 py-2 text-right font-semibold w-16">—</th>
+              </tr>
+            </thead>
+            <tbody id="modal-rattachements-body" class="divide-y divide-gray-100"></tbody>
+          </table>
+        </div>
+        <div id="add-rattachement-form" class="hidden mt-3 p-3 rounded-lg bg-gray-50 border border-gray-200 flex flex-col sm:flex-row gap-2">
+          <select id="new-rattachement-etab" class="h-9 flex-1 rounded-lg border border-gray-200 bg-white px-2 text-sm"></select>
+          <select id="new-rattachement-role" class="h-9 rounded-lg border border-gray-200 bg-white px-2 text-sm">
+            <option>Manager</option>
+            <option>Administrateur</option>
+            <option>Standard</option>
+          </select>
+          <button type="button" onclick="confirmAddRattachement()" class="h-9 px-3 rounded-lg bg-[#A63629] text-white text-xs font-semibold">Ajouter</button>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        <button type="button" onclick="sendMail('invitation')" class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+          Renvoyer l'invitation
+        </button>
+        <button type="button" onclick="sendMail('reset')" class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          Email de réinitialisation du mot de passe
+        </button>
+      </div>
+
+      <div>
+        <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider block mb-2">Historique des modifications</label>
+        <div id="modal-history" class="text-xs text-gray-600 space-y-1.5 bg-gray-50 p-3 rounded-lg border border-gray-100 max-h-32 overflow-y-auto"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: NOUVEL UTILISATEUR -->
+<div id="add-user-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden border border-gray-100">
+    <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+      <h2 class="text-lg font-bold text-gray-900">Ajouter un utilisateur</h2>
+      <button onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="p-6 space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-sm text-gray-700 font-semibold">Prénom</label>
+          <input type="text" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+        </div>
+        <div>
+          <label class="text-sm text-gray-700 font-semibold">Nom</label>
+          <input type="text" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+        </div>
+      </div>
+      <div>
+        <label class="text-sm text-gray-700 font-semibold">Email</label>
+        <input type="email" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+      </div>
+      <div>
+        <label class="text-sm text-gray-700 font-semibold">Téléphone</label>
+        <input type="tel" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-sm text-gray-700 font-semibold">Client</label>
+          <select class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+            <option>Hôtel Le Meurice</option>
+            <option>Potel et Chabot Traiteur</option>
+            <option>Novotel Paris Est</option>
+            <option>Fouquet's Barrière</option>
+            <option>La Table du Marais</option>
+            <option>CONSTELLATION ETOILE - HYATT REGENCY PARIS ÉTOILE</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm text-gray-700 font-semibold">Rôle initial</label>
+          <select class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+            <option>Standard</option>
+            <option>Manager</option>
+            <option>Administrateur</option>
+          </select>
+        </div>
+      </div>
+      <div class="rounded-lg bg-blue-50 border border-blue-200 px-3 py-2.5 flex items-start gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+        <p class="text-xs text-blue-800">Un email d'invitation sera envoyé à l'adresse renseignée pour que l'utilisateur définisse son mot de passe.</p>
+      </div>
+      <div class="flex gap-3 pt-1">
+        <button type="button" onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="flex-1 inline-flex items-center justify-center rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4">Annuler</button>
+        <button type="button" onclick="submitAddUser()" class="flex-1 inline-flex items-center justify-center rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4">Envoyer l'invitation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== Données de démonstration =====
+  const etablissementsCatalogue = [
+    "Salle / Resto — Hôtel Le Meurice",
+    "Cuisine centrale — Hôtel Le Meurice",
+    "Réception Hoche — Potel et Chabot Traiteur",
+    "Réception — Novotel Paris Est",
+    "Cuisine centrale — Fouquet's Barrière",
+    "Salle de Réception — Fouquet's Barrière",
+    "Bar à Vins — La Table du Marais",
+    "FLEXI HOTE/HOTESSE — Hyatt Regency Paris Étoile",
+    "FLEXI HOUSEKEEPING — Hyatt Regency Paris Étoile"
+  ];
+
+  let users = [
+    {
+      id: 1, nom: "Sophie Laurent", email: "s.laurent@lemeurice.com", tel: "01 44 58 10 10",
+      client: "Hôtel Le Meurice", statut: "Actif", derniereConnexion: "20/09/2026",
+      rattachements: [
+        { etab: "Salle / Resto — Hôtel Le Meurice", role: "Manager" },
+        { etab: "Cuisine centrale — Hôtel Le Meurice", role: "Manager" }
+      ],
+      historique: [
+        { date: "01/09/2026", auteur: "Julien Castex", action: "Compte créé, rôle Manager sur Salle / Resto" },
+        { date: "10/09/2026", auteur: "Julien Castex", action: "Ajout du rattachement Cuisine centrale (Manager)" }
+      ]
+    },
+    {
+      id: 2, nom: "Thomas Dubois", email: "t.dubois@potel.com", tel: "06 12 34 56 78",
+      client: "Potel et Chabot Traiteur", statut: "Actif", derniereConnexion: "18/09/2026",
+      rattachements: [
+        { etab: "Réception Hoche — Potel et Chabot Traiteur", role: "Administrateur" }
+      ],
+      historique: [
+        { date: "12/08/2026", auteur: "Sarah Benamar", action: "Compte créé, rôle Administrateur" }
+      ]
+    },
+    {
+      id: 3, nom: "Isabelle Roche", email: "i.roche@novotel-est.com", tel: "01 55 66 23 10",
+      client: "Novotel Paris Est", statut: "Invitation en attente", derniereConnexion: "—",
+      rattachements: [
+        { etab: "Réception — Novotel Paris Est", role: "Standard" }
+      ],
+      historique: [
+        { date: "19/09/2026", auteur: "Thomas Weiss", action: "Compte créé, invitation envoyée" }
+      ]
+    },
+    {
+      id: 4, nom: "Marc Veyrat", email: "mveyrat@fouquets.com", tel: "01 40 69 60 00",
+      client: "Fouquet's Barrière", statut: "Actif", derniereConnexion: "21/09/2026",
+      rattachements: [
+        { etab: "Cuisine centrale — Fouquet's Barrière", role: "Manager" },
+        { etab: "Salle de Réception — Fouquet's Barrière", role: "Standard" }
+      ],
+      historique: [
+        { date: "15/03/2026", auteur: "Julien Castex", action: "Compte créé, rôle Manager sur Cuisine centrale" },
+        { date: "02/09/2026", auteur: "Sarah Benamar", action: "Ajout du rattachement Salle de Réception (Standard)" }
+      ]
+    },
+    {
+      id: 5, nom: "Julien Fabre", email: "j.fabre@latabledumarais.fr", tel: "01 42 78 55 40",
+      client: "La Table du Marais", statut: "Désactivé", derniereConnexion: "02/08/2026",
+      rattachements: [
+        { etab: "Bar à Vins — La Table du Marais", role: "Administrateur" }
+      ],
+      historique: [
+        { date: "05/01/2026", auteur: "Thomas Weiss", action: "Compte créé, rôle Administrateur" },
+        { date: "05/08/2026", auteur: "Sarah Benamar", action: "Compte désactivé (établissement fermé temporairement)" }
+      ]
+    },
+    {
+      id: 6, nom: "Amélie Kernan", email: "a.kernan@hyattregencyparis.com", tel: "01 40 68 55 12",
+      client: "CONSTELLATION ETOILE - HYATT REGENCY PARIS ÉTOILE", statut: "Actif", derniereConnexion: "19/09/2026",
+      rattachements: [
+        { etab: "FLEXI HOTE/HOTESSE — Hyatt Regency Paris Étoile", role: "Manager" },
+        { etab: "FLEXI HOUSEKEEPING — Hyatt Regency Paris Étoile", role: "Standard" }
+      ],
+      historique: [
+        { date: "20/07/2024", auteur: "Julien Castex", action: "Compte créé, rôle Manager sur FLEXI HOTE/HOTESSE" },
+        { date: "14/06/2026", auteur: "Julien Castex", action: "Ajout du rattachement FLEXI HOUSEKEEPING (Standard)" }
+      ]
+    }
+  ];
+
+  let currentUserId = null;
+
+  function initials(name) {
+    return name.split(" ").filter(Boolean).map(w => w[0]).join("").substring(0, 2).toUpperCase();
+  }
+
+  function statutBadgeClass(statut) {
+    if (statut === "Actif") return "bg-green-100 text-green-800";
+    if (statut === "Désactivé") return "bg-gray-200 text-gray-600";
+    return "bg-amber-100 text-amber-800";
+  }
+
+  function renderUsersTable() {
+    const search = document.getElementById("filter-search").value.trim().toLowerCase();
+    const clientF = document.getElementById("filter-client").value;
+    const roleF = document.getElementById("filter-role").value;
+    const statutF = document.getElementById("filter-statut").value;
+
+    const filtered = users.filter(u => {
+      const matchSearch = !search || u.nom.toLowerCase().includes(search) || u.email.toLowerCase().includes(search);
+      const matchClient = !clientF || u.client === clientF;
+      const matchRole = !roleF || u.rattachements.some(r => r.role === roleF);
+      const matchStatut = !statutF || u.statut === statutF;
+      return matchSearch && matchClient && matchRole && matchStatut;
+    });
+
+    document.getElementById("filter-result-count").textContent = filtered.length + " utilisateur" + (filtered.length > 1 ? "s" : "") + " affiché" + (filtered.length > 1 ? "s" : "");
+
+    const tbody = document.getElementById("users-table-body");
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" class="px-4 py-8 text-center text-sm text-gray-400">Aucun utilisateur ne correspond à ces filtres.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = filtered.map(u => `
+      <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="openUserModal(${u.id})">
+        <td class="px-4 py-3 align-middle">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">${initials(u.nom)}</span></div>
+            <div>
+              <p class="text-sm font-semibold text-gray-900">${u.nom}</p>
+              <p class="text-xs text-gray-500">${u.email}</p>
+            </div>
+          </div>
+        </td>
+        <td class="px-4 py-3 align-middle text-gray-700">${u.client}</td>
+        <td class="px-4 py-3 align-middle">
+          <span class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-700 text-xs font-semibold px-2.5 py-0.5">${u.rattachements.length} établissement${u.rattachements.length > 1 ? 's' : ''}</span>
+        </td>
+        <td class="px-4 py-3 align-middle text-gray-700">${[...new Set(u.rattachements.map(r => r.role))].join(', ')}</td>
+        <td class="px-4 py-3 align-middle"><span class="inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-0.5 ${statutBadgeClass(u.statut)}">${u.statut}</span></td>
+        <td class="px-4 py-3 align-middle text-gray-500">${u.derniereConnexion}</td>
+        <td class="px-4 py-3 align-middle text-center" onclick="event.stopPropagation(); openUserModal(${u.id})">
+          <button class="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 font-semibold text-xs hover:bg-gray-50 shadow-sm transition-colors">Voir la fiche</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  ["filter-search", "filter-client", "filter-role", "filter-statut"].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener(el.tagName === "SELECT" ? "change" : "input", renderUsersTable);
+  });
+  document.getElementById("btn-reset-filters").addEventListener("click", () => {
+    document.getElementById("filter-search").value = "";
+    document.getElementById("filter-client").value = "";
+    document.getElementById("filter-role").value = "";
+    document.getElementById("filter-statut").value = "";
+    renderUsersTable();
+  });
+
+  function renderModalRattachements(user) {
+    document.getElementById("modal-rattachements-body").innerHTML = user.rattachements.map((r, i) => `
+      <tr>
+        <td class="px-3 py-2 text-gray-800">${r.etab}</td>
+        <td class="px-3 py-2">
+          <select onchange="changeRattachementRole(${i}, this.value)" class="h-8 w-full rounded-lg border border-gray-200 bg-white px-2 text-xs">
+            <option ${r.role === 'Manager' ? 'selected' : ''}>Manager</option>
+            <option ${r.role === 'Administrateur' ? 'selected' : ''}>Administrateur</option>
+            <option ${r.role === 'Standard' ? 'selected' : ''}>Standard</option>
+          </select>
+        </td>
+        <td class="px-3 py-2 text-right">
+          <button onclick="removeRattachement(${i})" class="p-1.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors" title="Retirer ce rattachement">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function renderModalHistory(user) {
+    document.getElementById("modal-history").innerHTML = user.historique.slice().reverse().map(h => `
+      <div class="border-l-2 border-[#A63629] pl-2 py-0.5">
+        <span class="font-semibold text-gray-800">${h.date}</span> · ${h.auteur} — ${h.action}
+      </div>
+    `).join('');
+  }
+
+  function openUserModal(id) {
+    currentUserId = id;
+    const user = users.find(u => u.id === id);
+    if (!user) return;
+
+    document.getElementById("modal-avatar").textContent = initials(user.nom);
+    document.getElementById("modal-nom").textContent = user.nom;
+    document.getElementById("modal-email").textContent = user.email + " · " + user.client;
+    document.getElementById("modal-tel").textContent = user.tel;
+
+    const badge = document.getElementById("modal-statut-badge");
+    badge.textContent = user.statut;
+    badge.className = "inline-flex items-center rounded-full text-xs font-bold px-2.5 py-0.5 " + statutBadgeClass(user.statut);
+
+    const toggleBtn = document.getElementById("modal-toggle-statut");
+    toggleBtn.textContent = user.statut === "Désactivé" ? "Réactiver le compte" : "Désactiver le compte";
+
+    document.getElementById("add-rattachement-form").classList.add("hidden");
+    document.getElementById("new-rattachement-etab").innerHTML = etablissementsCatalogue
+      .filter(e => !user.rattachements.some(r => r.etab === e))
+      .map(e => `<option>${e}</option>`).join('');
+
+    renderModalRattachements(user);
+    renderModalHistory(user);
+
+    document.getElementById("user-modal").classList.remove("hidden");
+  }
+
+  function closeUserModal() {
+    document.getElementById("user-modal").classList.add("hidden");
+    currentUserId = null;
+  }
+
+  function getCurrentUser() {
+    return users.find(u => u.id === currentUserId);
+  }
+
+  function pushHistory(action) {
+    const user = getCurrentUser();
+    if (!user) return;
+    const today = new Date().toLocaleDateString('fr-FR');
+    user.historique.push({ date: today, auteur: "Vous", action });
+  }
+
+  document.getElementById("modal-toggle-statut").addEventListener("click", () => {
+    const user = getCurrentUser();
+    if (!user) return;
+    const wasDeactivated = user.statut === "Désactivé";
+    user.statut = wasDeactivated ? "Actif" : "Désactivé";
+    pushHistory(wasDeactivated ? "Compte réactivé" : "Compte désactivé (accès coupé, historique conservé)");
+    openUserModal(user.id);
+    renderUsersTable();
+  });
+
+  function changeRattachementRole(index, newRole) {
+    const user = getCurrentUser();
+    if (!user) return;
+    const old = user.rattachements[index].role;
+    user.rattachements[index].role = newRole;
+    pushHistory(`Rôle changé sur "${user.rattachements[index].etab}" : ${old} → ${newRole}`);
+    renderModalHistory(user);
+    renderUsersTable();
+  }
+
+  function removeRattachement(index) {
+    const user = getCurrentUser();
+    if (!user) return;
+    const removed = user.rattachements.splice(index, 1)[0];
+    pushHistory(`Rattachement retiré : "${removed.etab}"`);
+    openUserModal(user.id);
+    renderUsersTable();
+  }
+
+  document.getElementById("btn-add-rattachement").addEventListener("click", () => {
+    document.getElementById("add-rattachement-form").classList.toggle("hidden");
+  });
+
+  function confirmAddRattachement() {
+    const user = getCurrentUser();
+    if (!user) return;
+    const etab = document.getElementById("new-rattachement-etab").value;
+    const role = document.getElementById("new-rattachement-role").value;
+    if (!etab) return;
+    user.rattachements.push({ etab, role });
+    pushHistory(`Rattachement ajouté : "${etab}" (${role})`);
+    openUserModal(user.id);
+    renderUsersTable();
+  }
+
+  function sendMail(type) {
+    const user = getCurrentUser();
+    if (!user) return;
+    if (type === 'invitation') {
+      pushHistory("Email d'invitation renvoyé");
+      alert(`✉️ Email d'invitation renvoyé à ${user.email}`);
+    } else {
+      pushHistory("Email de réinitialisation du mot de passe envoyé");
+      alert(`✉️ Email de réinitialisation du mot de passe envoyé à ${user.email}`);
+    }
+    renderModalHistory(user);
+  }
+
+  document.getElementById("btn-add-user").addEventListener("click", () => {
+    document.getElementById("add-user-modal").classList.remove("hidden");
+  });
+
+  function submitAddUser() {
+    document.getElementById("add-user-modal").classList.add("hidden");
+    alert("✅ Utilisateur créé. Un email d'invitation vient d'être envoyé pour la définition du mot de passe.");
+  }
+
+  // Demo-only: this tab is reserved for Administratif Adaptel and Chef de département (cf. section 3).
+  const roleSelect = document.getElementById('role-select');
+  const navUtilisateurs = document.getElementById('nav-utilisateurs-link');
+  const usersContent = document.getElementById('users-content');
+  const usersDenied = document.getElementById('users-denied');
+
+  function applyRoleVisibility() {
+    const isCollab = roleSelect.value === 'collab';
+    navUtilisateurs.classList.toggle('hidden', isCollab);
+    usersContent.classList.toggle('hidden', isCollab);
+    usersDenied.classList.toggle('hidden', !isCollab);
+  }
+  roleSelect.addEventListener('change', applyRoleVisibility);
+  applyRoleVisibility();
+
+  renderUsersTable();
+</script>
+
+</body>
+</html>

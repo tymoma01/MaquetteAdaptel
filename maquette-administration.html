@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel - Administration</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0" style="width:256px;">
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Backoffice</p>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 ml-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-600"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span class="font-medium">Accueil</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-clients.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Clients</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-services.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span class="font-medium">Services</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-interimaires.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-planning.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+          <span class="font-medium">Planning</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-disponibilites.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+          <span class="font-medium">Disponibilités</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-recherche-de-dispo.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <span class="font-medium">Recherche dispo.</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Missions</span>
+        </div>
+      </a>
+      <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
+        <div id="nav-releves" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevés d'heures</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-support.html">
+        <div id="nav-support" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path></svg>
+            <span class="font-medium">Support</span>
+          </div>
+          <span id="support-badge" class="bg-[#A63629] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+        </div>
+      </a>
+      <a class="block" id="nav-utilisateurs-link" href="maquette-utilisateurs.html">
+        <div id="nav-utilisateurs" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span class="font-medium">Utilisateurs</span>
+        </div>
+      </a>
+      <a class="block" id="nav-administration-link" href="maquette-administration.html">
+        <div id="nav-administration" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path></svg>
+          <span class="font-medium">Administration</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
+          <span class="font-medium">Paramètres</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span class="font-medium">Compte</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-auto flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end gap-3 sticky top-0 z-40">
+      <!-- Demo-only role switcher: this tab is reserved for a very small number of master admins (cf. section 3) -->
+      <div class="flex items-center gap-2 mr-auto">
+        <span class="text-xs text-gray-400 uppercase tracking-wider font-medium">Aperçu démo — rôle :</span>
+        <select id="role-select" class="h-9 rounded-lg border border-gray-200 bg-white px-2 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          <option value="master" selected>Administrateur master</option>
+          <option value="admin">Administratif Adaptel</option>
+          <option value="chef">Chef de département</option>
+          <option value="collab">Collaborateur d'agence</option>
+        </select>
+      </div>
+      <button type="button" class="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-900 shadow-sm transition-all hover:bg-gray-50 w-10 px-0" title="Mode clair">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+      </button>
+      <div class="relative">
+        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications (5 non lues)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-colors text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">5</span>
+          <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full border border-white bg-green-500"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="flex-1">
+      <div class="p-6 space-y-6">
+
+        <!-- AUTHORIZED VIEW -->
+        <div id="admin-content" class="space-y-6">
+
+          <!-- TITLE -->
+          <div class="mx-auto max-w-[1500px] space-y-2">
+            <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Administration</h1>
+            <p class="text-sm text-gray-600 max-w-2xl">Vue de gestion transverse des comptes internes Opérations (agences, départements, rôles) — distincte de l'onglet Utilisateurs qui ne couvre que les comptes côté Client.</p>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 text-[#A63629] shadow-sm px-2.5 py-1 text-xs font-semibold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path></svg>
+              Accès réservé aux administrateurs master
+            </span>
+          </div>
+
+          <!-- SECTION : COMPTES INTERNES -->
+          <div class="mx-auto max-w-[1500px]">
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 p-6 border-b border-gray-200 bg-gray-50">
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    Comptes utilisateurs d'agence
+                  </h3>
+                  <p class="text-sm text-gray-500 mt-0.5">Collaborateurs d'agence, chefs de département, administratifs et administrateurs master</p>
+                </div>
+                <button type="button" id="btn-add-internal" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 gap-2 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M19 8v6"></path><path d="M22 11h-6"></path></svg>
+                  Ajouter un utilisateur
+                </button>
+              </div>
+
+              <div class="p-5 border-b border-gray-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <input id="int-filter-search" type="text" placeholder="Rechercher un nom..." class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+                <select id="int-filter-agence" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+                  <option value="">Toutes les agences</option>
+                  <option>Paris Hôtellerie</option>
+                  <option>Paris Restauration</option>
+                  <option>Siège</option>
+                </select>
+                <select id="int-filter-departement" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+                  <option value="">Tous les départements</option>
+                  <option>Commercial</option>
+                  <option>Planning</option>
+                  <option>Opérations</option>
+                  <option>Direction</option>
+                </select>
+                <select id="int-filter-role" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+                  <option value="">Tous les rôles</option>
+                  <option>Collaborateur d'agence</option>
+                  <option>Chef de département</option>
+                  <option>Administratif Adaptel</option>
+                  <option>Administrateur master</option>
+                </select>
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
+                    <tr>
+                      <th class="px-4 py-3 text-left font-semibold">Utilisateur</th>
+                      <th class="px-4 py-3 text-left font-semibold">Agence</th>
+                      <th class="px-4 py-3 text-left font-semibold">Département</th>
+                      <th class="px-4 py-3 text-left font-semibold">Rôle</th>
+                      <th class="px-4 py-3 text-left font-semibold">Portefeuille client</th>
+                      <th class="px-4 py-3 text-center font-semibold">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="internal-table-body" class="divide-y divide-gray-100"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION : ACCES DE DEBOGAGE -->
+          <div class="mx-auto max-w-[1500px]">
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-6">
+              <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                Accès de débogage à la vue Client
+              </h3>
+              <p class="text-sm text-gray-500 mt-0.5 max-w-2xl">Reproduire ce qu'un utilisateur Client voit exactement, pour diagnostiquer un bug signalé — sans avoir besoin de ses identifiants. Accès en lecture seule, tracé, distinct de votre compte Opérations.</p>
+
+              <div id="debug-idle" class="mt-4 flex flex-col sm:flex-row gap-3">
+                <select id="debug-user-select" class="h-10 flex-1 rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+                  <option value="Sophie Laurent|Hôtel Le Meurice">Sophie Laurent — Hôtel Le Meurice</option>
+                  <option value="Thomas Dubois|Potel et Chabot Traiteur">Thomas Dubois — Potel et Chabot Traiteur</option>
+                  <option value="Isabelle Roche|Novotel Paris Est">Isabelle Roche — Novotel Paris Est</option>
+                  <option value="Marc Veyrat|Fouquet's Barrière">Marc Veyrat — Fouquet's Barrière</option>
+                  <option value="Amélie Kernan|CONSTELLATION ETOILE - HYATT REGENCY PARIS ÉTOILE">Amélie Kernan — Hyatt Regency Paris Étoile</option>
+                </select>
+                <button type="button" onclick="startDebugAccess()" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  Accéder en lecture seule
+                </button>
+              </div>
+
+              <div id="debug-active" class="hidden mt-4 rounded-xl border-2 border-amber-300 bg-amber-50 p-4 flex items-start justify-between gap-3 flex-wrap">
+                <div class="flex items-start gap-2.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  <div>
+                    <p class="text-sm font-semibold text-amber-900">Vous consultez en lecture seule la vue de <span id="debug-active-name">—</span></p>
+                    <p class="text-xs text-amber-800 mt-0.5">Session tracée. Aucune action (validation de commande, modification de données) ne peut être effectuée depuis cet accès.</p>
+                  </div>
+                </div>
+                <button type="button" onclick="stopDebugAccess()" class="inline-flex items-center justify-center rounded-lg text-xs font-semibold border border-amber-300 bg-white text-amber-900 shadow-sm hover:bg-amber-100 h-8 px-3 flex-shrink-0">Quitter la vue de débogage</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION : HISTORIQUE -->
+          <div class="mx-auto max-w-[1500px]">
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+              <div class="p-6 border-b border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                  Historique des actions
+                </h3>
+                <p class="text-sm text-gray-500 mt-0.5">Création/suppression de compte, transfert de portefeuille, accès de débogage — pour audit</p>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
+                    <tr>
+                      <th class="px-4 py-3 text-left font-semibold">Date</th>
+                      <th class="px-4 py-3 text-left font-semibold">Auteur</th>
+                      <th class="px-4 py-3 text-left font-semibold">Action</th>
+                      <th class="px-4 py-3 text-left font-semibold">Détail</th>
+                    </tr>
+                  </thead>
+                  <tbody id="audit-table-body" class="divide-y divide-gray-100"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ACCESS DENIED VIEW -->
+        <div id="admin-denied" class="hidden">
+          <div class="mx-auto max-w-[700px] mt-12 text-center bg-white rounded-xl border border-gray-200 shadow-sm p-10">
+            <div class="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-gray-400"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path></svg>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">Onglet non disponible pour votre rôle</h2>
+            <p class="text-sm text-gray-500 mt-2 max-w-md mx-auto">Cet onglet est visible uniquement par les administrateurs master — un nombre très restreint de personnes désignées par la direction.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL : SUPPRESSION / TRANSFERT DE PORTEFEUILLE -->
+<div id="delete-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden border border-gray-100">
+    <div class="p-6 border-b border-gray-100 bg-gray-50/50">
+      <h2 id="delete-modal-title" class="text-lg font-bold text-gray-900">Supprimer ce compte ?</h2>
+      <p id="delete-modal-subtitle" class="text-sm text-gray-500 mt-1">—</p>
+    </div>
+    <div class="p-6 space-y-4">
+
+      <div id="transfer-section" class="hidden space-y-3">
+        <div class="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2.5 flex items-start gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-amber-600 flex-shrink-0 mt-0.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+          <p class="text-xs text-amber-900">Ce collaborateur est l'interlocuteur privilégié d'un ou plusieurs clients. Le transfert vers un nouveau collaborateur est obligatoire avant suppression.</p>
+        </div>
+        <div>
+          <label class="text-sm text-gray-700 font-semibold">Clients concernés</label>
+          <div id="transfer-clients-list" class="mt-1.5 space-y-1.5"></div>
+        </div>
+        <div>
+          <label class="text-sm text-gray-700 font-semibold">Nouveau collaborateur</label>
+          <select id="transfer-target-select" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm"></select>
+        </div>
+      </div>
+
+      <div class="flex gap-3 pt-1">
+        <button type="button" onclick="document.getElementById('delete-modal').classList.add('hidden')" class="flex-1 inline-flex items-center justify-center rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4">Annuler</button>
+        <button type="button" onclick="confirmDeleteUser()" class="flex-1 inline-flex items-center justify-center rounded-lg text-sm font-semibold bg-red-600 text-white shadow hover:bg-red-700 h-10 px-4">Confirmer la suppression</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL : AJOUTER UN UTILISATEUR INTERNE -->
+<div id="add-internal-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden border border-gray-100">
+    <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+      <h2 class="text-lg font-bold text-gray-900">Ajouter un utilisateur d'agence</h2>
+      <button onclick="document.getElementById('add-internal-modal').classList.add('hidden')" class="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="p-6 space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-sm text-gray-700 font-semibold">Prénom</label>
+          <input type="text" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+        </div>
+        <div>
+          <label class="text-sm text-gray-700 font-semibold">Nom</label>
+          <input type="text" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+        </div>
+      </div>
+      <div>
+        <label class="text-sm text-gray-700 font-semibold">Email</label>
+        <input type="email" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-sm text-gray-700 font-semibold">Agence</label>
+          <select class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+            <option>Paris Hôtellerie</option>
+            <option>Paris Restauration</option>
+            <option>Siège</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm text-gray-700 font-semibold">Département</label>
+          <select class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+            <option>Opérations</option>
+            <option>Commercial</option>
+            <option>Planning</option>
+            <option>Direction</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="text-sm text-gray-700 font-semibold">Rôle</label>
+        <select id="new-internal-role" onchange="toggleMasterWarning()" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+          <option>Collaborateur d'agence</option>
+          <option>Chef de département</option>
+          <option>Administratif Adaptel</option>
+          <option>Administrateur master</option>
+        </select>
+      </div>
+      <div id="master-warning" class="hidden rounded-lg bg-red-50 border border-red-200 px-3 py-2.5 flex items-start gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-[#A63629] flex-shrink-0 mt-0.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+        <p class="text-xs text-[#A63629]">Le rôle Administrateur master donne accès à cet onglet et doit rester réservé à un nombre très restreint de personnes désignées par la direction.</p>
+      </div>
+      <div class="flex gap-3 pt-1">
+        <button type="button" onclick="document.getElementById('add-internal-modal').classList.add('hidden')" class="flex-1 inline-flex items-center justify-center rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4">Annuler</button>
+        <button type="button" onclick="submitAddInternal()" class="flex-1 inline-flex items-center justify-center rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4">Créer le compte</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== Données de démonstration =====
+  let internalUsers = [
+    { id: 1, nom: "Julien Castex", agence: "Paris Hôtellerie", departement: "Commercial", role: "Chef de département",
+      portefeuille: [{ client: "CONSTELLATION ETOILE - HYATT REGENCY PARIS ÉTOILE", chantier: "FLEXI BANQUET" }] },
+    { id: 2, nom: "Sarah Benamar", agence: "Paris Hôtellerie", departement: "Commercial", role: "Administratif Adaptel",
+      portefeuille: [{ client: "CONSTELLATION ETOILE - HYATT REGENCY PARIS ÉTOILE", chantier: "FLEXI HOTE/HOTESSE" }] },
+    { id: 3, nom: "Thomas Weiss", agence: "Paris Restauration", departement: "Planning", role: "Chef de département",
+      portefeuille: [{ client: "CONSTELLATION ETOILE - HYATT REGENCY PARIS ÉTOILE", chantier: "FLEXI HOUSEKEEPING" }] },
+    { id: 4, nom: "Thomas D.", agence: "Paris Restauration", departement: "Opérations", role: "Collaborateur d'agence", portefeuille: [] },
+    { id: 5, nom: "Marie L.", agence: "Paris Hôtellerie", departement: "Opérations", role: "Collaborateur d'agence", portefeuille: [] },
+    { id: 6, nom: "Admin Principal", agence: "Siège", departement: "Direction", role: "Administrateur master", portefeuille: [] }
+  ];
+
+  let auditLog = [
+    { date: "01/09/2026", auteur: "Admin Principal", action: "Création de compte", detail: "Compte créé pour Thomas Weiss (Chef de département, Paris Restauration)" },
+    { date: "15/06/2026", auteur: "Admin Principal", action: "Transfert de portefeuille", detail: "3 clients transférés de Nadia Costa vers Sarah Benamar suite à suppression de compte" }
+  ];
+
+  let pendingDeleteId = null;
+
+  function initials(name) {
+    return name.split(" ").filter(Boolean).map(w => w[0]).join("").substring(0, 2).toUpperCase();
+  }
+
+  function roleBadgeClass(role) {
+    if (role === "Administrateur master") return "bg-red-100 text-red-800";
+    if (role === "Chef de département") return "bg-blue-100 text-blue-800";
+    if (role === "Administratif Adaptel") return "bg-purple-100 text-purple-800";
+    return "bg-gray-100 text-gray-700";
+  }
+
+  function renderInternalTable() {
+    const search = document.getElementById("int-filter-search").value.trim().toLowerCase();
+    const agenceF = document.getElementById("int-filter-agence").value;
+    const deptF = document.getElementById("int-filter-departement").value;
+    const roleF = document.getElementById("int-filter-role").value;
+
+    const filtered = internalUsers.filter(u => {
+      return (!search || u.nom.toLowerCase().includes(search))
+        && (!agenceF || u.agence === agenceF)
+        && (!deptF || u.departement === deptF)
+        && (!roleF || u.role === roleF);
+    });
+
+    document.getElementById("internal-table-body").innerHTML = filtered.map(u => `
+      <tr class="hover:bg-gray-50 transition-colors">
+        <td class="px-4 py-3 align-middle">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-[#A63629]">${initials(u.nom)}</span></div>
+            <p class="text-sm font-semibold text-gray-900">${u.nom}</p>
+          </div>
+        </td>
+        <td class="px-4 py-3 align-middle text-gray-700">${u.agence}</td>
+        <td class="px-4 py-3 align-middle text-gray-700">${u.departement}</td>
+        <td class="px-4 py-3 align-middle"><span class="inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-0.5 ${roleBadgeClass(u.role)}">${u.role}</span></td>
+        <td class="px-4 py-3 align-middle text-gray-700">${u.portefeuille.length > 0 ? u.portefeuille.length + ' client' + (u.portefeuille.length > 1 ? 's' : '') : '—'}</td>
+        <td class="px-4 py-3 align-middle text-center">
+          <button onclick="requestDeleteUser(${u.id})" class="px-3 py-1.5 rounded-lg border border-red-200 bg-white text-red-600 font-semibold text-xs hover:bg-red-50 shadow-sm transition-colors">Supprimer</button>
+        </td>
+      </tr>
+    `).join('') || `<tr><td colspan="6" class="px-4 py-8 text-center text-sm text-gray-400">Aucun utilisateur ne correspond à ces filtres.</td></tr>`;
+  }
+
+  ["int-filter-search", "int-filter-agence", "int-filter-departement", "int-filter-role"].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener(el.tagName === "SELECT" ? "change" : "input", renderInternalTable);
+  });
+
+  function pushAudit(action, detail) {
+    const today = new Date().toLocaleDateString('fr-FR');
+    auditLog.unshift({ date: today, auteur: "Admin Principal", action, detail });
+    renderAuditTable();
+  }
+
+  function renderAuditTable() {
+    document.getElementById("audit-table-body").innerHTML = auditLog.map(a => `
+      <tr class="hover:bg-gray-50 transition-colors">
+        <td class="px-4 py-3 align-middle whitespace-nowrap text-gray-600">${a.date}</td>
+        <td class="px-4 py-3 align-middle font-medium text-gray-900">${a.auteur}</td>
+        <td class="px-4 py-3 align-middle"><span class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-700 text-xs font-semibold px-2.5 py-0.5">${a.action}</span></td>
+        <td class="px-4 py-3 align-middle text-gray-600">${a.detail}</td>
+      </tr>
+    `).join('');
+  }
+
+  function requestDeleteUser(id) {
+    pendingDeleteId = id;
+    const user = internalUsers.find(u => u.id === id);
+    if (!user) return;
+
+    document.getElementById("delete-modal-title").textContent = `Supprimer le compte de ${user.nom} ?`;
+    const transferSection = document.getElementById("transfer-section");
+
+    if (user.portefeuille.length > 0) {
+      document.getElementById("delete-modal-subtitle").textContent = "Ce compte est interlocuteur privilégié — un transfert de portefeuille est requis avant suppression.";
+      transferSection.classList.remove("hidden");
+      document.getElementById("transfer-clients-list").innerHTML = user.portefeuille.map(p => `
+        <div class="text-xs text-gray-700 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+          <span class="font-semibold">${p.client}</span> — ${p.chantier}
+        </div>
+      `).join('');
+      const targetSelect = document.getElementById("transfer-target-select");
+      targetSelect.innerHTML = internalUsers.filter(u => u.id !== id).map(u => `<option value="${u.id}">${u.nom} — ${u.role}</option>`).join('');
+    } else {
+      document.getElementById("delete-modal-subtitle").textContent = "Cette action est définitive.";
+      transferSection.classList.add("hidden");
+    }
+
+    document.getElementById("delete-modal").classList.remove("hidden");
+  }
+
+  function confirmDeleteUser() {
+    const user = internalUsers.find(u => u.id === pendingDeleteId);
+    if (!user) return;
+
+    if (user.portefeuille.length > 0) {
+      const targetId = parseInt(document.getElementById("transfer-target-select").value, 10);
+      const target = internalUsers.find(u => u.id === targetId);
+      target.portefeuille.push(...user.portefeuille);
+      pushAudit("Transfert de portefeuille", `${user.portefeuille.length} client(s) transféré(s) de ${user.nom} vers ${target.nom} suite à suppression de compte`);
+    }
+
+    pushAudit("Suppression de compte", `Compte de ${user.nom} (${user.role}, ${user.agence}) supprimé`);
+    internalUsers = internalUsers.filter(u => u.id !== pendingDeleteId);
+    pendingDeleteId = null;
+
+    document.getElementById("delete-modal").classList.add("hidden");
+    renderInternalTable();
+  }
+
+  document.getElementById("btn-add-internal").addEventListener("click", () => {
+    document.getElementById("add-internal-modal").classList.remove("hidden");
+  });
+
+  function toggleMasterWarning() {
+    const isMaster = document.getElementById("new-internal-role").value === "Administrateur master";
+    document.getElementById("master-warning").classList.toggle("hidden", !isMaster);
+  }
+
+  function submitAddInternal() {
+    const role = document.getElementById("new-internal-role").value;
+    document.getElementById("add-internal-modal").classList.add("hidden");
+    pushAudit("Création de compte", `Nouveau compte créé avec le rôle ${role}`);
+    alert("✅ Compte créé avec succès.");
+  }
+
+  function startDebugAccess() {
+    const [name, client] = document.getElementById("debug-user-select").value.split("|");
+    document.getElementById("debug-active-name").textContent = `${name} (${client})`;
+    document.getElementById("debug-idle").classList.add("hidden");
+    document.getElementById("debug-active").classList.remove("hidden");
+    pushAudit("Accès de débogage", `Consultation en lecture seule du compte de ${name} (${client})`);
+  }
+
+  function stopDebugAccess() {
+    document.getElementById("debug-active").classList.add("hidden");
+    document.getElementById("debug-idle").classList.remove("hidden");
+  }
+
+  // Demo-only: this tab is visible only to Administrateur master (cf. section 3).
+  const roleSelect = document.getElementById('role-select');
+  const navAdministration = document.getElementById('nav-administration-link');
+  const adminContent = document.getElementById('admin-content');
+  const adminDenied = document.getElementById('admin-denied');
+
+  function applyRoleVisibility() {
+    const isMasterRole = roleSelect.value === 'master';
+    navAdministration.classList.toggle('hidden', !isMasterRole);
+    adminContent.classList.toggle('hidden', !isMasterRole);
+    adminDenied.classList.toggle('hidden', isMasterRole);
+  }
+  roleSelect.addEventListener('change', applyRoleVisibility);
+  applyRoleVisibility();
+
+  renderInternalTable();
+  renderAuditTable();
+</script>
+
+</body>
+</html>

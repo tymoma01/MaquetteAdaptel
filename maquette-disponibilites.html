@@ -136,9 +136,15 @@
 
         <!-- TITLE -->
         <div class="max-w-[1400px] mx-auto space-y-3">
-          <div>
-            <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Disponibilités</h1>
-            <p class="text-sm text-gray-600 mt-1">Vue consolidée des disponibilités de tous les intérimaires, sur 2 semaines à partir d'aujourd'hui.</p>
+          <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Disponibilités</h1>
+              <p class="text-sm text-gray-600 mt-1">Vue consolidée des disponibilités de tous les intérimaires, sur 2 semaines à partir d'aujourd'hui.</p>
+            </div>
+            <button id="btn-add-dispo" type="button" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 gap-2 flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
+              Ajouter une disponibilité
+            </button>
           </div>
         </div>
 
@@ -300,7 +306,7 @@
                 </tbody>
               </table>
             </div>
-            <p class="text-[11px] text-gray-400 px-4 py-2 border-t border-gray-100">Double-cliquez sur une case pour déclarer ou modifier une disponibilité. Chaque champ (client, chantier, commande) sera cliquable vers sa fiche associée.</p>
+            <p class="text-[11px] text-gray-400 px-4 py-2 border-t border-gray-100">Double-cliquez sur une case pour déclarer ou modifier une disponibilité ponctuelle, ou utilisez le bouton <span class="font-semibold text-gray-500">Ajouter une disponibilité</span> pour créer une règle récurrente pour un intérimaire. Chaque champ (client, chantier, commande) sera cliquable vers sa fiche associée.</p>
           </div>
         </div>
 
@@ -309,27 +315,40 @@
   </main>
 </div>
 
-<!-- MODAL: add / edit availability -->
+<!-- MODAL: add / edit availability — same recurrence model as the "Ajouter une disponibilité" form on the fiche intérimaire -->
 <div id="avail-modal-backdrop" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center p-4">
-  <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 space-y-4">
+  <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 space-y-4 max-h-[90vh] overflow-y-auto">
     <div class="flex items-center justify-between">
-      <h3 class="font-bold text-gray-900 text-lg">Disponibilité</h3>
+      <h3 id="avail-modal-title" class="font-bold text-gray-900 text-lg">Disponibilité</h3>
       <button id="avail-modal-close" class="p-1.5 rounded-lg hover:bg-gray-100">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-gray-500"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
       </button>
     </div>
-    <div class="rounded-lg bg-gray-50 border border-gray-200 px-3 py-2">
-      <p class="text-sm font-semibold text-gray-900" id="avail-modal-name">—</p>
-      <p class="text-xs text-gray-500" id="avail-modal-day">—</p>
-    </div>
 
     <div>
-      <label class="text-sm text-gray-700 font-semibold">Type</label>
-      <select id="avail-modal-type" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
-        <option value="A">Disponible</option>
-        <option value="I">Indisponible</option>
+      <label class="text-sm text-gray-700 font-semibold">Intérimaire</label>
+      <select id="avail-modal-interimaire" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm disabled:bg-gray-100 disabled:text-gray-500">
+        <option value="Sofia MARTINS">Sofia MARTINS — Chef de rang</option>
+        <option value="Karim DIALLO">Karim DIALLO — Cuisinier</option>
+        <option value="Léa ROUSSEL">Léa ROUSSEL — Réceptionniste</option>
+        <option value="Thomas NGUYEN">Thomas NGUYEN — Plongeur</option>
+        <option value="Amandine BERTIN">Amandine BERTIN — Pâtissière</option>
+        <option value="Yanis MOKRANE">Yanis MOKRANE — Barman</option>
+        <option value="Camille DUBOIS">Camille DUBOIS — Sommelière</option>
+        <option value="Paul GAUTHIER">Paul GAUTHIER — Maître d'hôtel</option>
       </select>
+      <p id="avail-modal-day" class="text-xs text-gray-500 mt-1.5"></p>
     </div>
+
+    <div class="flex items-center gap-4">
+      <label class="flex items-center gap-2 text-sm font-medium text-gray-700">
+        <input type="radio" name="avail-modal-type" value="A" checked class="text-green-600 focus:ring-green-600"> Disponible
+      </label>
+      <label class="flex items-center gap-2 text-sm font-medium text-gray-700">
+        <input type="radio" name="avail-modal-type" value="I" class="text-red-600 focus:ring-red-600"> Indisponible
+      </label>
+    </div>
+
     <div class="grid grid-cols-2 gap-3">
       <div>
         <label class="text-sm text-gray-700 font-semibold">Date de début</label>
@@ -347,6 +366,19 @@
         <option>Hebdomadaire</option>
         <option>Mensuelle</option>
       </select>
+    </div>
+
+    <div>
+      <label class="text-sm text-gray-700 font-semibold">Jours concernés</label>
+      <div class="flex items-center gap-2 mt-1.5 flex-wrap">
+        <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 border border-gray-200 rounded-lg px-2.5 py-1.5"><input type="checkbox" checked class="avail-modal-day-checkbox text-[#A63629] focus:ring-[#A63629]"> Lun</label>
+        <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 border border-gray-200 rounded-lg px-2.5 py-1.5"><input type="checkbox" checked class="avail-modal-day-checkbox text-[#A63629] focus:ring-[#A63629]"> Mar</label>
+        <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 border border-gray-200 rounded-lg px-2.5 py-1.5"><input type="checkbox" checked class="avail-modal-day-checkbox text-[#A63629] focus:ring-[#A63629]"> Mer</label>
+        <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 border border-gray-200 rounded-lg px-2.5 py-1.5"><input type="checkbox" checked class="avail-modal-day-checkbox text-[#A63629] focus:ring-[#A63629]"> Jeu</label>
+        <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 border border-gray-200 rounded-lg px-2.5 py-1.5"><input type="checkbox" checked class="avail-modal-day-checkbox text-[#A63629] focus:ring-[#A63629]"> Ven</label>
+        <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 border border-gray-200 rounded-lg px-2.5 py-1.5"><input type="checkbox" class="avail-modal-day-checkbox text-[#A63629] focus:ring-[#A63629]"> Sam</label>
+        <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 border border-gray-200 rounded-lg px-2.5 py-1.5"><input type="checkbox" class="avail-modal-day-checkbox text-[#A63629] focus:ring-[#A63629]"> Dim</label>
+      </div>
     </div>
 
     <div id="avail-modal-conflict" class="hidden rounded-lg bg-amber-50 border border-amber-200 px-3 py-2.5 flex items-start gap-2">
@@ -396,11 +428,13 @@
 
   // Cosmetic: add/edit availability modal, with a real conflict check against the clicked cell's current status
   const modalBackdrop = document.getElementById('avail-modal-backdrop');
-  const modalName = document.getElementById('avail-modal-name');
+  const modalTitle = document.getElementById('avail-modal-title');
+  const modalInterimaire = document.getElementById('avail-modal-interimaire');
   const modalDay = document.getElementById('avail-modal-day');
-  const modalType = document.getElementById('avail-modal-type');
+  const modalTypeRadios = document.querySelectorAll('input[name="avail-modal-type"]');
   const modalStart = document.getElementById('avail-modal-start');
   const modalEnd = document.getElementById('avail-modal-end');
+  const modalRecurrence = document.getElementById('avail-modal-recurrence');
   const modalConflict = document.getElementById('avail-modal-conflict');
   const modalConflictText = document.getElementById('avail-modal-conflict-text');
   let currentCellStatus = null;
@@ -410,8 +444,12 @@
     return { A: 'disponible', D: 'disponible (par défaut)', I: 'indisponible', M: 'en mission', MX: 'en mission (chantier sous interdiction)' }[code] || code;
   }
 
+  function getModalType() {
+    return document.querySelector('input[name="avail-modal-type"]:checked').value; // A or I
+  }
+
   function checkConflict() {
-    const chosen = modalType.value; // A or I
+    const chosen = getModalType();
     const conflicting =
       (currentCellStatus === 'A' && chosen === 'I') ||
       (currentCellStatus === 'I' && chosen === 'A') ||
@@ -427,19 +465,41 @@
     }
   }
 
+  // Opened via double-click on an existing cell: intérimaire and day are locked to that context
   function openAvailModal(name, dayLabel, status, iso, mission) {
-    modalName.textContent = name;
+    modalTitle.textContent = 'Disponibilité';
+    modalInterimaire.value = name;
+    modalInterimaire.disabled = true;
     modalDay.textContent = dayLabel + (mission ? ' · Mission : ' + mission : '');
-    modalType.value = (status === 'I') ? 'I' : 'A';
+    document.querySelector('input[name="avail-modal-type"][value="' + ((status === 'I') ? 'I' : 'A') + '"]').checked = true;
     modalStart.value = iso;
     modalEnd.value = iso;
+    modalRecurrence.value = 'Aucune (période unique)';
     currentCellStatus = status;
     currentMission = mission;
     checkConflict();
     modalBackdrop.classList.remove('hidden');
   }
 
-  modalType.addEventListener('change', checkConflict);
+  // Opened via the "Ajouter une disponibilité" button: pick any intérimaire and define a recurring rule
+  function openAvailModalForCreate() {
+    modalTitle.textContent = 'Nouvelle disponibilité';
+    modalInterimaire.disabled = false;
+    modalInterimaire.selectedIndex = 0;
+    modalDay.textContent = '';
+    document.querySelector('input[name="avail-modal-type"][value="A"]').checked = true;
+    const today = new Date().toISOString().slice(0, 10);
+    modalStart.value = today;
+    modalEnd.value = today;
+    modalRecurrence.value = 'Hebdomadaire';
+    currentCellStatus = null;
+    currentMission = null;
+    modalConflict.classList.add('hidden');
+    modalBackdrop.classList.remove('hidden');
+  }
+
+  document.getElementById('btn-add-dispo').addEventListener('click', openAvailModalForCreate);
+  modalTypeRadios.forEach(radio => radio.addEventListener('change', checkConflict));
   document.getElementById('avail-modal-close').addEventListener('click', () => modalBackdrop.classList.add('hidden'));
   document.getElementById('avail-modal-cancel').addEventListener('click', () => modalBackdrop.classList.add('hidden'));
   modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) modalBackdrop.classList.add('hidden'); });

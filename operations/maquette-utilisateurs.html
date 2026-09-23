@@ -41,10 +41,10 @@
           <span class="font-medium">Clients</span>
         </div>
       </a>
-      <a class="block" href="maquette-services.html">
+      <a class="block" href="maquette-chantiers.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
-          <span class="font-medium">Services</span>
+          <span class="font-medium">Chantiers</span>
         </div>
       </a>
       <a class="block" href="maquette-interimaires.html">
@@ -74,7 +74,7 @@
       <a class="block" href="#">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Missions</span>
+          <span class="font-medium">Commandes</span>
         </div>
       </a>
       <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
@@ -142,7 +142,7 @@
         <span class="text-xs text-gray-400 uppercase tracking-wider font-medium">Aperçu démo — rôle :</span>
         <select id="role-select" class="h-9 rounded-lg border border-gray-200 bg-white px-2 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
           <option value="admin" selected>Administratif Adaptel</option>
-          <option value="chef">Chef de département</option>
+          <option value="chef">Chef de secteur</option>
           <option value="collab">Collaborateur d'agence</option>
         </select>
       </div>
@@ -307,7 +307,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-gray-400"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             </div>
             <h2 class="text-lg font-bold text-gray-900">Onglet non disponible pour votre rôle</h2>
-            <p class="text-sm text-gray-500 mt-2 max-w-md mx-auto">La gestion des accès étant une fonction sensible, cet onglet est réservé aux comptes Administratif Adaptel et Chef de département. Les comptes Collaborateur d'agence n'y ont pas accès.</p>
+            <p class="text-sm text-gray-500 mt-2 max-w-md mx-auto">La gestion des accès étant une fonction sensible, cet onglet est réservé aux comptes Administratif Adaptel et Chef de secteur. Les comptes Collaborateur d'agence n'y ont pas accès.</p>
           </div>
         </div>
 
@@ -752,7 +752,7 @@
     alert("✅ Utilisateur créé. Un email d'invitation vient d'être envoyé pour la définition du mot de passe.");
   }
 
-  // Demo-only: this tab is reserved for Administratif Adaptel and Chef de département (cf. section 3).
+  // Demo-only: this tab is reserved for Administratif Adaptel and Chef de secteur (cf. section 3).
   const roleSelect = document.getElementById('role-select');
   const navUtilisateurs = document.getElementById('nav-utilisateurs-link');
   const usersContent = document.getElementById('users-content');

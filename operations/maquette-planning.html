@@ -41,10 +41,10 @@
           <span class="font-medium">Clients</span>
         </div>
       </a>
-      <a class="block" href="maquette-services.html">
+      <a class="block" href="maquette-chantiers.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
-          <span class="font-medium">Services</span>
+          <span class="font-medium">Chantiers</span>
         </div>
       </a>
       <a class="block" href="maquette-interimaires.html">
@@ -74,7 +74,7 @@
       <a class="block" href="#">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Missions</span>
+          <span class="font-medium">Commandes</span>
         </div>
       </a>
       <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
@@ -151,12 +151,12 @@
       <div class="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 id="page-title" class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Planning du jour</h1>
-          <p id="page-subtitle" class="text-gray-600 text-sm mt-0.5">Affectations et gestion des missions de travail temporaire</p>
+          <p id="page-subtitle" class="text-gray-600 text-sm mt-0.5">Affectations et gestion des commandes de travail temporaire</p>
         </div>
         <div class="flex items-center gap-2">
-          <button type="button" onclick="openCreateMissionModal()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all shadow bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white hover:opacity-95 h-10 px-4 gap-2">
+          <button type="button" onclick="openCreateCommandeModal()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all shadow bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white hover:opacity-95 h-10 px-4 gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
-            Nouvelle mission
+            Nouvelle commande
           </button>
           <button type="button" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 h-10 px-4 gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
@@ -197,8 +197,9 @@
         <form id="planning-filters-form" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3" onsubmit="return false;">
           <select class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
             <option>Toutes agences</option>
-            <option>Paris Hôtellerie</option>
-            <option>Paris Restauration</option>
+            <option>001</option>
+            <option>002</option>
+            <option>003</option>
           </select>
 
           <div>
@@ -230,7 +231,7 @@
           <button type="button" data-sort-field="cmd" onclick="sortPlanningRows('cmd')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">N° Commande <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
           <button type="button" data-sort-field="chantier" onclick="sortPlanningRows('chantier')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Chantier, Horaire &amp; Qualification <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
           <button type="button" data-sort-field="motif" onclick="sortPlanningRows('motif')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Motif <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
-          <div>Fin de mission</div>
+          <div>Fin de commande</div>
           <div>Remarques</div>
           <button type="button" data-sort-field="taux" onclick="sortPlanningRows('taux')" class="flex items-center justify-end gap-1 w-full text-right pr-2 hover:text-gray-800 transition-colors">Taux <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
           <button type="button" data-sort-field="interimaire" onclick="sortPlanningRows('interimaire')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Intérimaire <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
@@ -239,7 +240,7 @@
 
         <div class="divide-y divide-gray-200">
           <!-- LIGNE 1 -->
-          <div onclick="openPanel('CMD-2609-01', 'Hôtel Le Meurice', 'Chef de rang', '11:00 - 19:00', '14,20 €/h', 'Remplacement maladie', 'Ven. 25 sept. (5j)', 'Besoin de qqn d\'autonome sur le rang 3.', 'Mme Sophie LAURENT', '01 44 58 10 10', 's.laurent@lemeurice.com', 'Paris Hôtellerie', 'Salle / Resto', 'À staffer')"
+          <div onclick="openPanel('CMD-2609-01', 'Hôtel Le Meurice', 'Chef de rang', '11:00 - 19:00', '14,20 €/h', 'Remplacement maladie', 'Ven. 25 sept. (5j)', 'Besoin de qqn d\'autonome sur le rang 3.', 'Mme Sophie LAURENT', '01 44 58 10 10', 's.laurent@lemeurice.com', '001', 'Salle / Resto', 'À staffer')"
                data-cmd="CMD-2609-01" data-chantier="Salle / Resto" data-motif="Remplacement maladie" data-taux="14.20" data-interimaire="" data-statut="À staffer"
                class="planning-row grid grid-cols-1 lg:grid-cols-[120px_1.8fr_170px_140px_1.2fr_90px_1.3fr_110px] items-start gap-4 p-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
@@ -250,7 +251,7 @@
                 <span class="text-lg font-extrabold text-gray-900 tracking-tight leading-tight">Salle / Resto</span>
                 <span class="text-sm font-bold text-[#A63629] bg-red-50 px-2.5 py-1 rounded-md border border-red-100 whitespace-nowrap">11:00 - 19:00</span>
               </div>
-              <p class="text-xs text-gray-500 font-medium truncate">Hôtel Le Meurice <span class="text-gray-400">• Paris Hôtellerie</span></p>
+              <p class="text-xs text-gray-500 font-medium truncate">Hôtel Le Meurice <span class="text-gray-400">• 001</span></p>
               <p class="flex items-center gap-1.5 pt-0.5">
                 <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">CDR</span>
                 <span class="text-xs font-bold text-gray-800">Chef de rang</span>
@@ -282,7 +283,7 @@
           </div>
 
           <!-- LIGNE 2 -->
-          <div onclick="openPanel('CMD-2609-02', 'Potel et Chabot Traiteur', 'Extra service', '18:00 - 01:00', '13,80 €/h', 'Accroissement temporaire', 'Lun. 21 sept. (1j)', 'Accès par le quai de déchargement obligatoire.', 'M. Thomas DUBOIS', '06 12 34 56 78', 't.dubois@potel.com', 'Paris Restauration', 'Réception Hoche', 'Notification envoyée')"
+          <div onclick="openPanel('CMD-2609-02', 'Potel et Chabot Traiteur', 'Extra service', '18:00 - 01:00', '13,80 €/h', 'Accroissement temporaire', 'Lun. 21 sept. (1j)', 'Accès par le quai de déchargement obligatoire.', 'M. Thomas DUBOIS', '06 12 34 56 78', 't.dubois@potel.com', '002', 'Réception Hoche', 'Notification envoyée')"
                data-cmd="CMD-2609-02" data-chantier="Réception Hoche" data-motif="Accroissement temporaire" data-taux="13.80" data-interimaire="Sofia MARTINS" data-statut="Notification envoyée"
                class="planning-row grid grid-cols-1 lg:grid-cols-[120px_1.8fr_170px_140px_1.2fr_90px_1.3fr_110px] items-start gap-4 p-4 border-l-4 border-l-amber-400 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
@@ -293,7 +294,7 @@
                 <span class="text-lg font-extrabold text-gray-900 tracking-tight leading-tight">Réception Hoche</span>
                 <span class="text-sm font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200 whitespace-nowrap">18:00 - 01:00</span>
               </div>
-              <p class="text-xs text-gray-500 font-medium truncate">Potel et Chabot Traiteur <span class="text-gray-400">• Paris Restauration</span></p>
+              <p class="text-xs text-gray-500 font-medium truncate">Potel et Chabot Traiteur <span class="text-gray-400">• 002</span></p>
               <p class="flex items-center gap-1.5 pt-0.5">
                 <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">EXT</span>
                 <span class="text-xs font-bold text-gray-800">Extra service</span>
@@ -325,7 +326,7 @@
           </div>
 
           <!-- LIGNE 3 -->
-          <div onclick="openPanel('CMD-2609-03', 'Fouquet\'s Barrière', 'Commis de cuisine', '09:00 - 17:00', '13,10 €/h', 'Remplacement CP', 'Mar. 22 sept. (2j)', 'Tablier et veste de cuisine personnels requis.', 'Chef Marc VEYRAT', '01 40 69 60 00', 'mveyrat@fouquets.com', 'Paris Hôtellerie', 'Cuisine centrale', 'Validé')"
+          <div onclick="openPanel('CMD-2609-03', 'Fouquet\'s Barrière', 'Commis de cuisine', '09:00 - 17:00', '13,10 €/h', 'Remplacement CP', 'Mar. 22 sept. (2j)', 'Tablier et veste de cuisine personnels requis.', 'Chef Marc VEYRAT', '01 40 69 60 00', 'mveyrat@fouquets.com', '001', 'Cuisine centrale', 'Validé')"
                data-cmd="CMD-2609-03" data-chantier="Cuisine centrale" data-motif="Remplacement CP" data-taux="13.10" data-interimaire="Mehdi KACI" data-statut="Validé"
                class="planning-row grid grid-cols-1 lg:grid-cols-[120px_1.8fr_170px_140px_1.2fr_90px_1.3fr_110px] items-start gap-4 p-4 border-l-4 border-l-green-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
@@ -336,7 +337,7 @@
                 <span class="text-lg font-extrabold text-gray-900 tracking-tight leading-tight">Cuisine centrale</span>
                 <span class="text-sm font-bold text-green-800 bg-green-50 px-2.5 py-1 rounded-md border border-green-200 whitespace-nowrap">09:00 - 17:00</span>
               </div>
-              <p class="text-xs text-gray-500 font-medium truncate">Fouquet's Barrière <span class="text-gray-400">• Paris Hôtellerie</span></p>
+              <p class="text-xs text-gray-500 font-medium truncate">Fouquet's Barrière <span class="text-gray-400">• 001</span></p>
               <p class="flex items-center gap-1.5 pt-0.5">
                 <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">CDC</span>
                 <span class="text-xs font-bold text-gray-800">Commis de cuisine</span>
@@ -368,7 +369,7 @@
           </div>
 
           <!-- LIGNE 4 -->
-          <div onclick="openPanel('CMD-2609-04', 'Novotel Paris Est', 'Réceptionniste', '07:00 - 15:00', '12,90 €/h', 'Accroissement temporaire', 'Mer. 23 sept. (3j)', 'Anglais courant indispensable, accueil d\'une clientèle internationale.', 'Mme Isabelle ROCHE', '01 55 66 23 10', 'i.roche@novotel-est.com', 'Paris Hôtellerie', 'Réception', 'Best match à valider')"
+          <div onclick="openPanel('CMD-2609-04', 'Novotel Paris Est', 'Réceptionniste', '07:00 - 15:00', '12,90 €/h', 'Accroissement temporaire', 'Mer. 23 sept. (3j)', 'Anglais courant indispensable, accueil d\'une clientèle internationale.', 'Mme Isabelle ROCHE', '01 55 66 23 10', 'i.roche@novotel-est.com', '001', 'Réception', 'Best match à valider')"
                data-cmd="CMD-2609-04" data-chantier="Réception" data-motif="Accroissement temporaire" data-taux="12.90" data-interimaire="Julie PETIT" data-statut="Best match à valider"
                class="planning-row grid grid-cols-1 lg:grid-cols-[120px_1.8fr_170px_140px_1.2fr_90px_1.3fr_110px] items-start gap-4 p-4 border-l-4 border-l-blue-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
@@ -379,7 +380,7 @@
                 <span class="text-lg font-extrabold text-gray-900 tracking-tight leading-tight">Réception</span>
                 <span class="text-sm font-bold text-blue-800 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 whitespace-nowrap">07:00 - 15:00</span>
               </div>
-              <p class="text-xs text-gray-500 font-medium truncate">Novotel Paris Est <span class="text-gray-400">• Paris Hôtellerie</span></p>
+              <p class="text-xs text-gray-500 font-medium truncate">Novotel Paris Est <span class="text-gray-400">• 001</span></p>
               <p class="flex items-center gap-1.5 pt-0.5">
                 <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">RCP</span>
                 <span class="text-xs font-bold text-gray-800">Réceptionniste</span>
@@ -411,7 +412,7 @@
           </div>
 
           <!-- LIGNE 5 -->
-          <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — mission close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', 'Paris Restauration', 'Bar à Vins', 'Annulée')"
+          <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — commande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')"
                data-cmd="CMD-2609-05" data-chantier="Bar à Vins" data-motif="Événement privé" data-taux="13.50" data-interimaire="Yanis MOKRANE" data-statut="Annulée"
                class="planning-row grid grid-cols-1 lg:grid-cols-[120px_1.8fr_170px_140px_1.2fr_90px_1.3fr_110px] items-start gap-4 p-4 border-l-4 border-l-gray-300 opacity-60 hover:opacity-100 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
@@ -422,7 +423,7 @@
                 <span class="text-lg font-extrabold text-gray-500 tracking-tight leading-tight line-through">Bar à Vins</span>
                 <span class="text-sm font-bold text-gray-600 bg-gray-100 px-2.5 py-1 rounded-md border border-gray-200 whitespace-nowrap">19:00 - 00:00</span>
               </div>
-              <p class="text-xs text-gray-500 font-medium truncate">La Table du Marais <span class="text-gray-400">• Paris Restauration</span></p>
+              <p class="text-xs text-gray-500 font-medium truncate">La Table du Marais <span class="text-gray-400">• 002</span></p>
               <p class="flex items-center gap-1.5 pt-0.5">
                 <span class="inline-flex items-center justify-center rounded bg-gray-400 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">BAR</span>
                 <span class="text-xs font-bold text-gray-500">Barman</span>
@@ -444,7 +445,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
                 <div class="min-w-0 leading-tight">
                   <p class="text-xs font-bold text-gray-500 truncate">Yanis MOKRANE</p>
-                  <p class="text-[10px] text-gray-400 font-medium">Mission annulée</p>
+                  <p class="text-[10px] text-gray-400 font-medium">Commande annulée</p>
                 </div>
               </div>
             </div>
@@ -472,7 +473,7 @@
           <div class="divide-y divide-gray-200 text-xs">
             <!-- CLIENT 1 -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-01', 'Hôtel Le Meurice', 'Chef de rang', '11:00 - 19:00', '14,20 €/h', 'Remplacement maladie', 'Ven. 25 sept. (5j)', 'Besoin de qqn d\'autonome sur le rang 3.', 'Mme Sophie LAURENT', '01 44 58 10 10', 's.laurent@lemeurice.com', 'Paris Hôtellerie', 'Salle / Resto', 'À staffer')" class="cursor-pointer group">
+              <div onclick="openPanel('CMD-2609-01', 'Hôtel Le Meurice', 'Chef de rang', '11:00 - 19:00', '14,20 €/h', 'Remplacement maladie', 'Ven. 25 sept. (5j)', 'Besoin de qqn d\'autonome sur le rang 3.', 'Mme Sophie LAURENT', '01 44 58 10 10', 's.laurent@lemeurice.com', '001', 'Salle / Resto', 'À staffer')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Hôtel Le Meurice</p>
                 <p class="text-gray-500 font-medium">Salle / Resto</p>
                 <span class="text-[10px] text-gray-400 font-mono font-semibold">CDR</span> <span class="text-[10px] text-gray-400">Chef de rang</span>
@@ -508,7 +509,7 @@
 
             <!-- CLIENT 2 -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-02', 'Potel et Chabot Traiteur', 'Extra service', '18:00 - 01:00', '13,80 €/h', 'Accroissement temporaire', 'Lun. 21 sept. (1j)', 'Accès par le quai de déchargement obligatoire.', 'M. Thomas DUBOIS', '06 12 34 56 78', 't.dubois@potel.com', 'Paris Restauration', 'Réception Hoche', 'Notification envoyée')" class="cursor-pointer group">
+              <div onclick="openPanel('CMD-2609-02', 'Potel et Chabot Traiteur', 'Extra service', '18:00 - 01:00', '13,80 €/h', 'Accroissement temporaire', 'Lun. 21 sept. (1j)', 'Accès par le quai de déchargement obligatoire.', 'M. Thomas DUBOIS', '06 12 34 56 78', 't.dubois@potel.com', '002', 'Réception Hoche', 'Notification envoyée')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Potel et Chabot</p>
                 <p class="text-gray-500 font-medium">Réception Hoche</p>
                 <span class="text-[10px] text-gray-400 font-mono font-semibold">EXT</span> <span class="text-[10px] text-gray-400">Extra service</span>
@@ -528,7 +529,7 @@
 
             <!-- CLIENT 3 -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-03', 'Fouquet\'s Barrière', 'Commis de cuisine', '09:00 - 17:00', '13,10 €/h', 'Remplacement CP', 'Mar. 22 sept. (2j)', 'Tablier et veste de cuisine personnels requis.', 'Chef Marc VEYRAT', '01 40 69 60 00', 'mveyrat@fouquets.com', 'Paris Hôtellerie', 'Cuisine centrale', 'Validé')" class="cursor-pointer group">
+              <div onclick="openPanel('CMD-2609-03', 'Fouquet\'s Barrière', 'Commis de cuisine', '09:00 - 17:00', '13,10 €/h', 'Remplacement CP', 'Mar. 22 sept. (2j)', 'Tablier et veste de cuisine personnels requis.', 'Chef Marc VEYRAT', '01 40 69 60 00', 'mveyrat@fouquets.com', '001', 'Cuisine centrale', 'Validé')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Fouquet's Barrière</p>
                 <p class="text-gray-500 font-medium">Cuisine centrale</p>
                 <span class="text-[10px] text-gray-400 font-mono font-semibold">CDC</span> <span class="text-[10px] text-gray-400">Commis de cuisine</span>
@@ -552,7 +553,7 @@
 
             <!-- CLIENT 4 -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-04', 'Novotel Paris Est', 'Réceptionniste', '07:00 - 15:00', '12,90 €/h', 'Accroissement temporaire', 'Mer. 23 sept. (3j)', 'Anglais courant indispensable, accueil d\'une clientèle internationale.', 'Mme Isabelle ROCHE', '01 55 66 23 10', 'i.roche@novotel-est.com', 'Paris Hôtellerie', 'Réception', 'Best match à valider')" class="cursor-pointer group">
+              <div onclick="openPanel('CMD-2609-04', 'Novotel Paris Est', 'Réceptionniste', '07:00 - 15:00', '12,90 €/h', 'Accroissement temporaire', 'Mer. 23 sept. (3j)', 'Anglais courant indispensable, accueil d\'une clientèle internationale.', 'Mme Isabelle ROCHE', '01 55 66 23 10', 'i.roche@novotel-est.com', '001', 'Réception', 'Best match à valider')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Novotel Paris Est</p>
                 <p class="text-gray-500 font-medium">Réception</p>
                 <span class="text-[10px] text-gray-400 font-mono font-semibold">RCP</span> <span class="text-[10px] text-gray-400">Réceptionniste</span>
@@ -580,12 +581,12 @@
 
             <!-- CLIENT 5 -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80 opacity-70">
-              <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — mission close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', 'Paris Restauration', 'Bar à Vins', 'Annulée')" class="cursor-pointer group">
+              <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — commande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">La Table du Marais</p>
                 <p class="text-gray-500 font-medium">Bar à Vins</p>
                 <span class="text-[10px] text-gray-400 font-mono font-semibold">BAR</span> <span class="text-[10px] text-gray-400">Barman</span>
               </div>
-              <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — mission close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', 'Paris Restauration', 'Bar à Vins', 'Annulée')"
+              <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — commande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')"
                    class="cursor-pointer bg-gray-100 border border-gray-300 text-gray-500 p-2 rounded-lg space-y-1 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px] line-through">19h-00h</span> <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span></div>
                 <p class="font-semibold truncate line-through">Annulée</p>
@@ -629,15 +630,15 @@
       <div class="border-t border-gray-200 pt-3">
         <p class="text-xs text-gray-500 uppercase font-semibold">Client & Agence</p>
         <p id="p-client" class="text-base font-bold text-gray-900 mt-0.5">Hôtel Le Meurice</p>
-        <p id="p-agence" class="text-xs text-gray-600">Agence : Paris Hôtellerie</p>
+        <p id="p-agence" class="text-xs text-gray-600">Agence : 001</p>
       </div>
     </div>
 
     <div class="rounded-xl border border-gray-200 p-4 space-y-2">
-      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Détails de la mission</h3>
+      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Détails de la commande</h3>
       <div class="flex justify-between text-sm"><span class="text-gray-500">Chantier :</span><span id="p-chantier" class="font-bold text-gray-900">Salle / Resto</span></div>
       <div class="flex justify-between text-sm"><span class="text-gray-500">Justification :</span><span id="p-justif" class="font-semibold text-gray-900">Remplacement maladie</span></div>
-      <div class="flex justify-between text-sm"><span class="text-gray-500">Fin de mission :</span><span id="p-fin" class="font-semibold text-gray-900">Ven. 25 sept. (5j)</span></div>
+      <div class="flex justify-between text-sm"><span class="text-gray-500">Fin de commande :</span><span id="p-fin" class="font-semibold text-gray-900">Ven. 25 sept. (5j)</span></div>
       <div class="flex justify-between text-sm"><span class="text-gray-500">Taux horaire :</span><span id="p-taux" class="font-semibold text-gray-900">14,20 €/h</span></div>
     </div>
 
@@ -666,8 +667,8 @@
   <div class="bg-white rounded-xl shadow-2xl w-full max-w-xl max-h-[88vh] flex flex-col pointer-events-auto">
     <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3">
       <div class="min-w-0">
-        <h3 class="font-bold text-gray-900 text-lg">Candidats pour la mission</h3>
-        <p id="cand-mission-recap" class="text-xs text-gray-500 mt-0.5 truncate">—</p>
+        <h3 class="font-bold text-gray-900 text-lg">Candidats pour la commande</h3>
+        <p id="cand-commande-recap" class="text-xs text-gray-500 mt-0.5 truncate">—</p>
       </div>
       <button id="candidates-close" type="button" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
@@ -681,8 +682,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
           <input id="cand-filter-qualif" type="text" placeholder="Filtrer par qualification..." class="h-8 w-full rounded-lg border border-gray-200 bg-white pl-8 pr-2 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
         </div>
-        <select id="cand-filter-departement" class="h-8 rounded-lg border border-gray-200 bg-white px-2 text-xs text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-          <option value="">Tous les départements</option>
+        <select id="cand-filter-secteur" class="h-8 rounded-lg border border-gray-200 bg-white px-2 text-xs text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          <option value="">Tous les secteurs</option>
           <option value="Restauration">Restauration</option>
           <option value="Hébergement">Hébergement</option>
           <option value="Housekeeping">Housekeeping</option>
@@ -714,23 +715,23 @@
 <!-- TOOLTIP CONTACT CANDIDAT : positionné en fixed via JS pour ne jamais être coupé par le scroll de la liste (ex : dernier candidat) -->
 <div id="cand-tooltip" class="hidden fixed z-[80] w-60 rounded-lg border border-gray-200 bg-white shadow-lg p-3 pointer-events-none"></div>
 
-<!-- BACKDROP CRÉATION MISSION -->
-<div id="create-mission-backdrop" class="fixed inset-0 bg-gray-900/30 z-[60] hidden"></div>
+<!-- BACKDROP CRÉATION COMMANDE -->
+<div id="create-commande-backdrop" class="fixed inset-0 bg-gray-900/30 z-[60] hidden"></div>
 
-<!-- MODALE CRÉATION MISSION MANUELLE -->
-<div id="create-mission-modal" class="fixed inset-0 z-[70] hidden flex items-center justify-center p-4">
+<!-- MODALE CRÉATION COMMANDE MANUELLE -->
+<div id="create-commande-modal" class="fixed inset-0 z-[70] hidden flex items-center justify-center p-4">
   <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
     <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3">
       <div>
-        <h3 class="font-bold text-gray-900 text-lg">Nouvelle mission</h3>
+        <h3 class="font-bold text-gray-900 text-lg">Nouvelle commande</h3>
         <p class="text-xs text-gray-500 mt-0.5">Création manuelle d'une ligne de planning pour le jour affiché</p>
       </div>
-      <button type="button" onclick="closeCreateMissionModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
+      <button type="button" onclick="closeCreateCommandeModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
       </button>
     </div>
 
-    <form id="create-mission-form" class="p-5 space-y-4 overflow-y-auto" onsubmit="return false;">
+    <form id="create-commande-form" class="p-5 space-y-4 overflow-y-auto" onsubmit="return false;">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Client</label>
@@ -743,8 +744,9 @@
         <div>
           <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Agence</label>
           <select id="cm-agence" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-            <option>Paris Hôtellerie</option>
-            <option>Paris Restauration</option>
+            <option>001</option>
+            <option>002</option>
+            <option>003</option>
           </select>
         </div>
         <div>
@@ -794,8 +796,8 @@
     </form>
 
     <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
-      <button type="button" onclick="closeCreateMissionModal()" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-100 transition-colors">Annuler</button>
-      <button type="button" onclick="createManualMission()" class="px-5 py-2 rounded-lg bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white text-sm font-semibold shadow hover:opacity-95 transition-colors">Créer la mission</button>
+      <button type="button" onclick="closeCreateCommandeModal()" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-100 transition-colors">Annuler</button>
+      <button type="button" onclick="createManualCommande()" class="px-5 py-2 rounded-lg bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white text-sm font-semibold shadow hover:opacity-95 transition-colors">Créer la commande</button>
     </div>
   </div>
 </div>
@@ -851,35 +853,35 @@
   closeBtn.addEventListener('click', closePanel);
   backdrop.addEventListener('click', closePanel);
 
-  // ===== CANDIDATS : voir les résultats de matching sur la colonne Intérimaire, filtrer (dont par département) et repositionner si besoin =====
+  // ===== CANDIDATS : voir les résultats de matching sur la colonne Intérimaire, filtrer (dont par secteur) et repositionner si besoin =====
 
   // Vivier partagé d'intérimaires (mêmes profils que Planning / Disponibilités / Intérimaires)
   const interimRoster = [
-    { name: 'Sofia MARTINS', init: 'SM', qual: 'Chef de rang', departement: 'Restauration', vehicule: true, dispo: true, note: '4.8/5', dernierContrat: '15 sept. 2026', phone: '06 12 45 78 90', email: 'sofia.martins@gmail.com', specialites: ['Gastronomique', 'Banquet / Événementiel'] },
-    { name: 'Karim DIALLO', init: 'KD', qual: 'Cuisinier', departement: 'Restauration', vehicule: true, dispo: false, raisonIndispo: 'En mission (Le Meurice, jusqu\'au 25/09)', note: '4.3/5', dernierContrat: '02 sept. 2026', phone: '07 65 32 10 44', email: 'karim.diallo@gmail.com', specialites: ['Brunch'] },
-    { name: 'Léa ROUSSEL', init: 'LR', qual: 'Réceptionniste', departement: 'Hébergement', vehicule: true, dispo: true, note: '4.9/5', dernierContrat: '18 sept. 2026', phone: '06 78 90 12 33', email: 'lea.roussel@gmail.com', logiciels: ['Opera Cloud', 'Opera PMS', 'Fidelio', 'Mews'] },
-    { name: 'Thomas NGUYEN', init: 'TN', qual: 'Plongeur', departement: 'Restauration', vehicule: false, dispo: false, raisonIndispo: 'Indisponibilité déclarée (jusqu\'au 27/09)', note: '4.0/5', dernierContrat: '28 août 2026', phone: '06 23 56 89 21', email: 'thomas.nguyen@gmail.com', specialites: ['Banquet / Événementiel'] },
-    { name: 'Amandine BERTIN', init: 'AB', qual: 'Pâtissière', departement: 'Restauration', vehicule: true, dispo: true, note: '4.7/5', dernierContrat: '10 sept. 2026', phone: '06 44 12 87 65', email: 'amandine.bertin@gmail.com', specialites: ['Gastronomique'] },
-    { name: 'Yanis MOKRANE', init: 'YM', qual: 'Barman', departement: 'Restauration', vehicule: false, dispo: true, note: '4.4/5', dernierContrat: '20 sept. 2026', phone: '07 11 22 33 44', email: 'yanis.mokrane@gmail.com', specialites: ['Banquet / Événementiel'] },
-    { name: 'Camille DUBOIS', init: 'CD', qual: 'Sommelière', departement: 'Restauration', vehicule: true, dispo: true, note: '4.6/5', dernierContrat: '12 sept. 2026', phone: '06 55 44 33 22', email: 'camille.dubois@gmail.com', specialites: ['Gastronomique'] },
-    { name: 'Mehdi KACI', init: 'MK', qual: 'Commis de cuisine', departement: 'Restauration', vehicule: true, dispo: true, note: '4.2/5', dernierContrat: '22 sept. 2026', phone: '07 88 99 00 11', email: 'mehdi.kaci@gmail.com', specialites: ['Brunch'] },
-    { name: 'Julie PETIT', init: 'JP', qual: "Hôtesse d'accueil", departement: 'Hébergement', vehicule: false, dispo: true, note: '4.5/5', dernierContrat: '19 sept. 2026', phone: '06 33 22 11 00', email: 'julie.petit@gmail.com', logiciels: ['Mews'] },
-    { name: 'Paul GAUTHIER', init: 'PG', qual: "Maître d'hôtel", departement: 'Restauration', vehicule: true, dispo: false, raisonIndispo: 'En mission (Potel et Chabot, jusqu\'au 23/09)', note: '4.9/5', dernierContrat: '27 sept. 2026', phone: '07 34 56 78 90', email: 'paul.gauthier@gmail.com', specialites: ['Gastronomique', 'Banquet / Événementiel'] },
-    { name: 'Rachid BENALI', init: 'RB', qual: 'Chef cuisinier', departement: 'Restauration', vehicule: true, dispo: true, note: '4.7/5', dernierContrat: '14 sept. 2026', phone: '06 90 80 70 60', email: 'rachid.benali@gmail.com', specialites: ['Gastronomique'] },
-    { name: 'Emma LEFEBVRE', init: 'EL', qual: 'Serveuse', departement: 'Restauration', vehicule: false, dispo: true, note: '4.1/5', dernierContrat: '05 sept. 2026', phone: '06 21 43 65 87', email: 'emma.lefebvre@gmail.com', specialites: ['Brunch'] },
-    { name: 'Nadia FONTAINE', init: 'NF', qual: 'Femme de chambre', departement: 'Housekeeping', vehicule: false, dispo: true, note: '4.6/5', dernierContrat: '16 sept. 2026', phone: '06 66 77 88 99', email: 'nadia.fontaine@gmail.com', etoiles: [3, 4, 5] }
+    { name: 'Sofia MARTINS', init: 'SM', qual: 'Chef de rang', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.8/5', dernierContrat: '15 sept. 2026', phone: '06 12 45 78 90', email: 'sofia.martins@gmail.com', specialites: ['Gastronomique', 'Banquet / Événementiel'] },
+    { name: 'Karim DIALLO', init: 'KD', qual: 'Cuisinier', secteur: 'Restauration', vehicule: true, dispo: false, raisonIndispo: 'En commande (Le Meurice, jusqu\'au 25/09)', note: '4.3/5', dernierContrat: '02 sept. 2026', phone: '07 65 32 10 44', email: 'karim.diallo@gmail.com', specialites: ['Brunch'] },
+    { name: 'Léa ROUSSEL', init: 'LR', qual: 'Réceptionniste', secteur: 'Hébergement', vehicule: true, dispo: true, note: '4.9/5', dernierContrat: '18 sept. 2026', phone: '06 78 90 12 33', email: 'lea.roussel@gmail.com', logiciels: ['Opera Cloud', 'Opera PMS', 'Fidelio', 'Mews'] },
+    { name: 'Thomas NGUYEN', init: 'TN', qual: 'Plongeur', secteur: 'Restauration', vehicule: false, dispo: false, raisonIndispo: 'Indisponibilité déclarée (jusqu\'au 27/09)', note: '4.0/5', dernierContrat: '28 août 2026', phone: '06 23 56 89 21', email: 'thomas.nguyen@gmail.com', specialites: ['Banquet / Événementiel'] },
+    { name: 'Amandine BERTIN', init: 'AB', qual: 'Pâtissière', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.7/5', dernierContrat: '10 sept. 2026', phone: '06 44 12 87 65', email: 'amandine.bertin@gmail.com', specialites: ['Gastronomique'] },
+    { name: 'Yanis MOKRANE', init: 'YM', qual: 'Barman', secteur: 'Restauration', vehicule: false, dispo: true, note: '4.4/5', dernierContrat: '20 sept. 2026', phone: '07 11 22 33 44', email: 'yanis.mokrane@gmail.com', specialites: ['Banquet / Événementiel'] },
+    { name: 'Camille DUBOIS', init: 'CD', qual: 'Sommelière', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.6/5', dernierContrat: '12 sept. 2026', phone: '06 55 44 33 22', email: 'camille.dubois@gmail.com', specialites: ['Gastronomique'] },
+    { name: 'Mehdi KACI', init: 'MK', qual: 'Commis de cuisine', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.2/5', dernierContrat: '22 sept. 2026', phone: '07 88 99 00 11', email: 'mehdi.kaci@gmail.com', specialites: ['Brunch'] },
+    { name: 'Julie PETIT', init: 'JP', qual: "Hôtesse d'accueil", secteur: 'Hébergement', vehicule: false, dispo: true, note: '4.5/5', dernierContrat: '19 sept. 2026', phone: '06 33 22 11 00', email: 'julie.petit@gmail.com', logiciels: ['Mews'] },
+    { name: 'Paul GAUTHIER', init: 'PG', qual: "Maître d'hôtel", secteur: 'Restauration', vehicule: true, dispo: false, raisonIndispo: 'En commande (Potel et Chabot, jusqu\'au 23/09)', note: '4.9/5', dernierContrat: '27 sept. 2026', phone: '07 34 56 78 90', email: 'paul.gauthier@gmail.com', specialites: ['Gastronomique', 'Banquet / Événementiel'] },
+    { name: 'Rachid BENALI', init: 'RB', qual: 'Chef cuisinier', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.7/5', dernierContrat: '14 sept. 2026', phone: '06 90 80 70 60', email: 'rachid.benali@gmail.com', specialites: ['Gastronomique'] },
+    { name: 'Emma LEFEBVRE', init: 'EL', qual: 'Serveuse', secteur: 'Restauration', vehicule: false, dispo: true, note: '4.1/5', dernierContrat: '05 sept. 2026', phone: '06 21 43 65 87', email: 'emma.lefebvre@gmail.com', specialites: ['Brunch'] },
+    { name: 'Nadia FONTAINE', init: 'NF', qual: 'Femme de chambre', secteur: 'Housekeeping', vehicule: false, dispo: true, note: '4.6/5', dernierContrat: '16 sept. 2026', phone: '06 66 77 88 99', email: 'nadia.fontaine@gmail.com', etoiles: [3, 4, 5] }
   ];
 
-  // Config par mission : département (détermine le filtre conditionnel proposé), qualification exacte / proche, qui connaît déjà ce chantier,
+  // Config par commande : secteur (détermine le filtre conditionnel proposé), qualification exacte / proche, qui connaît déjà ce chantier,
   // et condValue = l'exigence du chantier sur le filtre conditionnel (pré-appliquée automatiquement à l'ouverture des candidats)
-  const missionConfig = {
-    'CMD-2609-01': { recap: 'Chef de rang · Hôtel Le Meurice · 11:00 - 19:00', current: null, departement: 'Restauration', exact: ['Chef de rang'], related: ["Maître d'hôtel", 'Serveuse'], connuPar: ['Sofia MARTINS', 'Paul GAUTHIER'], condValue: 'Gastronomique' },
-    'CMD-2609-02': { recap: 'Extra service · Potel et Chabot Traiteur · 18:00 - 01:00', current: 'Sofia MARTINS', departement: 'Restauration', exact: [], related: ['Serveuse', "Hôtesse d'accueil", 'Chef de rang'], connuPar: ['Sofia MARTINS', 'Emma LEFEBVRE'], condValue: 'Banquet / Événementiel' },
-    'CMD-2609-03': { recap: "Commis de cuisine · Fouquet's Barrière · 09:00 - 17:00", current: 'Mehdi KACI', departement: 'Restauration', exact: ['Commis de cuisine'], related: ['Cuisinier', 'Chef cuisinier', 'Pâtissière'], connuPar: ['Mehdi KACI', 'Rachid BENALI'], condValue: 'Gastronomique' },
-    'CMD-2609-04': { recap: 'Réceptionniste · Novotel Paris Est · 07:00 - 15:00', current: 'Julie PETIT', departement: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Julie PETIT'], condValue: 'Opera Cloud' }
+  const commandeConfig = {
+    'CMD-2609-01': { recap: 'Chef de rang · Hôtel Le Meurice · 11:00 - 19:00', current: null, secteur: 'Restauration', exact: ['Chef de rang'], related: ["Maître d'hôtel", 'Serveuse'], connuPar: ['Sofia MARTINS', 'Paul GAUTHIER'], condValue: 'Gastronomique' },
+    'CMD-2609-02': { recap: 'Extra service · Potel et Chabot Traiteur · 18:00 - 01:00', current: 'Sofia MARTINS', secteur: 'Restauration', exact: [], related: ['Serveuse', "Hôtesse d'accueil", 'Chef de rang'], connuPar: ['Sofia MARTINS', 'Emma LEFEBVRE'], condValue: 'Banquet / Événementiel' },
+    'CMD-2609-03': { recap: "Commis de cuisine · Fouquet's Barrière · 09:00 - 17:00", current: 'Mehdi KACI', secteur: 'Restauration', exact: ['Commis de cuisine'], related: ['Cuisinier', 'Chef cuisinier', 'Pâtissière'], connuPar: ['Mehdi KACI', 'Rachid BENALI'], condValue: 'Gastronomique' },
+    'CMD-2609-04': { recap: 'Réceptionniste · Novotel Paris Est · 07:00 - 15:00', current: 'Julie PETIT', secteur: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Julie PETIT'], condValue: 'Opera Cloud' }
   };
 
-  // Filtre conditionnel proposé selon le département de la mission (aligné sur les compétences déclaratives des fiches intérimaire)
+  // Filtre conditionnel proposé selon le secteur de la commande (aligné sur les compétences déclaratives des fiches intérimaire)
   const conditionalFilterConfig = {
     'Restauration': { id: 'cand-filter-specialite', label: 'Spécialité maîtrisée', type: 'select', field: 'specialites', options: ['Gastronomique', 'Banquet / Événementiel', 'Brunch'] },
     'Hébergement': { id: 'cand-filter-logiciel', label: 'Logiciel maîtrisé', type: 'text', field: 'logiciels', placeholder: 'Ex : Opera, Mews...' },
@@ -900,20 +902,20 @@
 
   const candidatesBackdrop = document.getElementById('candidates-backdrop');
   const candidatesModal = document.getElementById('candidates-modal');
-  const candMissionRecap = document.getElementById('cand-mission-recap');
+  const candCommandeRecap = document.getElementById('cand-commande-recap');
   const candidatesList = document.getElementById('candidates-list');
   const candResultsCount = document.getElementById('cand-results-count');
   const candFilterQualif = document.getElementById('cand-filter-qualif');
-  const candFilterDepartement = document.getElementById('cand-filter-departement');
+  const candFilterSecteur = document.getElementById('cand-filter-secteur');
   const candFilterConditionalWrap = document.getElementById('cand-filter-conditional-wrap');
   const candFilterChantier = document.getElementById('cand-filter-chantier');
   const candFilterDispo = document.getElementById('cand-filter-dispo');
   const candFilterVehicule = document.getElementById('cand-filter-vehicule');
   let currentCandCmd = null;
 
-  // Construit le filtre conditionnel (spécialité / logiciel / étoiles) en fonction du département sélectionné
-  function renderConditionalFilter(departement) {
-    const condCfg = conditionalFilterConfig[departement];
+  // Construit le filtre conditionnel (spécialité / logiciel / étoiles) en fonction du secteur sélectionné
+  function renderConditionalFilter(secteur) {
+    const condCfg = conditionalFilterConfig[secteur];
     if (!condCfg) { candFilterConditionalWrap.innerHTML = ''; return; }
 
     if (condCfg.type === 'select') {
@@ -932,8 +934,8 @@
     });
   }
 
-  function matchesConditionalFilter(person, departement) {
-    const condCfg = conditionalFilterConfig[departement];
+  function matchesConditionalFilter(person, secteur) {
+    const condCfg = conditionalFilterConfig[secteur];
     if (!condCfg) return true;
     const el = document.getElementById(condCfg.id);
     const value = el ? el.value.trim() : '';
@@ -945,18 +947,18 @@
   }
 
   function renderCandidates(cmd) {
-    const cfg = missionConfig[cmd];
-    candMissionRecap.textContent = cfg.recap;
+    const cfg = commandeConfig[cmd];
+    candCommandeRecap.textContent = cfg.recap;
 
     const qualifFilter = candFilterQualif.value.trim().toLowerCase();
-    const deptFilter = candFilterDepartement.value;
+    const deptFilter = candFilterSecteur.value;
     const chantierOnly = candFilterChantier.checked;
     const dispoOnly = candFilterDispo.checked;
     const vehiculeOnly = candFilterVehicule.checked;
 
     let filtered = interimRoster.filter(p => {
       if (qualifFilter && !p.qual.toLowerCase().includes(qualifFilter)) return false;
-      if (deptFilter && p.departement !== deptFilter) return false;
+      if (deptFilter && p.secteur !== deptFilter) return false;
       if (chantierOnly && !cfg.connuPar.includes(p.name)) return false;
       if (dispoOnly && !p.dispo) return false;
       if (vehiculeOnly && !p.vehicule) return false;
@@ -985,7 +987,7 @@
             <div class="w-10 h-10 rounded-full ${colors.avatar} flex items-center justify-center font-bold text-sm flex-shrink-0 cursor-default">${c.init}</div>
             <div class="min-w-0 cursor-default">
               <p class="text-sm font-bold text-gray-900 truncate">${c.name}</p>
-              <p class="text-xs text-gray-500 truncate">${c.qual} <span class="text-gray-300">·</span> ${c.departement}</p>
+              <p class="text-xs text-gray-500 truncate">${c.qual} <span class="text-gray-300">·</span> ${c.secteur}</p>
               <div class="flex items-center gap-1.5 mt-1 flex-wrap">
                 <span class="inline-flex items-center rounded-full border ${colors.badge} text-[10px] font-semibold px-2 py-0.5">${match.tag}</span>
                 ${c.dispo ? `<span class="inline-flex items-center gap-1 text-[10px] font-medium text-green-700"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>Disponible</span>` : `<span class="inline-flex items-center gap-1 text-[10px] font-medium text-gray-500"><span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>Indisponible${c.raisonIndispo ? ' — ' + c.raisonIndispo : ''}</span>`}
@@ -1061,17 +1063,17 @@
   document.getElementById('candidates-list').addEventListener('scroll', hideCandTooltip);
 
   function resetCandidateFilters(cmd) {
-    const cfg = missionConfig[cmd];
+    const cfg = commandeConfig[cmd];
     candFilterQualif.value = '';
-    candFilterDepartement.value = cfg ? cfg.departement : '';
+    candFilterSecteur.value = cfg ? cfg.secteur : '';
     candFilterChantier.checked = false;
     candFilterDispo.checked = false;
     candFilterVehicule.checked = false;
-    renderConditionalFilter(candFilterDepartement.value);
+    renderConditionalFilter(candFilterSecteur.value);
 
-    // Le filtre conditionnel (spécialité / logiciel / étoiles) est pré-rempli avec l'exigence du chantier pour cette mission
+    // Le filtre conditionnel (spécialité / logiciel / étoiles) est pré-rempli avec l'exigence du chantier pour cette commande
     if (cfg && cfg.condValue) {
-      const condCfg = conditionalFilterConfig[cfg.departement];
+      const condCfg = conditionalFilterConfig[cfg.secteur];
       if (condCfg) {
         const el = document.getElementById(condCfg.id);
         if (el) el.value = cfg.condValue;
@@ -1095,7 +1097,7 @@
   }
 
   function assignCandidate(cmd, name) {
-    const cfg = missionConfig[cmd];
+    const cfg = commandeConfig[cmd];
     const candidate = interimRoster.find(p => p.name === name);
     if (!candidate) return;
     cfg.current = candidate.name;
@@ -1119,8 +1121,8 @@
   candidatesBackdrop.addEventListener('click', closeCandidatesModal);
   document.getElementById('cand-filter-reset').addEventListener('click', () => { if (currentCandCmd) { resetCandidateFilters(currentCandCmd); renderCandidates(currentCandCmd); } });
   candFilterQualif.addEventListener('input', () => { if (currentCandCmd) renderCandidates(currentCandCmd); });
-  candFilterDepartement.addEventListener('change', () => {
-    renderConditionalFilter(candFilterDepartement.value);
+  candFilterSecteur.addEventListener('change', () => {
+    renderConditionalFilter(candFilterSecteur.value);
     if (currentCandCmd) renderCandidates(currentCandCmd);
   });
   candFilterChantier.addEventListener('change', () => { if (currentCandCmd) renderCandidates(currentCandCmd); });
@@ -1141,7 +1143,7 @@
       btnJour.className = "px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white shadow";
       btnSemaine.className = "px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50";
       pageTitle.textContent = "Planning du jour";
-      pageSubtitle.textContent = "Affectations et gestion des missions de travail temporaire";
+      pageSubtitle.textContent = "Affectations et gestion des commandes de travail temporaire";
     } else {
       viewDay.classList.add('hidden');
       viewWeek.classList.remove('hidden');
@@ -1192,20 +1194,20 @@
     });
   }
 
-  // Création manuelle d'une mission : ouvre la modale, construit une nouvelle ligne de planning et l'ajoute en tête de la vue jour
-  let newMissionCounter = 6;
-  function openCreateMissionModal() {
-    document.getElementById('create-mission-backdrop').classList.remove('hidden');
-    document.getElementById('create-mission-modal').classList.remove('hidden');
+  // Création manuelle d'une commande : ouvre la modale, construit une nouvelle ligne de planning et l'ajoute en tête de la vue jour
+  let newCommandeCounter = 6;
+  function openCreateCommandeModal() {
+    document.getElementById('create-commande-backdrop').classList.remove('hidden');
+    document.getElementById('create-commande-modal').classList.remove('hidden');
   }
-  function closeCreateMissionModal() {
-    document.getElementById('create-mission-backdrop').classList.add('hidden');
-    document.getElementById('create-mission-modal').classList.add('hidden');
-    document.getElementById('create-mission-form').reset();
+  function closeCreateCommandeModal() {
+    document.getElementById('create-commande-backdrop').classList.add('hidden');
+    document.getElementById('create-commande-modal').classList.add('hidden');
+    document.getElementById('create-commande-form').reset();
   }
-  document.getElementById('create-mission-backdrop').addEventListener('click', closeCreateMissionModal);
+  document.getElementById('create-commande-backdrop').addEventListener('click', closeCreateCommandeModal);
 
-  function createManualMission() {
+  function createManualCommande() {
     const client = document.getElementById('cm-client').value.trim() || 'Client à préciser';
     const chantier = document.getElementById('cm-chantier').value.trim() || 'Chantier à préciser';
     const agence = document.getElementById('cm-agence').value;
@@ -1219,7 +1221,7 @@
     const contactTel = document.getElementById('cm-contact-tel').value.trim() || '—';
     const remarque = document.getElementById('cm-remarque').value.trim() || 'Aucune remarque particulière.';
 
-    const cmd = 'CMD-2609-' + String(newMissionCounter++).padStart(2, '0');
+    const cmd = 'CMD-2609-' + String(newCommandeCounter++).padStart(2, '0');
     const heureLabel = heureDebut + ' - ' + heureFin;
 
     const row = document.createElement('div');
@@ -1273,7 +1275,7 @@
 
     const container = document.querySelector('#view-day > .divide-y');
     container.insertBefore(row, container.firstChild);
-    closeCreateMissionModal();
+    closeCreateCommandeModal();
   }
 </script>
 

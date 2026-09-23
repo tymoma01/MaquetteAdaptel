@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel Client - Tableau de bord</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .viz-root {
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --series-3: #1baf7a;
+    --series-4: #eda100;
+    --series-5: #e87ba4;
+  }
+  .donut-seg { transition: opacity .12s ease, stroke-width .12s ease; cursor: pointer; }
+  .donut-seg:hover { opacity: .85; }
+  [data-role-gate] { display: none !important; }
+  .chat-panel { transition: transform .2s ease, opacity .2s ease; }
+</style>
+</head>
+<body class="antialiased bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen text-gray-900">
+
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0 z-30" style="width:264px;">
+    <div class="p-6 border-b border-gray-200">
+      <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+      <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Espace Client</p>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+      <a class="block" href="client-dashboard.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg>
+          <span class="font-medium">Tableau de bord</span>
+        </div>
+      </a>
+      <a class="block" href="client-planning.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path></svg>
+          <span class="font-medium">Planning</span>
+        </div>
+      </a>
+      <a class="block" href="client-interimaires.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="client-commandes.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Commandes</span>
+        </div>
+      </a>
+      <a class="block" href="client-releve-heures.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevé d'heures</span>
+        </div>
+      </a>
+      <a class="block" id="nav-depenses-link" href="client-depenses.html">
+        <div id="nav-depenses" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            <span class="font-medium">Dépenses</span>
+          </div>
+          <svg id="depenses-lock" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 hidden"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+      </a>
+      <a class="block" href="client-qualifications.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m9 11 3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          <span class="font-medium">Qualifications</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="flex-1 overflow-auto flex flex-col min-w-0">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between gap-3 sticky top-0 z-20">
+      <div class="relative">
+        <button id="etab-btn" onclick="toggleDropdown('etab-menu')" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-all duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+          <span id="etab-label" class="text-base font-semibold text-gray-700">Hyatt Regency Paris Étoile</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400"><path d="m6 9 6 6 6-6"></path></svg>
+        </button>
+        <div id="etab-menu" class="hidden absolute left-0 mt-1 w-72 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-30">
+          <p class="px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-gray-400">Vos établissements</p>
+          <button onclick="setEtablissement('Hyatt Regency Paris Étoile')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-gray-50 flex items-center justify-between">
+            <span class="font-medium text-gray-800">Hyatt Regency Paris Étoile</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629]"><path d="M20 6 9 17l-5-5"></path></svg>
+          </button>
+          <button onclick="setEtablissement('Hyatt Regency Paris Madeleine')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-gray-50 text-gray-600">
+            Hyatt Regency Paris Madeleine
+          </button>
+          <div class="border-t border-gray-100 mt-1 pt-2 px-4">
+            <p class="text-[11px] text-gray-400">Vue consolidée disponible selon vos droits d'accès.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="relative hidden md:block">
+          <button onclick="toggleDropdown('role-menu')" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-dashed border-gray-300 text-xs text-gray-500 hover:bg-gray-50">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="12" cy="12" r="3"></circle><path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"></path></svg>
+            Aperçu rôle : <strong id="role-label" class="text-gray-700 font-semibold">Manager</strong>
+          </button>
+          <div id="role-menu" class="hidden absolute right-0 mt-1 w-56 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-30">
+            <button onclick="setRole('Admin')" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">Admin</button>
+            <button onclick="setRole('Manager')" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">Manager</button>
+            <button onclick="setRole('Standard')" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">Utilisateur standard</button>
+          </div>
+        </div>
+        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">3</span>
+        </button>
+        <div class="flex items-center gap-2 pl-3 border-l border-gray-200">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold bg-gradient-to-br from-[#A63629] to-[#8B2B1F]">TY</div>
+          <div class="hidden lg:block">
+            <p class="text-sm font-semibold text-gray-800 leading-tight">Thomas Yamini</p>
+            <p class="text-xs text-gray-500 leading-tight">Directeur d'exploitation</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="p-6 space-y-6 max-w-[1500px] w-full mx-auto">
+
+      <!-- TITRE + SERVICES -->
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Tableau de bord</h1>
+          <p class="text-gray-600 text-sm mt-0.5">Bienvenue, <span class="font-semibold text-gray-800">Thomas Yamini</span> — voici l'activité de votre établissement</p>
+        </div>
+      </div>
+
+      <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="service-tabs">
+        <button data-service="" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous services</button>
+        <button data-service="Hébergement" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Hébergement</button>
+        <button data-service="Housekeeping" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Housekeeping</button>
+        <button data-service="Restauration" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Restauration</button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- INTERLOCUTEUR PRIVILEGIE -->
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-6">
+          <h3 class="flex items-center gap-2 text-gray-900 font-bold mb-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-[#A63629]"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
+            Votre interlocuteur privilégié
+          </h3>
+          <p class="text-xs text-gray-500 mb-4">Le contact Adaptel référent pour cet établissement</p>
+          <div id="interlocuteur-card">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-gradient-to-br from-[#A63629] to-[#8B2B1F] rounded-full flex items-center justify-center flex-shrink-0 shadow-lg">
+                <span id="interlocuteur-initiales" class="text-sm font-bold text-white">JC</span>
+              </div>
+              <div>
+                <p id="interlocuteur-nom" class="text-base font-semibold text-gray-900">Julien Castex</p>
+                <p id="interlocuteur-fonction" class="text-sm text-gray-600">Commercial grands comptes</p>
+              </div>
+            </div>
+            <div class="mt-4 space-y-1.5">
+              <p class="text-sm text-gray-600 flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                <span id="interlocuteur-email">j.castex@adaptel.fr</span>
+              </p>
+              <p class="text-sm text-gray-600 flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                <span id="interlocuteur-tel">06 71 22 45 90</span>
+              </p>
+            </div>
+          </div>
+          <a id="interlocuteur-appel" href="tel:0671224590" class="mt-5 w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold h-10 px-4 text-white bg-gradient-to-r from-[#A63629] to-[#8B2B1F] shadow-md hover:shadow-lg transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+            Appeler mon interlocuteur
+          </a>
+        </div>
+
+        <!-- BUDGET PREVISIONNEL (donut) - role gated -->
+        <div class="lg:col-span-2 rounded-xl border border-gray-200 bg-white shadow-sm p-6 viz-root relative overflow-hidden">
+          <div class="flex items-start justify-between mb-1">
+            <div>
+              <h3 class="flex items-center gap-2 text-gray-900 font-bold">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-[#A63629]"><circle cx="12" cy="12" r="10"></circle><path d="M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"></path></svg>
+                Dépenses prévisionnelles du mois
+              </h3>
+              <p class="text-xs text-gray-500 mt-0.5">Septembre 2026 · ventilé par qualification — <a href="client-depenses.html" class="text-[#A63629] font-semibold hover:underline">voir le détail</a></p>
+            </div>
+          </div>
+
+          <div data-role-gate="manager-admin" class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center mt-2">
+            <div class="relative flex items-center justify-center">
+              <svg id="donut-svg" viewBox="0 0 220 220" class="w-56 h-56"></svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <p id="donut-total" class="text-2xl font-bold text-gray-900">—</p>
+                <p class="text-[11px] text-gray-500 uppercase tracking-wide font-semibold">Total prévu</p>
+              </div>
+            </div>
+            <div id="donut-legend" class="space-y-2 text-sm"></div>
+          </div>
+
+          <div data-role-gate="standard" class="flex flex-col items-center justify-center text-center py-10 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10 mb-3"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <p class="text-sm font-semibold text-gray-500">Indicateurs réservés aux managers / administrateurs</p>
+            <p class="text-xs text-gray-400 mt-1 max-w-sm">Votre rôle actuel ne donne pas accès au budget prévisionnel et aux dépenses de ce service.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- PLANNING SUMMARY -->
+        <div class="lg:col-span-2 rounded-xl border border-gray-200 bg-white shadow-sm p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="flex items-center gap-2 text-gray-900 font-bold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-[#A63629]"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+              Prochaines missions
+            </h3>
+            <a href="client-planning.html" class="text-sm font-semibold text-[#A63629] hover:underline flex items-center gap-1">
+              Voir le planning
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+          </div>
+          <div id="planning-summary" class="space-y-2.5"></div>
+        </div>
+
+        <!-- ACTIONS RAPIDES -->
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-6">
+          <h3 class="text-gray-900 font-bold mb-4">Actions rapides</h3>
+          <div class="space-y-2.5">
+            <a href="client-commandes.html#nouvelle" class="group flex items-center justify-between px-4 py-3 rounded-xl text-white font-semibold transition-all hover:shadow-lg" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+              <span>Passer une commande</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 group-hover:translate-x-1 transition-transform"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+            <a href="client-interimaires.html" class="group flex items-center justify-between px-4 py-3 bg-gray-100 text-gray-800 rounded-xl font-semibold hover:bg-gray-200 transition-all">
+              <span>Mes intérimaires favoris</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 group-hover:translate-x-1 transition-transform"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+            <a href="client-releve-heures.html" class="group flex items-center justify-between px-4 py-3 bg-gray-100 text-gray-800 rounded-xl font-semibold hover:bg-gray-200 transition-all">
+              <span>Relevés à valider</span>
+              <span class="flex items-center gap-2">
+                <span class="bg-[#A63629] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">4</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 group-hover:translate-x-1 transition-transform"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- CHATBOT FLOTTANT -->
+<div class="fixed bottom-6 right-6 z-40 flex flex-col items-end">
+  <div id="chat-panel" class="chat-panel hidden mb-3 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden" style="height:420px;">
+    <div class="px-4 py-3 text-white flex items-center justify-between" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+      <div>
+        <p class="font-semibold text-sm">Support Adaptel</p>
+        <p class="text-[11px] text-white/80">Réponse garantie sous 2h</p>
+      </div>
+      <button onclick="toggleChat()" class="p-1 hover:bg-white/10 rounded-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    <div class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 text-sm">
+      <div class="flex justify-start">
+        <div class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-2 max-w-[85%] shadow-sm">
+          Bonjour Thomas 👋 Une question sur une commande ou un relevé d'heures ? L'équipe Opérations vous répond ici.
+        </div>
+      </div>
+      <div class="flex justify-end">
+        <div class="text-white rounded-2xl rounded-br-sm px-3 py-2 max-w-[85%] shadow-sm" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+          Bonjour, la commande de vendredi soir est-elle bien pourvue ?
+        </div>
+      </div>
+      <div class="flex justify-start">
+        <div class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-2 max-w-[85%] shadow-sm">
+          Oui, elle est validée avec 2 intérimaires positionnés. Vous pouvez le vérifier dans Planning.
+        </div>
+      </div>
+    </div>
+    <div class="p-3 border-t border-gray-200 flex items-center gap-2">
+      <input type="text" placeholder="Écrire un message…" class="flex-1 h-9 rounded-lg border border-gray-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+      <button class="w-9 h-9 rounded-lg flex items-center justify-center text-white flex-shrink-0" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
+      </button>
+    </div>
+  </div>
+  <button onclick="toggleChat()" class="w-14 h-14 rounded-full text-white shadow-2xl flex items-center justify-center hover:scale-105 transition-transform" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>
+  </button>
+</div>
+
+<script>
+  // ---------- Dropdowns ----------
+  function toggleDropdown(id) {
+    document.querySelectorAll('[id$="-menu"]').forEach(el => { if (el.id !== id) el.classList.add('hidden'); });
+    document.getElementById(id).classList.toggle('hidden');
+  }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#etab-btn') && !e.target.closest('#etab-menu')) document.getElementById('etab-menu').classList.add('hidden');
+    if (!e.target.closest('[onclick*=role-menu]') && !e.target.closest('#role-menu')) document.getElementById('role-menu').classList.add('hidden');
+  });
+  function setEtablissement(name) {
+    document.getElementById('etab-label').textContent = name;
+    document.getElementById('etab-menu').classList.add('hidden');
+  }
+
+  // ---------- Role gating ----------
+  function setRole(role) {
+    document.getElementById('role-label').textContent = role === 'Standard' ? 'Standard' : role;
+    document.getElementById('role-menu').classList.add('hidden');
+    const isPriv = role === 'Manager' || role === 'Admin';
+    document.querySelectorAll('[data-role-gate="manager-admin"]').forEach(el => el.style.setProperty('display', isPriv ? 'grid' : 'none', 'important'));
+    document.querySelectorAll('[data-role-gate="standard"]').forEach(el => el.style.setProperty('display', !isPriv ? 'flex' : 'none', 'important'));
+    document.getElementById('depenses-lock').classList.toggle('hidden', isPriv);
+    document.getElementById('nav-depenses-link').classList.toggle('pointer-events-none', !isPriv);
+    document.getElementById('nav-depenses').classList.toggle('opacity-40', !isPriv);
+  }
+
+  // ---------- Chatbot ----------
+  function toggleChat() { document.getElementById('chat-panel').classList.toggle('hidden'); }
+
+  // ---------- Data ----------
+  const BUDGET = {
+    "": { total: 20700, items: [
+      { q: "FLEXI BANQUET", montant: 4100 },
+      { q: "FLEXI HOUSEKEEPING", montant: 5400 },
+      { q: "FLEXI HOTE/HOTESSE", montant: 3200 },
+      { q: "FLEXI SOUS-CHEF", montant: 2600 },
+      { q: "FLEXI BAGAGERIE", montant: 1800 },
+      { q: "Autres qualifications", montant: 3600 }
+    ]},
+    "Hébergement": { total: 7100, items: [
+      { q: "FLEXI HOTE/HOTESSE", montant: 3200 },
+      { q: "FLEXI BAGAGERIE", montant: 1800 },
+      { q: "FLEXI MAYO", montant: 1200 },
+      { q: "FLEXI WINDO", montant: 900 }
+    ]},
+    "Housekeeping": { total: 5400, items: [
+      { q: "FLEXI HOUSEKEEPING", montant: 5400 }
+    ]},
+    "Restauration": { total: 8200, items: [
+      { q: "FLEXI BANQUET", montant: 4100 },
+      { q: "FLEXI SOUS-CHEF", montant: 2600 },
+      { q: "EMPLOYE POLYVALENT", montant: 1500 }
+    ]}
+  };
+  const SERIES = ["var(--series-1)", "var(--series-2)", "var(--series-3)", "var(--series-4)", "var(--series-5)", "#c3c2b7"];
+
+  const PLANNING = {
+    "": [
+      { jour: "Aujourd'hui 23/09", service: "Restauration", q: "FLEXI BANQUET", nom: "M. De Luca", horaire: "18h–02h" },
+      { jour: "Aujourd'hui 23/09", service: "Housekeeping", q: "FLEXI HOUSEKEEPING", nom: "L. Richard", horaire: "7h–15h" },
+      { jour: "Demain 24/09", service: "Hébergement", q: "FLEXI HOTE/HOTESSE", nom: "A. Pizzol", horaire: "15h–23h" },
+      { jour: "Ven. 25/09", service: "Restauration", q: "FLEXI SOUS-CHEF", nom: "J. Martin", horaire: "9h–17h" },
+      { jour: "Ven. 25/09", service: "Hébergement", q: "FLEXI BAGAGERIE", nom: "K. Traoré", horaire: "7h–15h" }
+    ],
+    "Hébergement": [
+      { jour: "Demain 24/09", service: "Hébergement", q: "FLEXI HOTE/HOTESSE", nom: "A. Pizzol", horaire: "15h–23h" },
+      { jour: "Ven. 25/09", service: "Hébergement", q: "FLEXI BAGAGERIE", nom: "K. Traoré", horaire: "7h–15h" }
+    ],
+    "Housekeeping": [
+      { jour: "Aujourd'hui 23/09", service: "Housekeeping", q: "FLEXI HOUSEKEEPING", nom: "L. Richard", horaire: "7h–15h" }
+    ],
+    "Restauration": [
+      { jour: "Aujourd'hui 23/09", service: "Restauration", q: "FLEXI BANQUET", nom: "M. De Luca", horaire: "18h–02h" },
+      { jour: "Ven. 25/09", service: "Restauration", q: "FLEXI SOUS-CHEF", nom: "J. Martin", horaire: "9h–17h" }
+    ]
+  };
+
+  function initials(nom) {
+    return nom.split(' ').map(p => p.replace('.', '')[0]).join('').toUpperCase().slice(0,2);
+  }
+
+  function renderDonut(service) {
+    const data = BUDGET[service];
+    const svg = document.getElementById('donut-svg');
+    const cx = 110, cy = 110, r = 80, stroke = 26;
+    const circ = 2 * Math.PI * r;
+    let offset = 0;
+    let content = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#f1f0ed" stroke-width="${stroke}"></circle>`;
+    data.items.forEach((item, i) => {
+      const frac = item.montant / data.total;
+      const len = frac * circ;
+      content += `<circle class="donut-seg" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${SERIES[i % SERIES.length]}" stroke-width="${stroke}"
+        stroke-dasharray="${len.toFixed(1)} ${(circ - len).toFixed(1)}" stroke-dashoffset="${(-offset).toFixed(1)}"
+        transform="rotate(-90 ${cx} ${cy})"><title>${item.q} — ${item.montant.toLocaleString('fr-FR')} € (${Math.round(frac*100)}%)</title></circle>`;
+      offset += len;
+    });
+    svg.innerHTML = content;
+    document.getElementById('donut-total').textContent = data.total.toLocaleString('fr-FR') + ' €';
+
+    document.getElementById('donut-legend').innerHTML = data.items.map((item, i) => `
+      <div class="flex items-center justify-between gap-3">
+        <span class="flex items-center gap-2 text-gray-700">
+          <span class="w-2.5 h-2.5 rounded-sm flex-shrink-0" style="background:${SERIES[i % SERIES.length]}"></span>
+          ${item.q}
+        </span>
+        <span class="font-semibold text-gray-900 whitespace-nowrap">${item.montant.toLocaleString('fr-FR')} €</span>
+      </div>
+    `).join('');
+  }
+
+  function renderPlanning(service) {
+    const rows = PLANNING[service] || [];
+    const el = document.getElementById('planning-summary');
+    if (rows.length === 0) {
+      el.innerHTML = `<p class="text-sm text-gray-400 py-6 text-center">Aucune mission à venir pour ce service.</p>`;
+      return;
+    }
+    el.innerHTML = rows.map(r => `
+      <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-200/60 hover:border-[#A63629]/40 transition-all">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 bg-gradient-to-br from-gray-500 to-gray-600">${initials(r.nom)}</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-bold text-gray-900 truncate">${r.nom} <span class="font-medium text-gray-500">· ${r.horaire}</span></p>
+          <p class="text-xs text-gray-500 truncate">${r.q} · ${r.service}</p>
+        </div>
+        <span class="text-xs font-semibold text-gray-500 whitespace-nowrap">${r.jour}</span>
+      </div>
+    `).join('');
+  }
+
+  function setActiveService(service) {
+    document.querySelectorAll('.service-tab').forEach(btn => {
+      const active = btn.dataset.service === service;
+      btn.classList.toggle('text-white', active);
+      btn.classList.toggle('shadow-md', active);
+      btn.classList.toggle('text-gray-600', !active);
+      btn.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
+    });
+    renderDonut(service);
+    renderPlanning(service);
+  }
+
+  document.querySelectorAll('.service-tab').forEach(btn => {
+    btn.addEventListener('click', () => setActiveService(btn.dataset.service));
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setActiveService("");
+    setRole('Manager');
+  });
+</script>
+
+</body>
+</html>

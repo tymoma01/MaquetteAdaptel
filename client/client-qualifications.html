@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel Client - Qualifications</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .chat-panel { transition: transform .2s ease, opacity .2s ease; }
+  .save-flash { animation: flash 1.2s ease; }
+  @keyframes flash { 0% { background-color: #dcfce7; } 100% { background-color: transparent; } }
+</style>
+</head>
+<body class="antialiased bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen text-gray-900">
+
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0 z-30" style="width:264px;">
+    <div class="p-6 border-b border-gray-200">
+      <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+      <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Espace Client</p>
+    </div>
+    <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+      <a class="block" href="client-dashboard.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg>
+          <span class="font-medium">Tableau de bord</span>
+        </div>
+      </a>
+      <a class="block" href="client-planning.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path></svg>
+          <span class="font-medium">Planning</span>
+        </div>
+      </a>
+      <a class="block" href="client-interimaires.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="client-commandes.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Commandes</span>
+        </div>
+      </a>
+      <a class="block" href="client-releve-heures.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevé d'heures</span>
+        </div>
+      </a>
+      <a class="block" id="nav-depenses-link" href="client-depenses.html">
+        <div id="nav-depenses" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            <span class="font-medium">Dépenses</span>
+          </div>
+        </div>
+      </a>
+      <a class="block" href="client-qualifications.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m9 11 3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          <span class="font-medium">Qualifications</span>
+        </div>
+      </a>
+    </nav>
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="flex-1 overflow-auto flex flex-col min-w-0">
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between gap-3 sticky top-0 z-20">
+      <div class="relative">
+        <button id="etab-btn" onclick="toggleDropdown('etab-menu')" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-all duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+          <span id="etab-label" class="text-base font-semibold text-gray-700">Hyatt Regency Paris Étoile</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400"><path d="m6 9 6 6 6-6"></path></svg>
+        </button>
+        <div id="etab-menu" class="hidden absolute left-0 mt-1 w-72 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-30">
+          <button onclick="setEtablissement('Hyatt Regency Paris Étoile')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-gray-50 font-medium text-gray-800">Hyatt Regency Paris Étoile</button>
+          <button onclick="setEtablissement('Hyatt Regency Paris Madeleine')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-gray-50 text-gray-600">Hyatt Regency Paris Madeleine</button>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">3</span>
+        </button>
+        <div class="flex items-center gap-2 pl-3 border-l border-gray-200">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold bg-gradient-to-br from-[#A63629] to-[#8B2B1F]">TY</div>
+          <div class="hidden lg:block">
+            <p class="text-sm font-semibold text-gray-800 leading-tight">Thomas Yamini</p>
+            <p class="text-xs text-gray-500 leading-tight">Directeur d'exploitation</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="p-6 space-y-5 max-w-[1200px] w-full mx-auto">
+
+      <div>
+        <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Qualifications</h1>
+        <p class="text-gray-600 text-sm mt-0.5">Horaire type, pause par défaut et consignes propres à chaque poste — repris automatiquement à chaque nouvelle demande de mission</p>
+      </div>
+
+      <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="service-tabs">
+        <button data-service="" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous services</button>
+        <button data-service="Hébergement" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Hébergement</button>
+        <button data-service="Housekeeping" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Housekeeping</button>
+        <button data-service="Restauration" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Restauration</button>
+      </div>
+
+      <div id="qualif-list" class="space-y-4"></div>
+
+    </div>
+  </main>
+</div>
+
+<!-- CHATBOT FLOTTANT -->
+<div class="fixed bottom-6 right-6 z-40 flex flex-col items-end">
+  <div id="chat-panel" class="chat-panel hidden mb-3 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden" style="height:420px;">
+    <div class="px-4 py-3 text-white flex items-center justify-between" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+      <div>
+        <p class="font-semibold text-sm">Support Adaptel</p>
+        <p class="text-[11px] text-white/80">Réponse garantie sous 2h</p>
+      </div>
+      <button onclick="toggleChat()" class="p-1 hover:bg-white/10 rounded-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    <div class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 text-sm">
+      <div class="flex justify-start">
+        <div class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-2 max-w-[85%] shadow-sm">
+          Bonjour Thomas 👋 Une question sur une qualification ?
+        </div>
+      </div>
+    </div>
+    <div class="p-3 border-t border-gray-200 flex items-center gap-2">
+      <input type="text" placeholder="Écrire un message…" class="flex-1 h-9 rounded-lg border border-gray-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+      <button class="w-9 h-9 rounded-lg flex items-center justify-center text-white flex-shrink-0" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
+      </button>
+    </div>
+  </div>
+  <button onclick="toggleChat()" class="w-14 h-14 rounded-full text-white shadow-2xl flex items-center justify-center hover:scale-105 transition-transform" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>
+  </button>
+</div>
+
+<script>
+  function toggleDropdown(id) {
+    document.querySelectorAll('[id$="-menu"]').forEach(el => { if (el.id !== id) el.classList.add('hidden'); });
+    document.getElementById(id).classList.toggle('hidden');
+  }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#etab-btn') && !e.target.closest('#etab-menu')) document.getElementById('etab-menu').classList.add('hidden');
+  });
+  function setEtablissement(name) {
+    document.getElementById('etab-label').textContent = name;
+    document.getElementById('etab-menu').classList.add('hidden');
+  }
+  function toggleChat() { document.getElementById('chat-panel').classList.toggle('hidden'); }
+
+  const QUALIFICATIONS = [
+    { id: "q1", nom: "FLEXI HOTE/HOTESSE", service: "Hébergement", taux: 14.5, debut: "07:00", fin: "15:00", pause: 30, consignes: "Tenue noire élégante, badge visible. Accueil en front-desk, ton chaleureux et professionnel." },
+    { id: "q2", nom: "FLEXI BAGAGERIE", service: "Hébergement", taux: 13.5, debut: "07:00", fin: "15:00", pause: 30, consignes: "Tenue technique fournie sur place. Port de charges — chaussures fermées obligatoires." },
+    { id: "q3", nom: "FLEXI MAYO", service: "Hébergement", taux: 13.0, debut: "22:00", fin: "06:00", pause: 30, consignes: "Poste de nuit — se présenter à la conciergerie 15 min avant la prise de poste." },
+    { id: "q4", nom: "FLEXI WINDO", service: "Hébergement", taux: 13.2, debut: "08:00", fin: "16:00", pause: 30, consignes: "" },
+    { id: "q5", nom: "FLEXI HOUSEKEEPING", service: "Housekeeping", taux: 13.8, debut: "09:00", fin: "17:00", pause: 30, consignes: "Chaussures antidérapantes obligatoires. Passage au vestiaire du personnel à l'arrivée." },
+    { id: "q6", nom: "FLEXI BANQUET", service: "Restauration", taux: 15.2, debut: "18:00", fin: "02:00", pause: 20, consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
+    { id: "q7", nom: "FLEXI SOUS-CHEF", service: "Restauration", taux: 16.0, debut: "09:00", fin: "17:00", pause: 45, consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
+    { id: "q8", nom: "EMPLOYE POLYVALENT", service: "Restauration", taux: 13.9, debut: "09:00", fin: "17:00", pause: 30, consignes: "" }
+  ];
+
+  let currentService = "";
+
+  function render() {
+    const rows = QUALIFICATIONS.filter(q => !currentService || q.service === currentService);
+    document.getElementById('qualif-list').innerHTML = rows.map(q => `
+      <div id="card-${q.id}" class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+        <div class="flex items-start justify-between gap-4 flex-wrap mb-4">
+          <div>
+            <h3 class="font-bold text-gray-900">${q.nom}</h3>
+            <p class="text-xs text-gray-500">${q.service}</p>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600">Taux de référence : ${q.taux.toFixed(2)} €/h</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Horaire type — début</label>
+            <input type="time" id="${q.id}-debut" value="${q.debut}" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Horaire type — fin</label>
+            <input type="time" id="${q.id}-fin" value="${q.fin}" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Pause par défaut (min)</label>
+            <input type="number" min="0" step="5" id="${q.id}-pause" value="${q.pause}" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          </div>
+        </div>
+        <div class="mt-4">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Consignes / dress code</label>
+          <textarea id="${q.id}-consignes" rows="2" placeholder="Ex. tenue attendue, consignes spécifiques…" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">${q.consignes}</textarea>
+          <p class="text-[11px] text-gray-400 mt-1">Ces informations sont visibles sur toute commande utilisant cette qualification.</p>
+        </div>
+        <div class="mt-4 flex items-center justify-between">
+          <p class="text-[11px] text-gray-400">Ces valeurs par défaut restent modifiables au cas par cas lors d'une demande de mission, sans impact ici.</p>
+          <button onclick="saveQualif('${q.id}')" class="h-9 px-4 rounded-lg text-sm font-semibold text-white shadow-sm hover:shadow-md transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Enregistrer</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function saveQualif(id) {
+    const q = QUALIFICATIONS.find(x => x.id === id);
+    q.debut = document.getElementById(`${id}-debut`).value;
+    q.fin = document.getElementById(`${id}-fin`).value;
+    q.pause = parseInt(document.getElementById(`${id}-pause`).value, 10) || 0;
+    q.consignes = document.getElementById(`${id}-consignes`).value;
+    const card = document.getElementById(`card-${id}`);
+    card.classList.add('save-flash');
+    setTimeout(() => card.classList.remove('save-flash'), 1200);
+  }
+
+  document.querySelectorAll('.service-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentService = btn.dataset.service;
+      document.querySelectorAll('.service-tab').forEach(b => {
+        const active = b === btn;
+        b.classList.toggle('text-white', active);
+        b.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
+        b.classList.toggle('text-gray-600', !active);
+      });
+      render();
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.service-tab[data-service=""]').click();
+  });
+</script>
+
+</body>
+</html>

@@ -51,10 +51,14 @@
     <p class="text-xs text-secondary"><strong class="text-primary">Synchronisé avec Opérations</strong> — vos disponibilités sont visibles en temps réel par les équipes planning (mise à jour il y a quelques secondes).</p>
   </div>
 
-  <!-- FENETRE GLISSANTE -->
+  <!-- CALENDRIER DE DISPONIBILITES -->
   <section class="rounded-3xl card p-5 sm:p-6 shadow-lg">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-base font-bold text-primary">14 prochains jours</h2>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-2">
+        <button onclick="calPrev()" class="btn-ghost p-2 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m15 18-6-6 6-6"></path></svg></button>
+        <p id="cal-label" class="text-base font-bold text-primary capitalize w-40 text-center"></p>
+        <button onclick="calNext()" class="btn-ghost p-2 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m9 18 6-6-6-6"></path></svg></button>
+      </div>
       <div class="flex items-center gap-3 text-xs text-secondary flex-wrap">
         <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span>Disponible</span>
         <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-red-400"></span>Indisponible</span>
@@ -62,7 +66,11 @@
         <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm border-default border"></span>Non renseigné</span>
       </div>
     </div>
-    <div id="dispo-window" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"></div>
+    <div class="grid grid-cols-7 gap-1.5 mb-1.5 text-center">
+      <p class="text-[11px] font-semibold text-secondary py-1">Lun</p><p class="text-[11px] font-semibold text-secondary py-1">Mar</p><p class="text-[11px] font-semibold text-secondary py-1">Mer</p><p class="text-[11px] font-semibold text-secondary py-1">Jeu</p><p class="text-[11px] font-semibold text-secondary py-1">Ven</p><p class="text-[11px] font-semibold text-secondary py-1">Sam</p><p class="text-[11px] font-semibold text-secondary py-1">Dim</p>
+    </div>
+    <div id="dispo-calendar-grid" class="grid grid-cols-7 gap-1.5"></div>
+    <p class="text-xs text-secondary mt-4">Cliquez sur un jour pour déclarer ou modifier une disponibilité ou une indisponibilité. Les jours grisés (repos auto) ne sont pas modifiables. Adaptel exige un renseignement fiable sur au moins les 14 prochains jours.</p>
   </section>
 
   <!-- INDISPONIBILITES AUTOMATIQUES -->
@@ -139,8 +147,10 @@
 
 <script src="assets/common.js"></script>
 <script>
-  const WINDOW_START = '2026-09-23';
+  const TODAY_ISO = '2026-09-23';
   const DOW_SHORT = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  const MONTH_NAMES = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  let calState = { year: 2026, month: 8 };
 
   let DISPO_ENTRIES = [
     { id:'d1', type:'dispo', recurrence:'hebdomadaire', jours:['Lun','Mar','Mer','Jeu','Ven'] },
@@ -153,11 +163,6 @@
     { date:'2026-10-10', label:'Repos minimum 11h non respecté avec la mission de la veille' }
   ];
 
-  function isoPlusDays(iso, n){
-    const d = new Date(iso + 'T00:00:00');
-    d.setDate(d.getDate() + n);
-    return d.toISOString().slice(0,10);
-  }
   function dowShort(iso){ return DOW_SHORT[new Date(iso + 'T00:00:00').getDay()]; }
   function fmtLong(iso){ return new Date(iso + 'T00:00:00').toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' }); }
 
@@ -172,27 +177,41 @@
     return { kind:'vide', label:'Non renseigné' };
   }
 
-  function renderWindow(){
-    let html = '';
-    for(let i = 0; i < 14; i++){
-      const iso = isoPlusDays(WINDOW_START, i);
+  const CAL_STYLES = {
+    dispo:  { border:'border-emerald-300 dark:border-emerald-700', bg:'bg-emerald-50 dark:bg-emerald-950/30', dot:'bg-emerald-500' },
+    indispo:{ border:'border-red-300 dark:border-red-700', bg:'bg-red-50 dark:bg-red-950/30', dot:'bg-red-400' },
+    auto:   { border:'border-slate-300 dark:border-slate-600', bg:'bg-slate-100 dark:bg-slate-800/50', dot:'bg-slate-400' },
+    vide:   { border:'border-default', bg:'', dot:'' }
+  };
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+  function renderCalendarGrid(){
+    const { year, month } = calState;
+    document.getElementById('cal-label').textContent = MONTH_NAMES[month] + ' ' + year;
+    const first = new Date(year, month, 1);
+    const startOffset = (first.getDay() + 6) % 7;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    let cells = '';
+    for(let i = 0; i < startOffset; i++){ cells += `<div class="calendar-cell rounded-xl p-1.5 min-h-[86px] opacity-30"></div>`; }
+    for(let d = 1; d <= daysInMonth; d++){
+      const iso = `${year}-${pad(month + 1)}-${pad(d)}`;
       const st = dayStatus(iso);
-      const styles = {
-        dispo:  { border:'border-emerald-300 dark:border-emerald-700', bg:'bg-emerald-50 dark:bg-emerald-950/30', dot:'bg-emerald-500' },
-        indispo:{ border:'border-red-300 dark:border-red-700', bg:'bg-red-50 dark:bg-red-950/30', dot:'bg-red-400' },
-        auto:   { border:'border-slate-300 dark:border-slate-600', bg:'bg-slate-100 dark:bg-slate-800/50', dot:'bg-slate-400' },
-        vide:   { border:'border-default', bg:'', dot:'' }
-      }[st.kind];
-      html += `<div class="flex items-center justify-between gap-3 rounded-xl border ${styles.border} ${styles.bg} px-4 py-3">
-        <div class="min-w-0">
-          <p class="text-sm font-semibold text-primary capitalize">${fmtLong(iso)}</p>
-          <p class="text-xs text-secondary flex items-center gap-1.5 mt-0.5">${styles.dot ? `<span class="w-2 h-2 rounded-full ${styles.dot} flex-shrink-0"></span>` : ''}${st.label}${st.kind==='auto' ? ` ${icon('lock','w-3 h-3 inline align-text-top')}` : ''}</p>
+      const s = CAL_STYLES[st.kind];
+      const isToday = iso === TODAY_ISO;
+      const clickable = st.kind !== 'auto';
+      cells += `<div class="calendar-cell rounded-xl p-1.5 min-h-[86px] border ${s.border} ${s.bg} ${isToday ? 'today' : ''} ${clickable ? 'cursor-pointer hover:shadow-sm transition-shadow' : 'cursor-not-allowed'}" ${clickable ? `onclick="openAddModal('${iso}')" title="${st.label}"` : `title="${st.label}"`}>
+        <div class="flex items-center justify-between">
+          <p class="text-xs font-semibold ${isToday ? 'brand-text' : 'text-secondary'}">${d}</p>
+          ${st.kind === 'auto' ? icon('lock', 'w-3 h-3 text-secondary flex-shrink-0') : ''}
         </div>
-        ${st.kind === 'auto' ? '' : `<button onclick="openAddModal('${iso}')" class="btn-ghost text-xs font-semibold px-3 py-1.5 rounded-lg flex-shrink-0">Modifier</button>`}
+        ${s.dot ? `<span class="inline-block w-2 h-2 rounded-full ${s.dot} mt-1.5"></span>` : ''}
       </div>`;
     }
-    document.getElementById('dispo-window').innerHTML = html;
+    const trailing = (7 - ((startOffset + daysInMonth) % 7)) % 7;
+    for(let i = 0; i < trailing; i++){ cells += `<div class="calendar-cell rounded-xl p-1.5 min-h-[86px] opacity-30"></div>`; }
+    document.getElementById('dispo-calendar-grid').innerHTML = cells;
   }
+  function calPrev(){ calState.month--; if(calState.month < 0){ calState.month = 11; calState.year--; } renderCalendarGrid(); }
+  function calNext(){ calState.month++; if(calState.month > 11){ calState.month = 0; calState.year++; } renderCalendarGrid(); }
 
   function renderAutoList(){
     document.getElementById('auto-indispo-list').innerHTML = AUTO_INDISPO.map(a => `
@@ -259,7 +278,7 @@
   }
   function commitEntry(entry){
     DISPO_ENTRIES.push(entry);
-    renderWindow();
+    renderCalendarGrid();
     closeAddModal();
     toast('Entrée ajoutée à vos disponibilités.', 'success');
   }
@@ -275,7 +294,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('entry-days').querySelector('div').innerHTML = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'].map(j => `<label class="text-xs px-2.5 py-1.5 rounded-lg border-default border cursor-pointer"><input type="checkbox" class="mr-1" value="${j}">${j}</label>`).join('');
-    renderWindow();
+    renderCalendarGrid();
     renderAutoList();
   });
 </script>

@@ -203,15 +203,6 @@
         </div>
 
         <div class="space-y-5">
-          <!-- ANNULATION -->
-          <div id="annulation-block" class="hidden bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-            <p class="text-xs text-gray-400 mb-2">Besoin de changer de plan ?</p>
-            <button id="btn-annulation" onclick="demanderAnnulation()" class="text-xs font-semibold text-gray-400 hover:text-red-600 underline decoration-dotted">
-              Demander l'annulation de cette commande
-            </button>
-            <p id="annulation-hint" class="text-[11px] text-gray-400 mt-2"></p>
-          </div>
-
           <!-- LOT / TRACABILITE -->
           <div id="lot-block" class="hidden bg-white rounded-xl border border-gray-200 shadow-sm p-5">
             <h3 class="text-sm font-bold text-gray-900 mb-3 flex items-center gap-1.5">
@@ -227,6 +218,14 @@
             <div id="eval-history" class="space-y-2.5"></div>
           </div>
         </div>
+      </div>
+
+      <!-- ANNULATION - volontairement discret, en bas de page -->
+      <div id="annulation-block" class="hidden pt-5 mt-2 border-t border-gray-200 text-center">
+        <button id="btn-annulation" onclick="demanderAnnulation()" class="text-xs text-gray-400 hover:text-red-600 underline decoration-dotted">
+          Besoin de changer de plan ? Demander l'annulation de cette commande
+        </button>
+        <p id="annulation-hint" class="text-[11px] text-gray-400 mt-1"></p>
       </div>
 
     </div>

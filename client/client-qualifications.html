@@ -120,6 +120,8 @@
         <button data-service="Restauration" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Restauration</button>
       </div>
 
+      <div id="secteur-block"></div>
+
       <div id="qualif-list" class="space-y-4"></div>
 
     </div>
@@ -182,6 +184,73 @@
     { id: "q8", nom: "EMPLOYE POLYVALENT", service: "Restauration", taux: 13.9, debut: "09:00", fin: "17:00", pause: 30, consignes: "" }
   ];
 
+  // Champs conditionnels au secteur du chantier (un jeu de champs par service, comme côté Opérations).
+  const SECTEUR_CHAMPS = {
+    "Hébergement": {
+      icon: `<path d="M12 20h9"></path><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"></path>`,
+      fields: [
+        { key: "logiciel", label: "Logiciel utilisé sur ce chantier", type: "text", value: "Opera PMS", placeholder: "Ex. Opera, Mews, Protel…" }
+      ]
+    },
+    "Housekeeping": {
+      icon: `<path d="M12 20h9"></path><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"></path>`,
+      fields: [
+        { key: "cadence", label: "Cadence attendue (chambres / heure)", type: "text", value: "2,5 à 3", placeholder: "Ex. 2,5 à 3" },
+        { key: "etoiles", label: "Étoiles attendues", type: "select", value: "5 étoiles / Palace", options: ["1 étoile", "2 étoiles", "3 étoiles", "4 étoiles", "5 étoiles / Palace"] }
+      ]
+    },
+    "Restauration": {
+      icon: `<path d="M12 20h9"></path><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"></path>`,
+      fields: [
+        { key: "type", label: "Type de restauration attendu", type: "select", value: "Banquet / Événementiel", options: ["Banquet / Événementiel", "Gastronomique", "Brasserie", "Room service", "Buffet"] },
+        { key: "couverts", label: "Nombre de couverts moyen / service", type: "number", value: 180, placeholder: "Ex. 180" }
+      ]
+    }
+  };
+
+  function renderSecteur() {
+    const box = document.getElementById('secteur-block');
+    const cfg = SECTEUR_CHAMPS[currentService];
+    if (!cfg) { box.innerHTML = ''; return; }
+    box.innerHTML = `
+      <div id="secteur-card" class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+        <div class="flex items-center gap-2 mb-1">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-[#A63629]">${cfg.icon}</svg>
+          <h3 class="font-bold text-gray-900">Secteur &amp; informations spécifiques — ${currentService}</h3>
+        </div>
+        <p class="text-xs text-gray-500 mb-4">Ces informations dépendent du secteur de ce chantier et aident Adaptel à positionner les bons profils (logiciel, cadence, format de service…).</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          ${cfg.fields.map(f => `
+            <div>
+              <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">${f.label}</label>
+              ${f.type === 'select'
+                ? `<select id="secteur-${f.key}" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+                    ${f.options.map(o => `<option ${o === f.value ? 'selected' : ''}>${o}</option>`).join('')}
+                  </select>`
+                : `<input type="${f.type}" id="secteur-${f.key}" value="${f.value}" placeholder="${f.placeholder || ''}" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">`}
+            </div>
+          `).join('')}
+        </div>
+        <div class="mt-4 flex items-center justify-between">
+          <p class="text-[11px] text-gray-400">Visible et modifiable par les Opérations Adaptel comme par vous-même.</p>
+          <button onclick="saveSecteur()" class="h-9 px-4 rounded-lg text-sm font-semibold text-white shadow-sm hover:shadow-md transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Enregistrer</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function saveSecteur() {
+    const cfg = SECTEUR_CHAMPS[currentService];
+    if (!cfg) return;
+    cfg.fields.forEach(f => {
+      const el = document.getElementById(`secteur-${f.key}`);
+      f.value = f.type === 'number' ? (parseInt(el.value, 10) || 0) : el.value;
+    });
+    const card = document.getElementById('secteur-card');
+    card.classList.add('save-flash');
+    setTimeout(() => card.classList.remove('save-flash'), 1200);
+  }
+
   let currentService = "";
 
   function render() {
@@ -242,6 +311,7 @@
         b.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
         b.classList.toggle('text-gray-600', !active);
       });
+      renderSecteur();
       render();
     });
   });

@@ -144,76 +144,126 @@
     <div class="px-6 py-4 text-white flex items-center justify-between sticky top-0 z-10" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
       <div>
         <h3 class="font-bold">Nouvelle demande de mission</h3>
-        <p class="text-xs text-white/80">Sélectionnez autant de jours que vous voulez pour un même poste</p>
+        <p class="text-xs text-white/80">Cliquez sur un jour pour indiquer sa qualification et son horaire, puis passez au suivant</p>
       </div>
       <button onclick="closeNouvelle()" class="p-1 hover:bg-white/10 rounded-lg">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
       </button>
     </div>
 
-    <div class="p-6 space-y-5">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Qualification / poste</label>
-          <select id="f-qualif" onchange="onQualifChange()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-            <option value="FLEXI HOTE/HOTESSE" data-service="Hébergement" data-debut="07:00" data-fin="15:00" data-pause="30">FLEXI HOTE/HOTESSE — Hébergement</option>
-            <option value="FLEXI BAGAGERIE" data-service="Hébergement" data-debut="07:00" data-fin="15:00" data-pause="30">FLEXI BAGAGERIE — Hébergement</option>
-            <option value="FLEXI HOUSEKEEPING" data-service="Housekeeping" data-debut="09:00" data-fin="17:00" data-pause="30">FLEXI HOUSEKEEPING — Housekeeping</option>
-            <option value="FLEXI BANQUET" data-service="Restauration" data-debut="18:00" data-fin="02:00" data-pause="20">FLEXI BANQUET — Restauration</option>
-            <option value="FLEXI SOUS-CHEF" data-service="Restauration" data-debut="09:00" data-fin="17:00" data-pause="45">FLEXI SOUS-CHEF — Restauration</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Service</label>
-          <input id="f-service" disabled class="h-10 w-full rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm text-gray-500">
-        </div>
-      </div>
-
+    <div id="nouvelle-body" class="p-6 space-y-5 relative">
       <div>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Chantier</label>
+        <p class="text-xs text-gray-400 mb-2">Choisissez le chantier concerné par cette demande : le calendrier ci-dessous s'active une fois ce choix fait.</p>
+        <select id="f-chantier" onchange="onChantierChange(this.value)" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          <option value="">Sélectionnez un chantier…</option>
+        </select>
+      </div>
+
+      <div id="jours-mission-section" class="opacity-40 pointer-events-none transition-opacity">
         <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Jours de mission</label>
-        <p class="text-xs text-gray-400 mb-2">Cliquez sur autant de jours que nécessaire, même non consécutifs. La plateforme créera automatiquement une commande par jour ou par bloc de jours consécutifs.</p>
-        <div class="grid grid-cols-2 gap-4">
-          <div id="cal-month-0"></div>
-          <div id="cal-month-1"></div>
+        <p class="text-xs text-gray-400 mb-2">Cliquez sur un jour : un espace s'ouvre à côté pour ajouter une ou plusieurs commandes ce jour-là (une par qualification), chacune avec son horaire type modifiable. Cliquez sur un autre jour pour en saisir d'autres — qualifications et horaires peuvent différer d'un jour à l'autre.</p>
+        <p id="chantier-gate-hint" class="text-xs font-semibold text-[#A63629] mb-2">Sélectionnez d'abord un chantier ci-dessus pour activer le calendrier.</p>
+        <div class="flex items-center justify-between mb-2">
+          <button type="button" onclick="shiftCalMonth(-1)" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-500 hover:bg-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m15 18-6-6 6-6"></path></svg>
+          </button>
+          <p id="cal-month-label" class="text-sm font-bold text-gray-800"></p>
+          <button type="button" onclick="shiftCalMonth(1)" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-500 hover:bg-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m9 18 6-6-6-6"></path></svg>
+          </button>
+        </div>
+        <div id="cal-month"></div>
+        <div class="flex items-center justify-center gap-4 mt-2 text-[11px] text-gray-500">
+          <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-[#A63629]"></span>Commande validée</span>
         </div>
       </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div>
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Début</label>
-          <input id="f-debut" type="time" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Fin</label>
-          <input id="f-fin" type="time" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Pause (min)</label>
-          <input id="f-pause" type="number" min="0" step="5" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-          <p class="text-[10px] text-gray-400 mt-1">Préremplie depuis la qualification, modifiable ici sans impact sur la valeur par défaut.</p>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Capacité (postes/jour)</label>
-          <input id="f-capacite" type="number" min="1" value="1" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-        </div>
+      <div class="border-t border-gray-200 pt-4">
+        <h3 class="text-sm font-bold text-gray-900 mb-1">Récapitulatif — à vérifier avant l'envoi</h3>
+        <p class="text-xs font-semibold text-gray-500 mb-2" id="recap-count"></p>
+        <div id="recap-list" class="space-y-1.5"></div>
+        <p id="recap-empty" class="text-sm text-gray-400 text-center py-4 bg-gray-50 rounded-xl border border-dashed border-gray-200">Aucune commande saisie pour le moment — cliquez sur un jour du calendrier ci-dessus.</p>
+        <p id="recap-note" class="hidden text-[11px] text-gray-400 mt-2">Cliquez sur une commande pour la modifier, ou sur ✕ pour la supprimer. Chacune suivra ensuite son propre statut (à staffer, pourvue, validée…).</p>
       </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Taux horaire (€/h)</label>
-          <input id="f-taux" type="number" min="0" step="0.5" value="14.5" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Localisation</label>
-          <input id="f-lieu" type="text" value="Hyatt Regency Paris Étoile" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-        </div>
-      </div>
-
-      <div id="decoupage-summary" class="hidden bg-gray-50 border border-gray-200 rounded-xl p-4 text-sm"></div>
 
       <div class="flex items-center justify-end gap-3 pt-2">
         <button onclick="closeNouvelle()" class="h-10 px-4 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-100">Annuler</button>
-        <button onclick="submitNouvelle()" class="h-10 px-5 rounded-lg text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Envoyer la demande</button>
+        <button onclick="goToMotifsStep()" class="h-10 px-5 rounded-lg text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Envoyer la demande</button>
+      </div>
+
+      <!-- ESPACE INLINE (à côté du jour cliqué) : QUALIFICATION + HORAIRE TYPE. Positionné en absolute par rapport à #nouvelle-body. -->
+      <div id="jour-modal" class="hidden absolute z-50 w-72 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden">
+        <div class="px-4 py-2.5 text-white flex items-center justify-between" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+          <h3 id="jour-modal-title" class="font-bold text-sm">—</h3>
+          <button type="button" onclick="closeJourModal()" class="p-0.5 hover:bg-white/10 rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+          </button>
+        </div>
+        <div class="p-4 space-y-3">
+          <div id="j-qualif-section">
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Qualifications</label>
+            <div class="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 mb-2">
+              <span class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Capacité (postes)</span>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="shiftCapacite(-1)" class="w-6 h-6 rounded-md border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-[#A63629]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M5 12h14"></path></svg>
+                </button>
+                <span id="j-capacite-value" class="w-4 text-center text-sm font-bold text-gray-800">1</span>
+                <button type="button" onclick="shiftCapacite(1)" class="w-6 h-6 rounded-md border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-[#A63629]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+                </button>
+              </div>
+            </div>
+            <div id="j-qualif-list" class="space-y-1"></div>
+          </div>
+
+          <div id="j-horaire-editor" class="hidden bg-red-50 border border-[#A63629] rounded-lg p-3">
+            <div class="bg-white rounded-lg border border-gray-200 p-2.5 mb-3">
+              <p class="text-xs font-bold text-gray-900" id="j-horaire-editor-qualif"></p>
+              <div class="flex items-center justify-between mt-0.5">
+                <p class="text-[11px] text-gray-500" id="j-horaire-editor-service"></p>
+                <p class="text-[11px] font-semibold text-gray-600" id="j-horaire-editor-taux"></p>
+              </div>
+            </div>
+            <p class="text-xs font-semibold text-[#A63629] mb-2">Modifier l'horaire</p>
+            <div class="grid grid-cols-3 gap-2">
+              <div>
+                <label class="block text-[9px] font-semibold text-gray-500 uppercase tracking-wider mb-0.5">Début</label>
+                <input id="j-debut" type="time" onchange="updateQualifField('debut', this.value)" class="h-8 w-full rounded-md border border-gray-200 bg-white px-1.5 text-[11px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              </div>
+              <div>
+                <label class="block text-[9px] font-semibold text-gray-500 uppercase tracking-wider mb-0.5">Fin</label>
+                <input id="j-fin" type="time" onchange="updateQualifField('fin', this.value)" class="h-8 w-full rounded-md border border-gray-200 bg-white px-1.5 text-[11px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              </div>
+              <div>
+                <label class="block text-[9px] font-semibold text-gray-500 uppercase tracking-wider mb-0.5">Pause (min)</label>
+                <input id="j-pause" type="number" min="0" step="5" onchange="updateQualifField('pause', this.value)" class="h-8 w-full rounded-md border border-gray-200 bg-white px-1.5 text-[11px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end pt-1">
+            <button id="j-btn-fermer" type="button" onclick="closeJourModal()" class="h-8 px-4 rounded-lg text-xs font-semibold text-white shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Fermer</button>
+            <button id="j-btn-valider" type="button" onclick="closeHoraireEditor()" class="hidden h-8 px-4 rounded-lg text-xs font-semibold text-white shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Valider</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 2 : motif de recours + justification, requis pour chaque commande avant l'envoi effectif. -->
+    <div id="motifs-step" class="hidden p-6 space-y-4">
+      <div>
+        <h3 class="text-sm font-bold text-gray-900 mb-1">Motif et justification</h3>
+        <p class="text-xs text-gray-400">Un motif de recours à l'intérim et une justification sont requis pour chaque commande avant l'envoi de la demande.</p>
+      </div>
+      <div id="motifs-list" class="space-y-3"></div>
+      <div class="flex items-center justify-between gap-3 pt-3 border-t border-gray-200">
+        <button type="button" onclick="backToRecap()" class="h-10 px-4 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-100 inline-flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m15 18-6-6 6-6"></path></svg>
+          Retour
+        </button>
+        <button type="button" onclick="confirmEnvoi()" class="h-10 px-5 rounded-lg text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Confirmer l'envoi</button>
       </div>
     </div>
   </div>
@@ -333,99 +383,397 @@
     });
   });
 
-  // ---------- Saisie calendrier simplifiée ----------
-  let selectedDays = new Set(); // "YYYY-MM-DD"
-  const MONTHS = [
-    { year: 2026, month: 8, label: "Septembre 2026" }, // month index 0-based (8 = septembre)
-    { year: 2026, month: 9, label: "Octobre 2026" }
-  ];
+  // ---------- Saisie calendrier simplifiée : clic sur un jour → popup forcé qualif + horaire type ----------
+  const MONTH_LABELS = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
   const TODAY = new Date(2026, 8, 23);
+  let calYear = 2026, calMonth = 8; // septembre 2026 par défaut
+
+  // Chantiers du client (contrats de staffing, ex. "FLEXI BANQUET") et, pour chacun, les qualifications
+  // réellement proposées au clic sur un jour du calendrier — avec leur horaire type et taux de référence
+  // (mêmes valeurs que la fiche Qualifications).
+  const CHANTIERS = {
+    "FLEXI HOTE/HOTESSE": {
+      service: "Hébergement",
+      qualifications: {
+        "Hôte / Hôtesse d'accueil": { debut: "07:00", fin: "15:00", pause: 30, taux: 14.5 },
+        "Réceptionniste":           { debut: "07:00", fin: "15:00", pause: 30, taux: 15.0 },
+        "Concierge":                { debut: "07:00", fin: "15:00", pause: 30, taux: 15.5 }
+      }
+    },
+    "FLEXI BAGAGERIE": {
+      service: "Hébergement",
+      qualifications: {
+        "Bagagiste": { debut: "07:00", fin: "15:00", pause: 30, taux: 13.5 },
+        "Voiturier":  { debut: "07:00", fin: "15:00", pause: 30, taux: 14.0 }
+      }
+    },
+    "FLEXI HOUSEKEEPING": {
+      service: "Housekeeping",
+      qualifications: {
+        "Femme / Valet de chambre": { debut: "09:00", fin: "17:00", pause: 30, taux: 13.8 },
+        "Gouvernante":               { debut: "09:00", fin: "17:00", pause: 30, taux: 15.0 },
+        "Lingère":                   { debut: "09:00", fin: "17:00", pause: 30, taux: 13.5 }
+      }
+    },
+    "FLEXI BANQUET": {
+      service: "Restauration",
+      qualifications: {
+        "Chef de rang":     { debut: "18:00", fin: "02:00", pause: 20, taux: 15.2 },
+        "Commis de salle":  { debut: "18:00", fin: "02:00", pause: 20, taux: 13.9 },
+        "Maître d'hôtel":   { debut: "18:00", fin: "02:00", pause: 20, taux: 17.0 },
+        "Sommelier":        { debut: "18:00", fin: "02:00", pause: 20, taux: 16.5 }
+      }
+    },
+    "FLEXI SOUS-CHEF": {
+      service: "Restauration",
+      qualifications: {
+        "Sous-chef":         { debut: "09:00", fin: "17:00", pause: 45, taux: 16.0 },
+        "Chef de partie":    { debut: "09:00", fin: "17:00", pause: 45, taux: 15.5 },
+        "Commis de cuisine": { debut: "09:00", fin: "17:00", pause: 45, taux: 13.5 },
+        "Plongeur":          { debut: "09:00", fin: "17:00", pause: 45, taux: 12.8 }
+      }
+    }
+  };
+
+  // Le menu "Chantier" liste les chantiers ci-dessus — généré depuis CHANTIERS pour ne jamais désynchroniser
+  // la liste affichée des qualifications réellement disponibles par chantier.
+  Object.keys(CHANTIERS).forEach(nom => {
+    const opt = document.createElement('option');
+    opt.value = nom;
+    opt.textContent = nom;
+    document.getElementById('f-chantier').appendChild(opt);
+  });
+
+  // Jours saisis pour cette demande : clé "YYYY-MM-DD" → { qualif, service, debut, fin, pause, taux, capacite }
+  let dayConfigs = {};       // commandes par jour : key -> { [qualification]: { service, debut, fin, pause, taux, capacite } } (plusieurs qualifications possibles par jour)
+  let editingDay = null;     // jour actuellement ouvert dans le panneau
+  let editingQualif = null;  // qualification dont l'horaire est actuellement déplié dans le panneau
+  let selectedChantier = ""; // chantier choisi pour cette demande — le calendrier reste désactivé tant qu'il est vide
+  let currentCapacite = 1;   // capacité (postes) appliquée aux prochaines qualifications ajoutées à ce jour
+
+  // Stepper de capacité, affiché dans le panneau du jour à la place des qualifications à ajouter :
+  // la valeur choisie est capturée sur chaque qualification au moment où elle est ajoutée (comme
+  // début/fin/pause/taux), donc modifier ce compteur n'affecte pas les qualifications déjà ajoutées.
+  function shiftCapacite(delta) {
+    currentCapacite = Math.max(1, Math.min(20, currentCapacite + delta));
+    document.getElementById('j-capacite-value').textContent = currentCapacite;
+  }
+
+  // Le calendrier (et donc le choix des qualifications) ne s'active qu'une fois le chantier choisi :
+  // on ne veut pas mélanger le choix du chantier avec celui des qualifications dans le panneau du jour.
+  function onChantierChange(value) {
+    selectedChantier = value;
+    updateChantierGate();
+  }
+
+  function updateChantierGate() {
+    const section = document.getElementById('jours-mission-section');
+    const hint = document.getElementById('chantier-gate-hint');
+    const active = !!selectedChantier;
+    section.classList.toggle('opacity-40', !active);
+    section.classList.toggle('pointer-events-none', !active);
+    hint.classList.toggle('hidden', active);
+  }
 
   function pad(n) { return String(n).padStart(2, '0'); }
   function dateKey(y, m, d) { return `${y}-${pad(m+1)}-${pad(d)}`; }
+  function fmtDay(k) { const [y,m,d] = k.split('-'); return `${d}/${m}/${y}`; }
+  // Échappe une valeur pour l'insérer dans une chaîne JS à guillemets simples au sein d'un attribut onclick="…" —
+  // nécessaire dès qu'un nom de qualification contient une apostrophe (ex. "Maître d'hôtel").
+  function jsStr(s) { return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
 
-  function renderCalendars() {
-    MONTHS.forEach((mInfo, idx) => {
-      const firstDay = new Date(mInfo.year, mInfo.month, 1);
-      const daysInMonth = new Date(mInfo.year, mInfo.month + 1, 0).getDate();
-      let startOffset = firstDay.getDay() - 1; // Monday first
-      if (startOffset < 0) startOffset = 6;
-
-      let html = `<div class="border border-gray-200 rounded-xl p-3">
-        <p class="text-xs font-bold text-gray-700 mb-2 text-center">${mInfo.label}</p>
-        <div class="grid grid-cols-7 gap-1 text-center text-[10px] text-gray-400 font-semibold mb-1">
-          <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
-        </div>
-        <div class="grid grid-cols-7 gap-1">`;
-      for (let i = 0; i < startOffset; i++) html += `<span></span>`;
-      for (let d = 1; d <= daysInMonth; d++) {
-        const key = dateKey(mInfo.year, mInfo.month, d);
-        const cellDate = new Date(mInfo.year, mInfo.month, d);
-        const isPast = cellDate < TODAY;
-        const isSelected = selectedDays.has(key);
-        html += `<button type="button" ${isPast ? 'disabled' : `onclick="toggleDay('${key}')"`}
-          class="cal-day w-8 h-8 rounded-lg text-xs flex items-center justify-center ${isPast ? 'disabled' : 'hover:bg-gray-100'} ${isSelected ? 'selected' : ''}">${d}</button>`;
-      }
-      html += `</div></div>`;
-      document.getElementById('cal-month-' + idx).innerHTML = html;
-    });
+  function shiftCalMonth(dir) {
+    calMonth += dir;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalendar();
   }
 
-  function toggleDay(key) {
-    if (selectedDays.has(key)) selectedDays.delete(key); else selectedDays.add(key);
-    renderCalendars();
-    renderDecoupage();
-  }
+  function renderCalendar() {
+    document.getElementById('cal-month-label').textContent = `${MONTH_LABELS[calMonth]} ${calYear}`;
+    const firstDay = new Date(calYear, calMonth, 1);
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    let startOffset = firstDay.getDay() - 1; // lundi en premier
+    if (startOffset < 0) startOffset = 6;
 
-  function renderDecoupage() {
-    const box = document.getElementById('decoupage-summary');
-    if (selectedDays.size === 0) { box.classList.add('hidden'); return; }
-    const dates = Array.from(selectedDays).sort();
-    // Découpe en blocs dès qu'une coupure de plus de 2 jours calendaires sépare deux jours sélectionnés
-    const blocks = [];
-    let block = [dates[0]];
-    for (let i = 1; i < dates.length; i++) {
-      const prev = new Date(dates[i-1]);
-      const cur = new Date(dates[i]);
-      const gapDays = Math.round((cur - prev) / 86400000);
-      if (gapDays > 3) { blocks.push(block); block = [dates[i]]; }
-      else block.push(dates[i]);
+    let html = `<div class="grid grid-cols-7 gap-2 text-center text-xs text-gray-400 font-semibold mb-2">
+      <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+    </div>
+    <div class="grid grid-cols-7 gap-2">`;
+    for (let i = 0; i < startOffset; i++) html += `<span></span>`;
+    for (let d = 1; d <= daysInMonth; d++) {
+      const key = dateKey(calYear, calMonth, d);
+      const cellDate = new Date(calYear, calMonth, d);
+      const isPast = cellDate < TODAY;
+      const count = dayConfigs[key] ? Object.keys(dayConfigs[key]).length : 0;
+      let cls = 'hover:bg-gray-100';
+      if (isPast) cls = 'disabled';
+      else if (count > 0) cls = 'selected';
+      html += `<button type="button" ${isPast ? 'disabled' : `onclick="openJourModal('${key}', this)"`}
+        class="cal-day w-full aspect-square rounded-xl text-base flex items-center justify-center ${cls}">${d}${count > 0 ? `<span class="ml-0.5 text-[10px] align-top">${count}</span>` : ''}</button>`;
     }
-    blocks.push(block);
-
-    const fmt = (k) => { const [y,m,d] = k.split('-'); return `${d}/${m}`; };
-    box.classList.remove('hidden');
-    box.innerHTML = `
-      <p class="font-semibold text-gray-800 mb-2">${dates.length} jour(s) sélectionné(s) → ${blocks.length} commande(s) seront créées</p>
-      <div class="space-y-1">
-        ${blocks.map((b, i) => `<p class="text-xs text-gray-600">Commande ${i+1} : ${b.length > 1 ? fmt(b[0]) + ' → ' + fmt(b[b.length-1]) : fmt(b[0])} (${b.length} jour${b.length>1?'s':''})</p>`).join('')}
-      </div>
-      <p class="text-[11px] text-gray-400 mt-2">Ces commandes resteront liées entre elles à titre de traçabilité, mais chacune suit son propre statut (à staffer, pourvue, validée…).</p>
-    `;
+    html += `</div>`;
+    document.getElementById('cal-month').innerHTML = html;
   }
 
-  function onQualifChange() {
-    const sel = document.getElementById('f-qualif');
-    const opt = sel.options[sel.selectedIndex];
-    document.getElementById('f-service').value = opt.dataset.service;
-    document.getElementById('f-debut').value = opt.dataset.debut;
-    document.getElementById('f-fin').value = opt.dataset.fin;
-    document.getElementById('f-pause').value = opt.dataset.pause;
+  function positionJourModal(anchorEl) {
+    const popover = document.getElementById('jour-modal');
+    const container = document.getElementById('nouvelle-body');
+    const popoverWidth = 288; // w-72
+    const anchorRect = anchorEl.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    let top = anchorRect.top - containerRect.top;
+    let left = anchorRect.right - containerRect.left + 10;
+    if (left + popoverWidth > containerRect.width) {
+      left = anchorRect.left - containerRect.left - popoverWidth - 10;
+    }
+    if (left < 0) left = anchorRect.left - containerRect.left; // dernier recours : superposé, jamais hors cadre
+    popover.style.top = Math.max(0, top - 8) + 'px';
+    popover.style.left = left + 'px';
+  }
+
+  const PENCIL_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M12 20h9"></path><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"></path></svg>`;
+  const REMOVE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>`;
+
+  // Une ligne par qualification possible SUR LE CHANTIER CHOISI (ex. "Chef de rang", "Commis de cuisine" pour
+  // le chantier "FLEXI BANQUET") : cliquer le nom l'ajoute (validée, visible dans le récap) ; cliquer le
+  // crayon propose la modification de son horaire (l'ajoute d'abord si besoin).
+  function renderQualifRows() {
+    const dayData = dayConfigs[editingDay] || {};
+    const chantier = CHANTIERS[selectedChantier];
+    if (!chantier) { document.getElementById('j-qualif-list').innerHTML = ''; return; }
+    document.getElementById('j-qualif-list').innerHTML = Object.entries(chantier.qualifications).map(([nom, cfg]) => {
+      const added = !!dayData[nom];
+      const vals = added ? dayData[nom] : cfg;
+      return `
+      <div class="rounded-lg border overflow-hidden transition-all ${added ? 'border-[#A63629] bg-red-50' : 'border-gray-200 bg-white'}">
+        <div class="flex items-stretch">
+          <button type="button" onclick="toggleQualif('${jsStr(nom)}')" class="flex-1 text-left flex items-center justify-between gap-2 px-2.5 py-2 min-w-0">
+            <span class="font-semibold text-xs truncate ${added ? 'text-[#A63629]' : 'text-gray-700'}">${nom}<span class="block font-normal text-[10px] text-gray-400">${chantier.service}</span></span>
+            <span class="text-[11px] text-gray-400 whitespace-nowrap flex-shrink-0">${added ? `×${vals.capacite} · ` : ''}${vals.debut}–${vals.fin}</span>
+          </button>
+          <button type="button" onclick="openHoraireEditor('${jsStr(nom)}')" title="Modifier l'horaire" class="px-2 flex items-center justify-center border-l flex-shrink-0 border-gray-100 text-gray-400 hover:text-[#A63629]">${PENCIL_ICON}</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function ensureQualifAdded(nom) {
+    if (!dayConfigs[editingDay]) dayConfigs[editingDay] = {};
+    if (!dayConfigs[editingDay][nom]) {
+      const chantier = CHANTIERS[selectedChantier];
+      const cfg = chantier.qualifications[nom];
+      dayConfigs[editingDay][nom] = { service: chantier.service, debut: cfg.debut, fin: cfg.fin, pause: cfg.pause, taux: cfg.taux, capacite: currentCapacite };
+    }
+  }
+
+  // Clic sur le nom de la qualification : l'ajoute directement (horaire type) et la fait apparaître dans le récap.
+  function toggleQualif(nom) {
+    ensureQualifAdded(nom);
+    renderQualifRows();
+    renderCalendar();
+    renderRecap();
+  }
+
+  // Clic sur le crayon : ajoute la qualification si besoin et bascule le panneau sur l'éditeur d'horaire
+  // seul (la liste des qualifications s'efface le temps de l'édition, à IDs fixes — jamais recréés — pour
+  // éviter toute perte de focus ou de contenu pendant la saisie).
+  function openHoraireEditor(nom) {
+    ensureQualifAdded(nom);
+    editingQualif = nom;
+    const c = dayConfigs[editingDay][nom];
+    document.getElementById('j-horaire-editor-qualif').textContent = nom;
+    document.getElementById('j-horaire-editor-service').textContent = c.service;
+    document.getElementById('j-horaire-editor-taux').textContent = `${c.taux.toFixed(2)} €/h`;
+    document.getElementById('j-debut').value = c.debut;
+    document.getElementById('j-fin').value = c.fin;
+    document.getElementById('j-pause').value = c.pause;
+    document.getElementById('j-qualif-section').classList.add('hidden');
+    document.getElementById('j-horaire-editor').classList.remove('hidden');
+    document.getElementById('j-btn-fermer').classList.add('hidden');
+    document.getElementById('j-btn-valider').classList.remove('hidden');
+    renderCalendar();
+    renderRecap();
+  }
+
+  // Clic sur "Valider" : referme l'éditeur d'horaire et revient à la liste des qualifications du jour
+  // (sans fermer tout le panneau, contrairement à "Fermer").
+  function closeHoraireEditor() {
+    editingQualif = null;
+    document.getElementById('j-horaire-editor').classList.add('hidden');
+    document.getElementById('j-qualif-section').classList.remove('hidden');
+    document.getElementById('j-btn-valider').classList.add('hidden');
+    document.getElementById('j-btn-fermer').classList.remove('hidden');
+    renderQualifRows();
+    renderCalendar();
+    renderRecap();
+  }
+
+  function updateQualifField(field, value) {
+    if (!editingDay || !editingQualif) return;
+    const entry = dayConfigs[editingDay] && dayConfigs[editingDay][editingQualif];
+    if (!entry) return;
+    entry[field] = (field === 'pause') ? (parseInt(value, 10) || 0) : (field === 'taux') ? (parseFloat(value) || 0) : value;
+    renderRecap();
+  }
+
+  function openJourModal(key, anchorEl) {
+    editingDay = key;
+    editingQualif = null;
+    currentCapacite = 1;
+    document.getElementById('j-capacite-value').textContent = currentCapacite;
+    document.getElementById('jour-modal-title').textContent = `Commande(s) du ${fmtDay(key)}`;
+    document.getElementById('j-horaire-editor').classList.add('hidden');
+    document.getElementById('j-qualif-section').classList.remove('hidden');
+    document.getElementById('j-btn-valider').classList.add('hidden');
+    document.getElementById('j-btn-fermer').classList.remove('hidden');
+    renderQualifRows();
+    if (anchorEl) positionJourModal(anchorEl);
+    document.getElementById('jour-modal').classList.remove('hidden');
+  }
+
+  function closeJourModal() {
+    editingDay = null;
+    editingQualif = null;
+    document.getElementById('jour-modal').classList.add('hidden');
+  }
+
+  // Ferme le panneau si on clique ailleurs dans la modale (hors panneau, hors jours du calendrier, hors récapitulatif).
+  // Utilise composedPath() (figé au moment du clic) plutôt que e.target.closest() : un clic sur le crayon
+  // déclenche un re-rendu de #j-qualif-list qui détache le bouton cliqué avant la fin de la remontée de
+  // l'événement — e.target n'a alors plus d'ancêtres et closest() renverrait à tort "en dehors du panneau".
+  document.addEventListener('click', (e) => {
+    const popover = document.getElementById('jour-modal');
+    if (popover.classList.contains('hidden')) return;
+    const path = e.composedPath();
+    if (path.includes(popover) || path.some(el => el.classList && el.classList.contains && el.classList.contains('cal-day')) || path.includes(document.getElementById('recap-list'))) return;
+    closeJourModal();
+  });
+
+  function renderRecap() {
+    const rows = collectRecapRows();
+    document.getElementById('recap-empty').classList.toggle('hidden', rows.length > 0);
+    document.getElementById('recap-note').classList.toggle('hidden', rows.length === 0);
+    document.getElementById('recap-count').textContent = rows.length ? `${rows.length} commande(s) seront créées` : '';
+    document.getElementById('recap-list').innerHTML = rows.map(r => `
+      <div class="flex items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white hover:border-[#A63629]/40 hover:bg-red-50/30 text-sm">
+        <button type="button" onclick="openJourModal('${r.key}', this)" class="flex-1 text-left flex items-center justify-between gap-3 px-3 py-2.5 min-w-0">
+          <span class="min-w-0">
+            <span class="flex items-center gap-1.5 font-semibold text-gray-800">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
+              ${r.qualif}
+            </span>
+            <span class="block text-xs text-gray-500 mt-0.5">${r.service} · ${fmtDay(r.key)} · ${r.capacite} poste${r.capacite > 1 ? 's' : ''}</span>
+          </span>
+          <span class="text-right flex-shrink-0">
+            <span class="block text-xs font-semibold text-gray-700 whitespace-nowrap">${r.debut}–${r.fin}</span>
+            <span class="block text-[11px] text-gray-400 whitespace-nowrap">${r.taux.toFixed(2)} €/h</span>
+          </span>
+        </button>
+        <button type="button" onclick="removeCommandeFromRecap('${r.key}', '${jsStr(r.qualif)}')" title="Supprimer cette commande" class="flex-shrink-0 p-2 mr-1 text-gray-300 hover:text-red-600">${REMOVE_ICON}</button>
+      </div>`).join('');
+  }
+
+  // Suppression directe depuis le récapitulatif, sans passer par le panneau du jour.
+  function removeCommandeFromRecap(key, qualif) {
+    if (!dayConfigs[key]) return;
+    delete dayConfigs[key][qualif];
+    if (Object.keys(dayConfigs[key]).length === 0) delete dayConfigs[key];
+    if (editingDay === key) {
+      if (editingQualif === qualif) {
+        editingQualif = null;
+        document.getElementById('j-horaire-editor').classList.add('hidden');
+        document.getElementById('j-qualif-section').classList.remove('hidden');
+        document.getElementById('j-btn-valider').classList.add('hidden');
+        document.getElementById('j-btn-fermer').classList.remove('hidden');
+      }
+      renderQualifRows();
+    }
+    renderCalendar();
+    renderRecap();
   }
 
   function openNouvelle() {
-    selectedDays.clear();
-    renderCalendars();
-    renderDecoupage();
-    onQualifChange();
+    dayConfigs = {};
+    editingDay = null;
+    editingQualif = null;
+    selectedChantier = "";
+    document.getElementById('f-chantier').value = "";
+    calYear = 2026; calMonth = 8;
+    closeJourModal();
+    updateChantierGate();
+    renderCalendar();
+    renderRecap();
+    document.getElementById('motifs-step').classList.add('hidden');
+    document.getElementById('nouvelle-body').classList.remove('hidden');
     document.getElementById('nouvelle-modal').classList.remove('hidden');
   }
   function closeNouvelle() { document.getElementById('nouvelle-modal').classList.add('hidden'); }
 
-  function submitNouvelle() {
-    if (selectedDays.size === 0) { alert("Sélectionnez au moins un jour sur le calendrier."); return; }
+  // Motifs de recours à l'intérim reconnus (Code du travail) — un motif et une justification sont requis
+  // pour chaque commande avant l'envoi effectif de la demande.
+  const MOTIFS = [
+    "Accroissement temporaire d'activité",
+    "Remplacement d'un salarié absent",
+    "Emploi saisonnier",
+    "Tâche occasionnelle non durable"
+  ];
+
+  function collectRecapRows() {
+    const keys = Object.keys(dayConfigs).filter(k => dayConfigs[k] && Object.keys(dayConfigs[k]).length > 0).sort();
+    const rows = [];
+    keys.forEach(key => Object.entries(dayConfigs[key]).forEach(([qualif, c]) => rows.push({ key, qualif, ...c })));
+    return rows;
+  }
+
+  // Clic sur "Envoyer la demande" : bascule vers l'étape motif/justification plutôt que d'envoyer directement.
+  function goToMotifsStep() {
+    if (collectRecapRows().length === 0) { alert("Cliquez sur au moins un jour du calendrier pour créer une commande."); return; }
+    renderMotifsStep();
+    document.getElementById('nouvelle-body').classList.add('hidden');
+    document.getElementById('motifs-step').classList.remove('hidden');
+  }
+
+  function backToRecap() {
+    document.getElementById('motifs-step').classList.add('hidden');
+    document.getElementById('nouvelle-body').classList.remove('hidden');
+  }
+
+  function renderMotifsStep() {
+    document.getElementById('motifs-list').innerHTML = collectRecapRows().map(r => `
+      <div class="rounded-lg border border-gray-200 p-3">
+        <p class="text-sm font-bold text-gray-800">${r.qualif} <span class="font-normal text-xs text-gray-400">· ${r.service} · ${fmtDay(r.key)} · ${r.capacite} poste${r.capacite > 1 ? 's' : ''}</span></p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+          <div>
+            <label class="block text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Motif de recours</label>
+            <select onchange="updateMotif('${r.key}', '${jsStr(r.qualif)}', 'motif', this.value)" class="h-9 w-full rounded-lg border border-gray-200 bg-white px-2 text-xs text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              <option value="">Sélectionnez…</option>
+              ${MOTIFS.map(m => `<option value="${m}" ${r.motif === m ? 'selected' : ''}>${m}</option>`).join('')}
+            </select>
+          </div>
+          <div>
+            <label class="block text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Justification</label>
+            <textarea onchange="updateMotif('${r.key}', '${jsStr(r.qualif)}', 'justification', this.value)" rows="1" placeholder="Précisez le contexte (ex. nom du salarié remplacé, événement concerné…)" class="w-full rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-xs text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] resize-none">${r.justification || ''}</textarea>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  function updateMotif(key, qualif, field, value) {
+    const entry = dayConfigs[key] && dayConfigs[key][qualif];
+    if (!entry) return;
+    entry[field] = value;
+  }
+
+  function confirmEnvoi() {
+    const rows = collectRecapRows();
+    if (rows.some(r => !r.motif || !r.justification || !r.justification.trim())) {
+      alert("Merci d'indiquer un motif et une justification pour chaque commande avant l'envoi.");
+      return;
+    }
+    const n = rows.length;
     closeNouvelle();
-    alert("Votre demande a été transmise à Adaptel. Chaque jour apparaîtra comme une commande « À staffer » dans la liste, avec un lien de traçabilité entre elles.");
+    alert(`Votre demande a été transmise à Adaptel : ${n} commande(s) seront créées, chacune avec sa propre qualification, son horaire, son motif et sa justification.`);
   }
 
   document.addEventListener('DOMContentLoaded', () => {

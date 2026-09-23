@@ -135,139 +135,137 @@
   <!-- MAIN AREA -->
   <main class="flex-1 overflow-auto flex flex-col min-w-0">
 
-    <!-- HEADER -->
-    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end gap-3 sticky top-0 z-20">
-      <div class="relative">
-        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
-          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">3</span>
+    <!-- HEADER : date, vue, filtres et actions regroupés sur un seul bandeau supérieur toujours visible -->
+    <header class="bg-white border-b border-gray-200 px-4 py-2.5 flex items-center justify-between gap-3 flex-wrap sticky top-0 z-20">
+      <div class="flex items-center gap-2 flex-wrap">
+        <button type="button" class="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors border border-gray-200 bg-white shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m15 18-6-6 6-6"></path></svg>
         </button>
+        <div class="px-3 py-1.5 rounded-lg border border-gray-200 bg-white shadow-sm text-sm font-semibold text-gray-900 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629]"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+          <input id="planning-date-input" type="date" value="2026-09-21" class="bg-transparent border-none focus:ring-0 cursor-pointer text-gray-900 font-semibold">
+        </div>
+        <button type="button" class="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors border border-gray-200 bg-white shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m9 18 6-6-6-6"></path></svg>
+        </button>
+        <button type="button" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-[#A63629] hover:bg-red-50 transition-colors">Aujourd'hui</button>
+
+        <div class="w-px h-6 bg-gray-200 mx-1"></div>
+
+        <div class="flex gap-2">
+          <button id="btn-vue-jour" onclick="switchView('day')" class="px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white shadow">Vue jour</button>
+          <button id="btn-vue-semaine" onclick="switchView('week')" class="px-3 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50">Vue semaine</button>
+        </div>
+
+        <button id="btn-toggle-filters" type="button" onclick="toggleFilters()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m6 9 6 6 6-6"></path></svg>
+          <span id="btn-toggle-filters-label">Afficher les filtres</span>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2 flex-wrap">
+        <button type="button" onclick="openCreateCommandeModal()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all shadow bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white hover:opacity-95 h-9 px-3.5 gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          Nouvelle commande
+        </button>
+        <button type="button" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 h-9 px-3.5 gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+          Actualiser les matchs
+        </button>
+        <button type="button" onclick="openBulkSendModal()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 h-9 px-3.5 gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          Envoyer SMS / Mails
+        </button>
+
+        <div class="w-px h-6 bg-gray-200 mx-1"></div>
+
+        <div class="relative">
+          <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+            <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">3</span>
+          </button>
+        </div>
       </div>
     </header>
 
-    <div class="p-6 space-y-6 max-w-[1750px] w-full mx-auto">
+    <div class="p-4 space-y-3 max-w-[1750px] w-full mx-auto">
 
-      <!-- TITRE ET ACTIONS -->
-      <div class="flex items-start justify-between gap-4 flex-wrap">
+      <!-- FILTRES : masqués par défaut pour maximiser le nombre de lignes de planning affichées -->
+      <form id="planning-filters-form" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 bg-white p-4 rounded-xl border border-gray-200 shadow-sm" onsubmit="return false;">
+        <select class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          <option>Toutes agences</option>
+          <option>001</option>
+          <option>002</option>
+          <option>003</option>
+        </select>
+
         <div>
-          <h1 id="page-title" class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Planning du jour</h1>
-          <p id="page-subtitle" class="text-gray-600 text-sm mt-0.5">Affectations et gestion des commandes de travail temporaire</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="openCreateCommandeModal()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all shadow bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white hover:opacity-95 h-10 px-4 gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
-            Nouvelle commande
-          </button>
-          <button type="button" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 h-10 px-4 gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
-            Actualiser les matchs
-          </button>
-        </div>
-      </div>
-
-      <!-- DATE & FILTRES (bandeau supérieur toujours visible) -->
-      <div class="space-y-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-        <div class="flex items-center justify-between gap-4 flex-wrap pb-4 border-b border-gray-100">
-          <div class="flex items-center gap-2">
-            <button type="button" class="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors border border-gray-200 bg-white shadow-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m15 18-6-6 6-6"></path></svg>
-            </button>
-            <div class="px-3 py-1.5 rounded-lg border border-gray-200 bg-white shadow-sm text-sm font-semibold text-gray-900 flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629]"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
-              <input type="date" value="2026-09-21" class="bg-transparent border-none focus:ring-0 cursor-pointer text-gray-900 font-semibold">
-            </div>
-            <button type="button" class="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors border border-gray-200 bg-white shadow-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m9 18 6-6-6-6"></path></svg>
-            </button>
-            <button type="button" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-[#A63629] hover:bg-red-50 transition-colors">Aujourd'hui</button>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <div class="flex gap-2">
-              <button id="btn-vue-jour" onclick="switchView('day')" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white shadow">Vue jour</button>
-              <button id="btn-vue-semaine" onclick="switchView('week')" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50">Vue semaine</button>
-            </div>
-            <button id="btn-toggle-filters" type="button" onclick="toggleFilters()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m18 15-6-6-6 6"></path></svg>
-              <span id="btn-toggle-filters-label">Masquer les filtres</span>
-            </button>
-          </div>
+          <input class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] placeholder:text-gray-400" placeholder="Nom du client..." type="text">
         </div>
 
-        <form id="planning-filters-form" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3" onsubmit="return false;">
-          <select class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-            <option>Toutes agences</option>
-            <option>001</option>
-            <option>002</option>
-            <option>003</option>
-          </select>
+        <div>
+          <input class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] placeholder:text-gray-400" placeholder="Nom du chantier..." type="text">
+        </div>
 
-          <div>
-            <input class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] placeholder:text-gray-400" placeholder="Nom du client..." type="text">
-          </div>
+        <select class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          <option>Tous statuts</option>
+          <option>À staffer</option>
+          <option>Best match à valider</option>
+          <option>Notification envoyée</option>
+          <option>Validé</option>
+          <option>Annulée</option>
+        </select>
 
-          <div>
-            <input class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] placeholder:text-gray-400" placeholder="Nom du chantier..." type="text">
-          </div>
-
-          <select class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-            <option>Tous statuts</option>
-            <option>À staffer</option>
-            <option>Best match à valider</option>
-            <option>Notification envoyée</option>
-            <option>Validé</option>
-            <option>Annulée</option>
-          </select>
-
-          <div>
-            <input class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] placeholder:text-gray-400" placeholder="Intérimaire..." type="text">
-          </div>
-        </form>
-      </div>
+        <div>
+          <input class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] placeholder:text-gray-400" placeholder="Intérimaire..." type="text">
+        </div>
+      </form>
 
       <!-- VUE JOUR -->
-      <div id="view-day" class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden">
-        <div id="view-day-header" class="hidden lg:grid grid-cols-[120px_1.8fr_170px_140px_1.2fr_90px_1.3fr_110px] items-center gap-4 px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider bg-gray-50 border-b border-gray-200">
+      <div id="view-day" class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-x-auto" style="-webkit-overflow-scrolling:touch;">
+        <div class="lg:min-w-[1760px]">
+        <div id="view-day-header" class="hidden lg:grid grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-center gap-3 px-4 py-2 text-xs font-bold text-gray-500 uppercase tracking-wider bg-gray-50 border-b border-gray-200">
           <button type="button" data-sort-field="cmd" onclick="sortPlanningRows('cmd')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">N° Commande <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
-          <button type="button" data-sort-field="chantier" onclick="sortPlanningRows('chantier')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Chantier, Horaire &amp; Qualification <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
-          <button type="button" data-sort-field="motif" onclick="sortPlanningRows('motif')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Motif <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
+          <button type="button" data-sort-field="client" onclick="sortPlanningRows('client')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Client &amp; Chantier <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
+          <div>Horaires</div>
+          <div>Qualification</div>
+          <button type="button" data-sort-field="motif" onclick="sortPlanningRows('motif')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Motif &amp; Remarques <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
           <div>Fin de commande</div>
-          <div>Remarques</div>
-          <button type="button" data-sort-field="taux" onclick="sortPlanningRows('taux')" class="flex items-center justify-end gap-1 w-full text-right pr-2 hover:text-gray-800 transition-colors">Taux <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
           <button type="button" data-sort-field="interimaire" onclick="sortPlanningRows('interimaire')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Intérimaire <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
+          <div class="text-center">Envois</div>
           <button type="button" data-sort-field="statut" onclick="sortPlanningRows('statut')" class="flex items-center justify-end gap-1 w-full text-right hover:text-gray-800 transition-colors">Statut <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
+          <div>Commentaire équipe</div>
         </div>
 
-        <div class="divide-y divide-gray-200">
+        <div id="view-day-rows" class="divide-y divide-gray-200">
           <!-- LIGNE 1 -->
           <div onclick="openPanel('CMD-2609-01', 'Hôtel Le Meurice', 'Chef de rang', '11:00 - 19:00', '14,20 €/h', 'Remplacement maladie', 'Ven. 25 sept. (5j)', 'Besoin de qqn d\'autonome sur le rang 3.', 'Mme Sophie LAURENT', '01 44 58 10 10', 's.laurent@lemeurice.com', '001', 'Salle / Resto', 'À staffer')"
-               data-cmd="CMD-2609-01" data-chantier="Salle / Resto" data-motif="Remplacement maladie" data-taux="14.20" data-interimaire="" data-statut="À staffer"
-               class="planning-row grid grid-cols-1 lg:grid-cols-[120px_1.8fr_170px_140px_1.2fr_90px_1.3fr_110px] items-start gap-4 p-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
+               data-cmd="CMD-2609-01" data-client="Hôtel Le Meurice" data-chantier="Salle / Resto" data-motif="Remplacement maladie" data-taux="14.20" data-interimaire="" data-statut="À staffer"
+               class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
               <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-01</span>
             </div>
-            <div class="space-y-1 min-w-0">
-              <div class="flex items-baseline gap-2 flex-wrap">
-                <span class="text-lg font-extrabold text-gray-900 tracking-tight leading-tight">Salle / Resto</span>
-                <span class="text-sm font-bold text-[#A63629] bg-red-50 px-2.5 py-1 rounded-md border border-red-100 whitespace-nowrap">11:00 - 19:00</span>
-              </div>
-              <p class="text-xs text-gray-500 font-medium truncate">Hôtel Le Meurice <span class="text-gray-400">• 001</span></p>
-              <p class="flex items-center gap-1.5 pt-0.5">
-                <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">CDR</span>
+            <div class="space-y-0.5 min-w-0 pt-0.5">
+              <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">Hôtel Le Meurice</span>
+              <p class="text-xs text-gray-500 font-medium truncate">Salle / Resto <span class="text-gray-400">• 001</span></p>
+            </div>
+            <div class="pt-0.5">
+              <span class="text-sm font-bold text-[#A63629] bg-red-50 px-2.5 py-1 rounded-md border border-red-100 whitespace-nowrap inline-block">11:00 - 19:00</span>
+            </div>
+            <div class="pt-0.5">
+              <p class="flex items-center gap-1.5">
+                <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">28</span>
                 <span class="text-xs font-bold text-gray-800">Chef de rang</span>
               </p>
             </div>
-            <div class="pt-0.5">
-              <span class="inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700 border border-red-200"><span class="font-mono font-extrabold">MAL</span> · Remplacement maladie</span>
+            <div class="space-y-1 min-w-0 pt-0.5">
+              <span class="inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-700 border border-red-200"><span class="font-mono font-extrabold">32</span> · Remplacement maladie</span>
+              <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"Besoin de qqn d'autonome sur le rang 3."</p>
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span>Ven. 25 sept. <span class="text-gray-500 font-semibold">(5j)</span></span>
+              <span id="fin-cell-CMD-2609-01"></span>
             </div>
-            <div class="space-y-1 text-xs min-w-0">
-              <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"Besoin de qqn d'autonome sur le rang 3."</p>
-            </div>
-            <div class="pt-0.5 text-sm font-semibold text-gray-900 text-right pr-2 whitespace-nowrap">14,20&nbsp;€/h</div>
             <div>
               <div id="assign-box-CMD-2609-01" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-01')" class="h-10 rounded-lg border-2 border-dashed border-red-300 bg-red-50/80 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-red-100/70 hover:border-red-400 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-red-500 flex-shrink-0"><path d="M5 12h14"></path></svg>
@@ -277,40 +275,43 @@
                 </div>
               </div>
             </div>
+            <div id="envois-cell-CMD-2609-01" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
               <span class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
+            </div>
+            <div class="pt-0.5" onclick="event.stopPropagation()">
+              <textarea id="comment-input-CMD-2609-01" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Rappeler le client avant 17h pour confirmer l'accès.</textarea>
             </div>
           </div>
 
           <!-- LIGNE 2 -->
           <div onclick="openPanel('CMD-2609-02', 'Potel et Chabot Traiteur', 'Extra service', '18:00 - 01:00', '13,80 €/h', 'Accroissement temporaire', 'Lun. 21 sept. (1j)', 'Accès par le quai de déchargement obligatoire.', 'M. Thomas DUBOIS', '06 12 34 56 78', 't.dubois@potel.com', '002', 'Réception Hoche', 'Notification envoyée')"
-               data-cmd="CMD-2609-02" data-chantier="Réception Hoche" data-motif="Accroissement temporaire" data-taux="13.80" data-interimaire="Sofia MARTINS" data-statut="Notification envoyée"
-               class="planning-row grid grid-cols-1 lg:grid-cols-[120px_1.8fr_170px_140px_1.2fr_90px_1.3fr_110px] items-start gap-4 p-4 border-l-4 border-l-amber-400 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
+               data-cmd="CMD-2609-02" data-client="Potel et Chabot Traiteur" data-chantier="Réception Hoche" data-motif="Accroissement temporaire" data-taux="13.80" data-interimaire="Sofia MARTINS" data-statut="Notification envoyée"
+               class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-amber-400 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
               <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-02</span>
             </div>
-            <div class="space-y-1 min-w-0">
-              <div class="flex items-baseline gap-2 flex-wrap">
-                <span class="text-lg font-extrabold text-gray-900 tracking-tight leading-tight">Réception Hoche</span>
-                <span class="text-sm font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200 whitespace-nowrap">18:00 - 01:00</span>
-              </div>
-              <p class="text-xs text-gray-500 font-medium truncate">Potel et Chabot Traiteur <span class="text-gray-400">• 002</span></p>
-              <p class="flex items-center gap-1.5 pt-0.5">
-                <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">EXT</span>
+            <div class="space-y-0.5 min-w-0 pt-0.5">
+              <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">Potel et Chabot Traiteur</span>
+              <p class="text-xs text-gray-500 font-medium truncate">Réception Hoche <span class="text-gray-400">• 002</span></p>
+            </div>
+            <div class="pt-0.5">
+              <span class="text-sm font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200 whitespace-nowrap inline-block">18:00 - 01:00</span>
+            </div>
+            <div class="pt-0.5">
+              <p class="flex items-center gap-1.5">
+                <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">12</span>
                 <span class="text-xs font-bold text-gray-800">Extra service</span>
               </p>
             </div>
-            <div class="pt-0.5">
-              <span class="inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-800 border border-amber-200"><span class="font-mono font-extrabold">ACC</span> · Accroissement temporaire</span>
+            <div class="space-y-1 min-w-0 pt-0.5">
+              <span class="inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-800 border border-amber-200"><span class="font-mono font-extrabold">21</span> · Accroissement temporaire</span>
+              <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"Accès par le quai de déchargement."</p>
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span>Lun. 21 sept. <span class="text-gray-500 font-semibold">(1j)</span></span>
+              <span id="fin-cell-CMD-2609-02"></span>
             </div>
-            <div class="space-y-1 text-xs min-w-0">
-              <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"Accès par le quai de déchargement."</p>
-            </div>
-            <div class="pt-0.5 text-sm font-semibold text-gray-900 text-right pr-2 whitespace-nowrap">13,80&nbsp;€/h</div>
             <div>
               <div id="assign-box-CMD-2609-02" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-02')" class="h-10 rounded-lg border border-amber-300 bg-amber-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-amber-100 hover:border-amber-400 transition-colors">
                 <div class="w-6 h-6 bg-amber-200 text-amber-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">SM</div>
@@ -320,83 +321,89 @@
                 </div>
               </div>
             </div>
+            <div id="envois-cell-CMD-2609-02" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
               <span class="inline-flex items-center justify-center rounded-full border border-amber-300 bg-amber-100 text-amber-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Notification envoyée</span>
+            </div>
+            <div class="pt-0.5" onclick="event.stopPropagation()">
+              <textarea id="comment-input-CMD-2609-02" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
             </div>
           </div>
 
           <!-- LIGNE 3 -->
           <div onclick="openPanel('CMD-2609-03', 'Fouquet\'s Barrière', 'Commis de cuisine', '09:00 - 17:00', '13,10 €/h', 'Remplacement CP', 'Mar. 22 sept. (2j)', 'Tablier et veste de cuisine personnels requis.', 'Chef Marc VEYRAT', '01 40 69 60 00', 'mveyrat@fouquets.com', '001', 'Cuisine centrale', 'Validé')"
-               data-cmd="CMD-2609-03" data-chantier="Cuisine centrale" data-motif="Remplacement CP" data-taux="13.10" data-interimaire="Mehdi KACI" data-statut="Validé"
-               class="planning-row grid grid-cols-1 lg:grid-cols-[120px_1.8fr_170px_140px_1.2fr_90px_1.3fr_110px] items-start gap-4 p-4 border-l-4 border-l-green-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
+               data-cmd="CMD-2609-03" data-client="Fouquet's Barrière" data-chantier="Cuisine centrale" data-motif="Remplacement CP" data-taux="13.10" data-interimaire="Mehdi KACI" data-statut="Validé"
+               class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-green-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
               <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-03</span>
             </div>
-            <div class="space-y-1 min-w-0">
-              <div class="flex items-baseline gap-2 flex-wrap">
-                <span class="text-lg font-extrabold text-gray-900 tracking-tight leading-tight">Cuisine centrale</span>
-                <span class="text-sm font-bold text-green-800 bg-green-50 px-2.5 py-1 rounded-md border border-green-200 whitespace-nowrap">09:00 - 17:00</span>
-              </div>
-              <p class="text-xs text-gray-500 font-medium truncate">Fouquet's Barrière <span class="text-gray-400">• 001</span></p>
-              <p class="flex items-center gap-1.5 pt-0.5">
-                <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">CDC</span>
+            <div class="space-y-0.5 min-w-0 pt-0.5">
+              <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">Fouquet's Barrière</span>
+              <p class="text-xs text-gray-500 font-medium truncate">Cuisine centrale <span class="text-gray-400">• 001</span></p>
+            </div>
+            <div class="pt-0.5">
+              <span class="text-sm font-bold text-green-800 bg-green-50 px-2.5 py-1 rounded-md border border-green-200 whitespace-nowrap inline-block">09:00 - 17:00</span>
+            </div>
+            <div class="pt-0.5">
+              <p class="flex items-center gap-1.5">
+                <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">01</span>
                 <span class="text-xs font-bold text-gray-800">Commis de cuisine</span>
               </p>
             </div>
-            <div class="pt-0.5">
-              <span class="inline-flex items-center gap-1.5 rounded-md bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-800 border border-green-200"><span class="font-mono font-extrabold">CP</span> · Remplacement CP</span>
+            <div class="space-y-1 min-w-0 pt-0.5">
+              <span class="inline-flex items-center gap-1.5 rounded-md bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-800 border border-green-200"><span class="font-mono font-extrabold">33</span> · Remplacement CP</span>
+              <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"Tablier et veste requis."</p>
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span>Mar. 22 sept. <span class="text-gray-500 font-semibold">(2j)</span></span>
+              <span id="fin-cell-CMD-2609-03"></span>
             </div>
-            <div class="space-y-1 text-xs min-w-0">
-              <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"Tablier et veste requis."</p>
-            </div>
-            <div class="pt-0.5 text-sm font-semibold text-gray-900 text-right pr-2 whitespace-nowrap">13,10&nbsp;€/h</div>
             <div>
               <div id="assign-box-CMD-2609-03" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-03')" class="h-10 rounded-lg border border-green-300 bg-green-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-green-100 hover:border-green-400 transition-colors">
                 <div class="w-6 h-6 bg-green-200 text-green-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">MK</div>
                 <div class="min-w-0 leading-tight">
                   <p class="text-xs font-bold text-gray-900 truncate">Mehdi KACI</p>
-                  <p class="text-[10px] text-green-800 font-semibold">Contrat signé · <span class="underline">Voir candidats</span></p>
+                  <p class="text-[10px] text-green-800 font-semibold">Confirmé · <span class="underline">Voir candidats</span></p>
                 </div>
               </div>
             </div>
+            <div id="envois-cell-CMD-2609-03" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
               <span class="inline-flex items-center justify-center rounded-full border border-green-300 bg-green-100 text-green-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Validé</span>
+            </div>
+            <div class="pt-0.5" onclick="event.stopPropagation()">
+              <textarea id="comment-input-CMD-2609-03" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
             </div>
           </div>
 
           <!-- LIGNE 4 -->
           <div onclick="openPanel('CMD-2609-04', 'Novotel Paris Est', 'Réceptionniste', '07:00 - 15:00', '12,90 €/h', 'Accroissement temporaire', 'Mer. 23 sept. (3j)', 'Anglais courant indispensable, accueil d\'une clientèle internationale.', 'Mme Isabelle ROCHE', '01 55 66 23 10', 'i.roche@novotel-est.com', '001', 'Réception', 'Best match à valider')"
-               data-cmd="CMD-2609-04" data-chantier="Réception" data-motif="Accroissement temporaire" data-taux="12.90" data-interimaire="Julie PETIT" data-statut="Best match à valider"
-               class="planning-row grid grid-cols-1 lg:grid-cols-[120px_1.8fr_170px_140px_1.2fr_90px_1.3fr_110px] items-start gap-4 p-4 border-l-4 border-l-blue-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
+               data-cmd="CMD-2609-04" data-client="Novotel Paris Est" data-chantier="Réception" data-motif="Accroissement temporaire" data-taux="12.90" data-interimaire="Julie PETIT" data-statut="Best match à valider"
+               class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-blue-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
               <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-04</span>
             </div>
-            <div class="space-y-1 min-w-0">
-              <div class="flex items-baseline gap-2 flex-wrap">
-                <span class="text-lg font-extrabold text-gray-900 tracking-tight leading-tight">Réception</span>
-                <span class="text-sm font-bold text-blue-800 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 whitespace-nowrap">07:00 - 15:00</span>
-              </div>
-              <p class="text-xs text-gray-500 font-medium truncate">Novotel Paris Est <span class="text-gray-400">• 001</span></p>
-              <p class="flex items-center gap-1.5 pt-0.5">
-                <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">RCP</span>
+            <div class="space-y-0.5 min-w-0 pt-0.5">
+              <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">Novotel Paris Est</span>
+              <p class="text-xs text-gray-500 font-medium truncate">Réception <span class="text-gray-400">• 001</span></p>
+            </div>
+            <div class="pt-0.5">
+              <span class="text-sm font-bold text-blue-800 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 whitespace-nowrap inline-block">07:00 - 15:00</span>
+            </div>
+            <div class="pt-0.5">
+              <p class="flex items-center gap-1.5">
+                <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">34</span>
                 <span class="text-xs font-bold text-gray-800">Réceptionniste</span>
               </p>
             </div>
-            <div class="pt-0.5">
-              <span class="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-800 border border-blue-200"><span class="font-mono font-extrabold">ACC</span> · Accroissement temporaire</span>
+            <div class="space-y-1 min-w-0 pt-0.5">
+              <span class="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-800 border border-blue-200"><span class="font-mono font-extrabold">21</span> · Accroissement temporaire</span>
+              <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"Anglais courant indispensable."</p>
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span>Mer. 23 sept. <span class="text-gray-500 font-semibold">(3j)</span></span>
+              <span id="fin-cell-CMD-2609-04"></span>
             </div>
-            <div class="space-y-1 text-xs min-w-0">
-              <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"Anglais courant indispensable."</p>
-            </div>
-            <div class="pt-0.5 text-sm font-semibold text-gray-900 text-right pr-2 whitespace-nowrap">12,90&nbsp;€/h</div>
             <div>
               <div id="assign-box-CMD-2609-04" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-04')" class="h-10 rounded-lg border border-blue-300 bg-blue-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-blue-100 hover:border-blue-400 transition-colors">
                 <div class="w-6 h-6 bg-blue-200 text-blue-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">JP</div>
@@ -406,40 +413,43 @@
                 </div>
               </div>
             </div>
+            <div id="envois-cell-CMD-2609-04" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
               <span class="inline-flex items-center justify-center rounded-full border border-blue-300 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Best match à valider</span>
+            </div>
+            <div class="pt-0.5" onclick="event.stopPropagation()">
+              <textarea id="comment-input-CMD-2609-04" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
             </div>
           </div>
 
           <!-- LIGNE 5 -->
           <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — commande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')"
-               data-cmd="CMD-2609-05" data-chantier="Bar à Vins" data-motif="Événement privé" data-taux="13.50" data-interimaire="Yanis MOKRANE" data-statut="Annulée"
-               class="planning-row grid grid-cols-1 lg:grid-cols-[120px_1.8fr_170px_140px_1.2fr_90px_1.3fr_110px] items-start gap-4 p-4 border-l-4 border-l-gray-300 opacity-60 hover:opacity-100 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
+               data-cmd="CMD-2609-05" data-client="La Table du Marais" data-chantier="Bar à Vins" data-motif="Événement privé" data-taux="13.50" data-interimaire="Yanis MOKRANE" data-statut="Annulée"
+               class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-gray-300 opacity-60 hover:opacity-100 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
               <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-05</span>
             </div>
-            <div class="space-y-1 min-w-0">
-              <div class="flex items-baseline gap-2 flex-wrap">
-                <span class="text-lg font-extrabold text-gray-500 tracking-tight leading-tight line-through">Bar à Vins</span>
-                <span class="text-sm font-bold text-gray-600 bg-gray-100 px-2.5 py-1 rounded-md border border-gray-200 whitespace-nowrap">19:00 - 00:00</span>
-              </div>
-              <p class="text-xs text-gray-500 font-medium truncate">La Table du Marais <span class="text-gray-400">• 002</span></p>
-              <p class="flex items-center gap-1.5 pt-0.5">
-                <span class="inline-flex items-center justify-center rounded bg-gray-400 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">BAR</span>
+            <div class="space-y-0.5 min-w-0 pt-0.5">
+              <span class="text-sm font-extrabold text-gray-500 tracking-tight leading-tight line-through block truncate">La Table du Marais</span>
+              <p class="text-xs text-gray-500 font-medium truncate">Bar à Vins <span class="text-gray-400">• 002</span></p>
+            </div>
+            <div class="pt-0.5">
+              <span class="text-sm font-bold text-gray-600 bg-gray-100 px-2.5 py-1 rounded-md border border-gray-200 whitespace-nowrap inline-block">19:00 - 00:00</span>
+            </div>
+            <div class="pt-0.5">
+              <p class="flex items-center gap-1.5">
+                <span class="inline-flex items-center justify-center rounded bg-gray-400 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">19</span>
                 <span class="text-xs font-bold text-gray-500">Barman</span>
               </p>
             </div>
-            <div class="pt-0.5">
-              <span class="inline-flex items-center gap-1.5 rounded-md bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600 border border-gray-200"><span class="font-mono font-extrabold">EVT</span> · Événement privé</span>
+            <div class="space-y-1 min-w-0 pt-0.5">
+              <span class="inline-flex items-center gap-1.5 rounded-md bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-600 border border-gray-200"><span class="font-mono font-extrabold">45</span> · Événement privé</span>
+              <p class="text-gray-500 italic bg-gray-100 border border-gray-200 px-2 py-1 rounded text-[11px] truncate">"Événement annulé par le client."</p>
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-500 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span>Lun. 21 sept. <span class="text-gray-400 font-semibold">(1j)</span></span>
+              <span id="fin-cell-CMD-2609-05"></span>
             </div>
-            <div class="space-y-1 text-xs min-w-0">
-              <p class="text-gray-500 italic bg-gray-100 border border-gray-200 px-2 py-1 rounded text-[11px] truncate">"Événement annulé par le client."</p>
-            </div>
-            <div class="pt-0.5 text-sm font-semibold text-gray-500 text-right pr-2 whitespace-nowrap">13,50&nbsp;€/h</div>
             <div>
               <div class="h-10 rounded-lg border border-dashed border-gray-300 bg-gray-50 px-2.5 flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
@@ -449,10 +459,117 @@
                 </div>
               </div>
             </div>
+            <div id="envois-cell-CMD-2609-05" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
               <span class="inline-flex items-center justify-center rounded-full border border-gray-300 bg-gray-200 text-gray-600 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Annulée</span>
             </div>
+            <div class="pt-0.5" onclick="event.stopPropagation()">
+              <textarea id="comment-input-CMD-2609-05" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-500 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Client a annulé l'événement, rien à faire.</textarea>
+            </div>
           </div>
+
+          <!-- LIGNE 6 : client à suivre -->
+          <div onclick="openPanel('CMD-2609-06', 'Le Grand Hôtel Parisien', 'Bagagiste', '06:00 - 14:00', '12,60 €/h', 'Accroissement temporaire', 'Jeu. 24 sept. (2j)', 'Client sensible : exiger tenue complète et ponctualité stricte.', 'M. Julien MOREAU', '01 47 20 30 40', 'j.moreau@grandhotelparisien.fr', '003', 'Étage Prestige', 'À staffer')"
+               data-cmd="CMD-2609-06" data-client="Le Grand Hôtel Parisien" data-chantier="Étage Prestige" data-motif="Accroissement temporaire" data-taux="12.60" data-interimaire="" data-statut="À staffer"
+               class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
+            <div class="pt-0.5">
+              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-06</span>
+            </div>
+            <div class="space-y-0.5 min-w-0 pt-0.5">
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight truncate">Le Grand Hôtel Parisien</span>
+                <span class="relative group inline-flex flex-shrink-0" onclick="event.stopPropagation()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-amber-500 cursor-help"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+                  <span class="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block w-64 rounded-lg bg-gray-900 text-white text-[11px] leading-snug px-3 py-2 shadow-xl z-20">
+                    <span class="block font-bold text-amber-300 mb-0.5">Client à suivre</span>
+                    2 relevés d'heures contestés et un retard de paiement de 45 jours sur la dernière facture.
+                    <span class="absolute left-1/2 -translate-x-1/2 top-full w-2 h-2 bg-gray-900 rotate-45"></span>
+                  </span>
+                </span>
+              </div>
+              <p class="text-xs text-gray-500 font-medium truncate">Étage Prestige <span class="text-gray-400">• 003</span></p>
+            </div>
+            <div class="pt-0.5">
+              <span class="text-sm font-bold text-[#A63629] bg-red-50 px-2.5 py-1 rounded-md border border-red-100 whitespace-nowrap inline-block">06:00 - 14:00</span>
+            </div>
+            <div class="pt-0.5">
+              <p class="flex items-center gap-1.5">
+                <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">07</span>
+                <span class="text-xs font-bold text-gray-800">Bagagiste</span>
+              </p>
+            </div>
+            <div class="space-y-1 min-w-0 pt-0.5">
+              <span class="inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-700 border border-red-200"><span class="font-mono font-extrabold">21</span> · Accroissement temporaire</span>
+              <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"Client sensible : tenue complète, ponctualité stricte."</p>
+            </div>
+            <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
+              <span id="fin-cell-CMD-2609-06"></span>
+            </div>
+            <div>
+              <div id="assign-box-CMD-2609-06" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-06')" class="h-10 rounded-lg border-2 border-dashed border-red-300 bg-red-50/80 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-red-100/70 hover:border-red-400 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-red-500 flex-shrink-0"><path d="M5 12h14"></path></svg>
+                <div class="min-w-0 leading-tight">
+                  <p class="text-xs font-bold text-red-700 truncate">Aucun attribué</p>
+                  <p class="text-[10px] text-red-600 font-medium underline">Voir candidats</p>
+                </div>
+              </div>
+            </div>
+            <div id="envois-cell-CMD-2609-06" class="pt-0.5 flex justify-center"></div>
+            <div class="pt-0.5 flex justify-end min-w-0">
+              <span class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
+            </div>
+            <div class="pt-0.5" onclick="event.stopPropagation()">
+              <textarea id="comment-input-CMD-2609-06" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Client sensible : confirmer la tenue avec l'intérimaire avant le début.</textarea>
+            </div>
+          </div>
+
+          <!-- LIGNE 7 : exemple de contrat établi -->
+          <div onclick="openPanel('CMD-2609-07', 'Hôtel Prince de Galles', 'Réceptionniste', '08:00 - 16:00', '14,50 €/h', 'Accroissement temporaire', 'Sam. 26 sept.', 'Contrat transmis et signé, prise de poste prévue lundi.', 'M. Antoine REY', '01 53 23 77 00', 'a.rey@princedegalles.com', '001', 'Réception VIP', 'Contrat établi')"
+               data-cmd="CMD-2609-07" data-client="Hôtel Prince de Galles" data-chantier="Réception VIP" data-motif="Accroissement temporaire" data-taux="14.50" data-interimaire="Léa ROUSSEL" data-statut="Contrat établi"
+               class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-purple-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
+            <div class="pt-0.5">
+              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-07</span>
+            </div>
+            <div class="space-y-0.5 min-w-0 pt-0.5">
+              <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">Hôtel Prince de Galles</span>
+              <p class="text-xs text-gray-500 font-medium truncate">Réception VIP <span class="text-gray-400">• 001</span></p>
+            </div>
+            <div class="pt-0.5">
+              <span class="text-sm font-bold text-purple-800 bg-purple-50 px-2.5 py-1 rounded-md border border-purple-200 whitespace-nowrap inline-block">08:00 - 16:00</span>
+            </div>
+            <div class="pt-0.5">
+              <p class="flex items-center gap-1.5">
+                <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">34</span>
+                <span class="text-xs font-bold text-gray-800">Réceptionniste</span>
+              </p>
+            </div>
+            <div class="space-y-1 min-w-0 pt-0.5">
+              <span class="inline-flex items-center gap-1.5 rounded-md bg-purple-50 px-2 py-0.5 text-xs font-semibold text-purple-800 border border-purple-200"><span class="font-mono font-extrabold">21</span> · Accroissement temporaire</span>
+              <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"Contrat transmis et signé, prise de poste lundi."</p>
+            </div>
+            <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
+              <span id="fin-cell-CMD-2609-07"></span>
+            </div>
+            <div>
+              <div id="assign-box-CMD-2609-07" class="h-10 rounded-lg border border-purple-300 bg-purple-50 px-2.5 flex items-center gap-2">
+                <div class="w-6 h-6 bg-purple-200 text-purple-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">LR</div>
+                <div class="min-w-0 leading-tight">
+                  <p class="text-xs font-bold text-gray-900 truncate">Léa ROUSSEL</p>
+                  <p class="text-[10px] text-purple-800 font-semibold">Contrat établi</p>
+                </div>
+              </div>
+            </div>
+            <div id="envois-cell-CMD-2609-07" class="pt-0.5 flex justify-center"></div>
+            <div class="pt-0.5 flex justify-end min-w-0">
+              <span class="inline-flex items-center justify-center rounded-full border border-purple-300 bg-purple-100 text-purple-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Contrat établi</span>
+            </div>
+            <div class="pt-0.5" onclick="event.stopPropagation()">
+              <textarea id="comment-input-CMD-2609-07" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
 
@@ -471,12 +588,12 @@
           </div>
 
           <div class="divide-y divide-gray-200 text-xs">
-            <!-- CLIENT 1 -->
+            <!-- CLIENT 1 : À staffer -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
               <div onclick="openPanel('CMD-2609-01', 'Hôtel Le Meurice', 'Chef de rang', '11:00 - 19:00', '14,20 €/h', 'Remplacement maladie', 'Ven. 25 sept. (5j)', 'Besoin de qqn d\'autonome sur le rang 3.', 'Mme Sophie LAURENT', '01 44 58 10 10', 's.laurent@lemeurice.com', '001', 'Salle / Resto', 'À staffer')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Hôtel Le Meurice</p>
                 <p class="text-gray-500 font-medium">Salle / Resto</p>
-                <span class="text-[10px] text-gray-400 font-mono font-semibold">CDR</span> <span class="text-[10px] text-gray-400">Chef de rang</span>
+                <span class="text-[10px] text-gray-400 font-mono font-semibold">28</span> <span class="text-[10px] text-gray-400">Chef de rang</span>
               </div>
               <div onclick="openCandidatesModal('CMD-2609-01')"
                    class="cursor-pointer bg-red-50 border border-red-200 text-red-800 p-2 rounded-lg space-y-1 hover:shadow-md hover:border-red-300 transition-all">
@@ -507,56 +624,45 @@
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
             </div>
 
-            <!-- CLIENT 2 -->
+            <!-- CLIENT 2 : À staffer, client à suivre -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-02', 'Potel et Chabot Traiteur', 'Extra service', '18:00 - 01:00', '13,80 €/h', 'Accroissement temporaire', 'Lun. 21 sept. (1j)', 'Accès par le quai de déchargement obligatoire.', 'M. Thomas DUBOIS', '06 12 34 56 78', 't.dubois@potel.com', '002', 'Réception Hoche', 'Notification envoyée')" class="cursor-pointer group">
-                <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Potel et Chabot</p>
-                <p class="text-gray-500 font-medium">Réception Hoche</p>
-                <span class="text-[10px] text-gray-400 font-mono font-semibold">EXT</span> <span class="text-[10px] text-gray-400">Extra service</span>
+              <div onclick="openPanel('CMD-2609-06', 'Le Grand Hôtel Parisien', 'Bagagiste', '06:00 - 14:00', '12,60 €/h', 'Accroissement temporaire', 'Jeu. 24 sept. (2j)', 'Client sensible : exiger tenue complète et ponctualité stricte.', 'M. Julien MOREAU', '01 47 20 30 40', 'j.moreau@grandhotelparisien.fr', '003', 'Étage Prestige', 'À staffer')" class="cursor-pointer group">
+                <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors flex items-center gap-1.5">
+                  Le Grand Hôtel Parisien
+                  <span class="relative group/tip inline-flex flex-shrink-0" onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-amber-500 cursor-help"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+                    <span class="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover/tip:block w-64 rounded-lg bg-gray-900 text-white text-[11px] leading-snug px-3 py-2 shadow-xl z-20 normal-case font-normal">
+                      <span class="block font-bold text-amber-300 mb-0.5">Client à suivre</span>
+                      2 relevés d'heures contestés et un retard de paiement de 45 jours sur la dernière facture.
+                    </span>
+                  </span>
+                </p>
+                <p class="text-gray-500 font-medium">Étage Prestige</p>
+                <span class="text-[10px] text-gray-400 font-mono font-semibold">07</span> <span class="text-[10px] text-gray-400">Bagagiste</span>
               </div>
-              <div onclick="openCandidatesModal('CMD-2609-02')"
-                   class="cursor-pointer bg-amber-50 border border-amber-300 text-amber-900 p-2 rounded-lg space-y-1 hover:shadow-md transition-all">
-                <div class="flex justify-between items-center"><span class="font-bold text-[10px]">18h-01h</span> <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span></div>
-                <p class="font-bold truncate">Sofia M.</p>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div onclick="openCandidatesModal('CMD-2609-06')"
+                   class="cursor-pointer bg-red-50 border border-red-200 text-red-800 p-2 rounded-lg space-y-1 hover:shadow-md hover:border-red-300 transition-all">
+                <div class="flex justify-between items-center"><span class="font-bold text-[10px]">06h-14h</span> <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span></div>
+                <p class="font-semibold truncate">À staffer</p>
               </div>
-              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div onclick="openCandidatesModal('CMD-2609-06')"
+                   class="cursor-pointer bg-red-50 border border-red-200 text-red-800 p-2 rounded-lg space-y-1 opacity-80 hover:opacity-100 hover:shadow-md transition-all">
+                <div class="flex justify-between items-center"><span class="font-bold text-[10px]">06h-14h</span> <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span></div>
+                <p class="font-semibold truncate">À staffer</p>
+              </div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
             </div>
 
-            <!-- CLIENT 3 -->
-            <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-03', 'Fouquet\'s Barrière', 'Commis de cuisine', '09:00 - 17:00', '13,10 €/h', 'Remplacement CP', 'Mar. 22 sept. (2j)', 'Tablier et veste de cuisine personnels requis.', 'Chef Marc VEYRAT', '01 40 69 60 00', 'mveyrat@fouquets.com', '001', 'Cuisine centrale', 'Validé')" class="cursor-pointer group">
-                <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Fouquet's Barrière</p>
-                <p class="text-gray-500 font-medium">Cuisine centrale</p>
-                <span class="text-[10px] text-gray-400 font-mono font-semibold">CDC</span> <span class="text-[10px] text-gray-400">Commis de cuisine</span>
-              </div>
-              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-              <div onclick="openCandidatesModal('CMD-2609-03')"
-                   class="cursor-pointer bg-green-50 border border-green-300 text-green-900 p-2 rounded-lg space-y-1 hover:shadow-md transition-all">
-                <div class="flex justify-between items-center"><span class="font-bold text-[10px]">09h-17h</span> <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span></div>
-                <p class="font-bold truncate">Mehdi K.</p>
-              </div>
-              <div onclick="openCandidatesModal('CMD-2609-03')"
-                   class="cursor-pointer bg-green-50 border border-green-300 text-green-900 p-2 rounded-lg space-y-1 opacity-80 hover:opacity-100 hover:shadow-md transition-all">
-                <div class="flex justify-between items-center"><span class="font-bold text-[10px]">09h-17h</span> <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span></div>
-                <p class="font-bold truncate">Mehdi K.</p>
-              </div>
-              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-            </div>
-
-            <!-- CLIENT 4 -->
+            <!-- CLIENT 3 : Best match à valider -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
               <div onclick="openPanel('CMD-2609-04', 'Novotel Paris Est', 'Réceptionniste', '07:00 - 15:00', '12,90 €/h', 'Accroissement temporaire', 'Mer. 23 sept. (3j)', 'Anglais courant indispensable, accueil d\'une clientèle internationale.', 'Mme Isabelle ROCHE', '01 55 66 23 10', 'i.roche@novotel-est.com', '001', 'Réception', 'Best match à valider')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Novotel Paris Est</p>
                 <p class="text-gray-500 font-medium">Réception</p>
-                <span class="text-[10px] text-gray-400 font-mono font-semibold">RCP</span> <span class="text-[10px] text-gray-400">Réceptionniste</span>
+                <span class="text-[10px] text-gray-400 font-mono font-semibold">34</span> <span class="text-[10px] text-gray-400">Réceptionniste</span>
               </div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
@@ -579,12 +685,76 @@
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
             </div>
 
-            <!-- CLIENT 5 -->
+            <!-- CLIENT 4 : Notification envoyée -->
+            <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
+              <div onclick="openPanel('CMD-2609-02', 'Potel et Chabot Traiteur', 'Extra service', '18:00 - 01:00', '13,80 €/h', 'Accroissement temporaire', 'Lun. 21 sept. (1j)', 'Accès par le quai de déchargement obligatoire.', 'M. Thomas DUBOIS', '06 12 34 56 78', 't.dubois@potel.com', '002', 'Réception Hoche', 'Notification envoyée')" class="cursor-pointer group">
+                <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Potel et Chabot</p>
+                <p class="text-gray-500 font-medium">Réception Hoche</p>
+                <span class="text-[10px] text-gray-400 font-mono font-semibold">12</span> <span class="text-[10px] text-gray-400">Extra service</span>
+              </div>
+              <div onclick="openCandidatesModal('CMD-2609-02')"
+                   class="cursor-pointer bg-amber-50 border border-amber-300 text-amber-900 p-2 rounded-lg space-y-1 hover:shadow-md transition-all">
+                <div class="flex justify-between items-center"><span class="font-bold text-[10px]">18h-01h</span> <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span></div>
+                <p class="font-bold truncate">Sofia M.</p>
+              </div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+            </div>
+
+            <!-- CLIENT 5 : Validé -->
+            <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
+              <div onclick="openPanel('CMD-2609-03', 'Fouquet\'s Barrière', 'Commis de cuisine', '09:00 - 17:00', '13,10 €/h', 'Remplacement CP', 'Mar. 22 sept. (2j)', 'Tablier et veste de cuisine personnels requis.', 'Chef Marc VEYRAT', '01 40 69 60 00', 'mveyrat@fouquets.com', '001', 'Cuisine centrale', 'Validé')" class="cursor-pointer group">
+                <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Fouquet's Barrière</p>
+                <p class="text-gray-500 font-medium">Cuisine centrale</p>
+                <span class="text-[10px] text-gray-400 font-mono font-semibold">01</span> <span class="text-[10px] text-gray-400">Commis de cuisine</span>
+              </div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div onclick="openCandidatesModal('CMD-2609-03')"
+                   class="cursor-pointer bg-green-50 border border-green-300 text-green-900 p-2 rounded-lg space-y-1 hover:shadow-md transition-all">
+                <div class="flex justify-between items-center"><span class="font-bold text-[10px]">09h-17h</span> <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span></div>
+                <p class="font-bold truncate">Mehdi K.</p>
+              </div>
+              <div onclick="openCandidatesModal('CMD-2609-03')"
+                   class="cursor-pointer bg-green-50 border border-green-300 text-green-900 p-2 rounded-lg space-y-1 opacity-80 hover:opacity-100 hover:shadow-md transition-all">
+                <div class="flex justify-between items-center"><span class="font-bold text-[10px]">09h-17h</span> <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span></div>
+                <p class="font-bold truncate">Mehdi K.</p>
+              </div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+            </div>
+
+            <!-- CLIENT 6 : Contrat établi -->
+            <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
+              <div onclick="openPanel('CMD-2609-07', 'Hôtel Prince de Galles', 'Réceptionniste', '08:00 - 16:00', '14,50 €/h', 'Accroissement temporaire', 'Sam. 26 sept.', 'Contrat transmis et signé, prise de poste prévue lundi.', 'M. Antoine REY', '01 53 23 77 00', 'a.rey@princedegalles.com', '001', 'Réception VIP', 'Contrat établi')" class="cursor-pointer group">
+                <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Hôtel Prince de Galles</p>
+                <p class="text-gray-500 font-medium">Réception VIP</p>
+                <span class="text-[10px] text-gray-400 font-mono font-semibold">34</span> <span class="text-[10px] text-gray-400">Réceptionniste</span>
+              </div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div onclick="openPanel('CMD-2609-07', 'Hôtel Prince de Galles', 'Réceptionniste', '08:00 - 16:00', '14,50 €/h', 'Accroissement temporaire', 'Sam. 26 sept.', 'Contrat transmis et signé, prise de poste prévue lundi.', 'M. Antoine REY', '01 53 23 77 00', 'a.rey@princedegalles.com', '001', 'Réception VIP', 'Contrat établi')"
+                   class="cursor-pointer bg-purple-50 border border-purple-300 text-purple-900 p-2 rounded-lg space-y-1 hover:shadow-md transition-all">
+                <div class="flex justify-between items-center"><span class="font-bold text-[10px]">08h-16h</span> <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span></div>
+                <p class="font-bold truncate">Léa R.</p>
+              </div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+            </div>
+
+            <!-- CLIENT 7 : Annulée -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80 opacity-70">
               <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — commande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">La Table du Marais</p>
                 <p class="text-gray-500 font-medium">Bar à Vins</p>
-                <span class="text-[10px] text-gray-400 font-mono font-semibold">BAR</span> <span class="text-[10px] text-gray-400">Barman</span>
+                <span class="text-[10px] text-gray-400 font-mono font-semibold">19</span> <span class="text-[10px] text-gray-400">Barman</span>
               </div>
               <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — commande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')"
                    class="cursor-pointer bg-gray-100 border border-gray-300 text-gray-500 p-2 rounded-lg space-y-1 hover:shadow-md transition-all">
@@ -703,6 +873,13 @@
           <input id="cand-filter-vehicule" type="checkbox" class="w-3.5 h-3.5 text-[#A63629] border-gray-300 rounded focus:ring-[#A63629]">
           <span class="text-xs font-medium text-gray-700 whitespace-nowrap">Véhiculé</span>
         </label>
+        <label class="flex items-center gap-1.5 h-8 px-2.5 rounded-lg border border-amber-200 bg-amber-50 cursor-pointer">
+          <input id="cand-filter-favori" type="checkbox" class="w-3.5 h-3.5 text-amber-500 border-amber-300 rounded focus:ring-amber-400">
+          <span class="text-xs font-semibold text-amber-800 whitespace-nowrap flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            Favoris
+          </span>
+        </label>
         <button type="button" id="cand-filter-reset" class="text-xs font-semibold text-gray-500 hover:text-[#A63629] transition-colors">Réinitialiser</button>
       </div>
     </div>
@@ -752,11 +929,11 @@
         <div>
           <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Qualification</label>
           <select id="cm-qualification" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-            <option value="CDR|Chef de rang">CDR — Chef de rang</option>
-            <option value="EXT|Extra service">EXT — Extra service</option>
-            <option value="CDC|Commis de cuisine">CDC — Commis de cuisine</option>
-            <option value="RCP|Réceptionniste">RCP — Réceptionniste</option>
-            <option value="BAR|Barman">BAR — Barman</option>
+            <option value="28|Chef de rang">28 — Chef de rang</option>
+            <option value="12|Extra service">12 — Extra service</option>
+            <option value="01|Commis de cuisine">01 — Commis de cuisine</option>
+            <option value="34|Réceptionniste">34 — Réceptionniste</option>
+            <option value="19|Barman">19 — Barman</option>
           </select>
         </div>
         <div>
@@ -770,10 +947,10 @@
         <div>
           <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Motif</label>
           <select id="cm-motif" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-            <option value="MAL|Remplacement maladie">MAL — Remplacement maladie</option>
-            <option value="ACC|Accroissement temporaire">ACC — Accroissement temporaire</option>
-            <option value="CP|Remplacement CP">CP — Remplacement CP</option>
-            <option value="EVT|Événement privé">EVT — Événement privé</option>
+            <option value="21|Accroissement temporaire">21 — Accroissement temporaire</option>
+            <option value="32|Remplacement maladie">32 — Remplacement maladie</option>
+            <option value="33|Remplacement CP">33 — Remplacement CP</option>
+            <option value="45|Événement privé">45 — Événement privé</option>
           </select>
         </div>
         <div>
@@ -787,6 +964,10 @@
         <div>
           <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Téléphone du contact</label>
           <input id="cm-contact-tel" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" placeholder="06 00 00 00 00">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">E-mail du contact</label>
+          <input id="cm-contact-email" type="email" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" placeholder="contact@client.fr">
         </div>
       </div>
       <div>
@@ -802,10 +983,97 @@
   </div>
 </div>
 
+<!-- BACKDROP ENVOI GROUPÉ SMS / MAILS -->
+<div id="bulk-send-backdrop" class="fixed inset-0 bg-gray-900/30 z-[60] hidden"></div>
+
+<!-- MODALE ENVOI GROUPÉ SMS / MAILS -->
+<div id="bulk-send-modal" class="fixed inset-0 z-[70] hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[88vh] flex flex-col">
+    <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3">
+      <div>
+        <h3 class="font-bold text-gray-900 text-lg">Envoyer SMS / e-mails</h3>
+        <p class="text-xs text-gray-500 mt-0.5">Sélectionnez les intérimaires et les clients à notifier pour les commandes du jour affiché.</p>
+      </div>
+      <button type="button" onclick="closeBulkSendModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+
+    <div class="px-5 py-3 border-b border-gray-100 bg-gray-50/60 flex flex-wrap items-center gap-4">
+      <label class="flex items-center gap-1.5 cursor-pointer">
+        <input id="bulk-select-all-sms" type="checkbox" class="w-3.5 h-3.5 text-[#A63629] border-gray-300 rounded focus:ring-[#A63629]">
+        <span class="text-xs font-semibold text-gray-700">Tout sélectionner (SMS)</span>
+      </label>
+      <label class="flex items-center gap-1.5 cursor-pointer">
+        <input id="bulk-select-all-mail" type="checkbox" class="w-3.5 h-3.5 text-[#A63629] border-gray-300 rounded focus:ring-[#A63629]">
+        <span class="text-xs font-semibold text-gray-700">Tout sélectionner (e-mails)</span>
+      </label>
+    </div>
+
+    <div class="px-5 pt-3">
+      <div class="grid grid-cols-[90px_1fr_1fr_1fr] gap-3 px-3 pb-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+        <span>Commande</span><span>Client</span><span>SMS intérimaire</span><span>E-mail client</span>
+      </div>
+    </div>
+    <div id="bulk-send-list" class="px-5 pb-5 space-y-2 overflow-y-auto"></div>
+
+    <div class="p-4 border-t border-gray-100 bg-gray-50 flex items-center justify-between gap-3">
+      <p id="bulk-send-count" class="text-xs text-gray-500">0 sélection</p>
+      <div class="flex gap-3">
+        <button type="button" onclick="closeBulkSendModal()" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-100 transition-colors">Annuler</button>
+        <button type="button" onclick="confirmBulkSend()" class="px-5 py-2 rounded-lg bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white text-sm font-semibold shadow hover:opacity-95 transition-colors">Envoyer la sélection</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   const sidePanel = document.getElementById('side-panel');
   const backdrop = document.getElementById('panel-backdrop');
   const closeBtn = document.getElementById('close-panel-btn');
+
+  // ===== FIN DE COMMANDE : nombre de jours RESTANTS (à partir de la date sélectionnée dans le bandeau), pas la durée totale =====
+
+  // Date de fin réelle de chaque commande (la date affichée + le "(+Nj)" sont recalculés à partir de là)
+  const commandeFin = {
+    'CMD-2609-01': { label: 'Ven. 25 sept.', date: '2026-09-25' },
+    'CMD-2609-02': { label: 'Lun. 21 sept.', date: '2026-09-21' },
+    'CMD-2609-03': { label: 'Mar. 22 sept.', date: '2026-09-22' },
+    'CMD-2609-04': { label: 'Mer. 23 sept.', date: '2026-09-23' },
+    'CMD-2609-05': { label: 'Lun. 21 sept.', date: '2026-09-21' },
+    'CMD-2609-06': { label: 'Jeu. 24 sept.', date: '2026-09-24' },
+    'CMD-2609-07': { label: 'Sam. 26 sept.', date: '2026-09-26' }
+  };
+
+  // Jours restants APRÈS la date sélectionnée dans le bandeau (considérée comme "aujourd'hui") : le jour même n'est pas compté.
+  // Une mission d'un seul jour (qui se termine aujourd'hui) donne donc 0, auquel cas on n'affiche rien.
+  function joursRestants(dateFin) {
+    const refValue = document.getElementById('planning-date-input').value || '2026-09-21';
+    const today = new Date(refValue + 'T00:00:00');
+    const end = new Date(dateFin + 'T00:00:00');
+    return Math.round((end - today) / 86400000);
+  }
+
+  function finSuffix(dateFin) {
+    const n = joursRestants(dateFin);
+    return n >= 1 ? `+${n}j` : '';
+  }
+
+  function finCellHTML(cmd) {
+    const info = commandeFin[cmd];
+    if (!info) return '';
+    const suffix = finSuffix(info.date);
+    return suffix ? `${info.label} <span class="text-gray-500 font-semibold">(${suffix})</span>` : info.label;
+  }
+
+  function renderFinCell(cmd) {
+    const el = document.getElementById('fin-cell-' + cmd);
+    if (el) el.innerHTML = finCellHTML(cmd);
+  }
+
+  function renderAllFinCells() {
+    Object.keys(commandeFin).forEach(renderFinCell);
+  }
 
   function openPanel(cmd, client, poste, heure, taux, justif, fin, commentaire, contactNom, contactTel, contactEmail, agence, chantier, statut) {
     document.getElementById('p-cmd').textContent = cmd;
@@ -814,7 +1082,9 @@
     document.getElementById('p-heure').textContent = heure;
     document.getElementById('p-taux').textContent = taux;
     document.getElementById('p-justif').textContent = justif;
-    document.getElementById('p-fin').textContent = fin;
+    const finInfo = commandeFin[cmd];
+    const finPanelSuffix = finInfo ? finSuffix(finInfo.date) : '';
+    document.getElementById('p-fin').textContent = finInfo ? (finPanelSuffix ? `${finInfo.label} (${finPanelSuffix})` : finInfo.label) : fin;
     document.getElementById('p-commentaire').textContent = `"${commentaire}"`;
     document.getElementById('p-contact-nom').textContent = contactNom;
     document.getElementById('p-contact-tel').querySelector('span').textContent = contactTel;
@@ -834,6 +1104,8 @@
       badgeClasses += "bg-amber-100 text-amber-900 border-amber-300";
     } else if (statut === 'Validé') {
       badgeClasses += "bg-green-100 text-green-900 border-green-300";
+    } else if (statut === 'Contrat établi') {
+      badgeClasses += "bg-purple-100 text-purple-900 border-purple-300";
     } else if (statut === 'Annulée') {
       badgeClasses += "bg-gray-200 text-gray-600 border-gray-300";
     } else {
@@ -857,19 +1129,19 @@
 
   // Vivier partagé d'intérimaires (mêmes profils que Planning / Disponibilités / Intérimaires)
   const interimRoster = [
-    { name: 'Sofia MARTINS', init: 'SM', qual: 'Chef de rang', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.8/5', dernierContrat: '15 sept. 2026', phone: '06 12 45 78 90', email: 'sofia.martins@gmail.com', specialites: ['Gastronomique', 'Banquet / Événementiel'] },
+    { name: 'Sofia MARTINS', init: 'SM', qual: 'Chef de rang', secteur: 'Restauration', vehicule: true, dispo: true, favori: true, note: '4.8/5', dernierContrat: '15 sept. 2026', phone: '06 12 45 78 90', email: 'sofia.martins@gmail.com', specialites: ['Gastronomique', 'Banquet / Événementiel'] },
     { name: 'Karim DIALLO', init: 'KD', qual: 'Cuisinier', secteur: 'Restauration', vehicule: true, dispo: false, raisonIndispo: 'En commande (Le Meurice, jusqu\'au 25/09)', note: '4.3/5', dernierContrat: '02 sept. 2026', phone: '07 65 32 10 44', email: 'karim.diallo@gmail.com', specialites: ['Brunch'] },
-    { name: 'Léa ROUSSEL', init: 'LR', qual: 'Réceptionniste', secteur: 'Hébergement', vehicule: true, dispo: true, note: '4.9/5', dernierContrat: '18 sept. 2026', phone: '06 78 90 12 33', email: 'lea.roussel@gmail.com', logiciels: ['Opera Cloud', 'Opera PMS', 'Fidelio', 'Mews'] },
+    { name: 'Léa ROUSSEL', init: 'LR', qual: 'Réceptionniste', secteur: 'Hébergement', vehicule: true, dispo: true, favori: true, note: '4.9/5', dernierContrat: '18 sept. 2026', phone: '06 78 90 12 33', email: 'lea.roussel@gmail.com', logiciels: ['Opera Cloud', 'Opera PMS', 'Fidelio', 'Mews'] },
     { name: 'Thomas NGUYEN', init: 'TN', qual: 'Plongeur', secteur: 'Restauration', vehicule: false, dispo: false, raisonIndispo: 'Indisponibilité déclarée (jusqu\'au 27/09)', note: '4.0/5', dernierContrat: '28 août 2026', phone: '06 23 56 89 21', email: 'thomas.nguyen@gmail.com', specialites: ['Banquet / Événementiel'] },
     { name: 'Amandine BERTIN', init: 'AB', qual: 'Pâtissière', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.7/5', dernierContrat: '10 sept. 2026', phone: '06 44 12 87 65', email: 'amandine.bertin@gmail.com', specialites: ['Gastronomique'] },
     { name: 'Yanis MOKRANE', init: 'YM', qual: 'Barman', secteur: 'Restauration', vehicule: false, dispo: true, note: '4.4/5', dernierContrat: '20 sept. 2026', phone: '07 11 22 33 44', email: 'yanis.mokrane@gmail.com', specialites: ['Banquet / Événementiel'] },
     { name: 'Camille DUBOIS', init: 'CD', qual: 'Sommelière', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.6/5', dernierContrat: '12 sept. 2026', phone: '06 55 44 33 22', email: 'camille.dubois@gmail.com', specialites: ['Gastronomique'] },
-    { name: 'Mehdi KACI', init: 'MK', qual: 'Commis de cuisine', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.2/5', dernierContrat: '22 sept. 2026', phone: '07 88 99 00 11', email: 'mehdi.kaci@gmail.com', specialites: ['Brunch'] },
+    { name: 'Mehdi KACI', init: 'MK', qual: 'Commis de cuisine', secteur: 'Restauration', vehicule: true, dispo: true, favori: true, note: '4.2/5', dernierContrat: '22 sept. 2026', phone: '07 88 99 00 11', email: 'mehdi.kaci@gmail.com', specialites: ['Brunch'] },
     { name: 'Julie PETIT', init: 'JP', qual: "Hôtesse d'accueil", secteur: 'Hébergement', vehicule: false, dispo: true, note: '4.5/5', dernierContrat: '19 sept. 2026', phone: '06 33 22 11 00', email: 'julie.petit@gmail.com', logiciels: ['Mews'] },
-    { name: 'Paul GAUTHIER', init: 'PG', qual: "Maître d'hôtel", secteur: 'Restauration', vehicule: true, dispo: false, raisonIndispo: 'En commande (Potel et Chabot, jusqu\'au 23/09)', note: '4.9/5', dernierContrat: '27 sept. 2026', phone: '07 34 56 78 90', email: 'paul.gauthier@gmail.com', specialites: ['Gastronomique', 'Banquet / Événementiel'] },
+    { name: 'Paul GAUTHIER', init: 'PG', qual: "Maître d'hôtel", secteur: 'Restauration', vehicule: true, dispo: false, favori: true, raisonIndispo: 'En commande (Potel et Chabot, jusqu\'au 23/09)', note: '4.9/5', dernierContrat: '27 sept. 2026', phone: '07 34 56 78 90', email: 'paul.gauthier@gmail.com', specialites: ['Gastronomique', 'Banquet / Événementiel'] },
     { name: 'Rachid BENALI', init: 'RB', qual: 'Chef cuisinier', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.7/5', dernierContrat: '14 sept. 2026', phone: '06 90 80 70 60', email: 'rachid.benali@gmail.com', specialites: ['Gastronomique'] },
     { name: 'Emma LEFEBVRE', init: 'EL', qual: 'Serveuse', secteur: 'Restauration', vehicule: false, dispo: true, note: '4.1/5', dernierContrat: '05 sept. 2026', phone: '06 21 43 65 87', email: 'emma.lefebvre@gmail.com', specialites: ['Brunch'] },
-    { name: 'Nadia FONTAINE', init: 'NF', qual: 'Femme de chambre', secteur: 'Housekeeping', vehicule: false, dispo: true, note: '4.6/5', dernierContrat: '16 sept. 2026', phone: '06 66 77 88 99', email: 'nadia.fontaine@gmail.com', etoiles: [3, 4, 5] }
+    { name: 'Nadia FONTAINE', init: 'NF', qual: 'Femme de chambre', secteur: 'Housekeeping', vehicule: false, dispo: true, favori: true, note: '4.6/5', dernierContrat: '16 sept. 2026', phone: '06 66 77 88 99', email: 'nadia.fontaine@gmail.com', etoiles: [3, 4, 5] }
   ];
 
   // Config par commande : secteur (détermine le filtre conditionnel proposé), qualification exacte / proche, qui connaît déjà ce chantier,
@@ -878,7 +1150,9 @@
     'CMD-2609-01': { recap: 'Chef de rang · Hôtel Le Meurice · 11:00 - 19:00', current: null, secteur: 'Restauration', exact: ['Chef de rang'], related: ["Maître d'hôtel", 'Serveuse'], connuPar: ['Sofia MARTINS', 'Paul GAUTHIER'], condValue: 'Gastronomique' },
     'CMD-2609-02': { recap: 'Extra service · Potel et Chabot Traiteur · 18:00 - 01:00', current: 'Sofia MARTINS', secteur: 'Restauration', exact: [], related: ['Serveuse', "Hôtesse d'accueil", 'Chef de rang'], connuPar: ['Sofia MARTINS', 'Emma LEFEBVRE'], condValue: 'Banquet / Événementiel' },
     'CMD-2609-03': { recap: "Commis de cuisine · Fouquet's Barrière · 09:00 - 17:00", current: 'Mehdi KACI', secteur: 'Restauration', exact: ['Commis de cuisine'], related: ['Cuisinier', 'Chef cuisinier', 'Pâtissière'], connuPar: ['Mehdi KACI', 'Rachid BENALI'], condValue: 'Gastronomique' },
-    'CMD-2609-04': { recap: 'Réceptionniste · Novotel Paris Est · 07:00 - 15:00', current: 'Julie PETIT', secteur: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Julie PETIT'], condValue: 'Opera Cloud' }
+    'CMD-2609-04': { recap: 'Réceptionniste · Novotel Paris Est · 07:00 - 15:00', current: 'Julie PETIT', secteur: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Julie PETIT'], condValue: 'Opera Cloud' },
+    'CMD-2609-06': { recap: 'Bagagiste · Le Grand Hôtel Parisien · 06:00 - 14:00', current: null, secteur: 'Hébergement', exact: [], related: ["Hôtesse d'accueil", 'Réceptionniste'], connuPar: [] },
+    'CMD-2609-07': { recap: 'Réceptionniste · Hôtel Prince de Galles · 08:00 - 16:00', current: 'Léa ROUSSEL', secteur: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Léa ROUSSEL'], condValue: 'Opera Cloud' }
   };
 
   // Filtre conditionnel proposé selon le secteur de la commande (aligné sur les compétences déclaratives des fiches intérimaire)
@@ -911,6 +1185,7 @@
   const candFilterChantier = document.getElementById('cand-filter-chantier');
   const candFilterDispo = document.getElementById('cand-filter-dispo');
   const candFilterVehicule = document.getElementById('cand-filter-vehicule');
+  const candFilterFavori = document.getElementById('cand-filter-favori');
   let currentCandCmd = null;
 
   // Construit le filtre conditionnel (spécialité / logiciel / étoiles) en fonction du secteur sélectionné
@@ -955,6 +1230,7 @@
     const chantierOnly = candFilterChantier.checked;
     const dispoOnly = candFilterDispo.checked;
     const vehiculeOnly = candFilterVehicule.checked;
+    const favorisOnly = candFilterFavori.checked;
 
     let filtered = interimRoster.filter(p => {
       if (qualifFilter && !p.qual.toLowerCase().includes(qualifFilter)) return false;
@@ -962,15 +1238,16 @@
       if (chantierOnly && !cfg.connuPar.includes(p.name)) return false;
       if (dispoOnly && !p.dispo) return false;
       if (vehiculeOnly && !p.vehicule) return false;
+      if (favorisOnly && !p.favori) return false;
       if (deptFilter && !matchesConditionalFilter(p, deptFilter)) return false;
       return true;
     });
 
     filtered = filtered
       .map(p => ({ person: p, match: matchInfo(p, cfg), isCurrent: p.name === cfg.current }))
-      .sort((a, b) => (b.isCurrent - a.isCurrent) || (a.match.rank - b.match.rank));
+      .sort((a, b) => (b.isCurrent - a.isCurrent) || ((b.person.favori ? 1 : 0) - (a.person.favori ? 1 : 0)) || (a.match.rank - b.match.rank));
 
-    const anyFilterActive = qualifFilter || deptFilter || chantierOnly || dispoOnly || vehiculeOnly;
+    const anyFilterActive = qualifFilter || deptFilter || chantierOnly || dispoOnly || vehiculeOnly || favorisOnly;
     candResultsCount.textContent = filtered.length + ' candidat' + (filtered.length > 1 ? 's' : '') + ' correspondant' + (filtered.length > 1 ? 's' : '') + (anyFilterActive ? ' aux filtres' : '');
 
     if (filtered.length === 0) {
@@ -986,7 +1263,10 @@
           <div class="flex items-center gap-3 min-w-0" onmouseenter="showCandTooltip(event, '${c.phone.replace(/'/g, "\\'")}', '${c.email.replace(/'/g, "\\'")}')" onmouseleave="hideCandTooltip()">
             <div class="w-10 h-10 rounded-full ${colors.avatar} flex items-center justify-center font-bold text-sm flex-shrink-0 cursor-default">${c.init}</div>
             <div class="min-w-0 cursor-default">
-              <p class="text-sm font-bold text-gray-900 truncate">${c.name}</p>
+              <p class="text-sm font-bold text-gray-900 truncate flex items-center gap-1.5">
+                ${c.name}
+                ${c.favori ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-amber-400 flex-shrink-0" title="Intérimaire favori"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>' : ''}
+              </p>
               <p class="text-xs text-gray-500 truncate">${c.qual} <span class="text-gray-300">·</span> ${c.secteur}</p>
               <div class="flex items-center gap-1.5 mt-1 flex-wrap">
                 <span class="inline-flex items-center rounded-full border ${colors.badge} text-[10px] font-semibold px-2 py-0.5">${match.tag}</span>
@@ -1069,6 +1349,7 @@
     candFilterChantier.checked = false;
     candFilterDispo.checked = false;
     candFilterVehicule.checked = false;
+    candFilterFavori.checked = false;
     renderConditionalFilter(candFilterSecteur.value);
 
     // Le filtre conditionnel (spécialité / logiciel / étoiles) est pré-rempli avec l'exigence du chantier pour cette commande
@@ -1114,6 +1395,15 @@
       `;
     }
 
+    // Un nouvel intérimaire remplace l'ancien : on met à jour la ligne et on réinitialise le SMS
+    // (celui déjà envoyé, s'il y en avait un, concernait la personne précédemment positionnée).
+    const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
+    if (row) {
+      row.dataset.interimaire = candidate.name;
+      if (envoisState[cmd]) envoisState[cmd].sms = null;
+      renderEnvoisCell(cmd);
+    }
+
     renderCandidates(cmd);
   }
 
@@ -1128,29 +1418,216 @@
   candFilterChantier.addEventListener('change', () => { if (currentCandCmd) renderCandidates(currentCandCmd); });
   candFilterDispo.addEventListener('change', () => { if (currentCandCmd) renderCandidates(currentCandCmd); });
   candFilterVehicule.addEventListener('change', () => { if (currentCandCmd) renderCandidates(currentCandCmd); });
+  candFilterFavori.addEventListener('change', () => { if (currentCandCmd) renderCandidates(currentCandCmd); });
+
+  // ===== ENVOIS SMS (intérimaire) / MAIL (client) : 1 clic par commande + envoi groupé via pop-up =====
+
+  // Coordonnées du contact client par commande (repris des mêmes infos que le panneau latéral / la création manuelle)
+  const commandeContacts = {
+    'CMD-2609-01': { contactNom: 'Mme Sophie LAURENT', contactEmail: 's.laurent@lemeurice.com' },
+    'CMD-2609-02': { contactNom: 'M. Thomas DUBOIS', contactEmail: 't.dubois@potel.com' },
+    'CMD-2609-03': { contactNom: 'Chef Marc VEYRAT', contactEmail: 'mveyrat@fouquets.com' },
+    'CMD-2609-04': { contactNom: 'Mme Isabelle ROCHE', contactEmail: 'i.roche@novotel-est.com' },
+    'CMD-2609-05': { contactNom: 'M. Julien FABRE', contactEmail: 'j.fabre@latabledumarais.fr' },
+    'CMD-2609-06': { contactNom: 'M. Julien MOREAU', contactEmail: 'j.moreau@grandhotelparisien.fr' },
+    'CMD-2609-07': { contactNom: 'M. Antoine REY', contactEmail: 'a.rey@princedegalles.com' }
+  };
+
+  // État des envois par commande : { sms: {to, date} | null, mail: {to, date} | null }
+  // CMD-2609-03 et CMD-2609-07 sont initialisées déjà notifiées des deux côtés, pour illustrer l'état "envoyé" dès l'ouverture de la page.
+  const envoisState = {
+    'CMD-2609-03': { sms: { to: 'Mehdi KACI', date: new Date(2026, 8, 21, 9, 15) }, mail: { to: 'Chef Marc VEYRAT', date: new Date(2026, 8, 21, 9, 16) } },
+    'CMD-2609-07': { sms: { to: 'Léa ROUSSEL', date: new Date(2026, 8, 20, 17, 40) }, mail: { to: 'M. Antoine REY', date: new Date(2026, 8, 20, 17, 42) } }
+  };
+
+  function formatEnvoiTime(d) {
+    return d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function envoiButtonClasses(state) {
+    const base = "relative inline-flex items-center justify-center w-8 h-8 rounded-lg border transition-colors";
+    if (state === 'disabled') return base + " border-gray-200 bg-gray-50 text-gray-300 cursor-not-allowed";
+    if (state === 'sent') return base + " border-green-300 bg-green-50 text-green-600 hover:bg-green-100";
+    return base + " border-gray-200 bg-white text-gray-500 hover:border-[#A63629] hover:text-[#A63629] hover:bg-red-50";
+  }
+
+  const sentDot = '<span class="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-2 h-2"><path d="M20 6 9 17l-5-5"></path></svg></span>';
+
+  // Construit le contenu (2 boutons icône) de la cellule "Envois" d'une ligne de planning
+  function envoisCellHTML(cmd) {
+    const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
+    if (!row) return '';
+    const cancelled = row.dataset.statut === 'Annulée';
+    const interimaire = row.dataset.interimaire;
+    const contact = commandeContacts[cmd];
+    const state = envoisState[cmd] || {};
+
+    const smsDisabled = cancelled || !interimaire;
+    const mailDisabled = cancelled || !contact;
+    const smsSent = state.sms;
+    const mailSent = state.mail;
+
+    const smsTitle = cancelled ? 'Commande annulée' : !interimaire ? 'Aucun intérimaire assigné' : smsSent ? `SMS envoyé à ${smsSent.to} · ${formatEnvoiTime(smsSent.date)}` : `Envoyer un SMS à ${interimaire}`;
+    const mailTitle = cancelled ? 'Commande annulée' : !contact ? 'Aucun contact client' : mailSent ? `E-mail envoyé à ${mailSent.to} · ${formatEnvoiTime(mailSent.date)}` : `Envoyer un e-mail à ${contact.contactNom}`;
+
+    return `
+      <button type="button" title="${smsTitle}" ${smsDisabled ? 'disabled' : ''} onclick="event.stopPropagation(); sendSms('${cmd}')" class="${envoiButtonClasses(smsDisabled ? 'disabled' : smsSent ? 'sent' : 'default')}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        ${smsSent ? sentDot : ''}
+      </button>
+      <button type="button" title="${mailTitle}" ${mailDisabled ? 'disabled' : ''} onclick="event.stopPropagation(); sendMail('${cmd}')" class="${envoiButtonClasses(mailDisabled ? 'disabled' : mailSent ? 'sent' : 'default')}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path></svg>
+        ${mailSent ? sentDot : ''}
+      </button>
+    `;
+  }
+
+  function renderEnvoisCell(cmd) {
+    const el = document.getElementById('envois-cell-' + cmd);
+    if (el) el.innerHTML = `<div class="flex items-center gap-1.5">${envoisCellHTML(cmd)}</div>`;
+  }
+
+  function renderAllEnvoisCells() {
+    document.querySelectorAll('.planning-row').forEach(row => renderEnvoisCell(row.dataset.cmd));
+  }
+
+  // Petite notification toast en bas à droite pour confirmer les envois
+  function showToast(msg) {
+    let toast = document.getElementById('planning-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'planning-toast';
+      toast.className = 'fixed bottom-6 right-6 z-[90] bg-gray-900 text-white text-sm font-medium px-4 py-2.5 rounded-lg shadow-xl opacity-0 translate-y-2 pointer-events-none transition-all duration-300';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.remove('opacity-0', 'translate-y-2');
+    clearTimeout(toast._hideTimer);
+    toast._hideTimer = setTimeout(() => toast.classList.add('opacity-0', 'translate-y-2'), 2200);
+  }
+
+  function sendSms(cmd, silent) {
+    const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
+    if (!row || row.dataset.statut === 'Annulée') return;
+    const name = row.dataset.interimaire;
+    if (!name) return;
+    envoisState[cmd] = envoisState[cmd] || {};
+    envoisState[cmd].sms = { to: name, date: new Date() };
+    renderEnvoisCell(cmd);
+    if (!silent) showToast(`SMS envoyé à ${name}`);
+  }
+
+  function sendMail(cmd, silent) {
+    const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
+    if (!row || row.dataset.statut === 'Annulée') return;
+    const contact = commandeContacts[cmd];
+    if (!contact || !contact.contactEmail) return;
+    envoisState[cmd] = envoisState[cmd] || {};
+    envoisState[cmd].mail = { to: contact.contactNom, date: new Date() };
+    renderEnvoisCell(cmd);
+    if (!silent) showToast(`E-mail envoyé à ${contact.contactNom}`);
+  }
+
+  // ===== POP-UP D'ENVOI GROUPÉ =====
+  function bulkRowHTML(cmd) {
+    const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
+    const cancelled = row.dataset.statut === 'Annulée';
+    const client = row.dataset.client;
+    const interimaire = row.dataset.interimaire;
+    const contact = commandeContacts[cmd];
+    const state = envoisState[cmd] || {};
+
+    const smsCell = cancelled
+      ? `<span class="text-[11px] text-gray-400">Commande annulée</span>`
+      : !interimaire
+        ? `<span class="text-[11px] text-gray-400">Aucun intérimaire</span>`
+        : state.sms
+          ? `<span class="text-[11px] text-green-700 font-medium">✓ Envoyé à ${state.sms.to} · ${formatEnvoiTime(state.sms.date)}</span>`
+          : `<label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" class="bulk-sms-check w-3.5 h-3.5 text-[#A63629] border-gray-300 rounded focus:ring-[#A63629]" data-cmd="${cmd}"><span class="text-xs text-gray-700 truncate">${interimaire}</span></label>`;
+
+    const mailCell = cancelled
+      ? `<span class="text-[11px] text-gray-400">—</span>`
+      : !contact
+        ? `<span class="text-[11px] text-gray-400">Aucun contact</span>`
+        : state.mail
+          ? `<span class="text-[11px] text-green-700 font-medium">✓ Envoyé à ${state.mail.to} · ${formatEnvoiTime(state.mail.date)}</span>`
+          : `<label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" class="bulk-mail-check w-3.5 h-3.5 text-[#A63629] border-gray-300 rounded focus:ring-[#A63629]" data-cmd="${cmd}"><span class="text-xs text-gray-700 truncate">${contact.contactNom}</span></label>`;
+
+    return `
+      <div class="rounded-lg border border-gray-200 p-3 grid grid-cols-[90px_1fr_1fr_1fr] items-center gap-3">
+        <span class="text-[11px] font-mono font-bold text-gray-700">${cmd}</span>
+        <p class="text-xs font-bold text-gray-900 truncate min-w-0">${client}</p>
+        <div class="min-w-0">${smsCell}</div>
+        <div class="min-w-0">${mailCell}</div>
+      </div>
+    `;
+  }
+
+  function renderBulkSendList() {
+    const cmds = Array.from(document.querySelectorAll('.planning-row')).map(r => r.dataset.cmd);
+    document.getElementById('bulk-send-list').innerHTML = cmds.map(bulkRowHTML).join('');
+    document.querySelectorAll('.bulk-sms-check, .bulk-mail-check').forEach(cb => cb.addEventListener('change', updateBulkSendCount));
+    updateBulkSendCount();
+  }
+
+  function updateBulkSendCount() {
+    const n = document.querySelectorAll('.bulk-sms-check:checked, .bulk-mail-check:checked').length;
+    document.getElementById('bulk-send-count').textContent = n + (n > 1 ? ' sélections' : ' sélection');
+  }
+
+  function openBulkSendModal() {
+    renderBulkSendList();
+    document.getElementById('bulk-select-all-sms').checked = false;
+    document.getElementById('bulk-select-all-mail').checked = false;
+    document.getElementById('bulk-send-backdrop').classList.remove('hidden');
+    document.getElementById('bulk-send-modal').classList.remove('hidden');
+  }
+
+  function closeBulkSendModal() {
+    document.getElementById('bulk-send-backdrop').classList.add('hidden');
+    document.getElementById('bulk-send-modal').classList.add('hidden');
+  }
+
+  document.getElementById('bulk-send-backdrop').addEventListener('click', closeBulkSendModal);
+  document.getElementById('bulk-select-all-sms').addEventListener('change', (e) => {
+    document.querySelectorAll('.bulk-sms-check').forEach(cb => cb.checked = e.target.checked);
+    updateBulkSendCount();
+  });
+  document.getElementById('bulk-select-all-mail').addEventListener('change', (e) => {
+    document.querySelectorAll('.bulk-mail-check').forEach(cb => cb.checked = e.target.checked);
+    updateBulkSendCount();
+  });
+
+  function confirmBulkSend() {
+    const smsCmds = Array.from(document.querySelectorAll('.bulk-sms-check:checked')).map(cb => cb.dataset.cmd);
+    const mailCmds = Array.from(document.querySelectorAll('.bulk-mail-check:checked')).map(cb => cb.dataset.cmd);
+    smsCmds.forEach(cmd => sendSms(cmd, true));
+    mailCmds.forEach(cmd => sendMail(cmd, true));
+    const total = smsCmds.length + mailCmds.length;
+    closeBulkSendModal();
+    showToast(total > 0 ? `${total} notification${total > 1 ? 's' : ''} envoyée${total > 1 ? 's' : ''}` : 'Aucune sélection');
+  }
+
+  renderAllEnvoisCells();
+  renderAllFinCells();
+  document.getElementById('planning-date-input').addEventListener('change', renderAllFinCells);
 
   function switchView(view) {
     const viewDay = document.getElementById('view-day');
     const viewWeek = document.getElementById('view-week');
     const btnJour = document.getElementById('btn-vue-jour');
     const btnSemaine = document.getElementById('btn-vue-semaine');
-    const pageTitle = document.getElementById('page-title');
-    const pageSubtitle = document.getElementById('page-subtitle');
 
     if (view === 'day') {
       viewDay.classList.remove('hidden');
       viewWeek.classList.add('hidden');
-      btnJour.className = "px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white shadow";
-      btnSemaine.className = "px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50";
-      pageTitle.textContent = "Planning du jour";
-      pageSubtitle.textContent = "Affectations et gestion des commandes de travail temporaire";
+      btnJour.className = "px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white shadow";
+      btnSemaine.className = "px-3 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50";
     } else {
       viewDay.classList.add('hidden');
       viewWeek.classList.remove('hidden');
-      btnJour.className = "px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50";
-      btnSemaine.className = "px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white shadow";
-      pageTitle.textContent = "Planning de la semaine";
-      pageSubtitle.textContent = "Vue synoptique hebdomadaire des besoins et affectations";
+      btnJour.className = "px-3 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50";
+      btnSemaine.className = "px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white shadow";
     }
   }
 
@@ -1162,16 +1639,41 @@
     label.textContent = hidden ? 'Afficher les filtres' : 'Masquer les filtres';
   }
 
+  // Ordre du pipeline des statuts : à staffer d'abord, annulée en dernier. Sert au tri par défaut au chargement
+  // et au tri de la colonne Statut (plutôt qu'un tri alphabétique, qui n'aurait pas de sens métier).
+  const STATUT_ORDER = {
+    'À staffer': 0,
+    'Best match à valider': 1,
+    'Notification envoyée': 2,
+    'Validé': 3,
+    'Contrat établi': 4,
+    'Annulée': 5
+  };
+
+  function sortRowsByStatutPipeline() {
+    const container = document.getElementById('view-day-rows');
+    const rows = Array.from(container.querySelectorAll('.planning-row'));
+    rows.sort((a, b) => (STATUT_ORDER[a.dataset.statut] ?? 99) - (STATUT_ORDER[b.dataset.statut] ?? 99));
+    rows.forEach(r => container.appendChild(r));
+  }
+  sortRowsByStatutPipeline();
+
   // Tri par colonne : réordonne les lignes .planning-row dans la vue jour selon l'attribut data-* correspondant
   let currentSort = { field: null, asc: true };
   function sortPlanningRows(field) {
-    const container = document.querySelector('#view-day > .divide-y');
+    const container = document.getElementById('view-day-rows');
     const rows = Array.from(container.querySelectorAll('.planning-row'));
     const asc = currentSort.field === field ? !currentSort.asc : true;
     currentSort = { field, asc };
 
     const numeric = field === 'taux';
+    const statutField = field === 'statut';
     rows.sort((a, b) => {
+      if (statutField) {
+        const va = STATUT_ORDER[a.dataset.statut] ?? 99;
+        const vb = STATUT_ORDER[b.dataset.statut] ?? 99;
+        return asc ? va - vb : vb - va;
+      }
       if (numeric) {
         const va = parseFloat(a.dataset[field]) || 0;
         const vb = parseFloat(b.dataset[field]) || 0;
@@ -1195,7 +1697,7 @@
   }
 
   // Création manuelle d'une commande : ouvre la modale, construit une nouvelle ligne de planning et l'ajoute en tête de la vue jour
-  let newCommandeCounter = 6;
+  let newCommandeCounter = 8;
   function openCreateCommandeModal() {
     document.getElementById('create-commande-backdrop').classList.remove('hidden');
     document.getElementById('create-commande-modal').classList.remove('hidden');
@@ -1219,46 +1721,49 @@
     const tauxStr = taux.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const contactNom = document.getElementById('cm-contact-nom').value.trim() || 'Contact à préciser';
     const contactTel = document.getElementById('cm-contact-tel').value.trim() || '—';
+    const contactEmail = document.getElementById('cm-contact-email').value.trim();
     const remarque = document.getElementById('cm-remarque').value.trim() || 'Aucune remarque particulière.';
 
     const cmd = 'CMD-2609-' + String(newCommandeCounter++).padStart(2, '0');
     const heureLabel = heureDebut + ' - ' + heureFin;
 
     const row = document.createElement('div');
-    row.setAttribute('onclick', `openPanel('${cmd}', ${JSON.stringify(client)}, ${JSON.stringify(qualifLabel)}, ${JSON.stringify(heureLabel)}, ${JSON.stringify(tauxStr + ' €/h')}, ${JSON.stringify(motifLabel)}, 'À définir', ${JSON.stringify(remarque)}, ${JSON.stringify(contactNom)}, ${JSON.stringify(contactTel)}, '', ${JSON.stringify(agence)}, ${JSON.stringify(chantier)}, 'À staffer')`);
+    row.setAttribute('onclick', `openPanel('${cmd}', ${JSON.stringify(client)}, ${JSON.stringify(qualifLabel)}, ${JSON.stringify(heureLabel)}, ${JSON.stringify(tauxStr + ' €/h')}, ${JSON.stringify(motifLabel)}, 'À définir', ${JSON.stringify(remarque)}, ${JSON.stringify(contactNom)}, ${JSON.stringify(contactTel)}, ${JSON.stringify(contactEmail)}, ${JSON.stringify(agence)}, ${JSON.stringify(chantier)}, 'À staffer')`);
     row.dataset.cmd = cmd;
+    row.dataset.client = client;
     row.dataset.chantier = chantier;
     row.dataset.motif = motifLabel;
     row.dataset.taux = taux;
     row.dataset.interimaire = '';
     row.dataset.statut = 'À staffer';
-    row.className = 'planning-row grid grid-cols-1 lg:grid-cols-[120px_1.8fr_170px_140px_1.2fr_90px_1.3fr_110px] items-start gap-4 p-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150';
+    commandeContacts[cmd] = { contactNom, contactEmail };
+    envoisState[cmd] = { sms: null, mail: null };
+    row.className = 'planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150';
     row.innerHTML = `
       <div class="pt-0.5">
         <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">${cmd}</span>
       </div>
-      <div class="space-y-1 min-w-0">
-        <div class="flex items-baseline gap-2 flex-wrap">
-          <span class="text-lg font-extrabold text-gray-900 tracking-tight leading-tight">${chantier}</span>
-          <span class="text-sm font-bold text-[#A63629] bg-red-50 px-2.5 py-1 rounded-md border border-red-100 whitespace-nowrap">${heureLabel}</span>
-        </div>
-        <p class="text-xs text-gray-500 font-medium truncate">${client} <span class="text-gray-400">• ${agence}</span></p>
-        <p class="flex items-center gap-1.5 pt-0.5">
+      <div class="space-y-0.5 min-w-0 pt-0.5">
+        <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">${client}</span>
+        <p class="text-xs text-gray-500 font-medium truncate">${chantier} <span class="text-gray-400">• ${agence}</span></p>
+      </div>
+      <div class="pt-0.5">
+        <span class="text-sm font-bold text-[#A63629] bg-red-50 px-2.5 py-1 rounded-md border border-red-100 whitespace-nowrap inline-block">${heureLabel}</span>
+      </div>
+      <div class="pt-0.5">
+        <p class="flex items-center gap-1.5">
           <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">${qualifCode}</span>
           <span class="text-xs font-bold text-gray-800">${qualifLabel}</span>
         </p>
       </div>
-      <div class="pt-0.5">
-        <span class="inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700 border border-red-200"><span class="font-mono font-extrabold">${motifCode}</span> · ${motifLabel}</span>
+      <div class="space-y-1 min-w-0 pt-0.5">
+        <span class="inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-700 border border-red-200"><span class="font-mono font-extrabold">${motifCode}</span> · ${motifLabel}</span>
+        <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"${remarque}"</p>
       </div>
       <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
         <span>À définir</span>
       </div>
-      <div class="space-y-1 text-xs min-w-0">
-        <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"${remarque}"</p>
-      </div>
-      <div class="pt-0.5 text-sm font-semibold text-gray-900 text-right pr-2 whitespace-nowrap">${tauxStr}&nbsp;€/h</div>
       <div>
         <div id="assign-box-${cmd}" onclick="event.stopPropagation(); openCandidatesModal('${cmd}')" class="h-10 rounded-lg border-2 border-dashed border-red-300 bg-red-50/80 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-red-100/70 hover:border-red-400 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-red-500 flex-shrink-0"><path d="M5 12h14"></path></svg>
@@ -1268,13 +1773,18 @@
           </div>
         </div>
       </div>
+      <div id="envois-cell-${cmd}" class="pt-0.5 flex justify-center"></div>
       <div class="pt-0.5 flex justify-end min-w-0">
         <span class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
       </div>
+      <div class="pt-0.5" onclick="event.stopPropagation()">
+        <textarea id="comment-input-${cmd}" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
+      </div>
     `;
 
-    const container = document.querySelector('#view-day > .divide-y');
+    const container = document.getElementById('view-day-rows');
     container.insertBefore(row, container.firstChild);
+    renderEnvoisCell(cmd);
     closeCreateCommandeModal();
   }
 </script>

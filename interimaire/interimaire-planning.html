@@ -149,24 +149,28 @@
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const todayIso = '2026-09-23';
     let cells = '';
-    for(let i = 0; i < startOffset; i++){ cells += `<div class="calendar-cell rounded-xl p-1.5 min-h-[92px] opacity-30"></div>`; }
+    for(let i = 0; i < startOffset; i++){ cells += `<div class="calendar-cell rounded-xl p-1.5 min-h-[128px] opacity-30"></div>`; }
     for(let d = 1; d <= daysInMonth; d++){
       const iso = `${year}-${pad(month + 1)}-${pad(d)}`;
       const dayMissions = MISSIONS.filter(m => m.dateDebut === iso);
       const isToday = iso === todayIso;
-      cells += `<div class="calendar-cell rounded-xl p-1.5 min-h-[92px] card ${isToday ? 'today' : ''}">
+      cells += `<div class="calendar-cell rounded-xl p-1.5 min-h-[128px] card ${isToday ? 'today' : ''}">
         <p class="text-xs font-semibold ${isToday ? 'brand-text' : 'text-secondary'}">${d}</p>
         <div class="mt-1 space-y-1">
-          ${dayMissions.slice(0, 3).map(m => {
+          ${dayMissions.slice(0, 2).map(m => {
             const c = statusColors(m.statut);
-            return `<button onclick="openMissionModal('${m.id}')" style="background:${c.bg};color:${c.fg}" class="w-full text-left text-[10px] leading-tight px-1.5 py-1 rounded-md truncate block font-semibold">${m.horaireDebut} ${m.qualification}</button>`;
+            return `<button onclick="openMissionModal('${m.id}')" style="background:${c.bg};color:${c.fg}" class="w-full text-left text-[10px] leading-tight px-1.5 py-1 rounded-md block">
+              <span class="block truncate">${m.horaireDebut}–${m.horaireFin}</span>
+              <span class="block truncate font-bold">${m.qualification}</span>
+              <span class="block truncate font-normal opacity-80">${m.etablissement}</span>
+            </button>`;
           }).join('')}
-          ${dayMissions.length > 3 ? `<p class="text-[10px] text-secondary">+${dayMissions.length - 3} autres</p>` : ''}
+          ${dayMissions.length > 2 ? `<p class="text-[10px] text-secondary">+${dayMissions.length - 2} autres</p>` : ''}
         </div>
       </div>`;
     }
     const trailing = (7 - ((startOffset + daysInMonth) % 7)) % 7;
-    for(let i = 0; i < trailing; i++){ cells += `<div class="calendar-cell rounded-xl p-1.5 min-h-[92px] opacity-30"></div>`; }
+    for(let i = 0; i < trailing; i++){ cells += `<div class="calendar-cell rounded-xl p-1.5 min-h-[128px] opacity-30"></div>`; }
     document.getElementById('calendar-grid').innerHTML = cells;
   }
   function calPrev(){ calState.month--; if(calState.month < 0){ calState.month = 11; calState.year--; } renderCalendar(); }

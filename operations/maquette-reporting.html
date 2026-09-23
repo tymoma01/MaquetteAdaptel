@@ -197,14 +197,21 @@
       </div>
 
       <!-- KPI -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
           <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total commandes — période</p>
           <p id="kpi-total" class="text-2xl font-bold text-gray-900 mt-1">—</p>
+          <p id="kpi-total-delta" class="text-xs font-semibold mt-1.5"></p>
         </div>
         <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
           <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Moyenne / jour</p>
           <p id="kpi-moyenne" class="text-2xl font-bold text-gray-900 mt-1">—</p>
+          <p id="kpi-moyenne-delta" class="text-xs font-semibold mt-1.5"></p>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Même période — année dernière</p>
+          <p id="kpi-total-n1" class="text-2xl font-bold text-gray-400 mt-1">—</p>
+          <p id="kpi-total-n1-sub" class="text-xs text-gray-400 mt-1.5"></p>
         </div>
         <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
           <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Agence la plus active</p>
@@ -221,6 +228,80 @@
         <div class="relative">
           <svg id="chart-svg" viewBox="0 0 860 320" class="w-full h-[320px]"></svg>
           <div id="chart-tooltip" class="hidden absolute z-10 rounded-lg bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 shadow-lg whitespace-nowrap"></div>
+        </div>
+      </div>
+
+      <!-- COMPARATIF ANNEE N-1 -->
+      <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 flex-wrap gap-3">
+          <div>
+            <h3 class="text-sm font-bold text-gray-900">Comparatif Année N-1</h3>
+            <p class="text-xs text-gray-400 mt-0.5">Écart pure et écart en % par jour et par semaine, vs la même période l'an dernier</p>
+          </div>
+          <div class="flex items-center gap-1 rounded-full border border-gray-200 bg-gray-50 p-1">
+            <button id="scope-filtree-btn" onclick="setCompareScope('filtree')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all">Agences filtrées</button>
+            <button id="scope-globale-btn" onclick="setCompareScope('globale')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all">Global toutes agences</button>
+          </div>
+        </div>
+
+        <!-- Mini KPI comparatif -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 px-6 py-4 border-b border-gray-100 bg-gray-50/60">
+          <div>
+            <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Total N</p>
+            <p id="cmp-total-n" class="text-lg font-bold text-gray-900">—</p>
+          </div>
+          <div>
+            <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Total N-1</p>
+            <p id="cmp-total-n1" class="text-lg font-bold text-gray-400">—</p>
+          </div>
+          <div>
+            <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Écart pure</p>
+            <p id="cmp-diff-abs" class="text-lg font-bold">—</p>
+          </div>
+          <div>
+            <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Écart %</p>
+            <p id="cmp-diff-pct" class="text-lg font-bold">—</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-gray-100">
+          <!-- Comparatif par jour -->
+          <div class="overflow-x-auto">
+            <div class="px-6 pt-4 pb-2">
+              <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wide">Par jour</h4>
+            </div>
+            <table class="w-full text-sm">
+              <thead class="text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
+                <tr>
+                  <th class="px-6 py-2 text-left font-semibold">Jour</th>
+                  <th class="px-4 py-2 text-right font-semibold">N</th>
+                  <th class="px-4 py-2 text-right font-semibold">N-1</th>
+                  <th class="px-4 py-2 text-right font-semibold">Écart</th>
+                  <th class="px-6 py-2 text-right font-semibold">Écart %</th>
+                </tr>
+              </thead>
+              <tbody id="cmp-daily-body" class="divide-y divide-gray-100"></tbody>
+            </table>
+          </div>
+
+          <!-- Comparatif par semaine -->
+          <div class="overflow-x-auto">
+            <div class="px-6 pt-4 pb-2">
+              <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wide">Par semaine</h4>
+            </div>
+            <table class="w-full text-sm">
+              <thead class="text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
+                <tr>
+                  <th class="px-6 py-2 text-left font-semibold">Semaine</th>
+                  <th class="px-4 py-2 text-right font-semibold">N</th>
+                  <th class="px-4 py-2 text-right font-semibold">N-1</th>
+                  <th class="px-4 py-2 text-right font-semibold">Écart</th>
+                  <th class="px-6 py-2 text-right font-semibold">Écart %</th>
+                </tr>
+              </thead>
+              <tbody id="cmp-weekly-body" class="divide-y divide-gray-100"></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -285,6 +366,41 @@
     ]
   };
 
+  // Données de démo : même semaine, année N-1 (2025)
+  const REPORTING_DATA_N1 = {
+    "cette-semaine": [
+      { agence: "001", secteur: "Housekeeping",  values: [5, 5, 6, 4, 7, 3, 2] },
+      { agence: "001", secteur: "Hébergement",   values: [3, 3, 4, 4, 4, 2, 1] },
+      { agence: "001", secteur: "Restauration",  values: [5, 5, 4, 6, 7, 4, 3] },
+      { agence: "002", secteur: "Housekeeping",  values: [2, 2, 2, 1, 3, 1, 0] },
+      { agence: "002", secteur: "Hébergement",   values: [4, 4, 5, 5, 4, 3, 2] },
+      { agence: "002", secteur: "Restauration",  values: [3, 2, 3, 3, 3, 2, 1] },
+      { agence: "003", secteur: "Housekeeping",  values: [1, 1, 2, 1, 2, 1, 1] },
+      { agence: "003", secteur: "Hébergement",   values: [2, 1, 2, 2, 2, 1, 1] },
+      { agence: "003", secteur: "Restauration",  values: [3, 3, 4, 4, 3, 2, 2] }
+    ],
+    "semaine-derniere": [
+      { agence: "001", secteur: "Housekeeping",  values: [4, 5, 5, 4, 6, 3, 2] },
+      { agence: "001", secteur: "Hébergement",   values: [2, 2, 3, 3, 3, 2, 1] },
+      { agence: "001", secteur: "Restauration",  values: [4, 4, 4, 5, 6, 3, 2] },
+      { agence: "002", secteur: "Housekeeping",  values: [1, 1, 2, 1, 2, 1, 0] },
+      { agence: "002", secteur: "Hébergement",   values: [3, 4, 4, 4, 4, 2, 2] },
+      { agence: "002", secteur: "Restauration",  values: [2, 2, 2, 2, 3, 1, 1] },
+      { agence: "003", secteur: "Housekeeping",  values: [1, 1, 1, 1, 2, 1, 0] },
+      { agence: "003", secteur: "Hébergement",   values: [2, 1, 1, 2, 2, 1, 0] },
+      { agence: "003", secteur: "Restauration",  values: [3, 3, 3, 3, 3, 2, 1] }
+    ]
+  };
+
+  // Libellés des semaines (N / N-1) utilisés par le comparatif hebdomadaire
+  const WEEK_META = {
+    "cette-semaine":    { labelN: "Semaine du 21 au 27 sept. 2026", labelN1: "Semaine du 22 au 28 sept. 2025" },
+    "semaine-derniere": { labelN: "Semaine du 14 au 20 sept. 2026", labelN1: "Semaine du 15 au 21 sept. 2025" }
+  };
+  const DOW_NAMES = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+
+  let compareScope = 'filtree';
+
   const SERIES_COLOR = {
     "Housekeeping": "var(--series-housekeeping)",
     "Hébergement":  "var(--series-hebergement)",
@@ -301,13 +417,106 @@
     );
   }
 
+  // ---------- Comparatif Année N-1 ----------
+
+  function getScopedRows(dataset, periode, scope) {
+    const dept = document.getElementById('filter-secteur').value;
+    const agence = document.getElementById('filter-agence').value;
+    return dataset[periode].filter(r =>
+      (!dept || r.secteur === dept) && (scope === 'globale' || !agence || r.agence === agence)
+    );
+  }
+  function dayTotals(rows) {
+    return Array.from({ length: 7 }, (_, d) => rows.reduce((s, r) => s + r.values[d], 0));
+  }
+  function sumRows(rows) {
+    return rows.reduce((s, r) => s + r.values.reduce((a, b) => a + b, 0), 0);
+  }
+  function diffPct(n, n1) {
+    if (n1 === 0) return n === 0 ? 0 : null; // pas de base de comparaison
+    return ((n - n1) / n1) * 100;
+  }
+  function formatDeltaHTML(diffAbs, pct, opts) {
+    opts = opts || {};
+    const sign = diffAbs > 0 ? '+' : '';
+    const colorClass = diffAbs > 0 ? 'text-emerald-600' : diffAbs < 0 ? 'text-red-600' : 'text-gray-400';
+    const arrow = diffAbs > 0 ? '▲' : diffAbs < 0 ? '▼' : '—';
+    const pctText = pct === null ? 'n/d' : `${pct > 0 ? '+' : ''}${pct.toLocaleString('fr-FR', { maximumFractionDigits: 1 })}%`;
+    if (opts.pctOnly) return `<span class="${colorClass}">${arrow} ${pctText}</span>`;
+    if (opts.absOnly) return `<span class="${colorClass}">${arrow} ${sign}${diffAbs}</span>`;
+    return `<span class="${colorClass}">${arrow} ${sign}${diffAbs} vs N-1 (${pctText})</span>`;
+  }
+
+  function setCompareScope(scope) {
+    compareScope = scope;
+    renderComparatif();
+  }
+
+  function renderComparatif() {
+    ['filtree', 'globale'].forEach(s => {
+      const btn = document.getElementById('scope-' + s + '-btn');
+      const active = compareScope === s;
+      btn.className = 'px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ' + (active ? 'bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow' : 'text-gray-600 hover:text-gray-900');
+    });
+
+    const periode = document.getElementById('filter-periode').value;
+    const rowsN = getScopedRows(REPORTING_DATA, periode, compareScope);
+    const rowsN1 = getScopedRows(REPORTING_DATA_N1, periode, compareScope);
+
+    // KPI mini
+    const totalN = sumRows(rowsN);
+    const totalN1 = sumRows(rowsN1);
+    const dAbs = totalN - totalN1;
+    const dPct = diffPct(totalN, totalN1);
+    document.getElementById('cmp-total-n').textContent = totalN;
+    document.getElementById('cmp-total-n1').textContent = totalN1;
+    document.getElementById('cmp-diff-abs').innerHTML = formatDeltaHTML(dAbs, dPct, { absOnly: true });
+    document.getElementById('cmp-diff-pct').innerHTML = formatDeltaHTML(dAbs, dPct, { pctOnly: true });
+
+    // Par jour
+    const totalsN = dayTotals(rowsN);
+    const totalsN1 = dayTotals(rowsN1);
+    document.getElementById('cmp-daily-body').innerHTML = DOW_NAMES.map((name, d) => {
+      const n = totalsN[d], n1 = totalsN1[d];
+      const da = n - n1, dp = diffPct(n, n1);
+      return `<tr>
+        <td class="px-6 py-2 text-gray-700">${name}</td>
+        <td class="px-4 py-2 text-right font-medium text-gray-900">${n}</td>
+        <td class="px-4 py-2 text-right text-gray-400">${n1}</td>
+        <td class="px-4 py-2 text-right font-semibold">${formatDeltaHTML(da, dp, { absOnly: true })}</td>
+        <td class="px-6 py-2 text-right font-semibold">${formatDeltaHTML(da, dp, { pctOnly: true })}</td>
+      </tr>`;
+    }).join('');
+
+    // Par semaine (les deux semaines disponibles, indépendamment de la période sélectionnée)
+    document.getElementById('cmp-weekly-body').innerHTML = Object.keys(WEEK_META).map(key => {
+      const wRowsN = getScopedRows(REPORTING_DATA, key, compareScope);
+      const wRowsN1 = getScopedRows(REPORTING_DATA_N1, key, compareScope);
+      const n = sumRows(wRowsN), n1 = sumRows(wRowsN1);
+      const da = n - n1, dp = diffPct(n, n1);
+      const isCurrent = key === periode;
+      return `<tr class="${isCurrent ? 'bg-red-50/50' : ''}">
+        <td class="px-6 py-2 text-gray-700">${WEEK_META[key].labelN}${isCurrent ? ' <span class=\"text-[10px] font-bold text-[#A63629] uppercase\">· période active</span>' : ''}</td>
+        <td class="px-4 py-2 text-right font-medium text-gray-900">${n}</td>
+        <td class="px-4 py-2 text-right text-gray-400">${n1}</td>
+        <td class="px-4 py-2 text-right font-semibold">${formatDeltaHTML(da, dp, { absOnly: true })}</td>
+        <td class="px-6 py-2 text-right font-semibold">${formatDeltaHTML(da, dp, { pctOnly: true })}</td>
+      </tr>`;
+    }).join('');
+  }
+
   function renderLegend(rows) {
     const present = SERIES_ORDER.filter(dep => rows.some(r => r.secteur === dep));
-    document.getElementById('chart-legend').innerHTML = present.map(dep => `
+    const seriesLegend = present.map(dep => `
       <span class="inline-flex items-center gap-1.5">
         <span class="w-2.5 h-2.5 rounded-sm" style="background:${SERIES_COLOR[dep]}"></span>${dep}
       </span>
     `).join('');
+    const n1Legend = `
+      <span class="inline-flex items-center gap-1.5 text-gray-500">
+        <svg width="16" height="8" viewBox="0 0 16 8"><line x1="0" y1="4" x2="16" y2="4" stroke="#9ca3af" stroke-width="2" stroke-dasharray="3 2"></line></svg>Total N-1
+      </span>`;
+    document.getElementById('chart-legend').innerHTML = seriesLegend + n1Legend;
   }
 
   function renderChart(rows) {
@@ -318,8 +527,11 @@
     const plotW = W - padL - padR, plotH = H - padT - padB;
     const nDays = 7;
 
-    const dayTotals = Array.from({length: nDays}, (_, d) => rows.reduce((s, r) => s + r.values[d], 0));
-    const maxVal = Math.max(1, ...dayTotals);
+    const periode = document.getElementById('filter-periode').value;
+    const rowsN1 = getScopedRows(REPORTING_DATA_N1, periode, 'filtree');
+    const totalsPerDay = dayTotals(rows);
+    const totalsPerDayN1 = dayTotals(rowsN1);
+    const maxVal = Math.max(1, ...totalsPerDay, ...totalsPerDayN1);
     const niceMax = Math.ceil(maxVal / 5) * 5 || 5;
 
     const groupW = plotW / nDays;
@@ -352,7 +564,30 @@
       svgContent += `<text x="${labelX}" y="${H - 8}" text-anchor="middle" font-size="10" fill="var(--axis-text)">${DAY_LABELS[d].split(' ')[0]}</text>`;
     }
 
+    // Ligne "Total N-1" superposée pour comparaison visuelle jour par jour
+    const n1Points = totalsPerDayN1.map((val, d) => {
+      const x = padL + d * groupW + groupW / 2;
+      const y = padT + plotH - (val / niceMax) * plotH;
+      return { x, y, val };
+    });
+    svgContent += `<polyline points="${n1Points.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ')}" fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4 3"></polyline>`;
+    n1Points.forEach((p, d) => {
+      svgContent += `<circle class="n1-point" data-day="${d}" data-val="${p.val}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="#ffffff" stroke="#9ca3af" stroke-width="2"></circle>`;
+    });
+
     svg.innerHTML = svgContent;
+
+    svg.querySelectorAll('.n1-point').forEach(circle => {
+      circle.addEventListener('mousemove', (ev) => {
+        const dow = DOW_NAMES[parseInt(circle.dataset.day, 10)];
+        tooltip.innerHTML = `<strong>${circle.dataset.val}</strong> commande(s) — Total N-1<br>${dow} · ${WEEK_META[periode].labelN1}`;
+        tooltip.classList.remove('hidden');
+        const svgRect = svg.getBoundingClientRect();
+        tooltip.style.left = (ev.clientX - svgRect.left + 12) + 'px';
+        tooltip.style.top = (ev.clientY - svgRect.top - 36) + 'px';
+      });
+      circle.addEventListener('mouseleave', () => tooltip.classList.add('hidden'));
+    });
 
     svg.querySelectorAll('.bar-seg').forEach(rect => {
       rect.addEventListener('mousemove', (ev) => {
@@ -394,6 +629,7 @@
   }
 
   function renderKpis(rows) {
+    const periode = document.getElementById('filter-periode').value;
     const total = rows.reduce((s, r) => s + r.values.reduce((a, b) => a + b, 0), 0);
     document.getElementById('kpi-total').textContent = total;
     document.getElementById('kpi-moyenne').textContent = (total / 7).toLocaleString('fr-FR', { maximumFractionDigits: 1 });
@@ -404,6 +640,16 @@
     });
     const entries = Object.entries(byAgence).sort((a, b) => b[1] - a[1]);
     document.getElementById('kpi-top-agence').textContent = entries.length > 0 ? `${entries[0][0]} (${entries[0][1]})` : "—";
+
+    // Comparatif N-1 (respecte les filtres agence/secteur actifs)
+    const rowsN1 = getScopedRows(REPORTING_DATA_N1, periode, 'filtree');
+    const totalN1 = sumRows(rowsN1);
+    const dAbs = total - totalN1;
+    const dPct = diffPct(total, totalN1);
+    document.getElementById('kpi-total-delta').innerHTML = formatDeltaHTML(dAbs, dPct);
+    document.getElementById('kpi-moyenne-delta').innerHTML = formatDeltaHTML(dAbs, dPct, { pctOnly: true }) + ' <span class="text-gray-400 font-normal">vs N-1</span>';
+    document.getElementById('kpi-total-n1').textContent = totalN1;
+    document.getElementById('kpi-total-n1-sub').textContent = WEEK_META[periode].labelN1;
   }
 
   function renderReporting() {
@@ -412,6 +658,7 @@
     renderChart(rows);
     renderTable(rows);
     renderKpis(rows);
+    renderComparatif();
   }
 
   document.addEventListener('DOMContentLoaded', renderReporting);

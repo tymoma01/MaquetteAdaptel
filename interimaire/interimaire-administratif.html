@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel Intérimaire - Espace administratif</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/common.css">
+</head>
+<body class="antialiased min-h-screen" data-active-nav="interimaire-administratif.html">
+
+<div class="fixed inset-0 -z-10 overflow-hidden">
+  <div class="orb top-[-20%] left-[-10%] h-[60vh] w-[60vw]" style="background:var(--orb-1)"></div>
+  <div class="orb bottom-[-30%] right-[-5%] h-[70vh] w-[60vw]" style="background:var(--orb-2)"></div>
+</div>
+
+<button onclick="toggleTheme()" class="fixed right-4 top-4 z-50 card inline-flex h-10 w-10 items-center justify-center rounded-xl shadow-sm hover:shadow transition-all" aria-label="Changer de thème" title="Changer de thème">
+  <span id="icon-sun"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></span>
+  <span id="icon-moon" class="hidden"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></span>
+</button>
+
+<div class="topbar sticky top-0 z-40">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+    <a href="interimaire-dashboard.html" class="flex items-center gap-2 flex-shrink-0">
+      <span class="text-xl font-light brand-text tracking-tight">Adaptel</span>
+      <span class="text-[10px] uppercase tracking-[0.2em] text-secondary hidden sm:inline">Espace Intérimaire</span>
+    </a>
+    <nav id="main-nav" class="flex items-center gap-1 overflow-x-auto pr-14"></nav>
+  </div>
+</div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+
+  <div>
+    <h1 class="text-2xl font-bold text-primary flex items-center gap-2">Espace administratif
+      <span class="badge muted" style="color:var(--text-secondary)">Web uniquement</span>
+    </h1>
+    <p class="text-sm text-secondary mt-1 max-w-3xl">Démarches en libre-service, avec suivi de vos demandes. Cet espace n'inclut pas de module de support dédié : pour toute question, contactez votre agence par téléphone ou les équipes planning.</p>
+  </div>
+
+  <!-- DEMARCHES -->
+  <section class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="rounded-2xl card p-5 shadow-lg flex flex-col gap-3">
+      <div class="p-2.5 rounded-xl w-fit" style="background:#fee2e2;color:#991b1b">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h14a2 2 0 0 1 2 2v3h-5a2 2 0 0 0 0 4h5a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Z"></path><path d="M3 7v11a2 2 0 0 0 2 2h14"></path></svg>
+      </div>
+      <div class="flex-1">
+        <h3 class="font-bold text-primary text-sm">Demande d'acompte</h3>
+        <p class="text-xs text-secondary mt-1">Sur missions déjà effectuées et relevés validés.</p>
+      </div>
+      <button onclick="openRequestModal('Acompte')" class="btn-primary h-9 rounded-lg text-xs font-semibold">Faire une demande</button>
+    </div>
+    <div class="rounded-2xl card p-5 shadow-lg flex flex-col gap-3">
+      <div class="p-2.5 rounded-xl w-fit" style="background:#dbeafe;color:#1e40af">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
+      </div>
+      <div class="flex-1">
+        <h3 class="font-bold text-primary text-sm">Attestation ASSEDIC</h3>
+        <p class="text-xs text-secondary mt-1">Justificatif pour Pôle Emploi / France Travail.</p>
+      </div>
+      <button onclick="openRequestModal('Attestation ASSEDIC')" class="btn-primary h-9 rounded-lg text-xs font-semibold">Faire une demande</button>
+    </div>
+    <div class="rounded-2xl card p-5 shadow-lg flex flex-col gap-3">
+      <div class="p-2.5 rounded-xl w-fit" style="background:#d1fae5;color:#065f46">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="m9 15 2 2 4-4"></path></svg>
+      </div>
+      <div class="flex-1">
+        <h3 class="font-bold text-primary text-sm">Attestation de travail</h3>
+        <p class="text-xs text-secondary mt-1">Document justifiant votre activité chez Adaptel.</p>
+      </div>
+      <button onclick="openRequestModal('Attestation de travail')" class="btn-primary h-9 rounded-lg text-xs font-semibold">Faire une demande</button>
+    </div>
+    <div class="rounded-2xl card p-5 shadow-lg flex flex-col gap-3">
+      <div class="p-2.5 rounded-xl w-fit" style="background:#ede9fe;color:#5b21b6">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+      </div>
+      <div class="flex-1">
+        <h3 class="font-bold text-primary text-sm">Certificat de travail</h3>
+        <p class="text-xs text-secondary mt-1">Remis en fin de collaboration.</p>
+      </div>
+      <button onclick="openRequestModal('Certificat de travail')" class="btn-primary h-9 rounded-lg text-xs font-semibold">Faire une demande</button>
+    </div>
+  </section>
+
+  <!-- COFFREO -->
+  <section class="rounded-3xl brand-grad p-6 shadow-lg text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h2 class="text-base font-bold flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="m9 15 2 2 4-4"></path></svg>
+        Coffreo — gestion documentaire &amp; signature électronique
+      </h2>
+      <p class="text-sm opacity-90 mt-1 max-w-xl">Retrouvez vos contrats, bulletins de paie et documents à signer électroniquement sur votre espace Coffreo.</p>
+    </div>
+    <a href="#" onclick="return false;" class="inline-flex items-center gap-2 h-11 px-5 rounded-xl text-sm font-semibold bg-white text-[var(--brand-primary)] whitespace-nowrap">
+      Ouvrir Coffreo
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+    </a>
+  </section>
+
+  <!-- HISTORIQUE DES DEMANDES -->
+  <section class="rounded-3xl card shadow-lg overflow-hidden">
+    <div class="p-5 border-b border-default">
+      <h2 class="text-base font-bold text-primary">Suivi de mes demandes</h2>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-left text-xs text-secondary uppercase tracking-wide">
+            <th class="px-5 py-3 font-semibold">Type</th>
+            <th class="px-5 py-3 font-semibold">Date de la demande</th>
+            <th class="px-5 py-3 font-semibold">Statut</th>
+          </tr>
+        </thead>
+        <tbody id="demandes-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PAS DE SUPPORT DEDIE -->
+  <section class="glass rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+    <div class="p-2.5 rounded-xl muted flex-shrink-0 w-fit">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-secondary"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+    </div>
+    <div class="flex-1">
+      <p class="text-sm font-bold text-primary">Pas de module de support dédié</p>
+      <p class="text-xs text-secondary mt-0.5">Contrairement à l'espace Client, votre espace intérimaire ne propose pas de chat en ligne. En cas de besoin, contactez votre agence par téléphone ou via les équipes planning.</p>
+    </div>
+    <a href="tel:0100000000" class="btn-primary inline-flex items-center gap-2 h-10 px-4 rounded-xl text-sm font-semibold whitespace-nowrap">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+      Appeler mon agence
+    </a>
+  </section>
+
+</main>
+
+<!-- MODALE DEMANDE -->
+<div id="request-modal" class="fixed inset-0 z-[75] hidden items-center justify-center p-4 modal-overlay">
+  <div class="card rounded-3xl shadow-2xl w-full max-w-md overflow-hidden" onclick="event.stopPropagation()">
+    <div class="brand-grad text-white px-6 py-5 flex items-center justify-between">
+      <h3 id="request-title" class="text-lg font-bold">Demande</h3>
+      <button onclick="closeRequestModal()" class="p-1.5 rounded-lg hover:bg-white/15"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+    </div>
+    <div class="p-6 space-y-4">
+      <div>
+        <label class="text-xs font-semibold text-secondary block mb-1">Précision (facultatif)</label>
+        <textarea id="request-message" rows="3" placeholder="Ajoutez un détail utile à votre demande…" class="w-full rounded-lg border-default border px-3 py-2 text-sm"></textarea>
+      </div>
+      <button onclick="submitRequest()" class="btn-primary w-full h-11 rounded-xl text-sm font-semibold">Envoyer la demande</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/common.js"></script>
+<script>
+  let DEMANDES = [
+    { id:'r1', type:'Acompte', date:'2026-09-18', statut:'traite' },
+    { id:'r2', type:'Attestation de travail', date:'2026-09-10', statut:'traite' },
+    { id:'r3', type:'Attestation ASSEDIC', date:'2026-09-21', statut:'en_cours' }
+  ];
+  const STATUT_DEMANDE = { en_cours:{label:'En cours', bg:'#fef3c7', fg:'#92400e'}, traite:{label:'Traité', bg:'#d1fae5', fg:'#065f46'} };
+  let currentRequestType = '';
+
+  function renderDemandes(){
+    document.getElementById('demandes-rows').innerHTML = DEMANDES.slice().reverse().map(d => {
+      const s = STATUT_DEMANDE[d.statut];
+      return `<tr class="border-t border-default">
+        <td class="px-5 py-3 font-semibold text-primary">${d.type}</td>
+        <td class="px-5 py-3 text-secondary">${formatDateFR(d.date)}</td>
+        <td class="px-5 py-3"><span class="badge" style="background:${s.bg};color:${s.fg}">${s.label}</span></td>
+      </tr>`;
+    }).join('');
+  }
+  function openRequestModal(type){
+    currentRequestType = type;
+    document.getElementById('request-title').textContent = type;
+    document.getElementById('request-message').value = '';
+    const el = document.getElementById('request-modal');
+    el.classList.remove('hidden'); el.classList.add('flex');
+  }
+  function closeRequestModal(){
+    const el = document.getElementById('request-modal');
+    el.classList.add('hidden'); el.classList.remove('flex');
+  }
+  function submitRequest(){
+    DEMANDES.push({ id:'r'+Date.now(), type: currentRequestType, date:'2026-09-23', statut:'en_cours' });
+    renderDemandes();
+    closeRequestModal();
+    toast(`Votre demande "${currentRequestType}" a été transmise à votre agence.`, 'success');
+  }
+  document.addEventListener('DOMContentLoaded', renderDemandes);
+</script>
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel - Commandes</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  @keyframes pulse-border { 0%, 100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.35); } 50% { box-shadow: 0 0 0 6px rgba(99,102,241,0); } }
+  .row-calc { animation: pulse-border 1.8s ease-in-out infinite; }
+  .save-flash { animation: flash 1.2s ease; }
+  @keyframes flash { 0% { background-color: #dcfce7; } 100% { background-color: transparent; } }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0" style="width:256px;">
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Backoffice</p>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 ml-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-600"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+      <a class="block" href="maquette-commandes.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span class="font-medium">Accueil</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-clients.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Clients</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-chantiers.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span class="font-medium">Chantiers</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-interimaires.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-planning.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+          <span class="font-medium">Planning</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-disponibilites.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+          <span class="font-medium">Disponibilités</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-recherche-de-dispo.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <span class="font-medium">Recherche dispo.</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-commandes.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Commandes</span>
+        </div>
+      </a>
+      <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
+        <div id="nav-releves" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevés d'heures</span>
+        </div>
+      </a>
+      <a class="block" id="nav-reporting-link" href="maquette-reporting.html">
+        <div id="nav-reporting" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+          <span class="font-medium">Reporting</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-support.html">
+        <div id="nav-support" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path></svg>
+            <span class="font-medium">Support</span>
+          </div>
+          <span id="support-badge" class="bg-[#A63629] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+        </div>
+      </a>
+      <a class="block" id="nav-utilisateurs-link" href="maquette-utilisateurs.html">
+        <div id="nav-utilisateurs" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span class="font-medium">Utilisateurs</span>
+        </div>
+      </a>
+      <a class="block" id="nav-administration-link" href="maquette-administration.html">
+        <div id="nav-administration" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path></svg>
+          <span class="font-medium">Administration</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
+          <span class="font-medium">Paramètres</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span class="font-medium">Compte</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-auto flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end gap-3 sticky top-0 z-40">
+      <div class="relative">
+        <button type="button" onclick="toggleNotifPanel()" class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-colors text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">3</span>
+        </button>
+
+        <!-- NOTIF DROPDOWN : dernières commandes reçues, intégration en 1 clic -->
+        <div id="notif-panel" class="hidden absolute right-0 mt-2 w-96 bg-white rounded-xl border border-gray-200 shadow-2xl z-50 overflow-hidden">
+          <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+            <p class="text-sm font-bold text-gray-900">Dernières commandes reçues</p>
+            <span class="text-xs text-gray-400">3 nouvelles</span>
+          </div>
+          <div class="max-h-80 overflow-y-auto divide-y divide-gray-100">
+            <div class="px-4 py-3 flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="text-sm font-semibold text-gray-900 truncate">Hôtel Lutetia — Plongeur</p>
+                <p class="text-xs text-gray-500">24 sept. · 08:00-16:00 · reçue il y a 2 min</p>
+              </div>
+              <button type="button" onclick="integrerNotif(this, 'CMD-2609-15')" class="text-xs font-semibold text-[#A63629] hover:underline flex-shrink-0 mt-1">Intégrer</button>
+            </div>
+            <div class="px-4 py-3 flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="text-sm font-semibold text-gray-900 truncate">Hôtel Le Meurice — Chef de rang</p>
+                <p class="text-xs text-gray-500">21→25 sept. · 11:00-19:00 · reçue il y a 18 min</p>
+              </div>
+              <button type="button" onclick="integrerNotif(this, 'CMD-2609-01')" class="text-xs font-semibold text-[#A63629] hover:underline flex-shrink-0 mt-1">Intégrer</button>
+            </div>
+            <div class="px-4 py-3 flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="text-sm font-semibold text-gray-900 truncate">Résidence Étoile — Réceptionniste ×3</p>
+                <p class="text-xs text-gray-500">Saisie groupée · reçue il y a 1h</p>
+              </div>
+              <button type="button" onclick="integrerNotif(this, 'CMD-2609-17')" class="text-xs font-semibold text-[#A63629] hover:underline flex-shrink-0 mt-1">Intégrer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex-1">
+      <div class="p-6 space-y-6 max-w-[1500px] mx-auto">
+
+        <!-- TITLE + ACTIONS -->
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Commandes</h1>
+            <p class="text-gray-600 mt-0.5">Suivi et gestion de toutes les commandes</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3 py-2 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-500"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+              <input type="date" value="2026-09-24" class="text-sm text-gray-900 border-none focus:ring-0 p-0">
+            </div>
+            <button type="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>
+              Exporter
+            </button>
+            <button type="button" onclick="openCreateCommandeModal()" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all shadow bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white hover:opacity-95 h-10 px-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+              Créer une commande
+            </button>
+          </div>
+        </div>
+
+        <!-- STATS : cliquables pour filtrer le tableau -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3" id="stats-row">
+          <button type="button" data-filter="all" onclick="applyStatFilter('all')" class="stat-card text-left rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-200 border-l-4 border-l-slate-400 ring-2 ring-[#A63629]/20">
+            <div class="p-4 flex items-center justify-between gap-2">
+              <div>
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Total</p>
+                <p class="text-2xl font-bold mt-0.5 text-gray-900" id="stat-all">10</p>
+              </div>
+              <div class="w-9 h-9 rounded-lg bg-slate-100 text-slate-500 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" data-filter="non-attribuee" onclick="applyStatFilter('non-attribuee')" class="stat-card text-left rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-200 border-l-4 border-l-red-500">
+            <div class="p-4 flex items-center justify-between gap-2">
+              <div>
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Non attribuées</p>
+                <p class="text-2xl font-bold mt-0.5 text-red-600" id="stat-non-attribuee">3</p>
+              </div>
+              <div class="w-9 h-9 rounded-lg bg-red-100 text-red-500 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" data-filter="en-cours" onclick="applyStatFilter('en-cours')" class="stat-card text-left rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-200 border-l-4 border-l-blue-500">
+            <div class="p-4 flex items-center justify-between gap-2">
+              <div>
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">En cours</p>
+                <p class="text-2xl font-bold mt-0.5 text-blue-600" id="stat-en-cours">4</p>
+              </div>
+              <div class="w-9 h-9 rounded-lg bg-blue-100 text-blue-500 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" data-filter="pourvue" onclick="applyStatFilter('pourvue')" class="stat-card text-left rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-200 border-l-4 border-l-purple-500">
+            <div class="p-4 flex items-center justify-between gap-2">
+              <div>
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Pourvues</p>
+                <p class="text-2xl font-bold mt-0.5 text-purple-600" id="stat-pourvue">1</p>
+              </div>
+              <div class="w-9 h-9 rounded-lg bg-purple-100 text-purple-500 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" data-filter="terminee" onclick="applyStatFilter('terminee')" class="stat-card text-left rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-200 border-l-4 border-l-slate-500">
+            <div class="p-4 flex items-center justify-between gap-2">
+              <div>
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Terminées</p>
+                <p class="text-2xl font-bold mt-0.5 text-slate-700" id="stat-terminee">1</p>
+              </div>
+              <div class="w-9 h-9 rounded-lg bg-slate-100 text-slate-500 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M16 7h6v6"></path><path d="m22 7-8.5 8.5-5-5L2 17"></path></svg>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" data-filter="annulee" onclick="applyStatFilter('annulee')" class="stat-card text-left rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-200 border-l-4 border-l-gray-400">
+            <div class="p-4 flex items-center justify-between gap-2">
+              <div>
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Annulées</p>
+                <p class="text-2xl font-bold mt-0.5 text-gray-500" id="stat-annulee">1</p>
+              </div>
+              <div class="w-9 h-9 rounded-lg bg-gray-100 text-gray-400 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <!-- SEARCH + FILTRES -->
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+          <div class="flex flex-col md:flex-row gap-3">
+            <div class="relative flex-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+              <input id="commandes-search" type="text" oninput="renderCommandesTable()" placeholder="Rechercher par client, chantier, qualification..." class="h-10 w-full rounded-lg border border-gray-200 bg-white pl-10 pr-3 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+            </div>
+            <button type="button" id="btn-clear-filter" onclick="applyStatFilter('all')" class="hidden inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+              <span id="btn-clear-filter-label">Filtre actif</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- TABLEAU -->
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+          <div class="hidden lg:grid grid-cols-[110px_1.4fr_1.3fr_160px_190px_130px_170px_150px] items-center gap-3 px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider bg-gray-50 border-b border-gray-200">
+            <div>Commande</div>
+            <div>Client &amp; chantier</div>
+            <div>Qualification</div>
+            <div>Période</div>
+            <div>Horaire</div>
+            <div class="text-center">Capacité</div>
+            <div>Intérimaire(s)</div>
+            <div>Statut</div>
+          </div>
+          <div id="commandes-list" class="divide-y divide-gray-200"></div>
+          <p id="commandes-empty" class="hidden text-center text-sm text-gray-400 py-10">Aucune commande ne correspond à ces critères.</p>
+        </div>
+
+        <!-- PAGINATION (cosmétique) -->
+        <div class="flex items-center justify-between px-1">
+          <p class="text-sm text-gray-600">Affichage de <span class="font-semibold" id="pagination-count">10</span> sur <span class="font-semibold">10</span> résultats</p>
+          <div class="flex items-center gap-2">
+            <button disabled class="p-2 rounded-lg text-gray-400 disabled:opacity-50"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m15 18-6-6 6-6"></path></svg></button>
+            <button class="px-3 py-2 rounded-lg text-sm font-medium bg-[#A63629] text-white">1</button>
+            <button disabled class="p-2 rounded-lg text-gray-400 disabled:opacity-50"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m9 18 6-6-6-6"></path></svg></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- BACKDROP CREATION -->
+<div id="create-commande-backdrop" class="fixed inset-0 bg-gray-900/30 z-[60] hidden"></div>
+<div id="create-commande-modal" class="fixed inset-0 z-[70] hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+    <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3">
+      <div>
+        <h3 class="font-bold text-gray-900 text-lg">Nouvelle commande</h3>
+        <p class="text-xs text-gray-500 mt-0.5">L'horaire et la pause sont préremplis depuis la qualification choisie — modifiables au cas par cas.</p>
+      </div>
+      <button type="button" onclick="closeCreateCommandeModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    <form id="create-commande-form" class="p-5 space-y-4 overflow-y-auto" onsubmit="return false;">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Client</label>
+          <input id="cm2-client" required class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" placeholder="Ex : Hôtel Le Meurice">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Chantier</label>
+          <input id="cm2-chantier" required class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" placeholder="Ex : Salle / Resto">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Qualification</label>
+          <select id="cm2-qualification" onchange="applyQualifDefaults()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+            <option value="28|Chef de rang">28 — Chef de rang</option>
+            <option value="12|Extra service">12 — Extra service</option>
+            <option value="01|Commis de cuisine">01 — Commis de cuisine</option>
+            <option value="34|Réceptionniste">34 — Réceptionniste</option>
+            <option value="19|Barman">19 — Barman</option>
+            <option value="07|Bagagiste">07 — Bagagiste</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Date(s)</label>
+          <input id="cm2-date-debut" type="date" value="2026-09-24" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Heure début <span class="text-gray-400 font-normal normal-case">(préremplie)</span></label>
+          <input id="cm2-heure-debut" type="time" value="11:00" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Heure fin <span class="text-gray-400 font-normal normal-case">(préremplie)</span></label>
+          <input id="cm2-heure-fin" type="time" value="19:00" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Pause (min) <span class="text-gray-400 font-normal normal-case">(préremplie)</span></label>
+          <input id="cm2-pause" type="number" step="5" value="30" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Commentaire client</label>
+        <textarea id="cm2-commentaire" rows="2" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" placeholder="Demande particulière du client..."></textarea>
+      </div>
+    </form>
+    <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+      <button type="button" onclick="closeCreateCommandeModal()" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-100 transition-colors">Annuler</button>
+      <button type="button" onclick="createCommande()" class="px-5 py-2 rounded-lg bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white text-sm font-semibold shadow hover:opacity-95 transition-colors">Créer la commande</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Barème horaires/pause par défaut selon la qualification (préremplissage, cf. cahier des charges Client 4.7)
+  const QUALIF_DEFAULTS = {
+    '28': { debut: '11:00', fin: '19:00', pause: 30 },
+    '12': { debut: '18:00', fin: '01:00', pause: 20 },
+    '01': { debut: '09:00', fin: '17:00', pause: 30 },
+    '34': { debut: '07:00', fin: '15:00', pause: 30 },
+    '19': { debut: '19:00', fin: '00:00', pause: 15 },
+    '07': { debut: '06:00', fin: '14:00', pause: 20 }
+  };
+
+  function applyQualifDefaults() {
+    const code = document.getElementById('cm2-qualification').value.split('|')[0];
+    const d = QUALIF_DEFAULTS[code];
+    if (!d) return;
+    document.getElementById('cm2-heure-debut').value = d.debut;
+    document.getElementById('cm2-heure-fin').value = d.fin;
+    document.getElementById('cm2-pause').value = d.pause;
+  }
+
+  // ===== Jeu de données de démonstration =====
+  // group: identifiant de "saisie groupée" (plusieurs commandes issues d'une seule saisie calendrier client)
+  const COMMANDES = [
+    { cmd: 'CMD-2609-01', client: 'Hôtel Le Meurice', chantier: 'Salle / Resto', qualifCode: '28', qualif: 'Chef de rang', periode: '21 → 25 sept. (5j)', horaire: '11:00 - 19:00', capacite: '0/1', interimaires: '—', statut: 'non-attribuee', statutLabel: 'À staffer', border: 'border-l-red-500' },
+    { cmd: 'CMD-2609-06', client: 'Le Grand Hôtel Parisien', chantier: 'Étage Prestige', qualifCode: '07', qualif: 'Bagagiste', periode: '23 → 24 sept. (2j)', horaire: '06:00 - 14:00', capacite: '0/1', interimaires: '—', statut: 'non-attribuee', statutLabel: 'À staffer', border: 'border-l-red-500' },
+    { cmd: 'CMD-2609-15', client: 'Hôtel Lutetia', chantier: 'Cuisine', qualifCode: '01', qualif: 'Plongeur', periode: '24 sept.', horaire: '08:00 - 16:00', capacite: '0/1', interimaires: '—', statut: 'calcul', statutLabel: 'Calcul en cours', border: 'border-l-indigo-500', calcEnCours: true },
+    { cmd: 'CMD-2609-04', client: 'Novotel Paris Est', chantier: 'Réception', qualifCode: '34', qualif: 'Réceptionniste', periode: '21 → 23 sept. (3j)', horaire: '07:00 - 15:00', capacite: '1/1', interimaires: 'Julie PETIT', statut: 'en-cours', statutLabel: 'Best match à valider', border: 'border-l-blue-500' },
+    { cmd: 'CMD-2609-02', client: 'Potel et Chabot Traiteur', chantier: 'Réception Hoche', qualifCode: '12', qualif: 'Extra service', periode: '21 sept.', horaire: '18:00 - 01:00', capacite: '1/1', interimaires: 'Sofia MARTINS', statut: 'en-cours', statutLabel: 'Notification envoyée', border: 'border-l-amber-400' },
+    { cmd: 'CMD-2609-03', client: "Fouquet's Barrière", chantier: 'Cuisine centrale', qualifCode: '01', qualif: 'Commis de cuisine', periode: '21 → 22 sept. (2j)', horaire: '09:00 - 17:00', capacite: '1/1', interimaires: 'Mehdi KACI', statut: 'en-cours', statutLabel: 'Validé', border: 'border-l-green-500' },
+    { cmd: 'CMD-2609-17', client: 'Résidence Étoile', chantier: 'Accueil', qualifCode: '34', qualif: 'Réceptionniste', periode: '21, 22 puis 24 sept.', horaire: '09:00 - 17:00', capacite: '3/3', interimaires: '3 intérimaires', statut: 'en-cours', statutLabel: 'Validé', border: 'border-l-green-500', groupe: 3 },
+    { cmd: 'CMD-2609-07', client: 'Hôtel Prince de Galles', chantier: 'Réception VIP', qualifCode: '34', qualif: 'Réceptionniste', periode: '26 sept.', horaire: '08:00 - 16:00', capacite: '1/1', interimaires: 'Léa ROUSSEL', statut: 'pourvue', statutLabel: 'Contrat établi', border: 'border-l-purple-500' },
+    { cmd: 'CMD-2609-16', client: 'Hôtel Le Meurice', chantier: 'Salle / Resto', qualifCode: '?', qualif: 'Serveuse', periode: '15 sept.', horaire: '11:00 - 19:00', capacite: '1/1', interimaires: 'Emma LEFEBVRE', statut: 'terminee', statutLabel: 'Terminée', border: 'border-l-slate-500' },
+    { cmd: 'CMD-2609-05', client: 'La Table du Marais', chantier: 'Bar à Vins', qualifCode: '19', qualif: 'Barman', periode: '21 sept.', horaire: '19:00 - 00:00', capacite: '0/1', interimaires: 'Yanis MOKRANE', statut: 'annulee', statutLabel: 'Annulée', border: 'border-l-gray-300' }
+  ];
+
+  const STATUT_BADGE = {
+    'non-attribuee': 'bg-red-100 text-red-800 border-red-200',
+    'calcul': 'bg-indigo-100 text-indigo-700 border-indigo-200',
+    'en-cours': null, // varie selon le libellé précis (voir STATUT_LABEL_BADGE)
+    'pourvue': 'bg-purple-100 text-purple-900 border-purple-300',
+    'terminee': 'bg-slate-200 text-slate-700 border-slate-300',
+    'annulee': 'bg-gray-200 text-gray-600 border-gray-300'
+  };
+  const STATUT_LABEL_BADGE = {
+    'À staffer': 'bg-red-100 text-red-800 border-red-200',
+    'Calcul en cours': 'bg-indigo-100 text-indigo-700 border-indigo-200',
+    'Best match à valider': 'bg-blue-100 text-blue-800 border-blue-300',
+    'Notification envoyée': 'bg-amber-100 text-amber-900 border-amber-300',
+    'Validé': 'bg-green-100 text-green-900 border-green-300',
+    'Contrat établi': 'bg-purple-100 text-purple-900 border-purple-300',
+    'Terminée': 'bg-slate-200 text-slate-700 border-slate-300',
+    'Annulée': 'bg-gray-200 text-gray-600 border-gray-300'
+  };
+
+  let currentFilter = 'all';
+
+  function applyStatFilter(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.stat-card').forEach(btn => {
+      btn.classList.toggle('ring-2', btn.dataset.filter === filter);
+      btn.classList.toggle('ring-[#A63629]/20', btn.dataset.filter === filter);
+    });
+    const clearBtn = document.getElementById('btn-clear-filter');
+    if (filter === 'all') {
+      clearBtn.classList.add('hidden');
+    } else {
+      clearBtn.classList.remove('hidden');
+      document.getElementById('btn-clear-filter-label').textContent = 'Filtre : ' + document.querySelector(`[data-filter="${filter}"] p.text-xs`).textContent;
+    }
+    renderCommandesTable();
+  }
+
+  function computeStats() {
+    const counts = { all: COMMANDES.length, 'non-attribuee': 0, 'en-cours': 0, pourvue: 0, terminee: 0, annulee: 0 };
+    COMMANDES.forEach(c => {
+      const bucket = c.statut === 'calcul' ? 'non-attribuee' : c.statut;
+      if (counts[bucket] !== undefined) counts[bucket]++;
+    });
+    Object.keys(counts).forEach(k => {
+      const el = document.getElementById('stat-' + k);
+      if (el) el.textContent = counts[k];
+    });
+  }
+
+  function renderCommandeRow(c) {
+    const badgeClass = c.statut === 'en-cours' ? (STATUT_LABEL_BADGE[c.statutLabel] || 'bg-gray-100 text-gray-700 border-gray-200') : STATUT_BADGE[c.statut];
+    const pulse = c.calcEnCours ? 'row-calc bg-indigo-50/40' : '';
+    const groupeBadge = c.groupe ? `
+      <span onclick="event.stopPropagation(); alert('Saisie groupée : ${c.groupe} commandes liées (21, 22 puis 24 sept. — la coupure de plus de 2 jours calendaires a créé une commande séparée). Voir la fiche commande pour les liens de traçabilité.')" class="inline-flex items-center gap-1 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700 text-[10px] font-semibold px-2 py-0.5 mt-1 cursor-pointer hover:bg-indigo-100">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M9 17H7A5 5 0 0 1 7 7h2"></path><path d="M15 7h2a5 5 0 1 1 0 10h-2"></path><line x1="8" x2="16" y1="12" y2="12"></line></svg>
+        Saisie groupée ×${c.groupe}
+      </span>` : '';
+    const calcCell = c.calcEnCours
+      ? `<span class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-700"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 animate-spin"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>Calcul en cours...</span>`
+      : `<span class="text-sm text-gray-700">${c.interimaires}</span>`;
+
+    return `
+      <div onclick="goToDetail('${c.cmd}')" class="commande-row grid grid-cols-1 lg:grid-cols-[110px_1.4fr_1.3fr_160px_190px_130px_170px_150px] items-center gap-3 px-5 py-4 border-l-4 ${c.border} ${pulse} hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
+        <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block w-fit">${c.cmd}</span>
+        <div class="min-w-0">
+          <p class="text-sm font-bold text-gray-900 truncate">${c.client}</p>
+          <p class="text-xs text-gray-500 truncate">${c.chantier}</p>
+          ${groupeBadge}
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">${c.qualifCode}</span>
+          <span class="text-xs font-bold text-gray-800">${c.qualif}</span>
+        </div>
+        <div class="flex items-center gap-1.5 text-xs text-gray-600">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+          <span>${c.periode}</span>
+        </div>
+        <div class="text-sm font-semibold text-gray-800">${c.horaire}</div>
+        <div class="text-center text-sm font-semibold text-gray-800">${c.capacite}</div>
+        <div>${calcCell}</div>
+        <div>
+          <span class="inline-flex items-center rounded-full border ${badgeClass} text-xs font-semibold px-2.5 py-1">${c.statutLabel}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderCommandesTable() {
+    const search = document.getElementById('commandes-search').value.trim().toLowerCase();
+    let filtered = COMMANDES.filter(c => {
+      if (currentFilter !== 'all') {
+        const bucket = c.statut === 'calcul' ? 'non-attribuee' : c.statut;
+        if (bucket !== currentFilter) return false;
+      }
+      if (search) {
+        const haystack = (c.client + ' ' + c.chantier + ' ' + c.qualif).toLowerCase();
+        if (!haystack.includes(search)) return false;
+      }
+      return true;
+    });
+
+    const list = document.getElementById('commandes-list');
+    const empty = document.getElementById('commandes-empty');
+    if (filtered.length === 0) {
+      list.innerHTML = '';
+      empty.classList.remove('hidden');
+    } else {
+      empty.classList.add('hidden');
+      list.innerHTML = filtered.map(renderCommandeRow).join('');
+    }
+    document.getElementById('pagination-count').textContent = filtered.length;
+  }
+
+  function goToDetail(cmd) {
+    window.location.href = 'maquette-commande-detail.html?cmd=' + encodeURIComponent(cmd);
+  }
+
+  // ===== Notifications : intégration directe d'une commande =====
+  function toggleNotifPanel() {
+    document.getElementById('notif-panel').classList.toggle('hidden');
+  }
+  document.addEventListener('click', (e) => {
+    const panel = document.getElementById('notif-panel');
+    if (!panel.contains(e.target) && !e.target.closest('[onclick="toggleNotifPanel()"]')) {
+      panel.classList.add('hidden');
+    }
+  });
+
+  function integrerNotif(btn, cmd) {
+    document.getElementById('notif-panel').classList.add('hidden');
+    const row = document.querySelector(`.commande-row[onclick*="${cmd}"]`);
+    if (row) {
+      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      row.classList.add('save-flash');
+      setTimeout(() => row.classList.remove('save-flash'), 1200);
+    }
+  }
+
+  // ===== Création manuelle (démo, ajoute une ligne en tête de liste) =====
+  function openCreateCommandeModal() {
+    document.getElementById('create-commande-backdrop').classList.remove('hidden');
+    document.getElementById('create-commande-modal').classList.remove('hidden');
+  }
+  function closeCreateCommandeModal() {
+    document.getElementById('create-commande-backdrop').classList.add('hidden');
+    document.getElementById('create-commande-modal').classList.add('hidden');
+    document.getElementById('create-commande-form').reset();
+    applyQualifDefaults();
+  }
+  document.getElementById('create-commande-backdrop').addEventListener('click', closeCreateCommandeModal);
+
+  let newCmdCounter = 20;
+  function createCommande() {
+    const client = document.getElementById('cm2-client').value.trim() || 'Client à préciser';
+    const chantier = document.getElementById('cm2-chantier').value.trim() || 'Chantier à préciser';
+    const [qualifCode, qualifLabel] = document.getElementById('cm2-qualification').value.split('|');
+    const debut = document.getElementById('cm2-heure-debut').value;
+    const fin = document.getElementById('cm2-heure-fin').value;
+    const dateDebut = document.getElementById('cm2-date-debut').value;
+    const cmd = 'CMD-2609-' + (newCmdCounter++);
+
+    COMMANDES.unshift({
+      cmd, client, chantier, qualifCode, qualif: qualifLabel,
+      periode: new Date(dateDebut).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' }),
+      horaire: debut + ' - ' + fin, capacite: '0/1', interimaires: '—',
+      statut: 'non-attribuee', statutLabel: 'À staffer', border: 'border-l-red-500'
+    });
+
+    computeStats();
+    renderCommandesTable();
+    closeCreateCommandeModal();
+  }
+
+  applyQualifDefaults();
+  computeStats();
+  renderCommandesTable();
+</script>
+
+</body>
+</html>

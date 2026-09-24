@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel - Fiche commande</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .save-flash { animation: flash 1.2s ease; }
+  @keyframes flash { 0% { background-color: #dcfce7; } 100% { background-color: transparent; } }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0" style="width:256px;">
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Backoffice</p>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 ml-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-600"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+      <a class="block" href="maquette-commandes.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span class="font-medium">Accueil</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-clients.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Clients</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-chantiers.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span class="font-medium">Chantiers</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-interimaires.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-planning.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+          <span class="font-medium">Planning</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-disponibilites.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+          <span class="font-medium">Disponibilités</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-recherche-de-dispo.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <span class="font-medium">Recherche dispo.</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-commandes.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Commandes</span>
+        </div>
+      </a>
+      <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
+        <div id="nav-releves" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevés d'heures</span>
+        </div>
+      </a>
+      <a class="block" id="nav-reporting-link" href="maquette-reporting.html">
+        <div id="nav-reporting" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+          <span class="font-medium">Reporting</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-support.html">
+        <div id="nav-support" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path></svg>
+            <span class="font-medium">Support</span>
+          </div>
+          <span id="support-badge" class="bg-[#A63629] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+        </div>
+      </a>
+      <a class="block" id="nav-utilisateurs-link" href="maquette-utilisateurs.html">
+        <div id="nav-utilisateurs" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span class="font-medium">Utilisateurs</span>
+        </div>
+      </a>
+      <a class="block" id="nav-administration-link" href="maquette-administration.html">
+        <div id="nav-administration" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path></svg>
+          <span class="font-medium">Administration</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-auto flex flex-col">
+
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end gap-3 sticky top-0 z-40">
+      <div class="relative">
+        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-colors text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">3</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="p-6 space-y-6 max-w-5xl mx-auto w-full">
+
+      <a href="maquette-commandes.html" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-[#A63629] transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+        Retour à la liste des commandes
+      </a>
+
+      <!-- TITLE + ACTIONS -->
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded">CMD-2609-01</span>
+            <span id="p-statut-badge" class="inline-flex items-center rounded-full border text-xs font-semibold px-2.5 py-1"></span>
+          </div>
+          <h1 class="text-2xl font-bold text-gray-900 mt-2">Chef de rang · <a href="maquette-client-detail.html" class="text-[#A63629] hover:underline">Hôtel Le Meurice</a></h1>
+          <p class="text-gray-600 mt-0.5">Chantier : <a href="maquette-chantier-detail.html" class="font-medium text-gray-800 hover:text-[#A63629] hover:underline">Salle / Resto</a> · Agence 001</p>
+        </div>
+        <button type="button" id="btn-annuler-commande" onclick="openCancelModal()" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-red-300 bg-white text-red-600 shadow-sm hover:bg-red-50 h-10 px-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          Annuler la commande
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- INFOS GENERALES -->
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm border-l-4 border-l-[#A63629]">
+          <div class="p-6 pb-3">
+            <h3 class="flex items-center gap-2 text-gray-900 font-bold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+              Informations générales
+            </h3>
+          </div>
+          <div class="p-6 pt-0 space-y-3">
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Client :</span><a href="maquette-client-detail.html" class="font-semibold text-[#A63629] hover:underline">Hôtel Le Meurice</a></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Chantier :</span><a href="maquette-chantier-detail.html" class="font-semibold text-gray-900 hover:text-[#A63629] hover:underline">Salle / Resto</a></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Qualification :</span><span class="font-semibold text-gray-900">28 — Chef de rang</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Motif :</span><span class="font-semibold text-gray-900">32 · Remplacement maladie</span></div>
+          </div>
+        </div>
+
+        <!-- INTERIMAIRE -->
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm border-l-4 border-l-[#A63629]">
+          <div class="p-6 pb-3">
+            <h3 class="flex items-center gap-2 text-gray-900 font-bold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+              Intérimaire(s)
+            </h3>
+          </div>
+          <div class="p-6 pt-0 space-y-3">
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-gray-500">Capacité :</span>
+              <span class="font-semibold text-gray-900">1 / 1</span>
+            </div>
+            <a href="maquette-interimaire-detail.html" class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:border-[#A63629] hover:bg-gray-50 transition-colors">
+              <div class="w-9 h-9 rounded-full bg-red-100 text-[#A63629] flex items-center justify-center font-bold text-xs flex-shrink-0">SM</div>
+              <div class="min-w-0">
+                <p class="text-sm font-bold text-gray-900 truncate">Sofia MARTINS</p>
+                <p class="text-xs text-gray-500">Voir la fiche intérimaire</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 ml-auto flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- HORAIRES & PAUSE -->
+      <div class="rounded-xl border border-gray-200 bg-white shadow-sm border-l-4 border-l-[#A63629]" id="horaires-card">
+        <div class="p-6 pb-3">
+          <h3 class="flex items-center gap-2 text-gray-900 font-bold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+            Horaires &amp; pause
+          </h3>
+          <p class="text-xs text-gray-500 mt-1">Préremplis depuis l'horaire type et la pause par défaut de la qualification « Chef de rang » — modifiables au cas par cas sur cette commande.</p>
+        </div>
+        <div class="p-6 pt-0">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1">Heure début</label>
+              <input id="cd-heure-debut" type="time" value="11:00" class="h-10 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1">Heure fin</label>
+              <input id="cd-heure-fin" type="time" value="19:00" class="h-10 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1">Pause (min)</label>
+              <input id="cd-pause" type="number" step="5" value="30" class="h-10 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+            </div>
+          </div>
+          <div class="flex justify-end mt-4">
+            <button type="button" onclick="saveHoraires()" class="inline-flex items-center gap-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow hover:opacity-95 h-9 px-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path></svg>
+              Enregistrer
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERIODE / JOURS -->
+      <div class="rounded-xl border border-gray-200 bg-white shadow-sm border-l-4 border-l-[#A63629]">
+        <div class="p-6 pb-3 flex items-center justify-between">
+          <h3 class="flex items-center gap-2 text-gray-900 font-bold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+            Période
+          </h3>
+          <p id="periode-summary" class="text-xs text-gray-500"></p>
+        </div>
+        <div class="p-6 pt-0">
+          <div id="jours-list" class="flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+
+      <!-- COMMENTAIRE CLIENT -->
+      <div class="rounded-xl border border-amber-200 bg-amber-50/60">
+        <div class="p-6 pb-2">
+          <h3 class="flex items-center gap-2 text-amber-900 font-bold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            Commentaire client
+          </h3>
+        </div>
+        <div class="p-6 pt-0">
+          <p class="text-sm text-gray-800 italic">"Besoin de quelqu'un de calme et autonome, habitué au service à la française. Merci de prévenir 30 min avant l'arrivée à la réception fournisseurs."</p>
+        </div>
+      </div>
+
+      <!-- TRACABILITE SAISIE GROUPEE -->
+      <div class="rounded-xl border border-indigo-200 bg-indigo-50/60">
+        <div class="p-6 pb-2">
+          <h3 class="flex items-center gap-2 text-indigo-900 font-bold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M9 17H7A5 5 0 0 1 7 7h2"></path><path d="M15 7h2a5 5 0 1 1 0 10h-2"></path><line x1="8" x2="16" y1="12" y2="12"></line></svg>
+            Traçabilité — saisie calendrier groupée
+          </h3>
+          <p class="text-xs text-indigo-700 mt-1">Le client a sélectionné plusieurs jours en une seule saisie ; la plateforme les a automatiquement répartis en commandes distinctes (une coupure de plus de 2 jours calendaires sépare deux commandes).</p>
+        </div>
+        <div class="p-6 pt-0 flex flex-wrap gap-2">
+          <a href="maquette-commandes.html" class="inline-flex items-center gap-1.5 rounded-lg border border-indigo-300 bg-white text-indigo-800 text-xs font-semibold px-3 py-1.5 hover:bg-indigo-100 transition-colors">CMD-2609-17 · 21 sept.</a>
+          <a href="maquette-commandes.html" class="inline-flex items-center gap-1.5 rounded-lg border border-indigo-300 bg-white text-indigo-800 text-xs font-semibold px-3 py-1.5 hover:bg-indigo-100 transition-colors">CMD-2609-18 · 22 sept.</a>
+          <span class="inline-flex items-center gap-1.5 rounded-lg border border-indigo-400 bg-indigo-600 text-white text-xs font-semibold px-3 py-1.5">CMD-2609-19 · 24 sept. (commande actuelle)</span>
+        </div>
+      </div>
+
+      <!-- HISTORIQUE -->
+      <div class="rounded-xl border border-gray-200 bg-white shadow-sm border-l-4 border-l-[#A63629]">
+        <div class="p-6 pb-3">
+          <h3 class="flex items-center gap-2 text-gray-900 font-bold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+            Historique des modifications
+          </h3>
+        </div>
+        <div class="p-6 pt-0">
+          <ul id="historique-list" class="space-y-4"></ul>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- BACKDROP ANNULATION -->
+<div id="cancel-backdrop" class="fixed inset-0 bg-gray-900/30 z-[60] hidden"></div>
+<div id="cancel-modal" class="fixed inset-0 z-[70] hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-md">
+    <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3">
+      <div>
+        <h3 class="font-bold text-gray-900 text-lg">Annuler la commande</h3>
+        <p class="text-xs text-gray-500 mt-0.5">CMD-2609-01 · Hôtel Le Meurice</p>
+      </div>
+      <button type="button" onclick="closeCancelModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    <div class="p-5 space-y-3">
+      <label class="flex items-start gap-3 p-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50">
+        <input type="radio" name="cancel-scope" value="jour" checked onchange="updateCancelScope()" class="mt-1 w-4 h-4 text-[#A63629]">
+        <div class="flex-1">
+          <p class="text-sm font-semibold text-gray-900">Annuler un jour précis</p>
+          <p class="text-xs text-gray-500 mt-0.5">La commande est raccourcie : les autres jours restent actifs. Le jour annulé reste visible, marqué comme annulé.</p>
+          <select id="cancel-day-select" class="mt-2 h-9 w-full rounded-lg border border-gray-200 bg-white px-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]"></select>
+        </div>
+      </label>
+      <label class="flex items-start gap-3 p-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50">
+        <input type="radio" name="cancel-scope" value="totale" onchange="updateCancelScope()" class="mt-1 w-4 h-4 text-[#A63629]">
+        <div class="flex-1">
+          <p class="text-sm font-semibold text-gray-900">Annuler toute la commande</p>
+          <p class="text-xs text-red-600 mt-0.5">Tous les jours restants seront annulés, y compris ceux déjà attribués.</p>
+        </div>
+      </label>
+    </div>
+    <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+      <button type="button" onclick="closeCancelModal()" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-100 transition-colors">Fermer</button>
+      <button type="button" onclick="confirmCancel()" class="px-5 py-2 rounded-lg bg-red-600 text-white text-sm font-semibold shadow hover:bg-red-700 transition-colors">Confirmer l'annulation</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== Modèle de la commande (démo) =====
+  let statut = 'À staffer';
+  const days = [
+    { date: '2026-09-21', label: 'Lun. 21 sept.', cancelled: false },
+    { date: '2026-09-22', label: 'Mar. 22 sept.', cancelled: false },
+    { date: '2026-09-23', label: 'Mer. 23 sept.', cancelled: true, info: "Annulé par le client le 22/09/2026 — absence exceptionnelle." },
+    { date: '2026-09-24', label: 'Jeu. 24 sept.', cancelled: false },
+    { date: '2026-09-25', label: 'Ven. 25 sept.', cancelled: false }
+  ];
+
+  const historique = [
+    { date: '20/09/2026 09:12', auteur: 'Client — Hôtel Le Meurice', action: 'Commande créée depuis le calendrier client (5 jours sélectionnés).' },
+    { date: '20/09/2026 09:13', auteur: 'Système', action: 'Calcul des meilleurs matchs lancé automatiquement.' },
+    { date: '21/09/2026 08:40', auteur: 'Sarah Benamar', action: "Heure de fin modifiée : 18:00 → 19:00." },
+    { date: '22/09/2026 16:05', auteur: 'Client — Hôtel Le Meurice', action: 'Jour du mercredi 23 septembre annulé (absence exceptionnelle).' }
+  ];
+
+  const STATUT_BADGE_CLASS = {
+    'À staffer': 'bg-red-100 text-red-800 border-red-200',
+    'Validé': 'bg-green-100 text-green-900 border-green-300',
+    'Annulée': 'bg-gray-200 text-gray-600 border-gray-300'
+  };
+
+  function renderStatutBadge() {
+    const el = document.getElementById('p-statut-badge');
+    el.textContent = statut;
+    el.className = 'inline-flex items-center rounded-full border text-xs font-semibold px-2.5 py-1 ' + (STATUT_BADGE_CLASS[statut] || 'bg-gray-100 text-gray-700 border-gray-200');
+  }
+
+  function renderJours() {
+    const list = document.getElementById('jours-list');
+    list.innerHTML = days.map(d => {
+      if (d.cancelled) {
+        return `
+          <span title="${d.info || 'Jour annulé'}" class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-100 text-gray-400 text-xs font-semibold px-3 py-1.5 line-through cursor-help">
+            ${d.label}
+            <span class="no-underline not-italic inline-flex items-center rounded-full bg-gray-300 text-gray-600 text-[9px] font-bold px-1.5 py-0.5">Annulé</span>
+          </span>`;
+      }
+      return `<span class="inline-flex items-center gap-1.5 rounded-lg border border-green-200 bg-green-50 text-green-800 text-xs font-semibold px-3 py-1.5">${d.label}</span>`;
+    }).join('');
+
+    const active = days.filter(d => !d.cancelled).length;
+    const cancelled = days.length - active;
+    document.getElementById('periode-summary').textContent =
+      `${active} jour${active > 1 ? 's' : ''} actif${active > 1 ? 's' : ''} sur ${days.length}` + (cancelled ? ` (${cancelled} annulé${cancelled > 1 ? 's' : ''})` : '');
+  }
+
+  function renderHistorique() {
+    document.getElementById('historique-list').innerHTML = historique.slice().reverse().map(h => `
+      <li class="flex gap-3">
+        <div class="w-2 h-2 rounded-full bg-[#A63629] mt-1.5 flex-shrink-0"></div>
+        <div>
+          <p class="text-sm text-gray-800">${h.action}</p>
+          <p class="text-xs text-gray-400 mt-0.5">${h.auteur} · ${h.date}</p>
+        </div>
+      </li>
+    `).join('');
+  }
+
+  function addHistorique(action, auteur) {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    historique.push({ date: dateStr, auteur: auteur || 'Vous', action });
+    renderHistorique();
+  }
+
+  function saveHoraires() {
+    const card = document.getElementById('horaires-card');
+    const debut = document.getElementById('cd-heure-debut').value;
+    const fin = document.getElementById('cd-heure-fin').value;
+    const pause = document.getElementById('cd-pause').value;
+    addHistorique(`Horaires modifiés manuellement : ${debut} - ${fin} (pause ${pause} min).`);
+    card.classList.add('save-flash');
+    setTimeout(() => card.classList.remove('save-flash'), 1200);
+  }
+
+  // ===== Annulation =====
+  function openCancelModal() {
+    const select = document.getElementById('cancel-day-select');
+    const activeDays = days.filter(d => !d.cancelled);
+    if (activeDays.length === 0) { alert('Tous les jours de cette commande sont déjà annulés.'); return; }
+    select.innerHTML = activeDays.map(d => `<option value="${d.date}">${d.label}</option>`).join('');
+    document.querySelector('input[name="cancel-scope"][value="jour"]').checked = true;
+    updateCancelScope();
+    document.getElementById('cancel-backdrop').classList.remove('hidden');
+    document.getElementById('cancel-modal').classList.remove('hidden');
+  }
+
+  function closeCancelModal() {
+    document.getElementById('cancel-backdrop').classList.add('hidden');
+    document.getElementById('cancel-modal').classList.add('hidden');
+  }
+  document.getElementById('cancel-backdrop').addEventListener('click', closeCancelModal);
+
+  function updateCancelScope() {
+    const scope = document.querySelector('input[name="cancel-scope"]:checked').value;
+    document.getElementById('cancel-day-select').disabled = scope !== 'jour';
+    document.getElementById('cancel-day-select').classList.toggle('opacity-50', scope !== 'jour');
+  }
+
+  function confirmCancel() {
+    const scope = document.querySelector('input[name="cancel-scope"]:checked').value;
+
+    if (scope === 'totale') {
+      let count = 0;
+      days.forEach(d => {
+        if (!d.cancelled) { d.cancelled = true; d.info = 'Commande annulée intégralement.'; count++; }
+      });
+      statut = 'Annulée';
+      addHistorique(`Commande annulée intégralement (${count} jour${count > 1 ? 's' : ''} restant${count > 1 ? 's' : ''} concerné${count > 1 ? 's' : ''}).`);
+    } else {
+      const dateStr = document.getElementById('cancel-day-select').value;
+      const day = days.find(d => d.date === dateStr);
+      if (day) {
+        day.cancelled = true;
+        day.info = 'Annulé le ' + new Date().toLocaleDateString('fr-FR') + '.';
+        addHistorique(`Jour du ${day.label.replace(/^\w+\.\s*/, '')} annulé — commande raccourcie.`);
+      }
+      const stillActive = days.some(d => !d.cancelled);
+      if (!stillActive) {
+        statut = 'Annulée';
+        addHistorique('Tous les jours de la commande sont désormais annulés — commande automatiquement clôturée.');
+      }
+    }
+
+    renderStatutBadge();
+    renderJours();
+    closeCancelModal();
+  }
+
+  renderStatutBadge();
+  renderJours();
+  renderHistorique();
+</script>
+
+</body>
+</html>

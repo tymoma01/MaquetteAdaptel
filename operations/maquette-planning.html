@@ -71,7 +71,7 @@
           <span class="font-medium">Recherche dispo.</span>
         </div>
       </a>
-      <a class="block" href="#">
+      <a class="block" href="maquette-commandes.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
           <span class="font-medium">Commandes</span>
@@ -152,6 +152,21 @@
 
         <div class="w-px h-6 bg-gray-200 mx-1"></div>
 
+        <select id="planning-filter-agence" onchange="applyPlanningFilters()" class="h-9 rounded-lg border border-gray-200 bg-white px-2.5 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          <option value="">Toutes agences</option>
+          <option value="001">001</option>
+          <option value="002">002</option>
+          <option value="003">003</option>
+        </select>
+        <select id="planning-filter-secteur" onchange="applyPlanningFilters()" class="h-9 rounded-lg border border-gray-200 bg-white px-2.5 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          <option value="">Tous secteurs</option>
+          <option value="Restauration">Restauration</option>
+          <option value="Hébergement">Hébergement</option>
+          <option value="Housekeeping">Housekeeping</option>
+        </select>
+
+        <div class="w-px h-6 bg-gray-200 mx-1"></div>
+
         <div class="flex gap-2">
           <button id="btn-vue-jour" onclick="switchView('day')" class="px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white shadow">Vue jour</button>
           <button id="btn-vue-semaine" onclick="switchView('week')" class="px-3 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50">Vue semaine</button>
@@ -168,9 +183,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
           Nouvelle commande
         </button>
-        <button type="button" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 h-9 px-3.5 gap-2">
+        <button type="button" title="Actualiser les matchs" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 h-9 w-9">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
-          Actualiser les matchs
         </button>
         <button type="button" onclick="openBulkSendModal()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 h-9 px-3.5 gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
@@ -191,14 +205,7 @@
     <div class="p-4 space-y-3 max-w-[1750px] w-full mx-auto">
 
       <!-- FILTRES : masqués par défaut pour maximiser le nombre de lignes de planning affichées -->
-      <form id="planning-filters-form" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 bg-white p-4 rounded-xl border border-gray-200 shadow-sm" onsubmit="return false;">
-        <select class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-          <option>Toutes agences</option>
-          <option>001</option>
-          <option>002</option>
-          <option>003</option>
-        </select>
-
+      <form id="planning-filters-form" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 bg-white p-4 rounded-xl border border-gray-200 shadow-sm" onsubmit="return false;">
         <div>
           <input class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] placeholder:text-gray-400" placeholder="Nom du client..." type="text">
         </div>
@@ -229,18 +236,18 @@
           <button type="button" data-sort-field="client" onclick="sortPlanningRows('client')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Client &amp; Chantier <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
           <div>Horaires</div>
           <div>Qualification</div>
-          <button type="button" data-sort-field="motif" onclick="sortPlanningRows('motif')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Motif &amp; Remarques <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
-          <div>Fin de commande</div>
+          <button type="button" data-sort-field="motif" onclick="sortPlanningRows('motif')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Motif &amp; Commentaire <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
+          <div>Suite</div>
           <button type="button" data-sort-field="interimaire" onclick="sortPlanningRows('interimaire')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Intérimaire <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
           <div class="text-center">Envois</div>
           <button type="button" data-sort-field="statut" onclick="sortPlanningRows('statut')" class="flex items-center justify-end gap-1 w-full text-right hover:text-gray-800 transition-colors">Statut <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
-          <div>Commentaire équipe</div>
+          <div>Observation</div>
         </div>
 
         <div id="view-day-rows" class="divide-y divide-gray-200">
           <!-- LIGNE 1 -->
           <div onclick="openPanel('CMD-2609-01', 'Hôtel Le Meurice', 'Chef de rang', '11:00 - 19:00', '14,20 €/h', 'Remplacement maladie', 'Ven. 25 sept. (5j)', 'Besoin de qqn d\'autonome sur le rang 3.', 'Mme Sophie LAURENT', '01 44 58 10 10', 's.laurent@lemeurice.com', '001', 'Salle / Resto', 'À staffer')"
-               data-cmd="CMD-2609-01" data-client="Hôtel Le Meurice" data-chantier="Salle / Resto" data-motif="Remplacement maladie" data-taux="14.20" data-interimaire="" data-statut="À staffer"
+               data-cmd="CMD-2609-01" data-client="Hôtel Le Meurice" data-chantier="Salle / Resto" data-motif="Remplacement maladie" data-taux="14.20" data-interimaire="" data-statut="À staffer" data-agence="001" data-secteur="Restauration"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
               <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-01</span>
@@ -277,7 +284,7 @@
             </div>
             <div id="envois-cell-CMD-2609-01" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
+              <span id="statut-badge-CMD-2609-01" class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
               <textarea id="comment-input-CMD-2609-01" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Rappeler le client avant 17h pour confirmer l'accès.</textarea>
@@ -286,7 +293,7 @@
 
           <!-- LIGNE 2 -->
           <div onclick="openPanel('CMD-2609-02', 'Potel et Chabot Traiteur', 'Extra service', '18:00 - 01:00', '13,80 €/h', 'Accroissement temporaire', 'Lun. 21 sept. (1j)', 'Accès par le quai de déchargement obligatoire.', 'M. Thomas DUBOIS', '06 12 34 56 78', 't.dubois@potel.com', '002', 'Réception Hoche', 'Notification envoyée')"
-               data-cmd="CMD-2609-02" data-client="Potel et Chabot Traiteur" data-chantier="Réception Hoche" data-motif="Accroissement temporaire" data-taux="13.80" data-interimaire="Sofia MARTINS" data-statut="Notification envoyée"
+               data-cmd="CMD-2609-02" data-client="Potel et Chabot Traiteur" data-chantier="Réception Hoche" data-motif="Accroissement temporaire" data-taux="13.80" data-interimaire="Sofia MARTINS" data-statut="Notification envoyée" data-agence="002" data-secteur="Restauration"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-amber-400 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
               <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-02</span>
@@ -323,7 +330,7 @@
             </div>
             <div id="envois-cell-CMD-2609-02" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span class="inline-flex items-center justify-center rounded-full border border-amber-300 bg-amber-100 text-amber-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Notification envoyée</span>
+              <span id="statut-badge-CMD-2609-02" class="inline-flex items-center justify-center rounded-full border border-amber-300 bg-amber-100 text-amber-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Notification envoyée</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
               <textarea id="comment-input-CMD-2609-02" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
@@ -332,7 +339,7 @@
 
           <!-- LIGNE 3 -->
           <div onclick="openPanel('CMD-2609-03', 'Fouquet\'s Barrière', 'Commis de cuisine', '09:00 - 17:00', '13,10 €/h', 'Remplacement CP', 'Mar. 22 sept. (2j)', 'Tablier et veste de cuisine personnels requis.', 'Chef Marc VEYRAT', '01 40 69 60 00', 'mveyrat@fouquets.com', '001', 'Cuisine centrale', 'Validé')"
-               data-cmd="CMD-2609-03" data-client="Fouquet's Barrière" data-chantier="Cuisine centrale" data-motif="Remplacement CP" data-taux="13.10" data-interimaire="Mehdi KACI" data-statut="Validé"
+               data-cmd="CMD-2609-03" data-client="Fouquet's Barrière" data-chantier="Cuisine centrale" data-motif="Remplacement CP" data-taux="13.10" data-interimaire="Mehdi KACI" data-statut="Validé" data-agence="001" data-secteur="Restauration"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-green-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
               <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-03</span>
@@ -369,7 +376,7 @@
             </div>
             <div id="envois-cell-CMD-2609-03" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span class="inline-flex items-center justify-center rounded-full border border-green-300 bg-green-100 text-green-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Validé</span>
+              <span id="statut-badge-CMD-2609-03" class="inline-flex items-center justify-center rounded-full border border-green-300 bg-green-100 text-green-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Validé</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
               <textarea id="comment-input-CMD-2609-03" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
@@ -378,7 +385,7 @@
 
           <!-- LIGNE 4 -->
           <div onclick="openPanel('CMD-2609-04', 'Novotel Paris Est', 'Réceptionniste', '07:00 - 15:00', '12,90 €/h', 'Accroissement temporaire', 'Mer. 23 sept. (3j)', 'Anglais courant indispensable, accueil d\'une clientèle internationale.', 'Mme Isabelle ROCHE', '01 55 66 23 10', 'i.roche@novotel-est.com', '001', 'Réception', 'Best match à valider')"
-               data-cmd="CMD-2609-04" data-client="Novotel Paris Est" data-chantier="Réception" data-motif="Accroissement temporaire" data-taux="12.90" data-interimaire="Julie PETIT" data-statut="Best match à valider"
+               data-cmd="CMD-2609-04" data-client="Novotel Paris Est" data-chantier="Réception" data-motif="Accroissement temporaire" data-taux="12.90" data-interimaire="Julie PETIT" data-statut="Best match à valider" data-agence="001" data-secteur="Hébergement"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-blue-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
               <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-04</span>
@@ -407,15 +414,18 @@
             <div>
               <div id="assign-box-CMD-2609-04" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-04')" class="h-10 rounded-lg border border-blue-300 bg-blue-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-blue-100 hover:border-blue-400 transition-colors">
                 <div class="w-6 h-6 bg-blue-200 text-blue-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">JP</div>
-                <div class="min-w-0 leading-tight">
+                <div class="min-w-0 leading-tight flex-1">
                   <p class="text-xs font-bold text-gray-900 truncate">Julie PETIT</p>
-                  <p class="text-[10px] text-blue-700 font-semibold">Meilleure correspondance · <span class="underline">Voir candidats</span></p>
+                  <p class="text-[10px] text-blue-700 font-semibold">Best Match · <span class="underline">Voir candidats</span></p>
                 </div>
+                <button type="button" onclick="event.stopPropagation(); validateMatch('CMD-2609-04')" title="Valider ce profil" class="ml-auto flex-shrink-0 w-6 h-6 rounded-full bg-white border border-blue-300 text-blue-600 hover:bg-green-50 hover:border-green-400 hover:text-green-600 flex items-center justify-center transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M20 6 9 17l-5-5"></path></svg>
+                </button>
               </div>
             </div>
             <div id="envois-cell-CMD-2609-04" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span class="inline-flex items-center justify-center rounded-full border border-blue-300 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Best match à valider</span>
+              <span id="statut-badge-CMD-2609-04" class="inline-flex items-center justify-center rounded-full border border-blue-300 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Best match à valider</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
               <textarea id="comment-input-CMD-2609-04" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
@@ -424,7 +434,7 @@
 
           <!-- LIGNE 5 -->
           <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — commande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')"
-               data-cmd="CMD-2609-05" data-client="La Table du Marais" data-chantier="Bar à Vins" data-motif="Événement privé" data-taux="13.50" data-interimaire="Yanis MOKRANE" data-statut="Annulée"
+               data-cmd="CMD-2609-05" data-client="La Table du Marais" data-chantier="Bar à Vins" data-motif="Événement privé" data-taux="13.50" data-interimaire="Yanis MOKRANE" data-statut="Annulée" data-agence="002" data-secteur="Restauration"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-gray-300 opacity-60 hover:opacity-100 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
               <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-05</span>
@@ -461,7 +471,7 @@
             </div>
             <div id="envois-cell-CMD-2609-05" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span class="inline-flex items-center justify-center rounded-full border border-gray-300 bg-gray-200 text-gray-600 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Annulée</span>
+              <span id="statut-badge-CMD-2609-05" class="inline-flex items-center justify-center rounded-full border border-gray-300 bg-gray-200 text-gray-600 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Annulée</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
               <textarea id="comment-input-CMD-2609-05" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-500 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Client a annulé l'événement, rien à faire.</textarea>
@@ -470,7 +480,7 @@
 
           <!-- LIGNE 6 : client à suivre -->
           <div onclick="openPanel('CMD-2609-06', 'Le Grand Hôtel Parisien', 'Bagagiste', '06:00 - 14:00', '12,60 €/h', 'Accroissement temporaire', 'Jeu. 24 sept. (2j)', 'Client sensible : exiger tenue complète et ponctualité stricte.', 'M. Julien MOREAU', '01 47 20 30 40', 'j.moreau@grandhotelparisien.fr', '003', 'Étage Prestige', 'À staffer')"
-               data-cmd="CMD-2609-06" data-client="Le Grand Hôtel Parisien" data-chantier="Étage Prestige" data-motif="Accroissement temporaire" data-taux="12.60" data-interimaire="" data-statut="À staffer"
+               data-cmd="CMD-2609-06" data-client="Le Grand Hôtel Parisien" data-chantier="Étage Prestige" data-motif="Accroissement temporaire" data-taux="12.60" data-interimaire="" data-statut="À staffer" data-agence="003" data-secteur="Hébergement"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
               <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-06</span>
@@ -517,7 +527,7 @@
             </div>
             <div id="envois-cell-CMD-2609-06" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
+              <span id="statut-badge-CMD-2609-06" class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
               <textarea id="comment-input-CMD-2609-06" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Client sensible : confirmer la tenue avec l'intérimaire avant le début.</textarea>
@@ -526,7 +536,7 @@
 
           <!-- LIGNE 7 : exemple de contrat établi -->
           <div onclick="openPanel('CMD-2609-07', 'Hôtel Prince de Galles', 'Réceptionniste', '08:00 - 16:00', '14,50 €/h', 'Accroissement temporaire', 'Sam. 26 sept.', 'Contrat transmis et signé, prise de poste prévue lundi.', 'M. Antoine REY', '01 53 23 77 00', 'a.rey@princedegalles.com', '001', 'Réception VIP', 'Contrat établi')"
-               data-cmd="CMD-2609-07" data-client="Hôtel Prince de Galles" data-chantier="Réception VIP" data-motif="Accroissement temporaire" data-taux="14.50" data-interimaire="Léa ROUSSEL" data-statut="Contrat établi"
+               data-cmd="CMD-2609-07" data-client="Hôtel Prince de Galles" data-chantier="Réception VIP" data-motif="Accroissement temporaire" data-taux="14.50" data-interimaire="Léa ROUSSEL" data-statut="Contrat établi" data-agence="001" data-secteur="Hébergement"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-purple-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
               <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-07</span>
@@ -563,7 +573,7 @@
             </div>
             <div id="envois-cell-CMD-2609-07" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span class="inline-flex items-center justify-center rounded-full border border-purple-300 bg-purple-100 text-purple-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Contrat établi</span>
+              <span id="statut-badge-CMD-2609-07" class="inline-flex items-center justify-center rounded-full border border-purple-300 bg-purple-100 text-purple-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Contrat établi</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
               <textarea id="comment-input-CMD-2609-07" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
@@ -804,12 +814,33 @@
       </div>
     </div>
 
+    <!-- ACTIONS : valider le profil positionné, annuler la commande (tout ou un seul jour) -->
+    <div class="rounded-xl border border-gray-200 p-4 space-y-2">
+      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Actions</h3>
+      <div id="p-validate-wrap" class="hidden">
+        <button type="button" onclick="validateMatch(currentPanelCmd)" class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-green-600 to-green-700 text-white shadow hover:opacity-95 h-10 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M20 6 9 17l-5-5"></path></svg>
+          Valider ce profil
+        </button>
+      </div>
+      <button type="button" id="p-cancel-btn" onclick="openCancelModal(currentPanelCmd)" class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold border border-red-300 bg-white text-red-600 hover:bg-red-50 h-10 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
+        Annuler la commande
+      </button>
+    </div>
+
     <div class="rounded-xl border border-gray-200 p-4 space-y-2">
       <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Détails de la commande</h3>
       <div class="flex justify-between text-sm"><span class="text-gray-500">Chantier :</span><span id="p-chantier" class="font-bold text-gray-900">Salle / Resto</span></div>
       <div class="flex justify-between text-sm"><span class="text-gray-500">Justification :</span><span id="p-justif" class="font-semibold text-gray-900">Remplacement maladie</span></div>
-      <div class="flex justify-between text-sm"><span class="text-gray-500">Fin de commande :</span><span id="p-fin" class="font-semibold text-gray-900">Ven. 25 sept. (5j)</span></div>
+      <div class="flex justify-between text-sm"><span class="text-gray-500">Suite :</span><span id="p-fin" class="font-semibold text-gray-900">Ven. 25 sept. (5j)</span></div>
       <div class="flex justify-between text-sm"><span class="text-gray-500">Taux horaire :</span><span id="p-taux" class="font-semibold text-gray-900">14,20 €/h</span></div>
+    </div>
+
+    <!-- JOURS DE LA COMMANDE : visible pour les commandes sur plusieurs jours -->
+    <div id="p-jours-wrap" class="rounded-xl border border-gray-200 p-4 hidden">
+      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Jours de la commande</h3>
+      <div id="p-jours-list" class="flex flex-wrap gap-1.5"></div>
     </div>
 
     <div class="rounded-xl border border-gray-200 p-4">
@@ -828,6 +859,43 @@
     </div>
   </div>
 </aside>
+
+<!-- BACKDROP ANNULATION COMMANDE -->
+<div id="cancel-commande-backdrop" class="fixed inset-0 bg-gray-900/30 z-[80] hidden"></div>
+<div id="cancel-commande-modal" class="fixed inset-0 z-[90] hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-md">
+    <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3">
+      <div>
+        <h3 class="font-bold text-gray-900 text-lg">Annuler la commande</h3>
+        <p id="cancel-modal-recap" class="text-xs text-gray-500 mt-0.5">—</p>
+      </div>
+      <button type="button" onclick="closeCancelModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    <div class="p-5 space-y-3">
+      <label class="flex items-start gap-3 p-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50">
+        <input type="radio" name="cancel-scope" value="jour" checked onchange="updateCancelScope()" class="mt-1 w-4 h-4 text-[#A63629]">
+        <div class="flex-1">
+          <p class="text-sm font-semibold text-gray-900">Annuler un jour précis</p>
+          <p class="text-xs text-gray-500 mt-0.5">La commande est raccourcie : les autres jours restent actifs. Le jour annulé reste visible, marqué comme annulé.</p>
+          <select id="cancel-day-select" class="mt-2 h-9 w-full rounded-lg border border-gray-200 bg-white px-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]"></select>
+        </div>
+      </label>
+      <label class="flex items-start gap-3 p-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50">
+        <input type="radio" name="cancel-scope" value="totale" onchange="updateCancelScope()" class="mt-1 w-4 h-4 text-[#A63629]">
+        <div class="flex-1">
+          <p class="text-sm font-semibold text-gray-900">Annuler toute la commande</p>
+          <p class="text-xs text-red-600 mt-0.5">Tous les jours restants seront annulés, y compris ceux déjà attribués.</p>
+        </div>
+      </label>
+    </div>
+    <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+      <button type="button" onclick="closeCancelModal()" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-100 transition-colors">Fermer</button>
+      <button type="button" onclick="confirmCancelCommande()" class="px-5 py-2 rounded-lg bg-red-600 text-white text-sm font-semibold shadow hover:bg-red-700 transition-colors">Confirmer l'annulation</button>
+    </div>
+  </div>
+</div>
 
 <!-- BACKDROP CANDIDATS -->
 <div id="candidates-backdrop" class="fixed inset-0 bg-gray-900/30 z-[60] hidden flex items-center justify-center p-4"></div>
@@ -1045,6 +1113,17 @@
     'CMD-2609-07': { label: 'Sam. 26 sept.', date: '2026-09-26' }
   };
 
+  // Date de début de chaque commande (avec commandeFin, permet de reconstituer la liste des jours pour l'annulation)
+  const commandeDebut = {
+    'CMD-2609-01': '2026-09-21',
+    'CMD-2609-02': '2026-09-21',
+    'CMD-2609-03': '2026-09-21',
+    'CMD-2609-04': '2026-09-21',
+    'CMD-2609-05': '2026-09-21',
+    'CMD-2609-06': '2026-09-23',
+    'CMD-2609-07': '2026-09-26'
+  };
+
   // Jours restants APRÈS la date sélectionnée dans le bandeau (considérée comme "aujourd'hui") : le jour même n'est pas compté.
   // Une mission d'un seul jour (qui se termine aujourd'hui) donne donc 0, auquel cas on n'affiche rien.
   function joursRestants(dateFin) {
@@ -1075,7 +1154,9 @@
     Object.keys(commandeFin).forEach(renderFinCell);
   }
 
+  let currentPanelCmd = null;
   function openPanel(cmd, client, poste, heure, taux, justif, fin, commentaire, contactNom, contactTel, contactEmail, agence, chantier, statut) {
+    currentPanelCmd = cmd;
     document.getElementById('p-cmd').textContent = cmd;
     document.getElementById('p-client').textContent = client;
     document.getElementById('p-poste').textContent = poste;
@@ -1113,6 +1194,10 @@
     }
     badge.className = badgeClasses;
 
+    document.getElementById('p-validate-wrap').classList.toggle('hidden', statut !== 'Best match à valider');
+    document.getElementById('p-cancel-btn').classList.toggle('hidden', statut === 'Annulée');
+    renderPanelJours(cmd);
+
     backdrop.classList.remove('hidden');
     setTimeout(() => { sidePanel.classList.remove('translate-x-full'); }, 10);
   }
@@ -1120,6 +1205,205 @@
   function closePanel() {
     sidePanel.classList.add('translate-x-full');
     setTimeout(() => { backdrop.classList.add('hidden'); }, 300);
+  }
+
+  // ===== Validation d'un profil positionné (ex : Best match à valider -> Validé) =====
+  function initialsFromName(name) {
+    return name.split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  }
+
+  function validateMatch(cmd) {
+    if (!cmd) return;
+    const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
+    if (!row || row.dataset.statut !== 'Best match à valider') return;
+    const name = row.dataset.interimaire;
+    // La validation du best match par les Opérations envoie la notification à l'intérimaire ;
+    // le statut ne passe à "Validé" que lorsque l'intérimaire l'accepte lui-même depuis son espace.
+    row.dataset.statut = 'Notification envoyée';
+
+    const assignBox = document.getElementById('assign-box-' + cmd);
+    if (assignBox) {
+      assignBox.className = 'h-10 rounded-lg border border-amber-300 bg-amber-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-amber-100 hover:border-amber-400 transition-colors';
+      assignBox.innerHTML = `
+        <div class="w-6 h-6 bg-amber-200 text-amber-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">${initialsFromName(name)}</div>
+        <div class="min-w-0 leading-tight">
+          <p class="text-xs font-bold text-gray-900 truncate">${name}</p>
+          <p class="text-[10px] text-amber-800 font-medium">Notification envoyée · <span class="underline">Voir candidats</span></p>
+        </div>
+      `;
+    }
+
+    const statutBadge = document.getElementById('statut-badge-' + cmd);
+    if (statutBadge) {
+      statutBadge.textContent = 'Notification envoyée';
+      statutBadge.className = 'inline-flex items-center justify-center rounded-full border border-amber-300 bg-amber-100 text-amber-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full';
+    }
+
+    if (currentPanelCmd === cmd) {
+      const panelBadge = document.getElementById('p-statut-badge');
+      panelBadge.textContent = 'Notification envoyée';
+      panelBadge.className = 'inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-1 whitespace-nowrap border bg-amber-100 text-amber-900 border-amber-300';
+      document.getElementById('p-validate-wrap').classList.add('hidden');
+    }
+
+    sortRowsByStatutPipeline();
+    showToast(`Notification envoyée à ${name}`);
+  }
+
+  // ===== Annulation d'une commande : toute la commande, ou un seul jour si elle en compte plusieurs =====
+  const commandeJoursState = {};
+
+  function frenchDayLabel(dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    const dayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+    const monthNames = ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'];
+    return `${dayNames[d.getDay()]}. ${d.getDate()} ${monthNames[d.getMonth()]}.`;
+  }
+
+  // toISOString() convertit en UTC : dans un fuseau en avance sur UTC (ex. France), minuit local
+  // "retombe" sur la veille en UTC et décale toutes les dates d'un jour. On formate donc en local.
+  function toLocalISO(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  function buildDaysForCommande(cmd) {
+    const debut = commandeDebut[cmd];
+    const finInfo = commandeFin[cmd];
+    if (!debut || !finInfo) return [];
+    const days = [];
+    let cur = new Date(debut + 'T00:00:00');
+    const end = new Date(finInfo.date + 'T00:00:00');
+    while (cur <= end) {
+      const iso = toLocalISO(cur);
+      days.push({ date: iso, label: frenchDayLabel(iso), cancelled: false });
+      cur.setDate(cur.getDate() + 1);
+    }
+    // CMD-2609-05 est annulée dès l'ouverture de la page : son unique jour l'est donc aussi.
+    if (cmd === 'CMD-2609-05') days.forEach(d => d.cancelled = true);
+    return days;
+  }
+
+  function getDays(cmd) {
+    if (!commandeJoursState[cmd]) commandeJoursState[cmd] = buildDaysForCommande(cmd);
+    return commandeJoursState[cmd];
+  }
+
+  function renderPanelJours(cmd) {
+    const wrap = document.getElementById('p-jours-wrap');
+    const days = getDays(cmd);
+    if (!days.length) { wrap.classList.add('hidden'); return; }
+    wrap.classList.remove('hidden');
+    document.getElementById('p-jours-list').innerHTML = days.map(d => d.cancelled
+      ? `<span title="Jour annulé" class="inline-flex items-center gap-1 rounded-md border border-gray-200 bg-gray-100 text-gray-400 text-[11px] font-semibold px-2 py-1 line-through cursor-help">${d.label}<span class="no-underline inline-flex items-center rounded-full bg-gray-300 text-gray-600 text-[8px] font-bold px-1 py-0.5 ml-1">Annulé</span></span>`
+      : `<span class="inline-flex items-center rounded-md border border-green-200 bg-green-50 text-green-800 text-[11px] font-semibold px-2 py-1">${d.label}</span>`
+    ).join('');
+  }
+
+  function recomputeCommandeFin(cmd) {
+    const activeDays = getDays(cmd).filter(d => !d.cancelled);
+    if (activeDays.length === 0) return;
+    const lastActive = activeDays[activeDays.length - 1];
+    commandeFin[cmd] = { label: lastActive.label, date: lastActive.date };
+    renderFinCell(cmd);
+  }
+
+  let cancelModalCmd = null;
+
+  function openCancelModal(cmd) {
+    if (!cmd) return;
+    const activeDays = getDays(cmd).filter(d => !d.cancelled);
+    if (activeDays.length === 0) { showToast('Cette commande est déjà entièrement annulée.'); return; }
+    cancelModalCmd = cmd;
+    document.getElementById('cancel-modal-recap').textContent = cmd + ' · ' + (document.querySelector(`.planning-row[data-cmd="${cmd}"]`)?.dataset.client || '');
+    document.getElementById('cancel-day-select').innerHTML = activeDays.map(d => `<option value="${d.date}">${d.label}</option>`).join('');
+    document.querySelector('input[name="cancel-scope"][value="jour"]').checked = true;
+    updateCancelScope();
+    document.getElementById('cancel-commande-backdrop').classList.remove('hidden');
+    document.getElementById('cancel-commande-modal').classList.remove('hidden');
+  }
+
+  function closeCancelModal() {
+    document.getElementById('cancel-commande-backdrop').classList.add('hidden');
+    document.getElementById('cancel-commande-modal').classList.add('hidden');
+    cancelModalCmd = null;
+  }
+  document.getElementById('cancel-commande-backdrop').addEventListener('click', closeCancelModal);
+
+  function updateCancelScope() {
+    const scope = document.querySelector('input[name="cancel-scope"]:checked').value;
+    const select = document.getElementById('cancel-day-select');
+    select.disabled = scope !== 'jour';
+    select.classList.toggle('opacity-50', scope !== 'jour');
+  }
+
+  function setCommandeAnnulee(cmd) {
+    const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
+    if (!row) return;
+    row.dataset.statut = 'Annulée';
+
+    const statutBadge = document.getElementById('statut-badge-' + cmd);
+    if (statutBadge) {
+      statutBadge.textContent = 'Annulée';
+      statutBadge.className = 'inline-flex items-center justify-center rounded-full border border-gray-300 bg-gray-200 text-gray-600 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full';
+    }
+
+    const assignBox = document.getElementById('assign-box-' + cmd);
+    if (assignBox) {
+      const name = row.dataset.interimaire;
+      assignBox.removeAttribute('onclick');
+      assignBox.className = 'h-10 rounded-lg border border-dashed border-gray-300 bg-gray-50 px-2.5 flex items-center gap-2';
+      assignBox.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
+        <div class="min-w-0 leading-tight">
+          <p class="text-xs font-bold text-gray-500 truncate">${name || 'Aucun attribué'}</p>
+          <p class="text-[10px] text-gray-400 font-medium">Commande annulée</p>
+        </div>
+      `;
+    }
+
+    renderEnvoisCell(cmd);
+
+    if (currentPanelCmd === cmd) {
+      const panelBadge = document.getElementById('p-statut-badge');
+      panelBadge.textContent = 'Annulée';
+      panelBadge.className = 'inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-1 whitespace-nowrap border bg-gray-200 text-gray-600 border-gray-300';
+      document.getElementById('p-validate-wrap').classList.add('hidden');
+      document.getElementById('p-cancel-btn').classList.add('hidden');
+      renderPanelJours(cmd);
+    }
+
+    sortRowsByStatutPipeline();
+  }
+
+  function confirmCancelCommande() {
+    const cmd = cancelModalCmd;
+    if (!cmd) return;
+    const scope = document.querySelector('input[name="cancel-scope"]:checked').value;
+    const days = getDays(cmd);
+
+    if (scope === 'totale') {
+      days.forEach(d => { d.cancelled = true; });
+      setCommandeAnnulee(cmd);
+      showToast(`Commande ${cmd} annulée intégralement.`);
+    } else {
+      const dateStr = document.getElementById('cancel-day-select').value;
+      const day = days.find(d => d.date === dateStr);
+      if (day) day.cancelled = true;
+      const stillActive = days.some(d => !d.cancelled);
+      if (stillActive) {
+        recomputeCommandeFin(cmd);
+        if (currentPanelCmd === cmd) renderPanelJours(cmd);
+        showToast(`Jour du ${day ? day.label : ''} annulé — commande raccourcie.`);
+      } else {
+        setCommandeAnnulee(cmd);
+        showToast(`Commande ${cmd} annulée (dernier jour actif annulé).`);
+      }
+    }
+
+    closeCancelModal();
   }
 
   closeBtn.addEventListener('click', closePanel);
@@ -1612,6 +1896,19 @@
   renderAllFinCells();
   document.getElementById('planning-date-input').addEventListener('change', renderAllFinCells);
 
+  // ===== Filtres Agence / Secteur : toujours visibles dans le bandeau supérieur =====
+  const QUALIF_SECTEUR = { '28': 'Restauration', '12': 'Restauration', '01': 'Restauration', '19': 'Restauration', '34': 'Hébergement', '07': 'Hébergement' };
+
+  function applyPlanningFilters() {
+    const agence = document.getElementById('planning-filter-agence').value;
+    const secteur = document.getElementById('planning-filter-secteur').value;
+    document.querySelectorAll('.planning-row').forEach(row => {
+      const matchAgence = !agence || row.dataset.agence === agence;
+      const matchSecteur = !secteur || row.dataset.secteur === secteur;
+      row.classList.toggle('hidden', !(matchAgence && matchSecteur));
+    });
+  }
+
   function switchView(view) {
     const viewDay = document.getElementById('view-day');
     const viewWeek = document.getElementById('view-week');
@@ -1736,6 +2033,8 @@
     row.dataset.taux = taux;
     row.dataset.interimaire = '';
     row.dataset.statut = 'À staffer';
+    row.dataset.agence = agence;
+    row.dataset.secteur = QUALIF_SECTEUR[qualifCode] || 'Restauration';
     commandeContacts[cmd] = { contactNom, contactEmail };
     envoisState[cmd] = { sms: null, mail: null };
     row.className = 'planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150';
@@ -1775,7 +2074,7 @@
       </div>
       <div id="envois-cell-${cmd}" class="pt-0.5 flex justify-center"></div>
       <div class="pt-0.5 flex justify-end min-w-0">
-        <span class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
+        <span id="statut-badge-${cmd}" class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
       </div>
       <div class="pt-0.5" onclick="event.stopPropagation()">
         <textarea id="comment-input-${cmd}" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
@@ -1785,6 +2084,7 @@
     const container = document.getElementById('view-day-rows');
     container.insertBefore(row, container.firstChild);
     renderEnvoisCell(cmd);
+    applyPlanningFilters();
     closeCreateCommandeModal();
   }
 </script>

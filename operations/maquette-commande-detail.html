@@ -157,6 +157,21 @@
         </button>
       </div>
 
+      <!-- DEMANDE D'ANNULATION EN ATTENTE -->
+      <div id="demande-annulation-banner" class="hidden rounded-xl border-2 border-amber-300 bg-amber-50 p-4 flex items-start justify-between gap-4 flex-wrap">
+        <div class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+          <div>
+            <p class="text-sm font-semibold text-amber-900">Demande d'annulation du client — <span id="demande-annulation-jour">Jeu. 24 sept.</span></p>
+            <p class="text-xs text-amber-800 mt-0.5">Motif : imprévu côté client. Reçue le 23/09/2026 à 18:20. À traiter avant le début de la mission.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <button type="button" onclick="refuserDemandeAnnulation()" class="inline-flex items-center justify-center rounded-lg text-xs font-semibold border border-amber-300 bg-white text-amber-900 shadow-sm hover:bg-amber-100 h-9 px-3">Refuser la demande</button>
+          <button type="button" onclick="confirmerDemandeAnnulation()" class="inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-red-600 text-white shadow hover:bg-red-700 h-9 px-3">Confirmer l'annulation de ce jour</button>
+        </div>
+      </div>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         <!-- INFOS GENERALES -->
@@ -460,12 +475,50 @@
 
     renderStatutBadge();
     renderJours();
+    renderDemandeAnnulationBanner();
     closeCancelModal();
+  }
+
+  // ===== Demande d'annulation client en attente de traitement =====
+  let demandeAnnulationDay = '2026-09-24';
+
+  function renderDemandeAnnulationBanner() {
+    const banner = document.getElementById('demande-annulation-banner');
+    const day = demandeAnnulationDay ? days.find(d => d.date === demandeAnnulationDay) : null;
+    if (!day || day.cancelled) { banner.classList.add('hidden'); return; }
+    document.getElementById('demande-annulation-jour').textContent = day.label;
+    banner.classList.remove('hidden');
+  }
+
+  function confirmerDemandeAnnulation() {
+    const day = days.find(d => d.date === demandeAnnulationDay);
+    if (day) {
+      day.cancelled = true;
+      day.info = 'Annulé suite à la demande du client du 23/09/2026.';
+      addHistorique(`Jour du ${day.label.replace(/^\w+\.\s*/, '')} annulé suite à la demande d'annulation du client.`);
+    }
+    const stillActive = days.some(d => !d.cancelled);
+    if (!stillActive) {
+      statut = 'Annulée';
+      addHistorique('Tous les jours de la commande sont désormais annulés — commande automatiquement clôturée.');
+    }
+    renderStatutBadge();
+    renderJours();
+    demandeAnnulationDay = null;
+    renderDemandeAnnulationBanner();
+  }
+
+  function refuserDemandeAnnulation() {
+    const day = days.find(d => d.date === demandeAnnulationDay);
+    addHistorique(`Demande d'annulation du client refusée — ${day ? day.label.replace(/^\w+\.\s*/, '') : 'jour'} maintenu au planning.`);
+    demandeAnnulationDay = null;
+    renderDemandeAnnulationBanner();
   }
 
   renderStatutBadge();
   renderJours();
   renderHistorique();
+  renderDemandeAnnulationBanner();
 </script>
 
 </body>

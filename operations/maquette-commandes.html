@@ -317,7 +317,7 @@
 
         <!-- TABLEAU -->
         <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-x-auto">
-          <div class="hidden lg:grid grid-cols-[110px_260px_190px_160px_190px_130px_170px_150px] items-center gap-3 px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider bg-gray-50 border-b border-gray-200">
+          <div class="hidden lg:grid grid-cols-[110px_260px_150px_160px_120px_90px_170px_150px] items-center gap-3 px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider bg-gray-50 border-b border-gray-200">
             <div>Commande</div>
             <div>Client &amp; chantier</div>
             <div>Qualification</div>
@@ -512,7 +512,7 @@
       : `<span class="text-sm text-gray-700">${c.interimaires}</span>`;
 
     return `
-      <div onclick="goToDetail('${c.cmd}')" class="commande-row grid grid-cols-1 lg:grid-cols-[110px_260px_190px_160px_190px_130px_170px_150px] items-center gap-3 px-5 py-4 border-l-4 ${c.border} ${pulse} hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
+      <div onclick="goToDetail('${c.cmd}')" class="commande-row grid grid-cols-1 lg:grid-cols-[110px_260px_150px_160px_120px_90px_170px_150px] items-center gap-3 px-5 py-4 border-l-4 ${c.border} ${pulse} hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
         <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block w-fit">${c.cmd}</span>
         <div class="min-w-0">
           <p class="text-sm font-bold text-gray-900 truncate">${c.client}</p>

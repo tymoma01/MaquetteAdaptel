@@ -65,12 +65,20 @@
           </div>
         </div>
       </a>
-      <a class="block" href="client-qualifications.html">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m9 11 3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-          <span class="font-medium">Qualifications</span>
+      <div>
+        <button type="button" onclick="toggleNavParametres()" class="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <span class="font-medium">Paramètres</span>
+          </div>
+          <svg id="nav-parametres-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+        </button>
+        <div id="nav-parametres-submenu" class="hidden mt-1.5 ml-4 space-y-1 border-l-2 border-gray-200 pl-4">
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-qualifications.html">Qualifications</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-utilisateurs.html">Utilisateurs</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-roles.html">Rôles</a>
         </div>
-      </a>
+      </div>
     </nav>
     <div class="p-4 border-t border-gray-200">
       <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
@@ -79,6 +87,13 @@
       </button>
     </div>
   </aside>
+  <script>
+    function toggleNavParametres() {
+      document.getElementById('nav-parametres-submenu').classList.toggle('hidden');
+      document.getElementById('nav-parametres-chevron').classList.toggle('rotate-180');
+    }
+  </script>
+
 
   <!-- MAIN AREA -->
   <main class="flex-1 overflow-auto flex flex-col min-w-0">
@@ -316,15 +331,15 @@
 
   // ---------- Data ----------
   const COMMANDES = [
-    { id: "CMD-1042", q: "FLEXI HOTE/HOTESSE", service: "Hébergement", date: "24/09/2026", horaire: "15h–23h", statut: "astaffer", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 14.5, lot: "LOT-118" },
-    { id: "CMD-1043", q: "FLEXI HOTE/HOTESSE", service: "Hébergement", date: "25/09/2026", horaire: "15h–23h", statut: "astaffer", capacite: 1, pourvus: 0, enAttente: 1, refuses: 0, taux: 14.5, lot: "LOT-118" },
-    { id: "CMD-1044", q: "FLEXI BANQUET", service: "Restauration", date: "26/09/2026", horaire: "18h–02h", statut: "astaffer", capacite: 2, pourvus: 0, enAttente: 0, refuses: 1, taux: 15.2, lot: null },
-    { id: "CMD-1039", q: "FLEXI HOUSEKEEPING", service: "Housekeeping", date: "23/09/2026", horaire: "7h–15h", statut: "encours", capacite: 2, pourvus: 2, enAttente: 0, refuses: 0, taux: 13.8, lot: null, interimaires: ["Léa Richard", "Sofia Nguyen"] },
-    { id: "CMD-1040", q: "FLEXI BANQUET", service: "Restauration", date: "23/09/2026", horaire: "18h–02h", statut: "encours", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 15.2, lot: null, interimaires: ["Marco De Luca"], annulationDemandee: true, annulationDate: "22/09/2026 14:32" },
-    { id: "CMD-1030", q: "FLEXI HOTE/HOTESSE", service: "Hébergement", date: "22/09/2026", horaire: "7h–15h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, interimaires: ["Anna Pizzol"], evaluee: true, note: 5 },
-    { id: "CMD-1029", q: "FLEXI HOTE/HOTESSE", service: "Hébergement", date: "21/09/2026", horaire: "7h–15h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, interimaires: ["Anna Pizzol"], evaluee: false },
-    { id: "CMD-1021", q: "FLEXI SOUS-CHEF", service: "Restauration", date: "19/09/2026", horaire: "9h–17h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 16.0, lot: null, interimaires: ["Julien Martin"], evaluee: true, note: 4 },
-    { id: "CMD-1018", q: "FLEXI BAGAGERIE", service: "Hébergement", date: "20/09/2026", horaire: "7h–15h", statut: "annulee", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 13.5, lot: null }
+    { id: "CMD-1042", q: "Réceptionniste", service: "Hébergement", date: "24/09/2026", horaire: "15h–23h", statut: "astaffer", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 14.5, lot: "LOT-118" },
+    { id: "CMD-1043", q: "Réceptionniste", service: "Hébergement", date: "25/09/2026", horaire: "15h–23h", statut: "astaffer", capacite: 1, pourvus: 0, enAttente: 1, refuses: 0, taux: 14.5, lot: "LOT-118" },
+    { id: "CMD-1044", q: "Chef de rang", service: "Restauration", date: "26/09/2026", horaire: "18h–02h", statut: "astaffer", capacite: 2, pourvus: 0, enAttente: 0, refuses: 1, taux: 15.2, lot: null },
+    { id: "CMD-1039", q: "Femme de chambre", service: "Housekeeping", date: "23/09/2026", horaire: "7h–15h", statut: "encours", capacite: 2, pourvus: 2, enAttente: 0, refuses: 0, taux: 13.8, lot: null, interimaires: ["Léa Richard", "Sofia Nguyen"] },
+    { id: "CMD-1040", q: "Chef de rang", service: "Restauration", date: "23/09/2026", horaire: "18h–02h", statut: "encours", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 15.2, lot: null, interimaires: ["Marco De Luca"], annulationDemandee: true, annulationDate: "22/09/2026 14:32" },
+    { id: "CMD-1030", q: "Réceptionniste", service: "Hébergement", date: "22/09/2026", horaire: "7h–15h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, interimaires: ["Anna Pizzol"], evaluee: true, note: 5 },
+    { id: "CMD-1029", q: "Réceptionniste", service: "Hébergement", date: "21/09/2026", horaire: "7h–15h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, interimaires: ["Anna Pizzol"], evaluee: false },
+    { id: "CMD-1021", q: "Commis de cuisine", service: "Restauration", date: "19/09/2026", horaire: "9h–17h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 16.0, lot: null, interimaires: ["Julien Martin"], evaluee: true, note: 4 },
+    { id: "CMD-1018", q: "Bagagiste", service: "Hébergement", date: "20/09/2026", horaire: "7h–15h", statut: "annulee", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 13.5, lot: null }
   ];
 
   const STATUT_META = {
@@ -395,41 +410,39 @@
     "FLEXI HOTE/HOTESSE": {
       service: "Hébergement",
       qualifications: {
-        "Hôte / Hôtesse d'accueil": { debut: "07:00", fin: "15:00", pause: 30, taux: 14.5 },
-        "Réceptionniste":           { debut: "07:00", fin: "15:00", pause: 30, taux: 15.0 },
-        "Concierge":                { debut: "07:00", fin: "15:00", pause: 30, taux: 15.5 }
+        "Réceptionniste":    { debut: "07:00", fin: "15:00", pause: 30, taux: 13.5 },
+        "Hôtesse d'accueil": { debut: "07:00", fin: "15:00", pause: 30, taux: 14.0 }
       }
     },
     "FLEXI BAGAGERIE": {
       service: "Hébergement",
       qualifications: {
-        "Bagagiste": { debut: "07:00", fin: "15:00", pause: 30, taux: 13.5 },
-        "Voiturier":  { debut: "07:00", fin: "15:00", pause: 30, taux: 14.0 }
+        "Bagagiste": { debut: "06:00", fin: "14:00", pause: 30, taux: 12.6 }
       }
     },
     "FLEXI HOUSEKEEPING": {
       service: "Housekeeping",
       qualifications: {
-        "Femme / Valet de chambre": { debut: "09:00", fin: "17:00", pause: 30, taux: 13.8 },
-        "Gouvernante":               { debut: "09:00", fin: "17:00", pause: 30, taux: 15.0 },
-        "Lingère":                   { debut: "09:00", fin: "17:00", pause: 30, taux: 13.5 }
+        "Femme de chambre": { debut: "09:00", fin: "17:00", pause: 30, taux: 13.0 }
       }
     },
     "FLEXI BANQUET": {
       service: "Restauration",
       qualifications: {
-        "Chef de rang":     { debut: "18:00", fin: "02:00", pause: 20, taux: 15.2 },
-        "Commis de salle":  { debut: "18:00", fin: "02:00", pause: 20, taux: 13.9 },
-        "Maître d'hôtel":   { debut: "18:00", fin: "02:00", pause: 20, taux: 17.0 },
-        "Sommelier":        { debut: "18:00", fin: "02:00", pause: 20, taux: 16.5 }
+        "Chef de rang":   { debut: "11:00", fin: "19:00", pause: 30, taux: 14.2 },
+        "Maître d'hôtel": { debut: "18:00", fin: "02:00", pause: 20, taux: 17.0 },
+        "Serveuse":       { debut: "18:00", fin: "02:00", pause: 20, taux: 13.9 },
+        "Sommelière":     { debut: "18:00", fin: "02:00", pause: 20, taux: 16.5 },
+        "Barman":         { debut: "18:00", fin: "02:00", pause: 20, taux: 15.0 }
       }
     },
     "FLEXI SOUS-CHEF": {
       service: "Restauration",
       qualifications: {
-        "Sous-chef":         { debut: "09:00", fin: "17:00", pause: 45, taux: 16.0 },
-        "Chef de partie":    { debut: "09:00", fin: "17:00", pause: 45, taux: 15.5 },
-        "Commis de cuisine": { debut: "09:00", fin: "17:00", pause: 45, taux: 13.5 },
+        "Cuisinier":         { debut: "09:00", fin: "17:00", pause: 45, taux: 14.5 },
+        "Chef cuisinier":    { debut: "09:00", fin: "17:00", pause: 45, taux: 18.0 },
+        "Commis de cuisine": { debut: "09:00", fin: "17:00", pause: 45, taux: 13.1 },
+        "Pâtissière":        { debut: "09:00", fin: "17:00", pause: 45, taux: 15.0 },
         "Plongeur":          { debut: "09:00", fin: "17:00", pause: 45, taux: 12.8 }
       }
     }

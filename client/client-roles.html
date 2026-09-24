@@ -3,15 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Adaptel Client - Intérimaires</title>
+<title>Adaptel Client - Rôles</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root { color-scheme: light; }
   body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
   .chat-panel { transition: transform .2s ease, opacity .2s ease; }
-  .fav-btn.is-fav svg { fill: #eda100; stroke: #eda100; }
-  .interim-card { transition: box-shadow .15s ease, transform .15s ease; }
-  .interim-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,.08); transform: translateY(-1px); }
+  .role-card { transition: box-shadow .12s ease; }
+  .role-card:hover { box-shadow: 0 6px 16px rgba(0,0,0,.07); }
 </style>
 </head>
 <body class="antialiased bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen text-gray-900">
@@ -38,7 +37,7 @@
         </div>
       </a>
       <a class="block" href="client-interimaires.html">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
           <span class="font-medium">Intérimaires</span>
         </div>
@@ -69,12 +68,12 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
             <span class="font-medium">Paramètres</span>
           </div>
-          <svg id="nav-parametres-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+          <svg id="nav-parametres-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 transition-transform rotate-180"><path d="m6 9 6 6 6-6"></path></svg>
         </button>
-        <div id="nav-parametres-submenu" class="hidden mt-1.5 ml-4 space-y-1 border-l-2 border-gray-200 pl-4">
+        <div id="nav-parametres-submenu" class="mt-1.5 ml-4 space-y-1 border-l-2 border-gray-200 pl-4">
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-qualifications.html">Qualifications</a>
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-utilisateurs.html">Utilisateurs</a>
-          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-roles.html">Rôles</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 cursor-pointer text-white font-bold shadow-md" href="client-roles.html" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Rôles</a>
         </div>
       </div>
     </nav>
@@ -91,7 +90,6 @@
       document.getElementById('nav-parametres-chevron').classList.toggle('rotate-180');
     }
   </script>
-
 
   <!-- MAIN AREA -->
   <main class="flex-1 overflow-auto flex flex-col min-w-0">
@@ -122,35 +120,59 @@
       </div>
     </header>
 
-    <div class="p-6 space-y-5 max-w-[1400px] w-full mx-auto">
+    <div class="p-6 space-y-5 max-w-[1200px] w-full mx-auto">
 
-      <div>
-        <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Intérimaires</h1>
-        <p class="text-gray-600 text-sm mt-0.5">Intérimaires ayant travaillé chez vous ces 2 dernières semaines, et vos favoris</p>
-      </div>
-
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex gap-1">
-          <button data-filter="recents" class="filter-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Récents (2 sem.)</button>
-          <button data-filter="favoris" class="filter-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">
-            Favoris <span class="ml-1 text-[10px] bg-amber-100 text-amber-700 font-bold px-1.5 py-0.5 rounded-full" id="fav-count">0</span>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-[#A63629]/5 to-transparent"></div>
+        <div class="relative flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <div class="p-4 rounded-2xl shadow-lg shadow-[#A63629]/20" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7 text-white"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+            </div>
+            <div>
+              <h1 class="text-2xl font-bold text-gray-900">Gestion des rôles</h1>
+              <p class="text-gray-500 mt-0.5">Définir les permissions de chaque rôle de votre équipe</p>
+            </div>
+          </div>
+          <button class="px-5 py-3 text-white rounded-xl font-semibold flex items-center gap-2 hover:shadow-xl transition-all duration-300 shadow-lg shadow-[#A63629]/25" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+            Nouveau rôle
           </button>
         </div>
-        <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="service-tabs">
-          <button data-service="" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous services</button>
-          <button data-service="Hébergement" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Hébergement</button>
-          <button data-service="Housekeeping" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Housekeeping</button>
-          <button data-service="Restauration" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Restauration</button>
+      </div>
+
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+        <div class="p-2 rounded-lg bg-amber-100 flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-amber-600"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+        </div>
+        <div>
+          <p class="font-medium text-amber-800">Note importante</p>
+          <p class="text-sm text-amber-700 mt-0.5">Le <span class="font-semibold">premier utilisateur</span> créé pour votre établissement dispose automatiquement de <span class="font-semibold">toutes les permissions</span>, indépendamment du rôle qui lui est attribué.</p>
         </div>
       </div>
 
-      <div class="bg-blue-50 border border-blue-200 text-blue-800 text-xs rounded-xl px-4 py-3 flex items-start gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 flex-shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-        <p>Marquer un intérimaire en favori aide Adaptel à prioriser vos demandes de reconduction — cela n'engage aucune affectation automatique et ne donne accès à aucun moyen de contact direct.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white rounded-xl border border-gray-100 p-5 flex items-center gap-4">
+          <div class="p-3 rounded-xl bg-purple-50">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-purple-600"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-gray-900">3</p>
+            <p class="text-sm text-gray-500">Rôles configurés</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl border border-gray-100 p-5 flex items-center gap-4">
+          <div class="p-3 rounded-xl bg-blue-50">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-blue-600"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-gray-900">4</p>
+            <p class="text-sm text-gray-500">Utilisateurs assignés</p>
+          </div>
+        </div>
       </div>
 
-      <div id="interim-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
-      <p id="empty-state" class="hidden text-center text-sm text-gray-400 py-12">Aucun intérimaire à afficher pour ces filtres.</p>
+      <div id="role-list" class="space-y-3"></div>
 
     </div>
   </main>
@@ -171,7 +193,7 @@
     <div class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 text-sm">
       <div class="flex justify-start">
         <div class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-2 max-w-[85%] shadow-sm">
-          Bonjour Thomas 👋 Une question sur un intérimaire ou une reconduction ?
+          Bonjour Thomas 👋 Une question sur les rôles et permissions ?
         </div>
       </div>
     </div>
@@ -202,100 +224,48 @@
   function toggleChat() { document.getElementById('chat-panel').classList.toggle('hidden'); }
 
   // ---------- Data ----------
-  // Intérimaires sous interdiction de chantier sont déjà exclus côté serveur — n'apparaissent jamais ici.
-  const INTERIMAIRES = [
-    { id: 1, nom: "Marco De Luca", quals: ["Chef de rang"], service: "Restauration", chantier: "Hyatt Regency Paris Étoile", derniere: "23/09/2026", enMission: true, favori: true },
-    { id: 2, nom: "Léa Richard", quals: ["Femme de chambre"], service: "Housekeeping", chantier: "Hyatt Regency Paris Étoile", derniere: "22/09/2026", enMission: true, favori: true },
-    { id: 3, nom: "Anna Pizzol", quals: ["Réceptionniste"], service: "Hébergement", chantier: "Hyatt Regency Paris Étoile", derniere: "23/09/2026", enMission: true, favori: false },
-    { id: 4, nom: "Julie Bernard", quals: ["Veilleur de nuit"], service: "Hébergement", chantier: "Hyatt Regency Paris Étoile", derniere: "18/09/2026", enMission: false, favori: false },
-    { id: 5, nom: "Karim Traoré", quals: ["Bagagiste"], service: "Hébergement", chantier: "Hyatt Regency Paris Étoile", derniere: "20/09/2026", enMission: false, favori: true },
-    { id: 6, nom: "Julien Martin", quals: ["Commis de cuisine"], service: "Restauration", chantier: "Hyatt Regency Paris Étoile", derniere: "19/09/2026", enMission: false, favori: false },
-    { id: 7, nom: "Sofia Nguyen", quals: ["Femme de chambre"], service: "Housekeeping", chantier: "Hyatt Regency Paris Étoile", derniere: "21/09/2026", enMission: false, favori: false }
+  const ROLES = [
+    { nom: "Administrateur", description: "Tous les droits", utilisateurs: 1, icon: "shield" },
+    { nom: "Manager", description: "Accès aux commandes, au planning et aux relevés d'heures", utilisateurs: 2, icon: "shield" },
+    { nom: "Utilisateur", description: "Consultation seule", utilisateurs: 1, icon: "shield" }
   ];
 
-  let currentFilter = "recents";
-  let currentService = "";
-
-  function initials(nom) {
-    return nom.split(' ').map(p => p[0]).join('').toUpperCase().slice(0,2);
-  }
-
-  function toggleFavori(id) {
-    const item = INTERIMAIRES.find(i => i.id === id);
-    item.favori = !item.favori;
-    render();
-  }
+  const SHIELD_ICON = `<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>`;
 
   function render() {
-    let rows = INTERIMAIRES.filter(i => !currentService || i.service === currentService);
-    if (currentFilter === "favoris") rows = rows.filter(i => i.favori);
-
-    document.getElementById('fav-count').textContent = INTERIMAIRES.filter(i => i.favori).length;
-
-    const grid = document.getElementById('interim-grid');
-    document.getElementById('empty-state').classList.toggle('hidden', rows.length > 0);
-    grid.innerHTML = rows.map(i => `
-      <div class="interim-card bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-        <div class="flex items-start justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0 bg-gradient-to-br from-[#A63629] to-[#8B2B1F]">${initials(i.nom)}</div>
-            <div>
-              <p class="font-bold text-gray-900">${i.nom}</p>
-              <p class="text-xs text-gray-500">${i.quals.join(', ')}</p>
+    document.getElementById('role-list').innerHTML = ROLES.map(r => `
+      <div class="role-card bg-white rounded-xl border border-gray-100 p-5">
+        <div class="flex items-center gap-5 flex-wrap">
+          <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7">${SHIELD_ICON}</svg>
+          </div>
+          <div class="flex-1 min-w-[200px]">
+            <h3 class="font-semibold text-gray-900 text-lg">${r.nom}</h3>
+            <p class="text-sm text-gray-500">${r.description}</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="text-center px-4 py-2 bg-gray-50 rounded-xl">
+              <div class="flex items-center gap-2 text-gray-900">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629]"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                <span class="font-bold text-lg">${r.utilisateurs}</span>
+              </div>
+              <p class="text-xs text-gray-500 mt-0.5">Utilisateur${r.utilisateurs > 1 ? 's' : ''}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="p-2.5 rounded-lg bg-gray-100 hover:bg-[#A63629]/10 text-gray-600 hover:text-[#A63629] transition-colors" title="Modifier">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"></path></svg>
+              </button>
+              <button class="p-2.5 rounded-lg bg-gray-100 hover:bg-red-100 text-gray-600 hover:text-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Supprimer" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              </button>
             </div>
           </div>
-          <button onclick="toggleFavori(${i.id})" class="fav-btn ${i.favori ? 'is-fav' : ''} p-1.5 rounded-lg hover:bg-amber-50" title="Marquer comme favori">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-300"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
-          </button>
-        </div>
-        <div class="mt-4 space-y-1.5 text-sm">
-          <p class="flex items-center gap-1.5 text-gray-600">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            ${i.chantier}
-          </p>
-          <p class="flex items-center gap-1.5 text-gray-600">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
-            Dernière mission : ${i.derniere}
-          </p>
-        </div>
-        <div class="mt-4">
-          ${i.enMission
-            ? `<span class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 bg-blue-100 px-2.5 py-1 rounded-full">En mission actuellement</span>`
-            : `<a href="client-commandes.html#nouvelle" class="text-xs font-semibold text-[#A63629] hover:underline">Demander une reconduction →</a>`}
         </div>
       </div>
     `).join('');
   }
 
-  document.querySelectorAll('.filter-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentFilter = btn.dataset.filter;
-      document.querySelectorAll('.filter-tab').forEach(b => {
-        const active = b === btn;
-        b.classList.toggle('text-white', active);
-        b.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
-        b.classList.toggle('text-gray-600', !active);
-      });
-      render();
-    });
-  });
-  document.querySelectorAll('.service-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentService = btn.dataset.service;
-      document.querySelectorAll('.service-tab').forEach(b => {
-        const active = b === btn;
-        b.classList.toggle('text-white', active);
-        b.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
-        b.classList.toggle('text-gray-600', !active);
-      });
-      render();
-    });
-  });
-
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.filter-tab[data-filter="recents"]').click();
-    document.querySelector('.service-tab[data-service=""]').click();
-  });
+  render();
 </script>
 
 </body>

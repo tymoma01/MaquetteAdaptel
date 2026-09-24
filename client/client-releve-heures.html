@@ -60,12 +60,20 @@
           </div>
         </div>
       </a>
-      <a class="block" href="client-qualifications.html">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m9 11 3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-          <span class="font-medium">Qualifications</span>
+      <div>
+        <button type="button" onclick="toggleNavParametres()" class="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <span class="font-medium">Paramètres</span>
+          </div>
+          <svg id="nav-parametres-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+        </button>
+        <div id="nav-parametres-submenu" class="hidden mt-1.5 ml-4 space-y-1 border-l-2 border-gray-200 pl-4">
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-qualifications.html">Qualifications</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-utilisateurs.html">Utilisateurs</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-roles.html">Rôles</a>
         </div>
-      </a>
+      </div>
     </nav>
     <div class="p-4 border-t border-gray-200">
       <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
@@ -74,6 +82,13 @@
       </button>
     </div>
   </aside>
+  <script>
+    function toggleNavParametres() {
+      document.getElementById('nav-parametres-submenu').classList.toggle('hidden');
+      document.getElementById('nav-parametres-chevron').classList.toggle('rotate-180');
+    }
+  </script>
+
 
   <!-- MAIN AREA -->
   <main class="flex-1 overflow-auto flex flex-col min-w-0">
@@ -237,13 +252,13 @@
   function toggleChat() { document.getElementById('chat-panel').classList.toggle('hidden'); }
 
   const RELEVES = [
-    { id: 1, nom: "Anna Pizzol", q: "FLEXI HOTE/HOTESSE", service: "Hébergement", date: "22/09/2026", prevu: "7h00", declare: "8h05", statut: "valide" },
-    { id: 2, nom: "Anna Pizzol", q: "FLEXI HOTE/HOTESSE", service: "Hébergement", date: "21/09/2026", prevu: "7h00", declare: "7h00", statut: "a_valider" },
-    { id: 3, nom: "Julien Martin", q: "FLEXI SOUS-CHEF", service: "Restauration", date: "19/09/2026", prevu: "7h30", declare: "7h30", statut: "valide" },
-    { id: 4, nom: "Léa Richard", q: "FLEXI HOUSEKEEPING", service: "Housekeeping", date: "22/09/2026", prevu: "7h30", declare: "7h45", statut: "a_valider" },
-    { id: 5, nom: "Léa Richard", q: "FLEXI HOUSEKEEPING", service: "Housekeeping", date: "21/09/2026", prevu: "7h30", declare: "7h30", statut: "a_valider" },
-    { id: 6, nom: "Marco De Luca", q: "FLEXI BANQUET", service: "Restauration", date: "20/09/2026", prevu: "7h30", declare: "7h50", statut: "a_valider" },
-    { id: 7, nom: "Karim Traoré", q: "FLEXI BAGAGERIE", service: "Hébergement", date: "19/09/2026", prevu: "7h30", declare: "7h30", statut: "valide" }
+    { id: 1, nom: "Anna Pizzol", q: "Réceptionniste", service: "Hébergement", date: "22/09/2026", prevu: "7h00", declare: "8h05", statut: "valide" },
+    { id: 2, nom: "Anna Pizzol", q: "Réceptionniste", service: "Hébergement", date: "21/09/2026", prevu: "7h00", declare: "7h00", statut: "a_valider" },
+    { id: 3, nom: "Julien Martin", q: "Commis de cuisine", service: "Restauration", date: "19/09/2026", prevu: "7h30", declare: "7h30", statut: "valide" },
+    { id: 4, nom: "Léa Richard", q: "Femme de chambre", service: "Housekeeping", date: "22/09/2026", prevu: "7h30", declare: "7h45", statut: "a_valider" },
+    { id: 5, nom: "Léa Richard", q: "Femme de chambre", service: "Housekeeping", date: "21/09/2026", prevu: "7h30", declare: "7h30", statut: "a_valider" },
+    { id: 6, nom: "Marco De Luca", q: "Chef de rang", service: "Restauration", date: "20/09/2026", prevu: "7h30", declare: "7h50", statut: "a_valider" },
+    { id: 7, nom: "Karim Traoré", q: "Bagagiste", service: "Hébergement", date: "19/09/2026", prevu: "7h30", declare: "7h30", statut: "valide" }
   ];
 
   function populateSelectOptions() {

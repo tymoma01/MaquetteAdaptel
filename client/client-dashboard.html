@@ -72,12 +72,20 @@
           <svg id="depenses-lock" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 hidden"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
         </div>
       </a>
-      <a class="block" href="client-qualifications.html">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m9 11 3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-          <span class="font-medium">Qualifications</span>
+      <div>
+        <button type="button" onclick="toggleNavParametres()" class="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <span class="font-medium">Paramètres</span>
+          </div>
+          <svg id="nav-parametres-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+        </button>
+        <div id="nav-parametres-submenu" class="hidden mt-1.5 ml-4 space-y-1 border-l-2 border-gray-200 pl-4">
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-qualifications.html">Qualifications</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-utilisateurs.html">Utilisateurs</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-roles.html">Rôles</a>
         </div>
-      </a>
+      </div>
     </nav>
 
     <div class="p-4 border-t border-gray-200">
@@ -87,6 +95,13 @@
       </button>
     </div>
   </aside>
+  <script>
+    function toggleNavParametres() {
+      document.getElementById('nav-parametres-submenu').classList.toggle('hidden');
+      document.getElementById('nav-parametres-chevron').classList.toggle('rotate-180');
+    }
+  </script>
+
 
   <!-- MAIN AREA -->
   <main class="flex-1 overflow-auto flex flex-col min-w-0">
@@ -341,25 +356,25 @@
   // ---------- Data ----------
   const BUDGET = {
     "": { total: 20700, items: [
-      { q: "FLEXI BANQUET", montant: 4100 },
-      { q: "FLEXI HOUSEKEEPING", montant: 5400 },
-      { q: "FLEXI HOTE/HOTESSE", montant: 3200 },
-      { q: "FLEXI SOUS-CHEF", montant: 2600 },
-      { q: "FLEXI BAGAGERIE", montant: 1800 },
+      { q: "Chef de rang", montant: 4100 },
+      { q: "Femme de chambre", montant: 5400 },
+      { q: "Réceptionniste", montant: 3200 },
+      { q: "Commis de cuisine", montant: 2600 },
+      { q: "Bagagiste", montant: 1800 },
       { q: "Autres qualifications", montant: 3600 }
     ]},
     "Hébergement": { total: 7100, items: [
-      { q: "FLEXI HOTE/HOTESSE", montant: 3200 },
-      { q: "FLEXI BAGAGERIE", montant: 1800 },
-      { q: "FLEXI MAYO", montant: 1200 },
-      { q: "FLEXI WINDO", montant: 900 }
+      { q: "Réceptionniste", montant: 3200 },
+      { q: "Bagagiste", montant: 1800 },
+      { q: "Veilleur de nuit", montant: 1200 },
+      { q: "Concierge", montant: 900 }
     ]},
     "Housekeeping": { total: 5400, items: [
-      { q: "FLEXI HOUSEKEEPING", montant: 5400 }
+      { q: "Femme de chambre", montant: 5400 }
     ]},
     "Restauration": { total: 8200, items: [
-      { q: "FLEXI BANQUET", montant: 4100 },
-      { q: "FLEXI SOUS-CHEF", montant: 2600 },
+      { q: "Chef de rang", montant: 4100 },
+      { q: "Commis de cuisine", montant: 2600 },
       { q: "EMPLOYE POLYVALENT", montant: 1500 }
     ]}
   };
@@ -367,22 +382,22 @@
 
   const PLANNING = {
     "": [
-      { jour: "Aujourd'hui 23/09", service: "Restauration", q: "FLEXI BANQUET", nom: "M. De Luca", horaire: "18h–02h" },
-      { jour: "Aujourd'hui 23/09", service: "Housekeeping", q: "FLEXI HOUSEKEEPING", nom: "L. Richard", horaire: "7h–15h" },
-      { jour: "Demain 24/09", service: "Hébergement", q: "FLEXI HOTE/HOTESSE", nom: "A. Pizzol", horaire: "15h–23h" },
-      { jour: "Ven. 25/09", service: "Restauration", q: "FLEXI SOUS-CHEF", nom: "J. Martin", horaire: "9h–17h" },
-      { jour: "Ven. 25/09", service: "Hébergement", q: "FLEXI BAGAGERIE", nom: "K. Traoré", horaire: "7h–15h" }
+      { jour: "Aujourd'hui 23/09", service: "Restauration", q: "Chef de rang", nom: "M. De Luca", horaire: "18h–02h" },
+      { jour: "Aujourd'hui 23/09", service: "Housekeeping", q: "Femme de chambre", nom: "L. Richard", horaire: "7h–15h" },
+      { jour: "Demain 24/09", service: "Hébergement", q: "Réceptionniste", nom: "A. Pizzol", horaire: "15h–23h" },
+      { jour: "Ven. 25/09", service: "Restauration", q: "Commis de cuisine", nom: "J. Martin", horaire: "9h–17h" },
+      { jour: "Ven. 25/09", service: "Hébergement", q: "Bagagiste", nom: "K. Traoré", horaire: "7h–15h" }
     ],
     "Hébergement": [
-      { jour: "Demain 24/09", service: "Hébergement", q: "FLEXI HOTE/HOTESSE", nom: "A. Pizzol", horaire: "15h–23h" },
-      { jour: "Ven. 25/09", service: "Hébergement", q: "FLEXI BAGAGERIE", nom: "K. Traoré", horaire: "7h–15h" }
+      { jour: "Demain 24/09", service: "Hébergement", q: "Réceptionniste", nom: "A. Pizzol", horaire: "15h–23h" },
+      { jour: "Ven. 25/09", service: "Hébergement", q: "Bagagiste", nom: "K. Traoré", horaire: "7h–15h" }
     ],
     "Housekeeping": [
-      { jour: "Aujourd'hui 23/09", service: "Housekeeping", q: "FLEXI HOUSEKEEPING", nom: "L. Richard", horaire: "7h–15h" }
+      { jour: "Aujourd'hui 23/09", service: "Housekeeping", q: "Femme de chambre", nom: "L. Richard", horaire: "7h–15h" }
     ],
     "Restauration": [
-      { jour: "Aujourd'hui 23/09", service: "Restauration", q: "FLEXI BANQUET", nom: "M. De Luca", horaire: "18h–02h" },
-      { jour: "Ven. 25/09", service: "Restauration", q: "FLEXI SOUS-CHEF", nom: "J. Martin", horaire: "9h–17h" }
+      { jour: "Aujourd'hui 23/09", service: "Restauration", q: "Chef de rang", nom: "M. De Luca", horaire: "18h–02h" },
+      { jour: "Ven. 25/09", service: "Restauration", q: "Commis de cuisine", nom: "J. Martin", horaire: "9h–17h" }
     ]
   };
 

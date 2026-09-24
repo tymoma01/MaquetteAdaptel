@@ -67,12 +67,20 @@
           <svg id="depenses-lock" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 hidden"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
         </div>
       </a>
-      <a class="block" href="client-qualifications.html">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m9 11 3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-          <span class="font-medium">Qualifications</span>
+      <div>
+        <button type="button" onclick="toggleNavParametres()" class="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <span class="font-medium">Paramètres</span>
+          </div>
+          <svg id="nav-parametres-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+        </button>
+        <div id="nav-parametres-submenu" class="hidden mt-1.5 ml-4 space-y-1 border-l-2 border-gray-200 pl-4">
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-qualifications.html">Qualifications</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-utilisateurs.html">Utilisateurs</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-roles.html">Rôles</a>
         </div>
-      </a>
+      </div>
     </nav>
     <div class="p-4 border-t border-gray-200">
       <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
@@ -81,6 +89,13 @@
       </button>
     </div>
   </aside>
+  <script>
+    function toggleNavParametres() {
+      document.getElementById('nav-parametres-submenu').classList.toggle('hidden');
+      document.getElementById('nav-parametres-chevron').classList.toggle('rotate-180');
+    }
+  </script>
+
 
   <!-- MAIN AREA -->
   <main class="flex-1 overflow-auto flex flex-col min-w-0">
@@ -284,15 +299,15 @@
   let sortKey = "montant", sortDir = "desc";
 
   const DEPENSES = [
-    { id: "CMD-1039", q: "FLEXI HOUSEKEEPING", service: "Housekeeping", date: "23/09/2026", heures: 16, taux: 13.8, montant: 220.8 },
-    { id: "CMD-1035", q: "FLEXI HOUSEKEEPING", service: "Housekeeping", date: "18/09/2026", heures: 60, taux: 13.8, montant: 828.0 },
-    { id: "CMD-1040", q: "FLEXI BANQUET", service: "Restauration", date: "23/09/2026", heures: 8, taux: 15.2, montant: 121.6 },
-    { id: "CMD-1033", q: "FLEXI BANQUET", service: "Restauration", date: "17/09/2026", heures: 120, taux: 15.2, montant: 1824.0 },
-    { id: "CMD-1021", q: "FLEXI SOUS-CHEF", service: "Restauration", date: "19/09/2026", heures: 60, taux: 16.0, montant: 960.0 },
-    { id: "CMD-1030", q: "FLEXI HOTE/HOTESSE", service: "Hébergement", date: "22/09/2026", heures: 100, taux: 14.5, montant: 1450.0 },
-    { id: "CMD-1029", q: "FLEXI HOTE/HOTESSE", service: "Hébergement", date: "21/09/2026", heures: 60, taux: 14.5, montant: 870.0 },
-    { id: "CMD-1018", q: "FLEXI BAGAGERIE", service: "Hébergement", date: "20/09/2026", heures: 80, taux: 13.5, montant: 1080.0 },
-    { id: "CMD-1012", q: "FLEXI MAYO", service: "Hébergement", date: "15/09/2026", heures: 50, taux: 13.0, montant: 650.0 },
+    { id: "CMD-1039", q: "Femme de chambre", service: "Housekeeping", date: "23/09/2026", heures: 16, taux: 13.8, montant: 220.8 },
+    { id: "CMD-1035", q: "Femme de chambre", service: "Housekeeping", date: "18/09/2026", heures: 60, taux: 13.8, montant: 828.0 },
+    { id: "CMD-1040", q: "Chef de rang", service: "Restauration", date: "23/09/2026", heures: 8, taux: 15.2, montant: 121.6 },
+    { id: "CMD-1033", q: "Chef de rang", service: "Restauration", date: "17/09/2026", heures: 120, taux: 15.2, montant: 1824.0 },
+    { id: "CMD-1021", q: "Commis de cuisine", service: "Restauration", date: "19/09/2026", heures: 60, taux: 16.0, montant: 960.0 },
+    { id: "CMD-1030", q: "Réceptionniste", service: "Hébergement", date: "22/09/2026", heures: 100, taux: 14.5, montant: 1450.0 },
+    { id: "CMD-1029", q: "Réceptionniste", service: "Hébergement", date: "21/09/2026", heures: 60, taux: 14.5, montant: 870.0 },
+    { id: "CMD-1018", q: "Bagagiste", service: "Hébergement", date: "20/09/2026", heures: 80, taux: 13.5, montant: 1080.0 },
+    { id: "CMD-1012", q: "Veilleur de nuit", service: "Hébergement", date: "15/09/2026", heures: 50, taux: 13.0, montant: 650.0 },
     { id: "CMD-1005", q: "EMPLOYE POLYVALENT", service: "Restauration", date: "10/09/2026", heures: 90, taux: 13.9, montant: 1251.0 }
   ];
 

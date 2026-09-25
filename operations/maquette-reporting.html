@@ -314,6 +314,24 @@
           </div>
           <div class="flex items-center gap-3 flex-wrap">
             <label class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Agence
+              <select id="agent-perf-agence" onchange="renderAgentPerf()" class="h-8 rounded-lg border border-gray-200 bg-white px-2 text-xs font-medium text-gray-700 normal-case shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+                <option value="">Toutes agences</option>
+                <option value="001">001</option>
+                <option value="002">002</option>
+                <option value="003">003</option>
+              </select>
+            </label>
+            <label class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Secteur
+              <select id="agent-perf-secteur" onchange="renderAgentPerf()" class="h-8 rounded-lg border border-gray-200 bg-white px-2 text-xs font-medium text-gray-700 normal-case shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+                <option value="">Tous les secteurs</option>
+                <option value="Housekeeping">Housekeeping</option>
+                <option value="Hébergement">Hébergement</option>
+                <option value="Restauration">Restauration</option>
+              </select>
+            </label>
+            <label class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
               Ventiler par
               <select id="agent-perf-groupby" onchange="renderAgentPerf()" class="h-8 rounded-lg border border-gray-200 bg-white px-2 text-xs font-medium text-gray-700 normal-case shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
                 <option value="">Classement global</option>
@@ -688,8 +706,8 @@
 
   function getFilteredAgentRows() {
     const periode = document.getElementById('filter-periode').value;
-    const agence = document.getElementById('filter-agence').value;
-    const dept = document.getElementById('filter-secteur').value;
+    const agence = document.getElementById('agent-perf-agence').value;
+    const dept = document.getElementById('agent-perf-secteur').value;
     return AGENTS_DATA[periode].filter(r =>
       (!agence || r.agence === agence) && (!dept || r.secteur === dept)
     );

@@ -305,6 +305,42 @@
         </div>
       </div>
 
+      <!-- PERFORMANCE PAR COLLABORATEUR -->
+      <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 flex-wrap gap-3">
+          <div>
+            <h3 class="text-sm font-bold text-gray-900">Performance par collaborateur</h3>
+            <p class="text-xs text-gray-400 mt-0.5">Nombre de lignes remplies par agent sur la période — classement du plus au moins performant</p>
+          </div>
+          <div class="flex items-center gap-3 flex-wrap">
+            <label class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Ventiler par
+              <select id="agent-perf-groupby" onchange="renderAgentPerf()" class="h-8 rounded-lg border border-gray-200 bg-white px-2 text-xs font-medium text-gray-700 normal-case shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+                <option value="">Classement global</option>
+                <option value="agence">Agence</option>
+                <option value="secteur">Secteur</option>
+              </select>
+            </label>
+            <span id="agent-perf-top" class="text-xs font-semibold text-[#A63629]"></span>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
+              <tr>
+                <th class="px-4 py-2.5 text-left font-semibold">#</th>
+                <th class="px-4 py-2.5 text-left font-semibold">Collaborateur</th>
+                <th class="px-4 py-2.5 text-left font-semibold">Agence</th>
+                <th class="px-4 py-2.5 text-left font-semibold">Secteur</th>
+                <th class="px-4 py-2.5 text-right font-semibold">Lignes remplies</th>
+                <th class="px-4 py-2.5 text-right font-semibold">Moyenne / jour</th>
+              </tr>
+            </thead>
+            <tbody id="agent-perf-body" class="divide-y divide-gray-100"></tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- TABLEAU CROISÉ -->
       <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden">
         <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
@@ -389,6 +425,26 @@
       { agence: "003", secteur: "Housekeeping",  values: [1, 1, 1, 1, 2, 1, 0] },
       { agence: "003", secteur: "Hébergement",   values: [2, 1, 1, 2, 2, 1, 0] },
       { agence: "003", secteur: "Restauration",  values: [3, 3, 3, 3, 3, 2, 1] }
+    ]
+  };
+
+  // Données de démo : nombre de lignes remplies par jour, pour chaque collaborateur (agent d'agence).
+  const AGENTS_DATA = {
+    "cette-semaine": [
+      { agent: "Marie L.",        agence: "001", secteur: "Housekeeping",  values: [4, 3, 5, 3, 6, 2, 1] },
+      { agent: "Léa Roussel",     agence: "001", secteur: "Restauration",  values: [5, 4, 6, 5, 5, 3, 2] },
+      { agent: "Thomas D.",       agence: "002", secteur: "Housekeeping",  values: [1, 1, 2, 1, 2, 1, 1] },
+      { agent: "Camille Faure",   agence: "002", secteur: "Hébergement",   values: [4, 3, 5, 4, 4, 2, 1] },
+      { agent: "Karim Haddad",    agence: "003", secteur: "Restauration",  values: [3, 2, 4, 3, 3, 2, 1] },
+      { agent: "Sophie Marchand", agence: "003", secteur: "Housekeeping",  values: [1, 1, 2, 1, 2, 1, 0] }
+    ],
+    "semaine-derniere": [
+      { agent: "Marie L.",        agence: "001", secteur: "Housekeeping",  values: [3, 4, 4, 3, 5, 2, 1] },
+      { agent: "Léa Roussel",     agence: "001", secteur: "Restauration",  values: [4, 4, 5, 4, 4, 3, 2] },
+      { agent: "Thomas D.",       agence: "002", secteur: "Housekeeping",  values: [1, 1, 1, 1, 2, 1, 0] },
+      { agent: "Camille Faure",   agence: "002", secteur: "Hébergement",   values: [3, 3, 4, 3, 4, 2, 1] },
+      { agent: "Karim Haddad",    agence: "003", secteur: "Restauration",  values: [2, 3, 3, 2, 3, 1, 1] },
+      { agent: "Sophie Marchand", agence: "003", secteur: "Housekeeping",  values: [1, 1, 1, 1, 1, 1, 0] }
     ]
   };
 
@@ -628,6 +684,78 @@
     }).join('');
   }
 
+  // ---------- Performance par collaborateur ----------
+
+  function getFilteredAgentRows() {
+    const periode = document.getElementById('filter-periode').value;
+    const agence = document.getElementById('filter-agence').value;
+    const dept = document.getElementById('filter-secteur').value;
+    return AGENTS_DATA[periode].filter(r =>
+      (!agence || r.agence === agence) && (!dept || r.secteur === dept)
+    );
+  }
+
+  function agentPerfRowHTML(r, rank) {
+    const moyenne = (r.total / 7).toLocaleString('fr-FR', { maximumFractionDigits: 1 });
+    const rankBadge = rank === 1
+      ? '<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 text-amber-700 text-xs font-bold">🏆</span>'
+      : `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-600 text-xs font-semibold">${rank}</span>`;
+    return `<tr class="${rank === 1 ? 'bg-amber-50/40' : ''}">
+      <td class="px-4 py-2.5">${rankBadge}</td>
+      <td class="px-4 py-2.5 font-medium text-gray-900">${r.agent}</td>
+      <td class="px-4 py-2.5 text-gray-600">${r.agence}</td>
+      <td class="px-4 py-2.5 text-gray-600">
+        <span class="inline-flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-sm" style="background:${SERIES_COLOR[r.secteur]}"></span>${r.secteur}
+        </span>
+      </td>
+      <td class="px-4 py-2.5 text-right font-bold text-gray-900">${r.total}</td>
+      <td class="px-4 py-2.5 text-right text-gray-500">${moyenne}</td>
+    </tr>`;
+  }
+
+  function renderAgentPerf() {
+    const rows = getFilteredAgentRows();
+    const tbody = document.getElementById('agent-perf-body');
+    const topLabel = document.getElementById('agent-perf-top');
+    const groupBy = document.getElementById('agent-perf-groupby').value; // '' | 'agence' | 'secteur'
+
+    if (rows.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-gray-500 text-sm">Aucune donnée pour ces filtres.</td></tr>`;
+      topLabel.textContent = '';
+      return;
+    }
+
+    const withTotal = rows.map(r => ({ ...r, total: r.values.reduce((a, b) => a + b, 0) }));
+    const overallTop = [...withTotal].sort((a, b) => b.total - a.total)[0];
+
+    if (!groupBy) {
+      const ranked = [...withTotal].sort((a, b) => b.total - a.total);
+      topLabel.textContent = `🏆 Plus performant : ${overallTop.agent} (${overallTop.total} lignes)`;
+      tbody.innerHTML = ranked.map((r, i) => agentPerfRowHTML(r, i + 1)).join('');
+      return;
+    }
+
+    topLabel.textContent = `🏆 Plus performant (toutes agences/secteurs) : ${overallTop.agent} (${overallTop.total} lignes)`;
+
+    const groups = {};
+    withTotal.forEach(r => {
+      const key = r[groupBy];
+      (groups[key] = groups[key] || []).push(r);
+    });
+    const groupLabel = key => groupBy === 'agence' ? `Agence ${key}` : key;
+
+    tbody.innerHTML = Object.keys(groups).sort().map(key => {
+      const groupRows = groups[key].sort((a, b) => b.total - a.total);
+      const groupTotal = groupRows.reduce((s, r) => s + r.total, 0);
+      const header = `<tr class="bg-gray-50">
+        <td colspan="5" class="px-4 py-2 text-xs font-bold text-gray-700 uppercase tracking-wide">${groupLabel(key)}</td>
+        <td class="px-4 py-2 text-right text-xs font-bold text-gray-700">${groupTotal}</td>
+      </tr>`;
+      return header + groupRows.map((r, i) => agentPerfRowHTML(r, i + 1)).join('');
+    }).join('');
+  }
+
   function renderKpis(rows) {
     const periode = document.getElementById('filter-periode').value;
     const total = rows.reduce((s, r) => s + r.values.reduce((a, b) => a + b, 0), 0);
@@ -659,6 +787,7 @@
     renderTable(rows);
     renderKpis(rows);
     renderComparatif();
+    renderAgentPerf();
   }
 
   document.addEventListener('DOMContentLoaded', renderReporting);

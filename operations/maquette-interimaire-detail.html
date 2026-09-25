@@ -10,6 +10,8 @@
   body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
   .star-full { color: #f59e0b; }
   .star-empty { color: #e5e7eb; }
+  .toggle-track { width: 38px; height: 22px; border-radius: 9999px; transition: background-color .15s ease; }
+  .toggle-thumb { width: 18px; height: 18px; border-radius: 9999px; background: white; transition: transform .15s ease; box-shadow: 0 1px 2px rgba(0,0,0,.3); }
 </style>
 </head>
 <body class="antialiased">
@@ -245,10 +247,12 @@
                 </div>
                 <div>
                   <label class="text-sm text-gray-700 font-semibold">Véhiculé</label>
-                  <p class="text-gray-900 font-medium flex items-center gap-1.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-green-600"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
-                    Oui
-                  </p>
+                  <button type="button" id="vehicule-toggle" class="mt-1 flex items-center gap-2" data-active="true">
+                    <span class="toggle-track bg-green-500 relative inline-block">
+                      <span class="toggle-thumb absolute top-0.5 left-[18px] block"></span>
+                    </span>
+                    <span id="vehicule-label" class="text-sm font-medium text-gray-900">Oui</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -292,12 +296,24 @@
                 <p class="text-xs text-gray-500">Champ dépendant du secteur (Housekeeping : cadence et étoiles maîtrisées · Hébergement : logiciel maîtrisé). Alimenté par la déclaration à l'inscription ou automatiquement par l'historique des commandes.</p>
               </div>
               <div class="p-6 pt-2 space-y-4">
-                <div>
+                <div data-skill-block data-skill-badge-class="bg-blue-100 text-blue-800" data-skill-remove-class="text-blue-500 hover:text-blue-800">
                   <label class="text-sm text-gray-700 font-semibold">Type de restauration maîtrisé</label>
-                  <div class="flex items-center gap-2 mt-1.5 flex-wrap">
-                    <span class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1">Gastronomique</span>
-                    <span class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1">Banquet / Événementiel</span>
-                    <span class="text-xs text-gray-400 italic">déclaré à l'inscription</span>
+                  <div class="flex items-center gap-2 mt-1.5 flex-wrap skill-tag-list">
+                    <span class="inline-flex items-center gap-1 rounded-full border border-transparent bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1">Gastronomique
+                      <button type="button" class="skill-tag-remove text-blue-500 hover:text-blue-800" title="Retirer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                      </button>
+                    </span>
+                    <span class="inline-flex items-center gap-1 rounded-full border border-transparent bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1">Banquet / Événementiel
+                      <button type="button" class="skill-tag-remove text-blue-500 hover:text-blue-800" title="Retirer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                      </button>
+                    </span>
+                    <span class="text-xs text-gray-400 italic skill-tag-note">déclaré à l'inscription</span>
+                  </div>
+                  <div class="flex items-center gap-2 mt-2.5">
+                    <input type="text" placeholder="Ajouter un type de restauration maîtrisé (ex : Brasserie, Room Service…)" class="skill-tag-input h-9 flex-1 max-w-xs rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+                    <button type="button" class="skill-tag-add-btn inline-flex items-center justify-center rounded-lg text-xs font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-9 px-3">Ajouter</button>
                   </div>
                 </div>
                 <div>
@@ -440,7 +456,7 @@
                     <option>Potel et Chabot</option>
                   </select>
                 </div>
-                <div id="field-chantier">
+                <div id="field-chantier" class="hidden">
                   <label class="text-sm text-gray-700 font-semibold">Chantier</label>
                   <select class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
                     <option>Pullman Montparnasse — Salle</option>
@@ -452,13 +468,13 @@
                 <label class="text-sm text-gray-700 font-semibold">Motif</label>
                 <textarea rows="2" class="mt-1 flex w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm" placeholder="Décrire le motif de l'interdiction..."></textarea>
               </div>
-              <div id="extend-note" class="hidden rounded-lg bg-amber-50 border border-amber-200 px-3 py-2.5 flex items-start gap-2">
+              <div id="extend-note" class="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2.5 flex items-start gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-amber-600 flex-shrink-0 mt-0.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
                 <div>
-                  <p class="text-sm text-amber-900 font-medium">Cette interdiction porte sur un chantier</p>
-                  <p class="text-xs text-amber-800 mt-0.5">À la confirmation, une pop-up proposera d'étendre l'interdiction aux autres chantiers du même client.</p>
+                  <p class="text-sm text-amber-900 font-medium">Cette interdiction porte sur le client entier</p>
+                  <p class="text-xs text-amber-800 mt-0.5">Elle bloquera l'intérimaire sur tous les chantiers de ce client, actuels et futurs.</p>
                   <label class="flex items-center gap-2 text-xs text-amber-900 font-medium mt-2">
-                    <input type="checkbox" class="text-[#A63629] focus:ring-[#A63629]"> Étendre à tous les chantiers de ce client
+                    <input type="checkbox" id="restreindre-chantiers" class="text-[#A63629] focus:ring-[#A63629]"> Restreindre à certains chantiers de ce client
                   </label>
                 </div>
               </div>
@@ -550,7 +566,7 @@
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">1</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <p class="mt-1 text-[10px] font-medium text-green-700">Disponible</p>
                 </div>
-                <div class="day-cell min-h-[74px] rounded-lg border border-gray-200 bg-white p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-02')"><span class="text-xs font-semibold text-gray-700">2</span></div>
+                <div class="day-cell relative min-h-[74px] rounded-lg border border-gray-300 bg-gray-200 p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-02')"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">2</span></div><p class="mt-1 text-[10px] font-medium text-gray-600">Indisponible</p></div>
                 <div class="day-cell relative min-h-[74px] rounded-lg border border-green-300 bg-green-50 p-1.5">
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">3</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <p class="mt-1 text-[10px] font-medium text-green-700">Disponible</p>
@@ -563,7 +579,7 @@
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">5</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <p class="mt-1 text-[10px] font-medium text-green-700">Disponible</p>
                 </div>
-                <div class="day-cell min-h-[74px] rounded-lg border border-gray-200 bg-white p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-06')"><span class="text-xs font-semibold text-gray-700">6</span></div>
+                <div class="day-cell relative min-h-[74px] rounded-lg border border-gray-300 bg-gray-200 p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-06')"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">6</span></div><p class="mt-1 text-[10px] font-medium text-gray-600">Indisponible</p></div>
 
                 <!-- Row 2: 7-13 sept -->
                 <div class="day-cell relative min-h-[74px] rounded-lg border border-green-300 bg-green-50 p-1.5">
@@ -574,7 +590,7 @@
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">8</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <p class="mt-1 text-[10px] font-medium text-green-700">Disponible</p>
                 </div>
-                <div class="day-cell min-h-[74px] rounded-lg border border-gray-200 bg-white p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-09')"><span class="text-xs font-semibold text-gray-700">9</span></div>
+                <div class="day-cell relative min-h-[74px] rounded-lg border border-gray-300 bg-gray-200 p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-09')"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">9</span></div><p class="mt-1 text-[10px] font-medium text-gray-600">Indisponible</p></div>
                 <div class="day-cell relative min-h-[74px] rounded-lg border border-green-300 bg-green-50 p-1.5">
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">10</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <div class="mt-1 rounded bg-indigo-100 text-indigo-800 text-[10px] font-medium px-1 py-0.5 leading-tight">Grand Hôtel<br>Intercontinental</div>
@@ -587,7 +603,7 @@
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">12</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <p class="mt-1 text-[10px] font-medium text-green-700">Disponible</p>
                 </div>
-                <div class="day-cell min-h-[74px] rounded-lg border border-gray-200 bg-white p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-13')"><span class="text-xs font-semibold text-gray-700">13</span></div>
+                <div class="day-cell relative min-h-[74px] rounded-lg border border-gray-300 bg-gray-200 p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-13')"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">13</span></div><p class="mt-1 text-[10px] font-medium text-gray-600">Indisponible</p></div>
 
                 <!-- Row 3: 14-20 sept -->
                 <div class="day-cell relative min-h-[74px] rounded-lg border border-green-300 bg-green-50 p-1.5">
@@ -598,7 +614,7 @@
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">15</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <p class="mt-1 text-[10px] font-medium text-green-700">Disponible</p>
                 </div>
-                <div class="day-cell min-h-[74px] rounded-lg border border-gray-200 bg-white p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-16')"><span class="text-xs font-semibold text-gray-700">16</span></div>
+                <div class="day-cell relative min-h-[74px] rounded-lg border border-gray-300 bg-gray-200 p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-16')"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">16</span></div><p class="mt-1 text-[10px] font-medium text-gray-600">Indisponible</p></div>
                 <div class="day-cell relative min-h-[74px] rounded-lg border border-green-300 bg-green-50 p-1.5">
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">17</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <div class="mt-1 rounded bg-indigo-100 text-indigo-800 text-[10px] font-medium px-1 py-0.5 leading-tight border-l-2 border-red-600 flex items-center gap-1">
@@ -614,7 +630,7 @@
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">19</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <div class="mt-1 rounded bg-indigo-100 text-indigo-800 text-[10px] font-medium px-1 py-0.5 leading-tight">Pullman Tour<br>Eiffel</div>
                 </div>
-                <div class="day-cell min-h-[74px] rounded-lg border border-gray-200 bg-white p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-20')"><span class="text-xs font-semibold text-gray-700">20</span></div>
+                <div class="day-cell relative min-h-[74px] rounded-lg border border-gray-300 bg-gray-200 p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-20')"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">20</span></div><p class="mt-1 text-[10px] font-medium text-gray-600">Indisponible</p></div>
 
                 <!-- Row 4: 21-27 sept (semaine en cours) -->
                 <div class="day-cell relative min-h-[74px] rounded-lg border-2 border-[#A63629] bg-green-50 p-1.5">
@@ -625,7 +641,7 @@
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">22</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <p class="mt-1 text-[10px] font-medium text-green-700">Disponible</p>
                 </div>
-                <div class="day-cell min-h-[74px] rounded-lg border border-gray-200 bg-white p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-23')"><span class="text-xs font-semibold text-gray-700">23</span></div>
+                <div class="day-cell relative min-h-[74px] rounded-lg border border-gray-300 bg-gray-200 p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-23')"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">23</span></div><p class="mt-1 text-[10px] font-medium text-gray-600">Indisponible</p></div>
                 <div class="day-cell relative min-h-[74px] rounded-lg border border-green-300 bg-green-50 p-1.5">
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">24</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <div class="mt-1 rounded bg-blue-100 text-blue-800 text-[10px] font-medium px-1 py-0.5 leading-tight">Pullman Tour<br>Eiffel</div>
@@ -638,7 +654,7 @@
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">26</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <p class="mt-1 text-[10px] font-medium text-green-700">Disponible</p>
                 </div>
-                <div class="day-cell min-h-[74px] rounded-lg border border-gray-200 bg-white p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-27')"><span class="text-xs font-semibold text-gray-700">27</span></div>
+                <div class="day-cell relative min-h-[74px] rounded-lg border border-gray-300 bg-gray-200 p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-27')"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">27</span></div><p class="mt-1 text-[10px] font-medium text-gray-600">Indisponible</p></div>
 
                 <!-- Row 5: 28 sept - 4 oct -->
                 <div class="day-cell relative min-h-[74px] rounded-lg border border-green-300 bg-green-50 p-1.5">
@@ -649,13 +665,13 @@
                   <div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">29</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-green-600"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
                   <p class="mt-1 text-[10px] font-medium text-green-700">Disponible</p>
                 </div>
-                <div class="day-cell min-h-[74px] rounded-lg border border-gray-200 bg-white p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-30')"><span class="text-xs font-semibold text-gray-700">30</span></div>
+                <div class="day-cell relative min-h-[74px] rounded-lg border border-gray-300 bg-gray-200 p-1.5 cursor-pointer hover:ring-2 hover:ring-[#A63629]/40" onclick="openDispoForm('2026-09-30')"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-700">30</span></div><p class="mt-1 text-[10px] font-medium text-gray-600">Indisponible</p></div>
                 <div class="day-cell min-h-[74px] rounded-lg border border-gray-100 bg-gray-50/60 p-1.5"><span class="text-xs text-gray-300">1</span></div>
                 <div class="day-cell min-h-[74px] rounded-lg border border-gray-100 bg-gray-50/60 p-1.5"><span class="text-xs text-gray-300">2</span></div>
                 <div class="day-cell relative min-h-[74px] rounded-lg border border-gray-100 bg-gray-50/60 p-1.5"><span class="text-xs text-gray-300">3</span></div>
                 <div class="day-cell min-h-[74px] rounded-lg border border-gray-100 bg-gray-50/60 p-1.5"><span class="text-xs text-gray-300">4</span></div>
               </div>
-              <p class="text-[11px] text-gray-400 mt-3">Cliquez sur un jour vide pour pré-remplir une nouvelle disponibilité.</p>
+              <p class="text-[11px] text-gray-400 mt-3">Par défaut, tout jour sans disponibilité déclarée est indisponible. Cliquez sur un jour pour le renseigner ou le modifier.</p>
             </div>
 
             <!-- Add-availability form (cosmetic, hidden by default) -->
@@ -1158,6 +1174,63 @@
 </div>
 
 <script>
+  // Cosmetic: toggle "Véhiculé"
+  const vehiculeToggle = document.getElementById('vehicule-toggle');
+  const vehiculeLabel = document.getElementById('vehicule-label');
+  vehiculeToggle.addEventListener('click', () => {
+    const active = vehiculeToggle.getAttribute('data-active') === 'true';
+    const track = vehiculeToggle.querySelector('.toggle-track');
+    const thumb = vehiculeToggle.querySelector('.toggle-thumb');
+    if (active) {
+      vehiculeToggle.setAttribute('data-active', 'false');
+      track.classList.remove('bg-green-500');
+      track.classList.add('bg-gray-300');
+      thumb.classList.remove('left-[18px]');
+      thumb.classList.add('left-0.5');
+      vehiculeLabel.textContent = 'Non';
+    } else {
+      vehiculeToggle.setAttribute('data-active', 'true');
+      track.classList.remove('bg-gray-300');
+      track.classList.add('bg-green-500');
+      thumb.classList.remove('left-0.5');
+      thumb.classList.add('left-[18px]');
+      vehiculeLabel.textContent = 'Oui';
+    }
+  });
+
+  // Cosmetic: add/remove tags in the declarative-skills blocks (compétences déclarées à l'inscription)
+  document.querySelectorAll('[data-skill-block]').forEach(block => {
+    const list = block.querySelector('.skill-tag-list');
+    const note = list.querySelector('.skill-tag-note');
+    const input = block.querySelector('.skill-tag-input');
+    const addBtn = block.querySelector('.skill-tag-add-btn');
+    const badgeClass = block.dataset.skillBadgeClass;
+    const removeClass = block.dataset.skillRemoveClass;
+
+    function bindRemove(btn) {
+      btn.addEventListener('click', () => btn.closest('span').remove());
+    }
+    list.querySelectorAll('.skill-tag-remove').forEach(bindRemove);
+
+    function addTag(value) {
+      const span = document.createElement('span');
+      span.className = 'inline-flex items-center gap-1 rounded-full border border-transparent text-xs font-semibold px-3 py-1 ' + badgeClass;
+      span.innerHTML = value + ' <button type="button" class="skill-tag-remove ' + removeClass + '" title="Retirer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>';
+      list.insertBefore(span, note);
+      bindRemove(span.querySelector('.skill-tag-remove'));
+    }
+
+    addBtn.addEventListener('click', () => {
+      const val = input.value.trim();
+      if (!val) return;
+      addTag(val);
+      input.value = '';
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); addBtn.click(); }
+    });
+  });
+
   // Cosmetic-only tab switching: shows/hides static panels, no data fetching.
   const tabs = document.querySelectorAll('#detail-tabs .tab-btn');
   const panels = {
@@ -1190,12 +1263,19 @@
   btnAddInterdiction.addEventListener('click', () => formAddInterdiction.classList.toggle('hidden'));
   btnCancelInterdiction.addEventListener('click', () => formAddInterdiction.classList.add('hidden'));
 
-  // Cosmetic: show the "extend to all client sites" note only when scope = chantier
-  document.querySelectorAll('.scope-radio').forEach(radio => {
-    radio.addEventListener('change', (e) => {
-      document.getElementById('extend-note').classList.toggle('hidden', e.target.value !== 'chantier');
-    });
-  });
+  // Cosmetic: show the "restrict to specific chantiers" note only when scope = client entier ;
+  // show the chantier picker when scope = chantier spécifique, or when restricting a client-wide interdiction.
+  const fieldChantier = document.getElementById('field-chantier');
+  const extendNote = document.getElementById('extend-note');
+  const restreindreCheckbox = document.getElementById('restreindre-chantiers');
+  function updateInterdictionScopeUI() {
+    const scope = document.querySelector('.scope-radio:checked').value;
+    extendNote.classList.toggle('hidden', scope !== 'client');
+    fieldChantier.classList.toggle('hidden', scope === 'chantier' ? false : !restreindreCheckbox.checked);
+  }
+  document.querySelectorAll('.scope-radio').forEach(radio => radio.addEventListener('change', updateInterdictionScopeUI));
+  restreindreCheckbox.addEventListener('change', updateInterdictionScopeUI);
+  updateInterdictionScopeUI();
 
   // Cosmetic: toggle the "add availability" inline form
   const btnAddDispo = document.getElementById('btn-add-dispo');

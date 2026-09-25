@@ -47,6 +47,22 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 brand-text"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           Identité et coordonnées
         </h2>
+
+        <div class="flex items-center gap-4 pb-5 mb-5 border-b border-default">
+          <div class="relative flex-shrink-0">
+            <span id="profil-photo-fallback" class="w-20 h-20 rounded-full bg-white/70 flex items-center justify-center text-lg font-bold text-primary">TY</span>
+            <img id="profil-photo-preview" src="" alt="Photo de profil" class="hidden w-20 h-20 rounded-full object-cover">
+          </div>
+          <div class="text-sm">
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="document.getElementById('profil-photo-input').click()" class="btn-ghost text-xs px-3 py-1.5 rounded-lg font-semibold">Ajouter une photo</button>
+              <button id="profil-photo-remove" type="button" onclick="removePhoto()" class="hidden text-xs px-3 py-1.5 rounded-lg font-semibold text-secondary hover:text-primary">Retirer</button>
+              <input id="profil-photo-input" type="file" accept="image/*" class="hidden" onchange="previewPhoto(event)">
+            </div>
+            <p class="text-xs text-secondary mt-1.5 max-w-sm">Cette photo sera visible par les clients sur leurs plannings, pour vous reconnaître facilement en mission.</p>
+          </div>
+        </div>
+
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
           <div><label class="text-xs font-semibold text-secondary block mb-1">Prénom</label><input value="Thomas" class="w-full h-10 rounded-lg border-default border px-3"></div>
           <div><label class="text-xs font-semibold text-secondary block mb-1">Nom</label><input value="Yamini" class="w-full h-10 rounded-lg border-default border px-3"></div>
@@ -136,6 +152,24 @@
 
 <script src="assets/common.js"></script>
 <script>
+  function previewPhoto(event){
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('profil-photo-preview').src = e.target.result;
+      document.getElementById('profil-photo-preview').classList.remove('hidden');
+      document.getElementById('profil-photo-fallback').classList.add('hidden');
+      document.getElementById('profil-photo-remove').classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  }
+  function removePhoto(){
+    document.getElementById('profil-photo-input').value = '';
+    document.getElementById('profil-photo-preview').classList.add('hidden');
+    document.getElementById('profil-photo-fallback').classList.remove('hidden');
+    document.getElementById('profil-photo-remove').classList.add('hidden');
+  }
   function toggleVehicule(){
     const btn = document.getElementById('vehicule-toggle');
     const knob = document.getElementById('vehicule-knob');

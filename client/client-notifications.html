@@ -3,12 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Adaptel Client - Relevé d'heures</title>
+<title>Adaptel Client - Notifications</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root { color-scheme: light; }
   body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
   .chat-panel { transition: transform .2s ease, opacity .2s ease; }
+  .notif-card { transition: box-shadow .12s ease; }
+  .notif-card:hover { box-shadow: 0 6px 16px rgba(0,0,0,.07); }
+  .toggle-input { appearance: none; -webkit-appearance: none; width: 40px; height: 22px; border-radius: 9999px; background: #e5e7eb; position: relative; cursor: pointer; transition: background .2s ease; flex-shrink: 0; }
+  .toggle-input::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 9999px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.2); transition: transform .2s ease; }
+  .toggle-input:checked { background: #A63629; }
+  .toggle-input:checked::after { transform: translateX(18px); }
+  .toggle-input:disabled { opacity: .4; cursor: not-allowed; }
 </style>
 </head>
 <body class="antialiased bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen text-gray-900">
@@ -47,7 +54,7 @@
         </div>
       </a>
       <a class="block" href="client-releve-heures.html">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
           <span class="font-medium">Relevé d'heures</span>
         </div>
@@ -66,13 +73,13 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
             <span class="font-medium">Paramètres</span>
           </div>
-          <svg id="nav-parametres-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 transition-transform"><path d="m6 9 6 6 6-6"></path></svg>
+          <svg id="nav-parametres-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 transition-transform rotate-180"><path d="m6 9 6 6 6-6"></path></svg>
         </button>
-        <div id="nav-parametres-submenu" class="hidden mt-1.5 ml-4 space-y-1 border-l-2 border-gray-200 pl-4">
+        <div id="nav-parametres-submenu" class="mt-1.5 ml-4 space-y-1 border-l-2 border-gray-200 pl-4">
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-qualifications.html">Qualifications</a>
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-utilisateurs.html">Utilisateurs</a>
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-roles.html">Rôles</a>
-          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-notifications.html">Notifications</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 cursor-pointer text-white font-bold shadow-md" href="client-notifications.html" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Notifications</a>
         </div>
       </div>
     </nav>
@@ -89,7 +96,6 @@
       document.getElementById('nav-parametres-chevron').classList.toggle('rotate-180');
     }
   </script>
-
 
   <!-- MAIN AREA -->
   <main class="flex-1 overflow-auto flex flex-col min-w-0">
@@ -120,91 +126,64 @@
       </div>
     </header>
 
-    <div class="p-6 space-y-5 max-w-[1500px] w-full mx-auto">
+    <div class="p-6 space-y-5 max-w-[1200px] w-full mx-auto">
 
-      <div class="flex items-start justify-between gap-4 flex-wrap">
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-[#A63629]/5 to-transparent"></div>
+        <div class="relative flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <div class="p-4 rounded-2xl shadow-lg shadow-[#A63629]/20" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7 text-white"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+            </div>
+            <div>
+              <h1 class="text-2xl font-bold text-gray-900">Notifications</h1>
+              <p class="text-gray-500 mt-0.5">Choisissez comment vous souhaitez être alerté pour chaque type d'événement</p>
+            </div>
+          </div>
+          <button id="save-btn" onclick="saveNotifications()" class="px-5 py-3 text-white rounded-xl font-semibold flex items-center gap-2 hover:shadow-xl transition-all duration-300 shadow-lg shadow-[#A63629]/25" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"></path><path d="M7 3v4a1 1 0 0 0 1 1h7"></path></svg>
+            Enregistrer
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
+        <div class="p-2 rounded-lg bg-blue-100 flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-blue-600"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+        </div>
         <div>
-          <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Relevé d'heures</h1>
-          <p class="text-gray-600 text-sm mt-0.5">Consultez et validez les heures déclarées sur vos missions terminées</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <button onclick="validateAllVisible()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M20 6 9 17l-5-5"></path></svg>
-            Tout valider (filtre courant)
-          </button>
-          <button onclick="alert('Export en cours (format tableur).')" class="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-100 text-gray-800 rounded-xl font-semibold text-sm hover:bg-gray-200 transition-all">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M12 15V3"></path><path d="M3 15v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>
-            Exporter
-          </button>
+          <p class="font-medium text-blue-800">Deux canaux disponibles</p>
+          <p class="text-sm text-blue-700 mt-0.5">Les notifications par <span class="font-semibold">e-mail</span> sont envoyées à <span id="user-email" class="font-semibold">thomas.yamini@hyattparis.com</span>. Les notifications <span class="font-semibold">application</span> apparaissent dans la cloche en haut de votre espace client.</p>
         </div>
       </div>
 
-      <!-- FILTRES -->
-      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Période</label>
-            <select id="f-periode" onchange="render()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-              <option value="">Toutes périodes</option>
-              <option value="semaine">Cette semaine</option>
-              <option value="mois">Ce mois-ci</option>
-            </select>
+      <!-- En-tête colonnes -->
+      <div class="flex items-center justify-between px-5">
+        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Type d'événement</p>
+        <div class="flex items-center gap-8">
+          <div class="w-24 flex items-center justify-center gap-1.5 text-sm font-semibold text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+            E-mail
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Statut</label>
-            <select id="f-statut" onchange="render()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-              <option value="">Tous statuts</option>
-              <option value="a_valider">À valider</option>
-              <option value="valide">Validé</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Intérimaire</label>
-            <select id="f-interim" onchange="render()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-              <option value="">Tous</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Service</label>
-            <select id="f-service" onchange="render()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-              <option value="">Tous services</option>
-              <option value="Hébergement">Hébergement</option>
-              <option value="Housekeeping">Housekeeping</option>
-              <option value="Restauration">Restauration</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Qualification</label>
-            <select id="f-qualif" onchange="render()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-              <option value="">Toutes</option>
-            </select>
+          <div class="w-24 flex items-center justify-center gap-1.5 text-sm font-semibold text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+            Application
           </div>
         </div>
       </div>
 
-      <!-- TABLE -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
-              <tr>
-                <th class="px-4 py-2.5 text-left font-semibold">Intérimaire</th>
-                <th class="px-4 py-2.5 text-left font-semibold">Qualification</th>
-                <th class="px-4 py-2.5 text-left font-semibold">Service</th>
-                <th class="px-4 py-2.5 text-left font-semibold">Date</th>
-                <th class="px-4 py-2.5 text-left font-semibold">Prévu</th>
-                <th class="px-4 py-2.5 text-left font-semibold">Déclaré</th>
-                <th class="px-4 py-2.5 text-left font-semibold">Statut</th>
-                <th class="px-4 py-2.5 text-right font-semibold">Action</th>
-              </tr>
-            </thead>
-            <tbody id="releve-body" class="divide-y divide-gray-100"></tbody>
-          </table>
-        </div>
-      </div>
+      <div id="notif-groups" class="space-y-6"></div>
 
     </div>
   </main>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-24 opacity-0 transition-all duration-300 z-50">
+  <div class="flex items-center gap-2 px-5 py-3 rounded-xl text-white font-medium shadow-2xl" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M20 6 9 17l-5-5"></path></svg>
+    Préférences de notifications enregistrées
+  </div>
 </div>
 
 <!-- CHATBOT FLOTTANT -->
@@ -222,7 +201,7 @@
     <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 text-sm">
       <div class="flex justify-start">
         <div class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-2 max-w-[85%] shadow-sm">
-          Bonjour Thomas 👋 Une question sur un relevé d'heures ?
+          Bonjour Thomas 👋 Une question sur vos notifications ?
         </div>
       </div>
       <div id="chat-service-picker" class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-3 max-w-[95%] shadow-sm space-y-2">
@@ -339,91 +318,86 @@
     setTimeout(() => appendChatMessage(CHAT_DEPARTMENTS[chatService].reply, 'bot'), 600);
   }
 
-  const RELEVES = [
-    { id: 1, nom: "Anna Pizzol", q: "Réceptionniste", service: "Hébergement", date: "22/09/2026", prevu: "7h00", declare: "8h05", statut: "valide" },
-    { id: 2, nom: "Anna Pizzol", q: "Réceptionniste", service: "Hébergement", date: "21/09/2026", prevu: "7h00", declare: "7h00", statut: "a_valider" },
-    { id: 3, nom: "Julien Martin", q: "Commis de cuisine", service: "Restauration", date: "19/09/2026", prevu: "7h30", declare: "7h30", statut: "valide" },
-    { id: 4, nom: "Léa Richard", q: "Femme de chambre", service: "Housekeeping", date: "22/09/2026", prevu: "7h30", declare: "7h45", statut: "a_valider" },
-    { id: 5, nom: "Léa Richard", q: "Femme de chambre", service: "Housekeeping", date: "21/09/2026", prevu: "7h30", declare: "7h30", statut: "a_valider" },
-    { id: 6, nom: "Marco De Luca", q: "Chef de rang", service: "Restauration", date: "20/09/2026", prevu: "7h30", declare: "7h50", statut: "a_valider" },
-    { id: 7, nom: "Karim Traoré", q: "Bagagiste", service: "Hébergement", date: "19/09/2026", prevu: "7h30", declare: "7h30", statut: "valide" }
+  // ---------- Data ----------
+  // email: notification envoyée par e-mail | app: notification affichée dans la cloche de l'application
+  // locked: canal non désactivable (événement critique, toujours notifié par ce biais)
+  const NOTIF_GROUPS = [
+    {
+      titre: "Commandes",
+      items: [
+        { id: "cmd-nouvelle", label: "Nouvelle commande transmise à Adaptel", desc: "Confirmation d'envoi de votre demande de personnel", email: true, app: true },
+        { id: "cmd-confirmee", label: "Commande confirmée", desc: "Un ou plusieurs intérimaires ont été affectés à votre commande", email: true, app: true },
+        { id: "cmd-modifiee", label: "Modification d'une commande", desc: "Changement d'horaire, de poste ou de créneau", email: true, app: true },
+        { id: "cmd-annulee", label: "Annulation d'une commande", desc: "Une commande a été annulée par Adaptel", email: true, app: true, locked: "app" }
+      ]
+    },
+    {
+      titre: "Planning & intérimaires",
+      items: [
+        { id: "plan-modif", label: "Modification du planning", desc: "Ajout, retrait ou changement de mission sur votre planning", email: false, app: true },
+        { id: "interim-absence", label: "Absence ou retard signalé", desc: "Un intérimaire signale une absence ou un retard", email: true, app: true, locked: "app" }
+      ]
+    },
+    {
+      titre: "Relevés d'heures & facturation",
+      items: [
+        { id: "rh-rappel", label: "Rappel de validation du relevé d'heures", desc: "Un relevé est en attente de votre validation", email: true, app: true },
+        { id: "facture-dispo", label: "Nouvelle facture disponible", desc: "Une facture est prête à être consultée", email: true, app: false }
+      ]
+    },
+    {
+      titre: "Compte & support",
+      items: [
+        { id: "support-reponse", label: "Réponse du support Adaptel", desc: "Le support a répondu à l'une de vos demandes", email: false, app: true },
+        { id: "compte-securite", label: "Alerte de sécurité du compte", desc: "Connexion inhabituelle ou changement de mot de passe", email: true, app: true, locked: "email" }
+      ]
+    }
   ];
 
-  function populateSelectOptions() {
-    const interims = [...new Set(RELEVES.map(r => r.nom))].sort();
-    const quals = [...new Set(RELEVES.map(r => r.q))].sort();
-    const interimSel = document.getElementById('f-interim');
-    interims.forEach(n => interimSel.insertAdjacentHTML('beforeend', `<option value="${n}">${n}</option>`));
-    const qualSel = document.getElementById('f-qualif');
-    quals.forEach(q => qualSel.insertAdjacentHTML('beforeend', `<option value="${q}">${q}</option>`));
+  function toggleHtml(notifId, canal, checked, locked) {
+    const isLocked = locked === canal;
+    return `<input type="checkbox" class="toggle-input" id="${notifId}-${canal}" data-notif="${notifId}" data-canal="${canal}" ${checked ? 'checked' : ''} ${isLocked ? 'disabled title="Notification obligatoire pour cet événement"' : ''}>`;
   }
-
-  function getFiltered() {
-    const statut = document.getElementById('f-statut').value;
-    const interim = document.getElementById('f-interim').value;
-    const service = document.getElementById('f-service').value;
-    const qualif = document.getElementById('f-qualif').value;
-    return RELEVES.filter(r =>
-      (!statut || r.statut === statut) &&
-      (!interim || r.nom === interim) &&
-      (!service || r.service === service) &&
-      (!qualif || r.q === qualif)
-    );
-  }
-
-  function initials(nom) { return nom.split(' ').map(p => p[0]).join('').toUpperCase().slice(0,2); }
 
   function render() {
-    const rows = getFiltered();
-    const tbody = document.getElementById('releve-body');
-    if (rows.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="8" class="px-4 py-8 text-center text-gray-400 text-sm">Aucun relevé pour ces filtres.</td></tr>`;
-      return;
-    }
-    tbody.innerHTML = rows.map(r => `
-      <tr>
-        <td class="px-4 py-3">
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0 bg-gradient-to-br from-gray-500 to-gray-600">${initials(r.nom)}</div>
-            <span class="font-medium text-gray-800">${r.nom}</span>
-          </div>
-        </td>
-        <td class="px-4 py-3 text-gray-600">${r.q}</td>
-        <td class="px-4 py-3 text-gray-600">${r.service}</td>
-        <td class="px-4 py-3 text-gray-600">${r.date}</td>
-        <td class="px-4 py-3 text-gray-600">${r.prevu}</td>
-        <td class="px-4 py-3 font-semibold text-gray-800">${r.declare}</td>
-        <td class="px-4 py-3">
-          ${r.statut === 'valide'
-            ? `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">Validé</span>`
-            : `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-700">À valider</span>`}
-        </td>
-        <td class="px-4 py-3 text-right">
-          ${r.statut === 'a_valider'
-            ? `<button onclick="validateOne(${r.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white shadow-sm" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M20 6 9 17l-5-5"></path></svg>
-                Valider
-              </button>`
-            : `<span class="text-xs text-gray-300">—</span>`}
-        </td>
-      </tr>
+    document.getElementById('notif-groups').innerHTML = NOTIF_GROUPS.map(group => `
+      <div>
+        <h2 class="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-3 px-1">${group.titre}</h2>
+        <div class="bg-white rounded-xl border border-gray-100 divide-y divide-gray-100 overflow-hidden">
+          ${group.items.map(item => `
+            <div class="notif-card flex items-center justify-between gap-4 p-5">
+              <div class="min-w-[220px]">
+                <p class="font-medium text-gray-900">${item.label}</p>
+                <p class="text-sm text-gray-500 mt-0.5">${item.desc}</p>
+              </div>
+              <div class="flex items-center gap-8 flex-shrink-0">
+                <div class="w-24 flex items-center justify-center">${toggleHtml(item.id, 'email', item.email, item.locked)}</div>
+                <div class="w-24 flex items-center justify-center">${toggleHtml(item.id, 'app', item.app, item.locked)}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
     `).join('');
   }
 
-  function validateOne(id) {
-    const r = RELEVES.find(x => x.id === id);
-    r.statut = 'valide';
-    render();
-  }
-  function validateAllVisible() {
-    getFiltered().forEach(r => { if (r.statut === 'a_valider') r.statut = 'valide'; });
-    render();
+  function saveNotifications() {
+    const prefs = {};
+    NOTIF_GROUPS.forEach(group => group.items.forEach(item => {
+      prefs[item.id] = {
+        email: document.getElementById(`${item.id}-email`).checked,
+        app: document.getElementById(`${item.id}-app`).checked
+      };
+    }));
+    // À brancher sur l'API de préférences de notifications du client
+    console.log('Préférences enregistrées :', prefs);
+
+    const toast = document.getElementById('toast');
+    toast.classList.remove('opacity-0', 'translate-y-24');
+    setTimeout(() => toast.classList.add('opacity-0', 'translate-y-24'), 2500);
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    populateSelectOptions();
-    render();
-  });
+  render();
 </script>
 
 </body>

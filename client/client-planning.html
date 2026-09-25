@@ -76,6 +76,7 @@
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-qualifications.html">Qualifications</a>
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-utilisateurs.html">Utilisateurs</a>
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-roles.html">Rôles</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-notifications.html">Notifications</a>
         </div>
       </div>
     </nav>
@@ -214,22 +215,35 @@
     <div class="px-4 py-3 text-white flex items-center justify-between" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
       <div>
         <p class="font-semibold text-sm">Support Adaptel</p>
-        <p class="text-[11px] text-white/80">Réponse garantie sous 2h</p>
+        <p id="chat-subtitle" class="text-[11px] text-white/80">Réponse garantie sous 2h</p>
       </div>
       <button onclick="toggleChat()" class="p-1 hover:bg-white/10 rounded-lg">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
       </button>
     </div>
-    <div class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 text-sm">
+    <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 text-sm">
       <div class="flex justify-start">
         <div class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-2 max-w-[85%] shadow-sm">
           Bonjour Thomas 👋 Une question sur le planning ? Écrivez-nous ici.
         </div>
       </div>
+      <div id="chat-service-picker" class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-3 max-w-[95%] shadow-sm space-y-2">
+        <p class="text-gray-700">Avec qui souhaitez-vous échanger ?</p>
+        <div class="grid grid-cols-1 gap-2">
+          <button onclick="selectChatService('commercial')" class="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:border-[#A63629] hover:bg-[#A63629]/5 text-left text-gray-700 font-medium transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629] flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+            Service commercial
+          </button>
+          <button onclick="selectChatService('administratif')" class="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:border-[#A63629] hover:bg-[#A63629]/5 text-left text-gray-700 font-medium transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629] flex-shrink-0"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"></path></svg>
+            Service administratif
+          </button>
+        </div>
+      </div>
     </div>
     <div class="p-3 border-t border-gray-200 flex items-center gap-2">
-      <input type="text" placeholder="Écrire un message…" class="flex-1 h-9 rounded-lg border border-gray-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-      <button class="w-9 h-9 rounded-lg flex items-center justify-center text-white flex-shrink-0" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+      <input id="chat-input" type="text" placeholder="Choisissez un service pour commencer…" disabled onkeydown="if(event.key==='Enter') sendChatMessage()" class="flex-1 h-9 rounded-lg border border-gray-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] disabled:bg-gray-100 disabled:cursor-not-allowed">
+      <button id="chat-send-btn" onclick="sendChatMessage()" disabled class="w-9 h-9 rounded-lg flex items-center justify-center text-white flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
       </button>
     </div>
@@ -253,6 +267,80 @@
   }
   function toggleChat() { document.getElementById('chat-panel').classList.toggle('hidden'); }
 
+  const CHAT_DEPARTMENTS = {
+    commercial: { label: "Service commercial", reply: "Merci, votre message a bien été transmis au service commercial. Un conseiller vous répond sous 2h." },
+    administratif: { label: "Service administratif", reply: "Merci, votre message a bien été transmis au service administratif. Un conseiller vous répond sous 2h." }
+  };
+  let chatService = null;
+
+  function appendChatMessage(text, from) {
+    const messages = document.getElementById('chat-messages');
+    const wrap = document.createElement('div');
+    wrap.className = from === 'user' ? 'flex justify-end' : 'flex justify-start';
+    const bubble = document.createElement('div');
+    bubble.className = from === 'user'
+      ? 'text-white rounded-2xl rounded-br-sm px-3 py-2 max-w-[85%] shadow-sm'
+      : 'bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-2 max-w-[85%] shadow-sm';
+    if (from === 'user') bubble.style.background = 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)';
+    bubble.textContent = text;
+    wrap.appendChild(bubble);
+    messages.appendChild(wrap);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function appendServicePicker() {
+    const messages = document.getElementById('chat-messages');
+    const picker = document.createElement('div');
+    picker.id = 'chat-service-picker';
+    picker.className = 'bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-3 max-w-[95%] shadow-sm space-y-2';
+    picker.innerHTML = `
+      <p class="text-gray-700">Avec qui souhaitez-vous échanger ?</p>
+      <div class="grid grid-cols-1 gap-2">
+        <button onclick="selectChatService('commercial')" class="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:border-[#A63629] hover:bg-[#A63629]/5 text-left text-gray-700 font-medium transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629] flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          Service commercial
+        </button>
+        <button onclick="selectChatService('administratif')" class="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:border-[#A63629] hover:bg-[#A63629]/5 text-left text-gray-700 font-medium transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629] flex-shrink-0"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"></path></svg>
+          Service administratif
+        </button>
+      </div>`;
+    messages.appendChild(picker);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function selectChatService(service) {
+    chatService = service;
+    const picker = document.getElementById('chat-service-picker');
+    if (picker) picker.remove();
+    appendChatMessage(`Vous échangez maintenant avec le ${CHAT_DEPARTMENTS[service].label.toLowerCase()}. Posez votre question.`, 'bot');
+    document.getElementById('chat-subtitle').innerHTML = `${CHAT_DEPARTMENTS[service].label} · <button onclick="resetChatService()" class="underline hover:text-white">changer</button>`;
+    const input = document.getElementById('chat-input');
+    input.disabled = false;
+    input.placeholder = 'Écrire un message…';
+    document.getElementById('chat-send-btn').disabled = false;
+    input.focus();
+  }
+
+  function resetChatService() {
+    chatService = null;
+    document.getElementById('chat-subtitle').textContent = 'Réponse garantie sous 2h';
+    const input = document.getElementById('chat-input');
+    input.disabled = true;
+    input.placeholder = 'Choisissez un service pour commencer…';
+    document.getElementById('chat-send-btn').disabled = true;
+    appendServicePicker();
+  }
+
+  function sendChatMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text || !chatService) return;
+    appendChatMessage(text, 'user');
+    input.value = '';
+    setTimeout(() => appendChatMessage(CHAT_DEPARTMENTS[chatService].reply, 'bot'), 600);
+  }
+
   // ---------- Data ----------
   const DAYS = [
     { label: "Lun.", date: "21/09" },
@@ -272,6 +360,16 @@
     { service: "Restauration", label: "Restauration — Cuisine" }
   ];
 
+  // Photo par intérimaire (portrait carré, recadré en rond à l'affichage)
+  const PHOTOS = {
+    "A. Pizzol": "https://i.pravatar.cc/150?img=13",
+    "K. Traoré": "https://i.pravatar.cc/150?img=52",
+    "L. Richard": "https://i.pravatar.cc/150?img=47",
+    "S. Nguyen": "https://i.pravatar.cc/150?img=65",
+    "M. De Luca": "https://i.pravatar.cc/150?img=33",
+    "J. Martin": "https://i.pravatar.cc/150?img=15"
+  };
+
   // day index 0-6 (Lun-Dim)
   const MISSIONS = [
     { ligne: 0, day: 1, nom: "A. Pizzol", q: "Réceptionniste", horaire: "7h–15h", statut: "validee" },
@@ -290,7 +388,7 @@
     { ligne: 3, day: 5, nom: "—", q: "Chef de rang", horaire: "18h–02h", statut: "astaffer" },
     { ligne: 4, day: 4, nom: "J. Martin", q: "Commis de cuisine", horaire: "9h–17h", statut: "validee" },
     { ligne: 4, day: 5, nom: "J. Martin", q: "Commis de cuisine", horaire: "9h–17h", statut: "validee" }
-  ];
+  ].map(m => ({ ...m, photo: PHOTOS[m.nom] || null }));
 
   const STATUT_STYLE = {
     astaffer: "bg-amber-100 border-amber-300 text-amber-800",
@@ -309,6 +407,13 @@
   function initials(nom) {
     if (nom === "—") return "?";
     return nom.split(' ').map(p => p.replace('.', '')[0]).join('').toUpperCase().slice(0,2);
+  }
+
+  function avatarHtml(nom, photo, sizeClass, textSizeClass) {
+    const fallback = `<span class="${sizeClass} rounded-full bg-white/70 flex items-center justify-center ${textSizeClass} font-bold flex-shrink-0">${initials(nom)}</span>`;
+    if (!photo) return fallback;
+    const fallbackForJsString = fallback.replace(/"/g, '&quot;');
+    return `<img src="${photo}" alt="${nom}" class="${sizeClass} rounded-full object-cover flex-shrink-0" onerror="this.outerHTML='${fallbackForJsString}'">`;
   }
 
   function renderGrid() {
@@ -336,7 +441,7 @@
           html += `<div class="slot rounded-lg border ${style} ${supBorder} px-2 py-1.5 h-full"
             onclick='openSlotModal(${JSON.stringify(m).replace(/'/g, "&apos;")})'>
             <div class="flex items-center gap-1.5">
-              <span class="w-5 h-5 rounded-full bg-white/70 flex items-center justify-center text-[9px] font-bold flex-shrink-0">${initials(m.nom)}</span>
+              ${avatarHtml(m.nom, m.photo, 'w-5 h-5', 'text-[9px]')}
               <span class="text-[11px] font-bold truncate">${m.nom}</span>
             </div>
             <p class="text-[10px] font-semibold mt-0.5">${m.horaire}</p>
@@ -354,7 +459,7 @@
   function openSlotModal(m) {
     document.getElementById('slot-modal-body').innerHTML = `
       <div class="flex items-center gap-3">
-        <div class="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 bg-gradient-to-br from-gray-500 to-gray-600">${initials(m.nom)}</div>
+        ${m.photo ? avatarHtml(m.nom, m.photo, 'w-12 h-12', 'text-sm') : `<div class="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 bg-gradient-to-br from-gray-500 to-gray-600">${initials(m.nom)}</div>`}
         <div>
           <p class="font-bold text-gray-900">${m.nom}</p>
           <p class="text-sm text-gray-500">${m.q}</p>

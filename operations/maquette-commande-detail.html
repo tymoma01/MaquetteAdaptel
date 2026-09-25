@@ -326,9 +326,9 @@
       <label class="flex items-start gap-3 p-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50">
         <input type="radio" name="cancel-scope" value="jour" checked onchange="updateCancelScope()" class="mt-1 w-4 h-4 text-[#A63629]">
         <div class="flex-1">
-          <p class="text-sm font-semibold text-gray-900">Annuler un jour précis</p>
-          <p class="text-xs text-gray-500 mt-0.5">La commande est raccourcie : les autres jours restent actifs. Le jour annulé reste visible, marqué comme annulé.</p>
-          <select id="cancel-day-select" class="mt-2 h-9 w-full rounded-lg border border-gray-200 bg-white px-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]"></select>
+          <p class="text-sm font-semibold text-gray-900">Annuler un ou plusieurs jours précis</p>
+          <p class="text-xs text-gray-500 mt-0.5">La commande est raccourcie : les autres jours restent actifs. Les jours annulés restent visibles, marqués comme annulés.</p>
+          <div id="cancel-day-list" class="mt-2 max-h-40 overflow-y-auto space-y-1 rounded-lg border border-gray-200 bg-white p-2"></div>
         </div>
       </label>
       <label class="flex items-start gap-3 p-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50">
@@ -426,10 +426,15 @@
 
   // ===== Annulation =====
   function openCancelModal() {
-    const select = document.getElementById('cancel-day-select');
+    const list = document.getElementById('cancel-day-list');
     const activeDays = days.filter(d => !d.cancelled);
     if (activeDays.length === 0) { alert('Tous les jours de cette commande sont déjà annulés.'); return; }
-    select.innerHTML = activeDays.map(d => `<option value="${d.date}">${d.label}</option>`).join('');
+    list.innerHTML = activeDays.map(d => `
+      <label class="flex items-center gap-2 py-1 px-1 rounded hover:bg-gray-50 cursor-pointer">
+        <input type="checkbox" class="cancel-day-checkbox w-4 h-4 text-[#A63629] rounded border-gray-300 focus:ring-[#A63629]" value="${d.date}">
+        <span class="text-sm text-gray-800">${d.label}</span>
+      </label>
+    `).join('');
     document.querySelector('input[name="cancel-scope"][value="jour"]').checked = true;
     updateCancelScope();
     document.getElementById('cancel-backdrop').classList.remove('hidden');
@@ -444,8 +449,9 @@
 
   function updateCancelScope() {
     const scope = document.querySelector('input[name="cancel-scope"]:checked').value;
-    document.getElementById('cancel-day-select').disabled = scope !== 'jour';
-    document.getElementById('cancel-day-select').classList.toggle('opacity-50', scope !== 'jour');
+    const list = document.getElementById('cancel-day-list');
+    list.classList.toggle('opacity-50', scope !== 'jour');
+    list.querySelectorAll('.cancel-day-checkbox').forEach(cb => { cb.disabled = scope !== 'jour'; });
   }
 
   function confirmCancel() {
@@ -459,13 +465,20 @@
       statut = 'Annulée';
       addHistorique(`Commande annulée intégralement (${count} jour${count > 1 ? 's' : ''} restant${count > 1 ? 's' : ''} concerné${count > 1 ? 's' : ''}).`);
     } else {
-      const dateStr = document.getElementById('cancel-day-select').value;
-      const day = days.find(d => d.date === dateStr);
-      if (day) {
-        day.cancelled = true;
-        day.info = 'Annulé le ' + new Date().toLocaleDateString('fr-FR') + '.';
-        addHistorique(`Jour du ${day.label.replace(/^\w+\.\s*/, '')} annulé — commande raccourcie.`);
-      }
+      const checkedDates = Array.from(document.querySelectorAll('.cancel-day-checkbox:checked')).map(cb => cb.value);
+      if (checkedDates.length === 0) { alert('Sélectionnez au moins un jour à annuler.'); return; }
+      const cancelledLabels = [];
+      checkedDates.forEach(dateStr => {
+        const day = days.find(d => d.date === dateStr);
+        if (day) {
+          day.cancelled = true;
+          day.info = 'Annulé le ' + new Date().toLocaleDateString('fr-FR') + '.';
+          cancelledLabels.push(day.label.replace(/^\w+\.\s*/, ''));
+        }
+      });
+      addHistorique(cancelledLabels.length > 1
+        ? `Jours annulés (${cancelledLabels.join(', ')}) — commande raccourcie.`
+        : `Jour du ${cancelledLabels[0]} annulé — commande raccourcie.`);
       const stillActive = days.some(d => !d.cancelled);
       if (!stillActive) {
         statut = 'Annulée';

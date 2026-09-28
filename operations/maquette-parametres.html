@@ -164,8 +164,32 @@
           <p class="text-sm text-gray-600 max-w-2xl">Configuration transverse des règles utilisées par les modules Disponibilités et Planning.</p>
         </div>
 
-        <!-- SECTION : DISPONIBILITES TYPE PAR QUALIFICATION -->
+        <!-- FILTRE DE SECTION -->
         <div class="max-w-[1400px] mx-auto">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider mr-0.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+              Filtrer
+            </span>
+            <div id="section-filters" class="flex flex-wrap gap-2">
+              <button type="button" data-filter="all" onclick="setSectionFilter('all')" class="section-filter-btn inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-semibold h-9 px-4 transition-all cursor-pointer">
+                <svg class="section-filter-check hidden h-3.5 w-3.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                Toutes les sections
+              </button>
+              <button type="button" data-filter="dispo" onclick="setSectionFilter('dispo')" class="section-filter-btn inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-semibold h-9 px-4 transition-all cursor-pointer">
+                <svg class="section-filter-check hidden h-3.5 w-3.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                Disponibilités type par qualification
+              </button>
+              <button type="button" data-filter="groupes" onclick="setSectionFilter('groupes')" class="section-filter-btn inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-semibold h-9 px-4 transition-all cursor-pointer">
+                <svg class="section-filter-check hidden h-3.5 w-3.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                Groupes de qualifications similaires
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION : DISPONIBILITES TYPE PAR QUALIFICATION -->
+        <div class="max-w-[1400px] mx-auto" data-section="dispo">
           <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
             <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 p-6 border-b border-gray-200 bg-gray-50">
               <div>
@@ -182,6 +206,27 @@
             </div>
 
             <div id="qualif-templates-list" class="divide-y divide-gray-100"></div>
+          </div>
+        </div>
+
+        <!-- SECTION : GROUPES DE QUALIFICATIONS SIMILAIRES -->
+        <div class="max-w-[1400px] mx-auto" data-section="groupes">
+          <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 p-6 border-b border-gray-200 bg-gray-50">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><circle cx="9" cy="7" r="4"></circle><path d="M2 21a7 7 0 0 1 14 0"></path><circle cx="18" cy="8" r="3"></circle><path d="M22 20.5a5.5 5.5 0 0 0-8-4.9"></path></svg>
+                  Groupes de qualifications similaires
+                </h3>
+                <p class="text-sm text-gray-500 mt-0.5 max-w-2xl">Si aucun intérimaire n'est disponible sur la qualification exacte d'une commande, le système propose en correspondance partielle les intérimaires qualifiés sur les autres métiers du même groupe. Une qualification ne peut appartenir qu'à un seul groupe à la fois.</p>
+              </div>
+              <button type="button" id="btn-add-group" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 gap-2 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
+                Ajouter un groupe
+              </button>
+            </div>
+
+            <div id="qualif-groups-list" class="divide-y divide-gray-100"></div>
           </div>
         </div>
 
@@ -237,6 +282,51 @@
     <div class="flex gap-3 pt-1">
       <button id="qualif-modal-cancel" type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4 flex-1">Annuler</button>
       <button id="qualif-modal-save" type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 flex-1">Créer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL : CREER UN GROUPE DE QUALIFICATIONS -->
+<div id="group-modal-backdrop" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="font-bold text-gray-900 text-lg">Nouveau groupe de qualifications</h3>
+      <button id="group-modal-close" class="p-1.5 rounded-lg hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-gray-500"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    <div>
+      <label class="text-sm text-gray-700 font-semibold">Nom du groupe</label>
+      <input id="group-modal-name" type="text" placeholder="Ex : Salle" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+    </div>
+    <div>
+      <label class="text-sm text-gray-700 font-semibold">Qualifications du groupe</label>
+      <p class="text-xs text-gray-500 mb-2">Un intérimaire qualifié sur l'une d'elles pourra être proposé en correspondance partielle sur les commandes des autres qualifications du groupe.</p>
+      <div id="group-modal-qualifs" class="grid grid-cols-2 gap-2 max-h-56 overflow-y-auto pr-1"></div>
+    </div>
+    <div class="flex gap-3 pt-1">
+      <button id="group-modal-cancel" type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4 flex-1">Annuler</button>
+      <button id="group-modal-save" type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 flex-1">Créer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL : AJOUTER UNE QUALIFICATION A UN GROUPE -->
+<div id="group-qualif-modal-backdrop" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6 space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="font-bold text-gray-900 text-lg">Ajouter une qualification</h3>
+      <button id="group-qualif-modal-close" class="p-1.5 rounded-lg hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-gray-500"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    <div>
+      <label class="text-sm text-gray-700 font-semibold">Qualification</label>
+      <select id="group-qualif-modal-select" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm"></select>
+    </div>
+    <div class="flex gap-3 pt-1">
+      <button id="group-qualif-modal-cancel" type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4 flex-1">Annuler</button>
+      <button id="group-qualif-modal-save" type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 flex-1">Ajouter</button>
     </div>
   </div>
 </div>
@@ -393,6 +483,148 @@
   qualifBackdrop.addEventListener('click', (e) => { if (e.target === qualifBackdrop) closeQualifModal(); });
 
   render();
+
+  // ===== Groupes de qualifications similaires =====
+  // Cosmetic: client-side only, no persistence. Sert à proposer des correspondances partielles
+  // côté Planning ("best match") lorsqu'aucun intérimaire n'est disponible sur la qualification exacte.
+  const ALL_QUALIFICATIONS = [
+    'Réceptionniste', "Hôtesse d'accueil", 'Bagagiste', 'Femme de chambre',
+    'Chef de rang', "Maître d'hôtel", 'Serveuse', 'Sommelière', 'Barman',
+    'Cuisinier', 'Chef cuisinier', 'Commis de cuisine', 'Pâtissière', 'Plongeur'
+  ];
+
+  let QUALIF_GROUPS = [
+    { id: 'g1', nom: 'Salle', qualifs: ['Chef de rang', "Maître d'hôtel", 'Serveuse', 'Sommelière'] },
+    { id: 'g2', nom: 'Cuisine', qualifs: ['Cuisinier', 'Chef cuisinier', 'Commis de cuisine', 'Pâtissière', 'Plongeur'] },
+    { id: 'g3', nom: 'Accueil', qualifs: ['Réceptionniste', "Hôtesse d'accueil", 'Bagagiste'] }
+  ];
+  let nextGroupId = 4;
+
+  // Une qualification ne peut appartenir qu'à un seul groupe : on exclut celles déjà utilisées ailleurs.
+  function qualifsDejaGroupees(){
+    const used = new Set();
+    QUALIF_GROUPS.forEach(g => g.qualifs.forEach(q => used.add(q)));
+    return used;
+  }
+
+  function renderGroups(){
+    const wrap = document.getElementById('qualif-groups-list');
+    wrap.innerHTML = QUALIF_GROUPS.map(g => `
+      <div class="p-5">
+        <div class="flex items-center justify-between gap-3 mb-3">
+          <h4 class="font-semibold text-gray-900">${g.nom}</h4>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="openAddQualifToGroupModal('${g.id}')" class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-8 px-3 text-xs font-semibold text-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+              Ajouter une qualification
+            </button>
+            <button type="button" onclick="removeGroup('${g.id}')" title="Supprimer ce groupe" class="p-1.5 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-600">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          ${g.qualifs.length ? g.qualifs.map(q => `
+            <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 pl-3 pr-1.5 py-1 text-xs font-medium text-gray-700">
+              ${q}
+              <button type="button" onclick="removeQualifFromGroup('${g.id}', '${q}')" title="Retirer du groupe" class="p-1 rounded-full hover:bg-red-100 text-gray-500 hover:text-red-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+              </button>
+            </span>
+          `).join('') : '<p class="text-xs text-gray-400 italic">Aucune qualification dans ce groupe — aucune correspondance partielle ne sera proposée.</p>'}
+        </div>
+      </div>
+    `).join('') || '<p class="p-5 text-xs text-gray-400 italic">Aucun groupe défini.</p>';
+  }
+
+  /* ---- Création d'un groupe ---- */
+  const groupBackdrop = document.getElementById('group-modal-backdrop');
+  function openGroupModal(){
+    document.getElementById('group-modal-name').value = '';
+    const used = qualifsDejaGroupees();
+    const available = ALL_QUALIFICATIONS.filter(q => !used.has(q));
+    document.getElementById('group-modal-qualifs').innerHTML = available.length ? available.map(q => `
+      <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 border border-gray-200 rounded-lg px-2.5 py-1.5">
+        <input type="checkbox" value="${q}" class="text-[#A63629] focus:ring-[#A63629]"> ${q}
+      </label>
+    `).join('') : '<p class="col-span-2 text-xs text-gray-400 italic">Toutes les qualifications appartiennent déjà à un groupe.</p>';
+    groupBackdrop.classList.remove('hidden');
+  }
+  function closeGroupModal(){ groupBackdrop.classList.add('hidden'); }
+  function saveGroup(){
+    const name = document.getElementById('group-modal-name').value.trim();
+    if(!name || QUALIF_GROUPS.some(g => g.nom.toLowerCase() === name.toLowerCase())) return;
+    const qualifs = Array.from(document.querySelectorAll('#group-modal-qualifs input:checked')).map(i => i.value);
+    QUALIF_GROUPS.push({ id: 'g' + (nextGroupId++), nom: name, qualifs });
+    renderGroups();
+    closeGroupModal();
+  }
+  function removeGroup(id){
+    QUALIF_GROUPS = QUALIF_GROUPS.filter(g => g.id !== id);
+    renderGroups();
+  }
+  function removeQualifFromGroup(id, qualif){
+    const g = QUALIF_GROUPS.find(x => x.id === id);
+    g.qualifs = g.qualifs.filter(q => q !== qualif);
+    renderGroups();
+  }
+
+  /* ---- Ajout d'une qualification à un groupe existant ---- */
+  const groupQualifBackdrop = document.getElementById('group-qualif-modal-backdrop');
+  let groupQualifContext = null;
+  function openAddQualifToGroupModal(id){
+    groupQualifContext = id;
+    const used = qualifsDejaGroupees();
+    const available = ALL_QUALIFICATIONS.filter(q => !used.has(q));
+    const select = document.getElementById('group-qualif-modal-select');
+    if(available.length){
+      select.disabled = false;
+      select.innerHTML = available.map(q => `<option value="${q}">${q}</option>`).join('');
+    } else {
+      select.disabled = true;
+      select.innerHTML = '<option value="">Toutes les qualifications appartiennent déjà à un groupe</option>';
+    }
+    groupQualifBackdrop.classList.remove('hidden');
+  }
+  function closeAddQualifToGroupModal(){ groupQualifBackdrop.classList.add('hidden'); }
+  function saveAddQualifToGroup(){
+    const select = document.getElementById('group-qualif-modal-select');
+    if(select.disabled || !select.value) return;
+    const g = QUALIF_GROUPS.find(x => x.id === groupQualifContext);
+    g.qualifs.push(select.value);
+    renderGroups();
+    closeAddQualifToGroupModal();
+  }
+
+  document.getElementById('btn-add-group').addEventListener('click', openGroupModal);
+  document.getElementById('group-modal-close').addEventListener('click', closeGroupModal);
+  document.getElementById('group-modal-cancel').addEventListener('click', closeGroupModal);
+  document.getElementById('group-modal-save').addEventListener('click', saveGroup);
+  groupBackdrop.addEventListener('click', (e) => { if (e.target === groupBackdrop) closeGroupModal(); });
+  document.getElementById('group-qualif-modal-close').addEventListener('click', closeAddQualifToGroupModal);
+  document.getElementById('group-qualif-modal-cancel').addEventListener('click', closeAddQualifToGroupModal);
+  document.getElementById('group-qualif-modal-save').addEventListener('click', saveAddQualifToGroup);
+  groupQualifBackdrop.addEventListener('click', (e) => { if (e.target === groupQualifBackdrop) closeAddQualifToGroupModal(); });
+
+  renderGroups();
+
+  // ===== Filtre de section =====
+  const SECTION_FILTER_ACTIVE = 'rounded-full border border-transparent bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20';
+  const SECTION_FILTER_INACTIVE = 'rounded-full border border-gray-300 bg-white text-gray-700 shadow-sm hover:bg-gray-50 hover:border-[#A63629]/40 hover:text-[#A63629]';
+
+  function setSectionFilter(filter){
+    document.querySelectorAll('.section-filter-btn').forEach(btn => {
+      const active = btn.dataset.filter === filter;
+      btn.className = 'section-filter-btn inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-semibold h-9 px-4 transition-all cursor-pointer ' + (active ? SECTION_FILTER_ACTIVE : SECTION_FILTER_INACTIVE);
+      const check = btn.querySelector('.section-filter-check');
+      if (check) check.classList.toggle('hidden', !active);
+    });
+    document.querySelectorAll('[data-section]').forEach(sec => {
+      sec.classList.toggle('hidden', filter !== 'all' && sec.dataset.section !== filter);
+    });
+  }
+
+  setSectionFilter('all');
 </script>
 
 </body>

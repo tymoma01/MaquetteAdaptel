@@ -116,7 +116,7 @@
           <span class="font-medium">Administration</span>
         </div>
       </a>
-      <a class="block" href="#">
+      <a class="block" href="maquette-parametres.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
           <span class="font-medium">Paramètres</span>
@@ -396,6 +396,16 @@
         <input id="avail-modal-end" type="date" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
       </div>
     </div>
+    <div id="avail-modal-hours-wrap" class="grid grid-cols-2 gap-3">
+      <div>
+        <label class="text-sm text-gray-700 font-semibold">Heure de début</label>
+        <input id="avail-modal-hour-start" type="time" value="09:00" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+      </div>
+      <div>
+        <label class="text-sm text-gray-700 font-semibold">Heure de fin</label>
+        <input id="avail-modal-hour-end" type="time" value="17:00" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+      </div>
+    </div>
     <div>
       <label class="text-sm text-gray-700 font-semibold">Récurrence</label>
       <select id="avail-modal-recurrence" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
@@ -471,6 +481,8 @@
   const modalTypeRadios = document.querySelectorAll('input[name="avail-modal-type"]');
   const modalStart = document.getElementById('avail-modal-start');
   const modalEnd = document.getElementById('avail-modal-end');
+  const modalHourStart = document.getElementById('avail-modal-hour-start');
+  const modalHourEnd = document.getElementById('avail-modal-hour-end');
   const modalRecurrence = document.getElementById('avail-modal-recurrence');
   const modalConflict = document.getElementById('avail-modal-conflict');
   const modalConflictText = document.getElementById('avail-modal-conflict-text');
@@ -522,6 +534,8 @@
     document.querySelector('input[name="avail-modal-type"][value="' + ((status === 'I') ? 'I' : 'A') + '"]').checked = true;
     modalStart.value = iso;
     modalEnd.value = iso;
+    modalHourStart.value = '09:00';
+    modalHourEnd.value = '17:00';
     modalRecurrence.value = 'Aucune (période unique)';
     modalReason.selectedIndex = 0;
     modalReasonAutre.classList.add('hidden');
@@ -543,6 +557,8 @@
     const today = new Date().toISOString().slice(0, 10);
     modalStart.value = today;
     modalEnd.value = today;
+    modalHourStart.value = '09:00';
+    modalHourEnd.value = '17:00';
     modalRecurrence.value = 'Hebdomadaire';
     modalReason.selectedIndex = 0;
     modalReasonAutre.classList.add('hidden');

@@ -123,6 +123,22 @@
         <label class="text-xs font-semibold text-secondary block mb-1">Date</label>
         <input id="entry-date" type="date" value="2026-09-29" class="w-full h-10 rounded-lg border-default border px-3 text-sm">
       </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-xs font-semibold text-secondary block mb-1">Heure de début</label>
+          <input id="entry-hour-start" type="time" value="09:00" class="w-full h-10 rounded-lg border-default border px-3 text-sm">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-secondary block mb-1">Heure de fin</label>
+          <input id="entry-hour-end" type="time" value="17:00" class="w-full h-10 rounded-lg border-default border px-3 text-sm">
+        </div>
+      </div>
+      <div id="entry-qualif-wrap">
+        <label class="text-xs font-semibold text-secondary block mb-1.5">Créneau type par qualification <span class="font-normal text-secondary">(optionnel)</span></label>
+        <p class="text-[11px] text-secondary mb-1.5">Choisissez une qualification pour préremplir les horaires avec un créneau type.</p>
+        <div id="entry-qualif-chips" class="flex flex-wrap gap-1.5 mb-2"></div>
+        <div id="entry-template-chips" class="flex flex-wrap gap-1.5"></div>
+      </div>
       <div>
         <label class="text-xs font-semibold text-secondary block mb-1">Récurrence</label>
         <select id="entry-recurrence" onchange="onRecurrenceChange()" class="w-full h-10 rounded-lg border-default border px-3 text-sm">
@@ -171,10 +187,35 @@
   let calState = { year: 2026, month: 8 };
 
   let DISPO_ENTRIES = [
-    { id:'d1', type:'dispo', recurrence:'hebdomadaire', jours:['Lun','Mar','Mer','Jeu','Ven'] },
+    { id:'d1', type:'dispo', recurrence:'hebdomadaire', jours:['Lun','Mar','Mer','Jeu','Ven'], heureDebut:'11:00', heureFin:'15:00', qualif:'Chef de rang' },
     { id:'d2', type:'indispo', date:'2026-09-26', recurrence:'aucune', motif:'Rendez-vous médical' },
     { id:'d3', type:'indispo', date:'2026-10-02', recurrence:'aucune', motif:'Indisponibilité personnelle' }
   ];
+
+  // Mes qualifications déclarées (cf. page Profil) et les créneaux type proposés par qualification,
+  // configurés côté Opérations dans l'onglet Paramètres.
+  const MES_QUALIFICATIONS = ['Sous-Chef', 'Chef de rang', 'Banquet', 'Hôte / Hôtesse', 'Housekeeping'];
+  const QUALIF_TEMPLATES = {
+    'Sous-Chef': [
+      { label:'Service midi', debut:'08:00', fin:'15:00' },
+      { label:'Service soir', debut:'16:00', fin:'23:00' }
+    ],
+    'Chef de rang': [
+      { label:'Service midi', debut:'11:00', fin:'15:00' },
+      { label:'Service soir', debut:'18:30', fin:'23:30' }
+    ],
+    'Banquet': [
+      { label:'Journée banquet', debut:'07:00', fin:'19:00' }
+    ],
+    'Hôte / Hôtesse': [
+      { label:'Matin', debut:'07:00', fin:'15:00' },
+      { label:'Soir', debut:'15:00', fin:'23:00' }
+    ],
+    'Housekeeping': [
+      { label:'Journée', debut:'08:00', fin:'16:00' }
+    ]
+  };
+  let selectedQualif = null;
   const AUTO_INDISPO = [
     { date:'2026-09-27', label:'Repos hebdomadaire — 7ᵉ jour consécutif' },
     { date:'2026-10-04', label:'Repos hebdomadaire — 7ᵉ jour consécutif' },

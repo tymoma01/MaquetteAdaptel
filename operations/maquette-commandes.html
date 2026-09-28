@@ -120,7 +120,7 @@
           <span class="font-medium">Administration</span>
         </div>
       </a>
-      <a class="block" href="#">
+      <a class="block" href="maquette-parametres.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
           <span class="font-medium">Paramètres</span>
@@ -314,10 +314,52 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
               <input id="commandes-search" type="text" oninput="renderCommandesTable()" placeholder="Rechercher par client, chantier, qualification..." class="h-10 w-full rounded-lg border border-gray-200 bg-white pl-10 pr-3 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
             </div>
+            <button type="button" onclick="toggleAdvancedFilters()" id="btn-toggle-advanced-filters" class="inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"></path></svg>
+              Filtres
+            </button>
             <button type="button" id="btn-clear-filter" onclick="applyStatFilter('all')" class="hidden inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
               <span id="btn-clear-filter-label">Filtre actif</span>
             </button>
+          </div>
+
+          <!-- FILTRES AVANCES (repliés par défaut) -->
+          <div id="advanced-filters-panel" class="hidden mt-3 pt-3 border-t border-gray-100">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Statut</label>
+                <select id="filter-adv-statut" onchange="renderCommandesTable()" class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+                  <option value="">Tous les statuts</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Date début (intervalle)</label>
+                <input id="filter-adv-date-debut" type="date" onchange="renderCommandesTable()" class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Date fin (intervalle)</label>
+                <input id="filter-adv-date-fin" type="date" onchange="renderCommandesTable()" class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Qualification</label>
+                <input id="filter-adv-qualif" type="text" oninput="renderCommandesTable()" placeholder="Rechercher une qualification..." class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" autocomplete="off">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Service (chantier)</label>
+                <input id="filter-adv-chantier" type="text" oninput="renderCommandesTable()" placeholder="Min. 2 caractères..." class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" autocomplete="off">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Intérimaire (candidature)</label>
+                <input id="filter-adv-interimaire" type="text" oninput="renderCommandesTable()" placeholder="Min. 2 caractères..." class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors" autocomplete="off">
+              </div>
+            </div>
+            <div class="flex items-center gap-3 mt-3 pt-3 border-t border-gray-100">
+              <button type="button" onclick="resetAdvancedFilters()" class="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                Réinitialiser
+              </button>
+            </div>
           </div>
         </div>
 
@@ -438,17 +480,17 @@
   // ===== Jeu de données de démonstration =====
   // group: identifiant de "saisie groupée" (plusieurs commandes issues d'une seule saisie calendrier client)
   const COMMANDES = [
-    { cmd: 'CMD-2609-01', client: 'Hôtel Le Meurice', chantier: 'Salle / Resto', qualifCode: '28', qualif: 'Chef de rang', periode: '21 → 25 sept. (5j)', horaire: '11:00 - 19:00', capacite: '0/1', interimaires: '—', statut: 'non-attribuee', statutLabel: 'À staffer', border: 'border-l-red-500' },
-    { cmd: 'CMD-2609-06', client: 'Le Grand Hôtel Parisien', chantier: 'Étage Prestige', qualifCode: '07', qualif: 'Bagagiste', periode: '23 → 24 sept. (2j)', horaire: '06:00 - 14:00', capacite: '0/1', interimaires: '—', statut: 'non-attribuee', statutLabel: 'À staffer', border: 'border-l-red-500' },
-    { cmd: 'CMD-2609-15', client: 'Hôtel Lutetia', chantier: 'Cuisine', qualifCode: '01', qualif: 'Plongeur', periode: '24 sept.', horaire: '08:00 - 16:00', capacite: '0/1', interimaires: '—', statut: 'calcul', statutLabel: 'Calcul en cours', border: 'border-l-indigo-500', calcEnCours: true },
-    { cmd: 'CMD-2609-04', client: 'Novotel Paris Est', chantier: 'Réception', qualifCode: '34', qualif: 'Réceptionniste', periode: '21 → 23 sept. (3j)', horaire: '07:00 - 15:00', capacite: '1/1', interimaires: 'Julie PETIT', statut: 'en-cours', statutLabel: 'Best match à valider', border: 'border-l-blue-500', demandeAnnulation: { par: 'Client', motif: 'Réunion interne annulée', date: '24/09 09:10' } },
-    { cmd: 'CMD-2609-02', client: 'Potel et Chabot Traiteur', chantier: 'Réception Hoche', qualifCode: '12', qualif: 'Extra service', periode: '21 sept.', horaire: '18:00 - 01:00', capacite: '1/1', interimaires: 'Sofia MARTINS', statut: 'en-cours', statutLabel: 'Notification envoyée', border: 'border-l-amber-400', demandeAnnulation: { par: 'Client', motif: 'Événement reporté', date: '23/09 17:45' } },
-    { cmd: 'CMD-2609-03', client: "Fouquet's Barrière", chantier: 'Cuisine centrale', qualifCode: '01', qualif: 'Commis de cuisine', periode: '21 → 22 sept. (2j)', horaire: '09:00 - 17:00', capacite: '1/1', interimaires: 'Mehdi KACI', statut: 'en-cours', statutLabel: 'Validé', border: 'border-l-green-500' },
-    { cmd: 'CMD-2609-17', client: 'Résidence Étoile', chantier: 'Accueil', qualifCode: '34', qualif: 'Réceptionniste', periode: '21, 22 puis 24 sept.', horaire: '09:00 - 17:00', capacite: '3/3', interimaires: '3 intérimaires', statut: 'en-cours', statutLabel: 'Validé', border: 'border-l-green-500', groupe: 3 },
-    { cmd: 'CMD-2609-07', client: 'Hôtel Prince de Galles', chantier: 'Réception VIP', qualifCode: '34', qualif: 'Réceptionniste', periode: '26 sept.', horaire: '08:00 - 16:00', capacite: '1/1', interimaires: 'Léa ROUSSEL', statut: 'pourvue', statutLabel: 'Contrat établi', border: 'border-l-purple-500' },
-    { cmd: 'CMD-2609-16', client: 'Hôtel Le Meurice', chantier: 'Salle / Resto', qualifCode: '?', qualif: 'Serveuse', periode: '15 sept.', horaire: '11:00 - 19:00', capacite: '1/1', interimaires: 'Emma LEFEBVRE', statut: 'terminee', statutLabel: 'Terminée', border: 'border-l-slate-500' },
-    { cmd: 'CMD-2609-05', client: 'La Table du Marais', chantier: 'Bar à Vins', qualifCode: '19', qualif: 'Barman', periode: '21 sept.', horaire: '19:00 - 00:00', capacite: '0/1', interimaires: 'Yanis MOKRANE', statut: 'annulee', statutLabel: 'Annulée', border: 'border-l-gray-300' },
-    { cmd: 'CMD-2609-08', client: 'Hôtel Splendide Royal', chantier: 'Voiturier / Conciergerie', qualifCode: '40', qualif: 'Voiturier', periode: '27 sept.', horaire: '07:00 - 15:00', capacite: '0/1', interimaires: '—', statut: 'non-attribuee', statutLabel: 'À staffer', border: 'border-l-red-500' }
+    { cmd: 'CMD-2609-01', client: 'Hôtel Le Meurice', chantier: 'Salle / Resto', qualifCode: '28', qualif: 'Chef de rang', periode: '21 → 25 sept. (5j)', dateDebut: '2026-09-21', dateFin: '2026-09-25', horaire: '11:00 - 19:00', capacite: '0/1', interimaires: '—', statut: 'non-attribuee', statutLabel: 'À staffer', border: 'border-l-red-500' },
+    { cmd: 'CMD-2609-06', client: 'Le Grand Hôtel Parisien', chantier: 'Étage Prestige', qualifCode: '07', qualif: 'Bagagiste', periode: '23 → 24 sept. (2j)', dateDebut: '2026-09-23', dateFin: '2026-09-24', horaire: '06:00 - 14:00', capacite: '0/1', interimaires: '—', statut: 'non-attribuee', statutLabel: 'À staffer', border: 'border-l-red-500' },
+    { cmd: 'CMD-2609-15', client: 'Hôtel Lutetia', chantier: 'Cuisine', qualifCode: '01', qualif: 'Plongeur', periode: '24 sept.', dateDebut: '2026-09-24', dateFin: '2026-09-24', horaire: '08:00 - 16:00', capacite: '0/1', interimaires: '—', statut: 'calcul', statutLabel: 'Calcul en cours', border: 'border-l-indigo-500', calcEnCours: true },
+    { cmd: 'CMD-2609-04', client: 'Novotel Paris Est', chantier: 'Réception', qualifCode: '34', qualif: 'Réceptionniste', periode: '21 → 23 sept. (3j)', dateDebut: '2026-09-21', dateFin: '2026-09-23', horaire: '07:00 - 15:00', capacite: '1/1', interimaires: 'Julie PETIT', statut: 'en-cours', statutLabel: 'Best match à valider', border: 'border-l-blue-500', demandeAnnulation: { par: 'Client', motif: 'Réunion interne annulée', date: '24/09 09:10' } },
+    { cmd: 'CMD-2609-02', client: 'Potel et Chabot Traiteur', chantier: 'Réception Hoche', qualifCode: '12', qualif: 'Extra service', periode: '21 sept.', dateDebut: '2026-09-21', dateFin: '2026-09-21', horaire: '18:00 - 01:00', capacite: '1/1', interimaires: 'Sofia MARTINS', statut: 'en-cours', statutLabel: 'Notification envoyée', border: 'border-l-amber-400', demandeAnnulation: { par: 'Client', motif: 'Événement reporté', date: '23/09 17:45' } },
+    { cmd: 'CMD-2609-03', client: "Fouquet's Barrière", chantier: 'Cuisine centrale', qualifCode: '01', qualif: 'Commis de cuisine', periode: '21 → 22 sept. (2j)', dateDebut: '2026-09-21', dateFin: '2026-09-22', horaire: '09:00 - 17:00', capacite: '1/1', interimaires: 'Mehdi KACI', statut: 'en-cours', statutLabel: 'Validé', border: 'border-l-green-500' },
+    { cmd: 'CMD-2609-17', client: 'Résidence Étoile', chantier: 'Accueil', qualifCode: '34', qualif: 'Réceptionniste', periode: '21, 22 puis 24 sept.', dateDebut: '2026-09-21', dateFin: '2026-09-24', horaire: '09:00 - 17:00', capacite: '3/3', interimaires: '3 intérimaires', statut: 'en-cours', statutLabel: 'Validé', border: 'border-l-green-500', groupe: 3 },
+    { cmd: 'CMD-2609-07', client: 'Hôtel Prince de Galles', chantier: 'Réception VIP', qualifCode: '34', qualif: 'Réceptionniste', periode: '26 sept.', dateDebut: '2026-09-26', dateFin: '2026-09-26', horaire: '08:00 - 16:00', capacite: '1/1', interimaires: 'Léa ROUSSEL', statut: 'pourvue', statutLabel: 'Contrat établi', border: 'border-l-purple-500' },
+    { cmd: 'CMD-2609-16', client: 'Hôtel Le Meurice', chantier: 'Salle / Resto', qualifCode: '?', qualif: 'Serveuse', periode: '15 sept.', dateDebut: '2026-09-15', dateFin: '2026-09-15', horaire: '11:00 - 19:00', capacite: '1/1', interimaires: 'Emma LEFEBVRE', statut: 'terminee', statutLabel: 'Terminée', border: 'border-l-slate-500' },
+    { cmd: 'CMD-2609-05', client: 'La Table du Marais', chantier: 'Bar à Vins', qualifCode: '19', qualif: 'Barman', periode: '21 sept.', dateDebut: '2026-09-21', dateFin: '2026-09-21', horaire: '19:00 - 00:00', capacite: '0/1', interimaires: 'Yanis MOKRANE', statut: 'annulee', statutLabel: 'Annulée', border: 'border-l-gray-300' },
+    { cmd: 'CMD-2609-08', client: 'Hôtel Splendide Royal', chantier: 'Voiturier / Conciergerie', qualifCode: '40', qualif: 'Voiturier', periode: '27 sept.', dateDebut: '2026-09-27', dateFin: '2026-09-27', horaire: '07:00 - 15:00', capacite: '0/1', interimaires: '—', statut: 'non-attribuee', statutLabel: 'À staffer', border: 'border-l-red-500' }
   ];
 
   const STATUT_BADGE = {
@@ -547,6 +589,13 @@
 
   function renderCommandesTable() {
     const search = document.getElementById('commandes-search').value.trim().toLowerCase();
+    const advStatut = document.getElementById('filter-adv-statut').value;
+    const advDateDebut = document.getElementById('filter-adv-date-debut').value;
+    const advDateFin = document.getElementById('filter-adv-date-fin').value;
+    const advQualif = document.getElementById('filter-adv-qualif').value.trim().toLowerCase();
+    const advChantier = document.getElementById('filter-adv-chantier').value.trim().toLowerCase();
+    const advInterimaire = document.getElementById('filter-adv-interimaire').value.trim().toLowerCase();
+
     let filtered = COMMANDES.filter(c => {
       if (currentFilter === 'demande-annulation') {
         if (!c.demandeAnnulation) return false;
@@ -558,6 +607,12 @@
         const haystack = (c.client + ' ' + c.chantier + ' ' + c.qualif).toLowerCase();
         if (!haystack.includes(search)) return false;
       }
+      if (advStatut && c.statutLabel !== advStatut) return false;
+      if (advDateDebut && c.dateDebut < advDateDebut) return false;
+      if (advDateFin && c.dateFin > advDateFin) return false;
+      if (advQualif && !c.qualif.toLowerCase().includes(advQualif)) return false;
+      if (advChantier.length >= 2 && !c.chantier.toLowerCase().includes(advChantier)) return false;
+      if (advInterimaire.length >= 2 && !c.interimaires.toLowerCase().includes(advInterimaire)) return false;
       return true;
     });
 
@@ -625,6 +680,7 @@
     COMMANDES.unshift({
       cmd, client, chantier, qualifCode, qualif: qualifLabel,
       periode: new Date(dateDebut).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' }),
+      dateDebut: dateDebut, dateFin: dateDebut,
       horaire: debut + ' - ' + fin, capacite: '0/1', interimaires: '—',
       statut: 'non-attribuee', statutLabel: 'À staffer', border: 'border-l-red-500'
     });
@@ -634,7 +690,29 @@
     closeCreateCommandeModal();
   }
 
+  function toggleAdvancedFilters() {
+    document.getElementById('advanced-filters-panel').classList.toggle('hidden');
+  }
+
+  function resetAdvancedFilters() {
+    document.getElementById('filter-adv-statut').value = '';
+    document.getElementById('filter-adv-date-debut').value = '';
+    document.getElementById('filter-adv-date-fin').value = '';
+    document.getElementById('filter-adv-qualif').value = '';
+    document.getElementById('filter-adv-chantier').value = '';
+    document.getElementById('filter-adv-interimaire').value = '';
+    renderCommandesTable();
+  }
+
+  function initAdvancedFilterOptions() {
+    const sel = document.getElementById('filter-adv-statut');
+    Object.keys(STATUT_LABEL_BADGE).forEach(label => {
+      sel.insertAdjacentHTML('beforeend', `<option value="${label}">${label}</option>`);
+    });
+  }
+
   applyQualifDefaults();
+  initAdvancedFilterOptions();
   computeStats();
   renderCommandesTable();
 </script>

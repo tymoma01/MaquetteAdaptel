@@ -890,7 +890,7 @@
     <div class="rounded-xl border border-gray-200 p-4 space-y-2">
       <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Actions</h3>
       <div id="p-validate-wrap" class="hidden">
-        <button type="button" onclick="validateMatch(currentPanelCmd)" title="Positionnement confirmé (de vive voix ou digitalement) : passe directement la commande au statut Validé." class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-green-600 to-green-700 text-white shadow hover:opacity-95 h-10 transition-colors">
+        <button type="button" onclick="validateMatch(currentPanelCmd)" title="Best match suggéré : envoie la notification à l'intérimaire. Positionnement déjà confirmé (de vive voix ou digitalement) : passe directement la commande au statut Validé." class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-green-600 to-green-700 text-white shadow hover:opacity-95 h-10 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M20 6 9 17l-5-5"></path></svg>
           Valider ce profil
         </button>
@@ -1303,6 +1303,44 @@
     const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
     if (!row || !VALIDATE_ELIGIBLE_STATUTS.includes(row.dataset.statut)) return;
     const name = row.dataset.interimaire;
+
+    // Un best match suggéré par le système doit d'abord être notifié à l'intérimaire :
+    // on ne passe au statut Validé que lorsque celui-ci a confirmé sa présence.
+    if (row.dataset.statut === 'Best match à valider') {
+      row.dataset.statut = 'Notification envoyée';
+      if (envoisState[cmd]) envoisState[cmd].sms = null;
+      renderEnvoisCell(cmd);
+
+      const assignBox = document.getElementById('assign-box-' + cmd);
+      if (assignBox) {
+        assignBox.className = 'h-10 rounded-lg border border-amber-300 bg-amber-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-amber-100 hover:border-amber-400 transition-colors';
+        assignBox.innerHTML = `
+          <div class="w-6 h-6 bg-amber-200 text-amber-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">${initialsFromName(name)}</div>
+          <div class="min-w-0 leading-tight">
+            <p class="text-xs font-bold text-gray-900 truncate">${name}</p>
+            <p class="text-[10px] text-amber-800 font-medium">Notification envoyée · <span class="underline">Voir candidats</span></p>
+          </div>
+        `;
+      }
+
+      const statutBadge = document.getElementById('statut-badge-' + cmd);
+      if (statutBadge) {
+        statutBadge.textContent = 'Notification envoyée';
+        statutBadge.className = 'inline-flex items-center justify-center rounded-full border border-amber-300 bg-amber-100 text-amber-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full';
+      }
+
+      if (currentPanelCmd === cmd) {
+        const panelBadge = document.getElementById('p-statut-badge');
+        panelBadge.textContent = 'Notification envoyée';
+        panelBadge.className = 'inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-1 whitespace-nowrap border bg-amber-100 text-amber-900 border-amber-300';
+      }
+
+      sortRowsByStatutPipeline();
+      if (currentCandCmd === cmd) renderCandidates(cmd);
+      showToast(`Notification envoyée à ${name}`);
+      return;
+    }
+
     row.dataset.statut = 'Validé';
 
     const assignBox = document.getElementById('assign-box-' + cmd);

@@ -226,14 +226,16 @@
   function fmtLong(iso){ return new Date(iso + 'T00:00:00').toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' }); }
   function fmtLongYear(iso){ return new Date(iso + 'T00:00:00').toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' }); }
 
+  function hoursSuffix(e){ return (e.heureDebut && e.heureFin) ? (' · ' + e.heureDebut + ' – ' + e.heureFin) : ''; }
+
   function dayStatus(iso){
     const auto = AUTO_INDISPO.find(a => a.date === iso);
     if(auto) return { kind:'auto', label: auto.label };
     const exact = DISPO_ENTRIES.find(e => e.recurrence === 'aucune' && e.date === iso);
-    if(exact) return { kind: exact.type, label: exact.type === 'indispo' ? ('Indisponible — ' + exact.motif) : 'Disponible' };
+    if(exact) return { kind: exact.type, label: (exact.type === 'indispo' ? ('Indisponible — ' + exact.motif) : 'Disponible') + hoursSuffix(exact) };
     const dow = dowShort(iso);
     const recurring = DISPO_ENTRIES.find(e => e.recurrence === 'hebdomadaire' && e.jours && e.jours.includes(dow));
-    if(recurring) return { kind: recurring.type, label: recurring.type === 'indispo' ? 'Indisponible (récurrent)' : 'Disponible (récurrent)' };
+    if(recurring) return { kind: recurring.type, label: (recurring.type === 'indispo' ? 'Indisponible (récurrent)' : 'Disponible (récurrent)') + hoursSuffix(recurring) };
     return { kind:'vide', label:'Non renseigné' };
   }
 
@@ -346,12 +348,13 @@
     const box = isDispo
       ? 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30'
       : 'border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30';
-    const title = e.recurrence === 'aucune'
+    const title = (e.recurrence === 'aucune'
       ? fmtLongYear(e.date)
-      : 'Chaque semaine : ' + ((e.jours && e.jours.length) ? e.jours.join(', ') : '—');
+      : 'Chaque semaine : ' + ((e.jours && e.jours.length) ? e.jours.join(', ') : '—')) + hoursSuffix(e);
     return `<div class="flex items-start justify-between gap-2 rounded-xl border px-3 py-2 ${box}">
       <div class="min-w-0">
         <p class="text-sm font-semibold text-primary capitalize">${title}</p>
+        ${e.qualif ? `<p class="text-xs text-secondary mt-0.5">Créneau type : ${e.qualif}</p>` : ''}
         ${e.motif ? `<p class="text-xs text-secondary mt-0.5">${e.motif}</p>` : ''}
       </div>
       <button onclick="removeEntry('${e.id}')" class="btn-ghost p-1 rounded-lg flex-shrink-0" title="Supprimer cette règle">${icon('x', 'w-3.5 h-3.5')}</button>
@@ -380,6 +383,9 @@
 
   function openAddModal(prefillDate){
     if(prefillDate) document.getElementById('entry-date').value = prefillDate;
+    document.getElementById('entry-hour-start').value = '09:00';
+    document.getElementById('entry-hour-end').value = '17:00';
+    selectedQualif = null;
     setEntryType('dispo');
     const el = document.getElementById('add-modal');
     el.classList.remove('hidden'); el.classList.add('flex');
@@ -393,6 +399,42 @@
     document.getElementById('type-dispo-btn').className = 'h-11 rounded-xl text-sm font-semibold border transition-all ' + (type === 'dispo' ? 'btn-primary border-transparent' : 'btn-ghost border-default');
     document.getElementById('type-indispo-btn').className = 'h-11 rounded-xl text-sm font-semibold border transition-all ' + (type === 'indispo' ? 'btn-primary border-transparent' : 'btn-ghost border-default');
     document.getElementById('entry-motif-wrap').classList.toggle('hidden', type !== 'indispo');
+    document.getElementById('entry-qualif-wrap').classList.toggle('hidden', type !== 'dispo');
+    if(type === 'dispo') renderQualifStep();
+  }
+
+  /* ---- Propositions de créneaux type par qualification ---- */
+  function renderQualifStep(){
+    const chipsWrap = document.getElementById('entry-qualif-chips');
+    if(MES_QUALIFICATIONS.length > 1){
+      chipsWrap.innerHTML = MES_QUALIFICATIONS.map(q => `
+        <button type="button" onclick="selectQualif('${q}')" class="text-xs px-3 py-1.5 rounded-full border transition-all ${selectedQualif === q ? 'btn-primary border-transparent' : 'btn-ghost border-default'}">${q}</button>
+      `).join('');
+    } else {
+      chipsWrap.innerHTML = '';
+      if(!selectedQualif) selectedQualif = MES_QUALIFICATIONS[0] || null;
+    }
+    renderTemplateChips();
+  }
+  function selectQualif(q){
+    selectedQualif = (selectedQualif === q) ? null : q;
+    renderQualifStep();
+  }
+  function renderTemplateChips(){
+    const el = document.getElementById('entry-template-chips');
+    if(MES_QUALIFICATIONS.length > 1 && !selectedQualif){
+      el.innerHTML = '<p class="text-[11px] text-secondary italic">Sélectionnez d\'abord une qualification ci-dessus.</p>';
+      return;
+    }
+    const slots = QUALIF_TEMPLATES[selectedQualif] || [];
+    el.innerHTML = slots.length
+      ? slots.map(s => `<button type="button" onclick="applyTemplate('${s.debut}','${s.fin}')" class="text-xs px-3 py-1.5 rounded-full btn-ghost border-default border font-medium">${s.label} · ${s.debut} – ${s.fin}</button>`).join('')
+      : '<p class="text-[11px] text-secondary italic">Aucun créneau type pour cette qualification.</p>';
+  }
+  function applyTemplate(debut, fin){
+    document.getElementById('entry-hour-start').value = debut;
+    document.getElementById('entry-hour-end').value = fin;
+    toast('Créneau type appliqué : ' + debut + ' – ' + fin, 'success');
   }
   function onRecurrenceChange(){
     const rec = document.getElementById('entry-recurrence').value;
@@ -411,11 +453,27 @@
     const date = document.getElementById('entry-date').value;
     const recurrence = document.getElementById('entry-recurrence').value;
     const motif = document.getElementById('entry-motif').value.trim();
+    const heureDebut = document.getElementById('entry-hour-start').value;
+    const heureFin = document.getElementById('entry-hour-end').value;
     if(currentType === 'indispo' && !motif){
       toast('Le motif est obligatoire pour déclarer une indisponibilité.', 'default');
       return;
     }
-    const entry = { id: 'd' + Date.now(), type: currentType, date, recurrence: recurrence === 'aucune' ? 'aucune' : 'hebdomadaire', motif: currentType === 'indispo' ? motif : null };
+    if(!heureDebut || !heureFin){
+      toast('Merci de renseigner une heure de début et une heure de fin.', 'default');
+      return;
+    }
+    if(heureFin <= heureDebut){
+      toast('L\'heure de fin doit être après l\'heure de début.', 'default');
+      return;
+    }
+    const entry = {
+      id: 'd' + Date.now(), type: currentType, date,
+      recurrence: recurrence === 'aucune' ? 'aucune' : 'hebdomadaire',
+      motif: currentType === 'indispo' ? motif : null,
+      heureDebut, heureFin,
+      qualif: (currentType === 'dispo' && selectedQualif) ? selectedQualif : null
+    };
     if(entry.recurrence !== 'aucune'){
       entry.jours = Array.from(document.querySelectorAll('#entry-days input:checked')).map(cb => cb.value);
     }

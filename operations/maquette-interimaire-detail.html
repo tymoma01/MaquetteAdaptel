@@ -718,13 +718,20 @@
               <div class="grid gap-4 md:grid-cols-2">
                 <div>
                   <label class="text-sm text-gray-700 font-semibold">Heure de début</label>
-                  <input type="time" value="09:00" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                  <input type="time" id="input-dispo-hour-start" value="09:00" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
                 </div>
                 <div>
                   <label class="text-sm text-gray-700 font-semibold">Heure de fin</label>
-                  <input type="time" value="17:00" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                  <input type="time" id="input-dispo-hour-end" value="17:00" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
                 </div>
               </div>
+
+              <div id="dispo-qualif-wrap">
+                <label class="text-sm text-gray-700 font-semibold">Créneau type par qualification <span class="font-normal text-gray-400">(optionnel, pour préremplir les horaires)</span></label>
+                <div id="dispo-qualif-chips" class="flex flex-wrap gap-1.5 mt-1.5 mb-2"></div>
+                <div id="dispo-template-chips" class="flex flex-wrap gap-1.5"></div>
+              </div>
+
               <div>
                 <label class="text-sm text-gray-700 font-semibold">Récurrence</label>
                 <select class="mt-1 flex h-10 w-full max-w-xs rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
@@ -1190,6 +1197,52 @@
 </div>
 
 <script>
+  // Cosmetic: créneaux type proposés pour préremplir les horaires, par qualification.
+  // Qualifications de cette fiche : cf. onglet Qualifications (qualification de base "Chef de rang").
+  // Le jeu de créneaux type est configuré côté Opérations dans l'onglet Paramètres.
+  const FICHE_QUALIFICATIONS = ['Chef de rang'];
+  const QUALIF_TEMPLATES = {
+    'Chef de rang': [
+      { label: 'Service midi', debut: '11:00', fin: '15:00' },
+      { label: 'Service soir', debut: '18:30', fin: '23:30' }
+    ]
+  };
+  let selectedFicheQualif = null;
+
+  function renderDispoQualifStep(){
+    const chipsWrap = document.getElementById('dispo-qualif-chips');
+    if(!chipsWrap) return;
+    if(FICHE_QUALIFICATIONS.length > 1){
+      chipsWrap.innerHTML = FICHE_QUALIFICATIONS.map(q => `
+        <button type="button" onclick="selectFicheQualif('${q}')" class="text-xs px-3 py-1.5 rounded-lg border font-medium transition-all ${selectedFicheQualif === q ? 'bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white border-transparent' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}">${q}</button>
+      `).join('');
+    } else {
+      chipsWrap.innerHTML = '';
+      if(!selectedFicheQualif) selectedFicheQualif = FICHE_QUALIFICATIONS[0] || null;
+    }
+    renderDispoTemplateChips();
+  }
+  function selectFicheQualif(q){
+    selectedFicheQualif = (selectedFicheQualif === q) ? null : q;
+    renderDispoQualifStep();
+  }
+  function renderDispoTemplateChips(){
+    const el = document.getElementById('dispo-template-chips');
+    if(!el) return;
+    if(FICHE_QUALIFICATIONS.length > 1 && !selectedFicheQualif){
+      el.innerHTML = '<p class="text-xs text-gray-400 italic">Sélectionnez d\'abord une qualification ci-dessus.</p>';
+      return;
+    }
+    const slots = QUALIF_TEMPLATES[selectedFicheQualif] || [];
+    el.innerHTML = slots.length
+      ? slots.map(s => `<button type="button" onclick="applyDispoTemplate('${s.debut}','${s.fin}')" class="text-xs px-3 py-1.5 rounded-full border border-gray-200 bg-gray-50 hover:bg-gray-100 font-medium text-gray-700">${s.label} · ${s.debut} – ${s.fin}</button>`).join('')
+      : '<p class="text-xs text-gray-400 italic">Aucun créneau type pour cette qualification — configurable dans Paramètres.</p>';
+  }
+  function applyDispoTemplate(debut, fin){
+    document.getElementById('input-dispo-hour-start').value = debut;
+    document.getElementById('input-dispo-hour-end').value = fin;
+  }
+
   // Cosmetic: toggle "Véhiculé"
   const vehiculeToggle = document.getElementById('vehicule-toggle');
   const vehiculeLabel = document.getElementById('vehicule-label');
@@ -1297,13 +1350,18 @@
   const btnAddDispo = document.getElementById('btn-add-dispo');
   const formAddDispo = document.getElementById('form-add-dispo');
   const btnCancelDispo = document.getElementById('btn-cancel-dispo');
-  btnAddDispo.addEventListener('click', () => formAddDispo.classList.toggle('hidden'));
+  btnAddDispo.addEventListener('click', () => {
+    formAddDispo.classList.toggle('hidden');
+    if (!formAddDispo.classList.contains('hidden')) { selectedFicheQualif = null; renderDispoQualifStep(); }
+  });
   btnCancelDispo.addEventListener('click', () => formAddDispo.classList.add('hidden'));
 
   // Cosmetic: clicking an empty day in the agenda opens the form pre-filled with that date
   function openDispoForm(dateStr) {
     formAddDispo.classList.remove('hidden');
     document.getElementById('input-dispo-start').value = dateStr;
+    selectedFicheQualif = null;
+    renderDispoQualifStep();
     formAddDispo.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
@@ -1311,9 +1369,11 @@
   const indispoReasonWrap = document.getElementById('indispo-reason-wrap');
   const inputDispoReason = document.getElementById('input-dispo-reason');
   const inputDispoReasonAutre = document.getElementById('input-dispo-reason-autre');
+  const dispoQualifWrap = document.getElementById('dispo-qualif-wrap');
   document.querySelectorAll('input[name="dispo-type"]').forEach(radio => {
     radio.addEventListener('change', () => {
       indispoReasonWrap.classList.toggle('hidden', radio.value !== 'indispo' || !radio.checked);
+      if (radio.checked) dispoQualifWrap.classList.toggle('hidden', radio.value !== 'dispo');
     });
   });
   inputDispoReason.addEventListener('change', () => {

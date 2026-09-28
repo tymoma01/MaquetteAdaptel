@@ -3,14 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Adaptel Client - Qualifications</title>
+<title>Adaptel Client - Documents légaux</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root { color-scheme: light; }
   body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
   .chat-panel { transition: transform .2s ease, opacity .2s ease; }
-  .save-flash { animation: flash 1.2s ease; }
-  @keyframes flash { 0% { background-color: #dcfce7; } 100% { background-color: transparent; } }
+  .doc-card { transition: box-shadow .12s ease; }
+  .doc-card:hover { box-shadow: 0 6px 16px rgba(0,0,0,.07); }
+  .dropzone { transition: border-color .15s ease, background-color .15s ease; }
+  .dropzone.drag-over { border-color: #A63629; background-color: rgba(166,54,41,.05); }
 </style>
 </head>
 <body class="antialiased bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen text-gray-900">
@@ -71,11 +73,11 @@
           <svg id="nav-parametres-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 transition-transform rotate-180"><path d="m6 9 6 6 6-6"></path></svg>
         </button>
         <div id="nav-parametres-submenu" class="mt-1.5 ml-4 space-y-1 border-l-2 border-gray-200 pl-4">
-          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 cursor-pointer text-white font-bold shadow-md" href="client-qualifications.html" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Qualifications</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-qualifications.html">Qualifications</a>
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-utilisateurs.html">Utilisateurs</a>
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-roles.html">Rôles</a>
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-notifications.html">Notifications</a>
-          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-documents-legaux.html">Documents légaux</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 cursor-pointer text-white font-bold shadow-md" href="client-documents-legaux.html" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Documents légaux</a>
         </div>
       </div>
     </nav>
@@ -92,7 +94,6 @@
       document.getElementById('nav-parametres-chevron').classList.toggle('rotate-180');
     }
   </script>
-
 
   <!-- MAIN AREA -->
   <main class="flex-1 overflow-auto flex flex-col min-w-0">
@@ -125,21 +126,45 @@
 
     <div class="p-6 space-y-5 max-w-[1200px] w-full mx-auto">
 
-      <div>
-        <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Qualifications</h1>
-        <p class="text-gray-600 text-sm mt-0.5">Horaire type, pause par défaut et consignes propres à chaque poste — repris automatiquement à chaque nouvelle demande de mission</p>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-[#A63629]/5 to-transparent"></div>
+        <div class="relative flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <div class="p-4 rounded-2xl shadow-lg shadow-[#A63629]/20" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7 text-white"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"></path><path d="M9 17h6"></path><path d="M9 13h6"></path></svg>
+            </div>
+            <div>
+              <h1 class="text-2xl font-bold text-gray-900">Documents légaux</h1>
+              <p class="text-gray-500 mt-0.5">Téléchargez le modèle propre à votre secteur, complétez-le, puis retransmettez-le à Adaptel</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="service-tabs">
-        <button data-service="" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous services</button>
-        <button data-service="Hébergement" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Hébergement</button>
-        <button data-service="Housekeeping" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Housekeeping</button>
-        <button data-service="Restauration" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Restauration</button>
+      <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
+        <div class="p-2 rounded-lg bg-blue-100 flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-blue-600"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+        </div>
+        <div>
+          <p class="font-medium text-blue-800">Comment ça marche</p>
+          <p class="text-sm text-blue-700 mt-0.5">Sélectionnez votre secteur, téléchargez le fichier type correspondant, complétez-le puis déposez-le dans la zone d'envoi. Notre équipe administrative vérifie chaque document transmis.</p>
+        </div>
       </div>
 
-      <div id="secteur-block"></div>
+      <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="secteur-tabs">
+        <button data-secteur="Hébergement" class="secteur-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Hébergement</button>
+        <button data-secteur="Housekeeping" class="secteur-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Housekeeping</button>
+        <button data-secteur="Restauration" class="secteur-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Restauration</button>
+      </div>
 
-      <div id="qualif-list" class="space-y-4"></div>
+      <div id="modele-block"></div>
+
+      <div id="upload-block"></div>
+
+      <div class="bg-white rounded-xl border border-gray-100 p-5">
+        <h3 class="font-semibold text-gray-900 mb-3">Documents transmis</h3>
+        <div id="envois-list" class="space-y-3"></div>
+      </div>
 
     </div>
   </main>
@@ -160,7 +185,7 @@
     <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 text-sm">
       <div class="flex justify-start">
         <div class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-2 max-w-[85%] shadow-sm">
-          Bonjour Thomas 👋 Une question sur une qualification ?
+          Bonjour Thomas 👋 Une question sur vos documents légaux ?
         </div>
       </div>
       <div id="chat-service-picker" class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-3 max-w-[95%] shadow-sm space-y-2">
@@ -187,6 +212,14 @@
   <button onclick="toggleChat()" class="w-14 h-14 rounded-full text-white shadow-2xl flex items-center justify-center hover:scale-105 transition-transform" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>
   </button>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="hidden fixed top-6 right-6 z-50 bg-white border border-gray-200 shadow-xl rounded-xl px-4 py-3 flex items-center gap-3 max-w-sm">
+  <div class="p-1.5 rounded-full bg-green-100 flex-shrink-0">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-green-600"><path d="M20 6 9 17l-5-5"></path></svg>
+  </div>
+  <p id="toast-text" class="text-sm font-medium text-gray-800"></p>
 </div>
 
 <script>
@@ -277,159 +310,186 @@
     setTimeout(() => appendChatMessage(CHAT_DEPARTMENTS[chatService].reply, 'bot'), 600);
   }
 
-  // Qualifications réelles (métiers) proposées à la commande, regroupées par secteur — les mêmes
-  // intitulés que ceux utilisés côté Opérations (planning, fiches intérimaires…).
-  const QUALIFICATIONS = [
-    { id: "q1", nom: "Réceptionniste", service: "Hébergement", taux: 13.5, debut: "07:00", fin: "15:00", pause: 30, consignes: "Tenue noire élégante, badge visible. Accueil en front-desk, ton chaleureux et professionnel." },
-    { id: "q2", nom: "Hôtesse d'accueil", service: "Hébergement", taux: 14.0, debut: "07:00", fin: "15:00", pause: 30, consignes: "Tenue noire élégante, badge visible. Accueil en front-desk, ton chaleureux et professionnel." },
-    { id: "q3", nom: "Bagagiste", service: "Hébergement", taux: 12.6, debut: "06:00", fin: "14:00", pause: 30, consignes: "Tenue technique fournie sur place. Port de charges — chaussures fermées obligatoires." },
-    { id: "q4", nom: "Femme de chambre", service: "Housekeeping", taux: 13.0, debut: "09:00", fin: "17:00", pause: 30, consignes: "Chaussures antidérapantes obligatoires. Passage au vestiaire du personnel à l'arrivée." },
-    { id: "q5", nom: "Chef de rang", service: "Restauration", taux: 14.2, debut: "11:00", fin: "19:00", pause: 30, consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
-    { id: "q6", nom: "Maître d'hôtel", service: "Restauration", taux: 17.0, debut: "18:00", fin: "02:00", pause: 20, consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
-    { id: "q7", nom: "Serveuse", service: "Restauration", taux: 13.9, debut: "18:00", fin: "02:00", pause: 20, consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
-    { id: "q8", nom: "Sommelière", service: "Restauration", taux: 16.5, debut: "18:00", fin: "02:00", pause: 20, consignes: "" },
-    { id: "q9", nom: "Barman", service: "Restauration", taux: 15.0, debut: "18:00", fin: "02:00", pause: 20, consignes: "" },
-    { id: "q10", nom: "Cuisinier", service: "Restauration", taux: 14.5, debut: "09:00", fin: "17:00", pause: 45, consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
-    { id: "q11", nom: "Chef cuisinier", service: "Restauration", taux: 18.0, debut: "09:00", fin: "17:00", pause: 45, consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
-    { id: "q12", nom: "Commis de cuisine", service: "Restauration", taux: 13.1, debut: "09:00", fin: "17:00", pause: 45, consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
-    { id: "q13", nom: "Pâtissière", service: "Restauration", taux: 15.0, debut: "09:00", fin: "17:00", pause: 45, consignes: "" },
-    { id: "q14", nom: "Plongeur", service: "Restauration", taux: 12.8, debut: "09:00", fin: "17:00", pause: 45, consignes: "" }
-  ];
+  function showToast(text) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toast-text').textContent = text;
+    toast.classList.remove('hidden');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => toast.classList.add('hidden'), 3500);
+  }
 
-  // Champs conditionnels au secteur du chantier (un jeu de champs par service, comme côté Opérations).
-  const SECTEUR_CHAMPS = {
+  // ---------- Data ----------
+  const MODELES = {
     "Hébergement": {
-      icon: `<path d="M12 20h9"></path><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"></path>`,
-      fields: [
-        { key: "logiciel", label: "Logiciel utilisé sur ce chantier", type: "text", value: "Opera PMS", placeholder: "Ex. Opera, Mews, Protel…" }
-      ]
+      nom: "Modèle_Protocole_Securite_Hebergement.docx",
+      description: "Protocole de sécurité et d'accueil des intérimaires en réception / hébergement.",
+      maj: "12/06/2026"
     },
     "Housekeeping": {
-      icon: `<path d="M12 20h9"></path><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"></path>`,
-      fields: [
-        { key: "cadence", label: "Cadence attendue (chambres / heure)", type: "text", value: "2,5 à 3", placeholder: "Ex. 2,5 à 3" },
-        { key: "etoiles", label: "Étoiles attendues", type: "select", value: "5 étoiles / Palace", options: ["1 étoile", "2 étoiles", "3 étoiles", "4 étoiles", "5 étoiles / Palace"] }
-      ]
+      nom: "Modele_DUER_Housekeeping.docx",
+      description: "Document unique d'évaluation des risques (DUER) applicable aux postes de housekeeping.",
+      maj: "03/05/2026"
     },
     "Restauration": {
-      icon: `<path d="M12 20h9"></path><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"></path>`,
-      fields: [
-        { key: "type", label: "Type de restauration attendu", type: "select", value: "Banquet / Événementiel", options: ["Banquet / Événementiel", "Gastronomique", "Brasserie", "Room service", "Buffet"] },
-        { key: "couverts", label: "Nombre de couverts moyen / service", type: "number", value: 180, placeholder: "Ex. 180" }
-      ]
+      nom: "Modele_Protocole_HACCP_Restauration.docx",
+      description: "Protocole d'hygiène HACCP et consignes de sécurité applicables en restauration.",
+      maj: "22/07/2026"
     }
   };
 
-  function renderSecteur() {
-    const box = document.getElementById('secteur-block');
-    const cfg = SECTEUR_CHAMPS[currentService];
-    if (!cfg) { box.innerHTML = ''; return; }
-    box.innerHTML = `
-      <div id="secteur-card" class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <div class="flex items-center gap-2 mb-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-[#A63629]">${cfg.icon}</svg>
-          <h3 class="font-bold text-gray-900">Secteur &amp; informations spécifiques — ${currentService}</h3>
+  const STATUTS = {
+    "en_attente": { label: "En attente de vérification", classes: "bg-amber-50 text-amber-700 border-amber-200" },
+    "valide": { label: "Validé", classes: "bg-green-50 text-green-700 border-green-200" },
+    "a_corriger": { label: "À corriger", classes: "bg-red-50 text-red-700 border-red-200" }
+  };
+
+  let ENVOIS = [
+    { secteur: "Hébergement", nom: "Protocole_Securite_Hebergement_signe.pdf", date: "18/07/2026", statut: "valide" },
+    { secteur: "Restauration", nom: "Protocole_HACCP_Restauration.pdf", date: "02/09/2026", statut: "en_attente" }
+  ];
+
+  let currentSecteur = "Hébergement";
+
+  function renderModele() {
+    const m = MODELES[currentSecteur];
+    document.getElementById('modele-block').innerHTML = `
+      <div class="bg-white rounded-xl border border-gray-100 p-5 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="p-3 rounded-xl bg-[#A63629]/10">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#A63629]"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"></path></svg>
+          </div>
+          <div>
+            <p class="font-semibold text-gray-900">${m.nom}</p>
+            <p class="text-sm text-gray-500 max-w-lg">${m.description}</p>
+            <p class="text-xs text-gray-400 mt-0.5">Modèle mis à jour le ${m.maj}</p>
+          </div>
         </div>
-        <p class="text-xs text-gray-500 mb-4">Ces informations dépendent du secteur de ce chantier et aident Adaptel à positionner les bons profils (logiciel, cadence, format de service…).</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          ${cfg.fields.map(f => `
-            <div>
-              <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">${f.label}</label>
-              ${f.type === 'select'
-                ? `<select id="secteur-${f.key}" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-                    ${f.options.map(o => `<option ${o === f.value ? 'selected' : ''}>${o}</option>`).join('')}
-                  </select>`
-                : `<input type="${f.type}" id="secteur-${f.key}" value="${f.value}" placeholder="${f.placeholder || ''}" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">`}
-            </div>
-          `).join('')}
-        </div>
-        <div class="mt-4 flex items-center justify-between">
-          <p class="text-[11px] text-gray-400">Visible et modifiable par les Opérations Adaptel comme par vous-même.</p>
-          <button onclick="saveSecteur()" class="h-9 px-4 rounded-lg text-sm font-semibold text-white shadow-sm hover:shadow-md transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Enregistrer</button>
-        </div>
-      </div>
-    `;
+        <button onclick="downloadModele()" class="px-5 py-3 text-white rounded-xl font-semibold flex items-center gap-2 hover:shadow-xl transition-all duration-300 shadow-lg shadow-[#A63629]/25 flex-shrink-0" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M7 10l5 5 5-5"></path><path d="M12 15V3"></path></svg>
+          Télécharger le modèle
+        </button>
+      </div>`;
   }
 
-  function saveSecteur() {
-    const cfg = SECTEUR_CHAMPS[currentService];
-    if (!cfg) return;
-    cfg.fields.forEach(f => {
-      const el = document.getElementById(`secteur-${f.key}`);
-      f.value = f.type === 'number' ? (parseInt(el.value, 10) || 0) : el.value;
+  function downloadModele() {
+    const m = MODELES[currentSecteur];
+    const content = `Modèle Adaptel — ${currentSecteur}\n${m.description}\n\nÀ compléter par l'établissement client puis à retransmettre via l'espace client Adaptel.`;
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = m.nom.replace(/\.docx$/, '.txt');
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    showToast(`Modèle "${m.nom}" téléchargé`);
+  }
+
+  function renderUploadZone() {
+    document.getElementById('upload-block').innerHTML = `
+      <div id="dropzone" class="dropzone bg-white rounded-xl border-2 border-dashed border-gray-300 p-8 flex flex-col items-center justify-center text-center gap-2">
+        <div class="p-3 rounded-xl bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-gray-500"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M17 8l-5-5-5 5"></path><path d="M12 3v12"></path></svg>
+        </div>
+        <p class="font-medium text-gray-800">Glissez-déposez votre document complété ici</p>
+        <p class="text-sm text-gray-500">pour le secteur <span class="font-semibold">${currentSecteur}</span> — ou</p>
+        <label class="mt-1 px-4 py-2.5 rounded-lg text-sm font-semibold text-white cursor-pointer hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+          Parcourir mes fichiers
+          <input id="file-input" type="file" class="hidden" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+        </label>
+        <p class="text-xs text-gray-400 mt-1">Formats acceptés : PDF, Word, JPG, PNG — 10 Mo max</p>
+      </div>`;
+
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input');
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length) handleUpload(fileInput.files[0]);
+      fileInput.value = '';
     });
-    const card = document.getElementById('secteur-card');
-    card.classList.add('save-flash');
-    setTimeout(() => card.classList.remove('save-flash'), 1200);
-  }
 
-  let currentService = "";
-
-  function render() {
-    const rows = QUALIFICATIONS.filter(q => !currentService || q.service === currentService);
-    document.getElementById('qualif-list').innerHTML = rows.map(q => `
-      <div id="card-${q.id}" class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <div class="flex items-start justify-between gap-4 flex-wrap mb-4">
-          <div>
-            <h3 class="font-bold text-gray-900">${q.nom}</h3>
-            <p class="text-xs text-gray-500">${q.service}</p>
-          </div>
-          <span class="px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600">Taux de référence : ${q.taux.toFixed(2)} €/h</span>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Horaire type — début</label>
-            <input type="time" id="${q.id}-debut" value="${q.debut}" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Horaire type — fin</label>
-            <input type="time" id="${q.id}-fin" value="${q.fin}" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Pause par défaut (min)</label>
-            <input type="number" min="0" step="5" id="${q.id}-pause" value="${q.pause}" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-          </div>
-        </div>
-        <div class="mt-4">
-          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Consignes / dress code</label>
-          <textarea id="${q.id}-consignes" rows="2" placeholder="Ex. tenue attendue, consignes spécifiques…" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">${q.consignes}</textarea>
-          <p class="text-[11px] text-gray-400 mt-1">Ces informations sont visibles sur toute commande utilisant cette qualification.</p>
-        </div>
-        <div class="mt-4 flex items-center justify-between">
-          <p class="text-[11px] text-gray-400">Ces valeurs par défaut restent modifiables au cas par cas lors d'une demande de mission, sans impact ici.</p>
-          <button onclick="saveQualif('${q.id}')" class="h-9 px-4 rounded-lg text-sm font-semibold text-white shadow-sm hover:shadow-md transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Enregistrer</button>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  function saveQualif(id) {
-    const q = QUALIFICATIONS.find(x => x.id === id);
-    q.debut = document.getElementById(`${id}-debut`).value;
-    q.fin = document.getElementById(`${id}-fin`).value;
-    q.pause = parseInt(document.getElementById(`${id}-pause`).value, 10) || 0;
-    q.consignes = document.getElementById(`${id}-consignes`).value;
-    const card = document.getElementById(`card-${id}`);
-    card.classList.add('save-flash');
-    setTimeout(() => card.classList.remove('save-flash'), 1200);
-  }
-
-  document.querySelectorAll('.service-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentService = btn.dataset.service;
-      document.querySelectorAll('.service-tab').forEach(b => {
-        const active = b === btn;
-        b.classList.toggle('text-white', active);
-        b.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
-        b.classList.toggle('text-gray-600', !active);
+    ['dragenter', 'dragover'].forEach(evt => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('drag-over');
       });
-      renderSecteur();
-      render();
+    });
+    ['dragleave', 'drop'].forEach(evt => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('drag-over');
+      });
+    });
+    dropzone.addEventListener('drop', (e) => {
+      if (e.dataTransfer.files.length) handleUpload(e.dataTransfer.files[0]);
+    });
+  }
+
+  function handleUpload(file) {
+    ENVOIS.unshift({
+      secteur: currentSecteur,
+      nom: file.name,
+      date: new Date().toLocaleDateString('fr-FR'),
+      statut: "en_attente"
+    });
+    renderEnvois();
+    showToast(`"${file.name}" transmis à Adaptel pour vérification`);
+  }
+
+  function removeEnvoi(index) {
+    ENVOIS.splice(index, 1);
+    renderEnvois();
+  }
+
+  function renderEnvois() {
+    const list = document.getElementById('envois-list');
+    if (!ENVOIS.length) {
+      list.innerHTML = `<p class="text-sm text-gray-500">Aucun document transmis pour le moment.</p>`;
+      return;
+    }
+    list.innerHTML = ENVOIS.map((e, i) => {
+      const s = STATUTS[e.statut];
+      return `
+      <div class="doc-card flex flex-wrap items-center justify-between gap-3 border border-gray-100 rounded-xl p-4">
+        <div class="flex items-center gap-3 min-w-[200px]">
+          <div class="p-2.5 rounded-lg bg-gray-100 flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-500"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"></path></svg>
+          </div>
+          <div>
+            <p class="font-medium text-gray-900 text-sm">${e.nom}</p>
+            <p class="text-xs text-gray-500">${e.secteur} · envoyé le ${e.date}</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-semibold px-3 py-1.5 rounded-full border ${s.classes}">${s.label}</span>
+          <button onclick="removeEnvoi(${i})" class="p-2 rounded-lg bg-gray-100 hover:bg-red-100 text-gray-500 hover:text-red-600 transition-colors" title="Retirer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  document.querySelectorAll('.secteur-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.secteur-tab').forEach(b => {
+        b.classList.remove('text-white', 'shadow-md');
+        b.classList.add('text-gray-600', 'hover:bg-gray-50');
+        b.style.background = '';
+      });
+      btn.classList.remove('text-gray-600', 'hover:bg-gray-50');
+      btn.classList.add('text-white', 'shadow-md');
+      btn.style.background = 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)';
+      currentSecteur = btn.dataset.secteur;
+      renderModele();
+      renderUploadZone();
     });
   });
 
+  renderEnvois();
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.service-tab[data-service=""]').click();
+    document.querySelector('.secteur-tab[data-secteur="Hébergement"]').click();
   });
 </script>
 

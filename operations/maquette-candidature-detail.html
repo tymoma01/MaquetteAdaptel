@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel - Fiche candidature</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0" style="width:256px;">
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Backoffice</p>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 ml-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-600"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+      <a class="block" href="maquette-accueil.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span class="font-medium">Accueil</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-clients.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Clients</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-chantiers.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span class="font-medium">Chantiers</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-candidatures.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M2 21a8 8 0 0 1 13.292-6"></path><circle cx="10" cy="8" r="5"></circle><path d="M19 16v6"></path><path d="M22 19h-6"></path></svg>
+          <span class="font-medium">Candidatures</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-interimaires.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-planning.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+          <span class="font-medium">Planning</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-disponibilites.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+          <span class="font-medium">Disponibilités</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-recherche-de-dispo.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <span class="font-medium">Recherche dispo.</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-commandes.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Commandes</span>
+        </div>
+      </a>
+      <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
+        <div id="nav-releves" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevés d'heures</span>
+        </div>
+      </a>
+      <a class="block" id="nav-reporting-link" href="maquette-reporting.html">
+        <div id="nav-reporting" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+          <span class="font-medium">Reporting</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-support.html">
+        <div id="nav-support" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path></svg>
+            <span class="font-medium">Support</span>
+          </div>
+          <span id="support-badge" class="bg-[#A63629] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+        </div>
+      </a>
+      <a class="block" id="nav-utilisateurs-link" href="maquette-utilisateurs.html">
+        <div id="nav-utilisateurs" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span class="font-medium">Utilisateurs</span>
+        </div>
+      </a>
+      <a class="block" id="nav-administration-link" href="maquette-administration.html">
+        <div id="nav-administration" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path></svg>
+          <span class="font-medium">Administration</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
+          <span class="font-medium">Paramètres</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span class="font-medium">Compte</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-auto flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end gap-3 sticky top-0 z-40">
+      <button type="button" class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-colors text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+        <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">2</span>
+      </button>
+    </header>
+
+    <div class="p-6 space-y-6 max-w-5xl mx-auto w-full">
+
+      <a href="maquette-candidatures.html" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-[#A63629] transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+        Retour à la liste des candidatures
+      </a>
+
+      <!-- TITLE + ACTIONS -->
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded">CAND-001</span>
+            <span id="p-statut-badge" class="inline-flex items-center rounded-full border text-xs font-semibold px-2.5 py-1"></span>
+          </div>
+          <h1 class="text-2xl font-bold text-gray-900 mt-2">Karim DIALLO</h1>
+          <p class="text-gray-600 mt-0.5">03 — Cuisinier · Agence 001 · Paris 18e</p>
+        </div>
+        <div id="statut-actions" class="flex items-center gap-2 flex-wrap"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- INFOS CANDIDAT -->
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm border-l-4 border-l-[#A63629]">
+          <div class="p-6 pb-3">
+            <h3 class="flex items-center gap-2 text-gray-900 font-bold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              Informations du candidat
+            </h3>
+          </div>
+          <div class="p-6 pt-0 space-y-3">
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Nom :</span><span class="font-semibold text-gray-900">Karim DIALLO</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Téléphone :</span><span class="font-semibold text-gray-900">06 44 12 09 87</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Email :</span><span class="font-semibold text-gray-900">karim.diallo@email.com</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Ville :</span><span class="font-semibold text-gray-900">Paris 18e</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Qualification :</span><span class="font-semibold text-gray-900">03 — Cuisinier</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Agence :</span><span class="font-semibold text-gray-900">001</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Date de candidature :</span><span class="font-semibold text-gray-900">18/09/2026</span></div>
+          </div>
+        </div>
+
+        <!-- SUIVI DU DOSSIER -->
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm border-l-4 border-l-[#A63629]">
+          <div class="p-6 pb-3">
+            <h3 class="flex items-center gap-2 text-gray-900 font-bold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="m9 15 2 2 4-4"></path></svg>
+              Suivi du dossier
+            </h3>
+          </div>
+          <div class="p-6 pt-0 space-y-3" id="dossier-checklist">
+            <!-- rempli en JS -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ENTRETIEN -->
+      <div id="entretien-section" class="rounded-xl border border-gray-200 bg-white shadow-sm border-l-4 border-l-[#A63629]">
+        <div class="p-6 pb-3">
+          <h3 class="flex items-center gap-2 text-gray-900 font-bold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            Entretien
+          </h3>
+          <p class="text-xs text-gray-500 mt-1">Comptes-rendus d'entretien du candidat. Chaque commentaire reste modifiable, avec l'historique de qui l'a ajouté ou modifié.</p>
+        </div>
+        <div class="p-6 pt-0 space-y-4">
+          <div class="rounded-lg border border-gray-200 bg-gray-50 p-3">
+            <textarea id="new-note-text" rows="2" placeholder="Ajouter un commentaire sur l'entretien..." class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]"></textarea>
+            <div class="flex justify-end mt-2">
+              <button type="button" onclick="addNote()" class="inline-flex items-center gap-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow hover:opacity-95 h-8 px-3">Ajouter le commentaire</button>
+            </div>
+          </div>
+          <div id="notes-list" class="space-y-3"></div>
+        </div>
+      </div>
+
+      <!-- HISTORIQUE -->
+      <div class="rounded-xl border border-gray-200 bg-white shadow-sm border-l-4 border-l-[#A63629]">
+        <div class="p-6 pb-3">
+          <h3 class="flex items-center gap-2 text-gray-900 font-bold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+            Historique
+          </h3>
+          <p class="text-xs text-gray-500 mt-1">Qui a fait quoi sur ce dossier, dans l'ordre chronologique.</p>
+        </div>
+        <div class="p-6 pt-0">
+          <ul id="historique-list" class="space-y-4"></ul>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  // ===== Modèle de la candidature (démo) =====
+  let statut = 'inscrit'; // 'incomplet' | 'inscrit' | 'aft' | 'npft'
+  const dossier = {
+    formulaire: { ok: true, date: '18/09/2026' },
+    pieces: { ok: true, date: '19/09/2026', detail: 'CNI, RIB, carte vitale' },
+    inscritPar: 'Sarah Benamar',
+    inscritLe: '19/09/2026'
+  };
+
+  let notes = [
+    { id: 'n1', auteur: 'Julien Castex', date: '22/09/2026 11:00', content: "Bon relationnel, à l'aise en environnement rythmé (brigade de 12). A déjà travaillé pour Le Meurice en saisonnier l'an dernier. Disponible immédiatement, véhiculé.", initial: true, editedBy: null, editedDate: null },
+    { id: 'n2', auteur: 'Sarah Benamar', date: '23/09/2026 09:30', content: "Appel de vérification des références OK — l'ancien employeur confirme sérieux et ponctualité. Peut être positionné dès la semaine prochaine.", initial: false, editedBy: null, editedDate: null }
+  ];
+
+  const historique = [
+    { date: '18/09/2026 10:05', auteur: 'Système', action: 'Candidature créée depuis le formulaire en ligne.' },
+    { date: '19/09/2026 14:20', auteur: 'Sarah Benamar', action: 'Pièces justificatives reçues et vérifiées (CNI, RIB, carte vitale).' },
+    { date: '19/09/2026 14:22', auteur: 'Sarah Benamar', action: 'Dossier marqué comme inscrit — formulaire et pièces justificatives complets.' },
+    { date: '22/09/2026 11:00', auteur: 'Julien Castex', action: 'Entretien réalisé — premier compte-rendu ajouté.' }
+  ];
+
+  const STATUT_META = {
+    incomplet: { label: 'Dossier incomplet', badge: 'bg-gray-200 text-gray-700 border-gray-300' },
+    inscrit:   { label: 'Inscrit',           badge: 'bg-blue-100 text-blue-800 border-blue-300' },
+    aft:       { label: 'AFT — À faire travailler', badge: 'bg-green-100 text-green-900 border-green-300' },
+    npft:      { label: 'NPFT — Ne pas faire travailler', badge: 'bg-red-100 text-red-800 border-red-300' }
+  };
+
+  function renderStatutBadge() {
+    const el = document.getElementById('p-statut-badge');
+    el.textContent = STATUT_META[statut].label;
+    el.className = 'inline-flex items-center rounded-full border text-xs font-semibold px-2.5 py-1 ' + STATUT_META[statut].badge;
+  }
+
+  function renderActions() {
+    const el = document.getElementById('statut-actions');
+    if (statut === 'incomplet') {
+      const ready = dossier.formulaire.ok && dossier.pieces.ok;
+      el.innerHTML = `
+        <button type="button" ${ready ? '' : 'disabled'} onclick="marquerInscrit()" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all shadow bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white hover:opacity-95 h-10 px-4 disabled:opacity-40 disabled:cursor-not-allowed">
+          Marquer comme inscrit
+        </button>`;
+    } else if (statut === 'inscrit') {
+      el.innerHTML = `
+        <button type="button" onclick="setStatut('npft')" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-red-300 bg-white text-red-600 shadow-sm hover:bg-red-50 h-10 px-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+          Invalider — NPFT
+        </button>
+        <button type="button" onclick="setStatut('aft')" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all shadow bg-gradient-to-r from-green-600 to-green-700 text-white hover:opacity-95 h-10 px-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M20 6 9 17l-5-5"></path></svg>
+          Valider — AFT
+        </button>`;
+    } else if (statut === 'aft') {
+      el.innerHTML = `
+        <button type="button" onclick="setStatut('npft')" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50 h-10 px-4">
+          Repasser en NPFT
+        </button>
+        <button type="button" onclick="promouvoirInterimaire()" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all shadow bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:opacity-95 h-10 px-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="m19 8 2 2 4-4"></path></svg>
+          A réalisé sa 1ʳᵉ mission — Passer intérimaire
+        </button>`;
+    } else if (statut === 'npft') {
+      el.innerHTML = `
+        <button type="button" onclick="setStatut('aft')" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50 h-10 px-4">
+          Repasser en AFT
+        </button>`;
+    }
+  }
+
+  function renderChecklist() {
+    const el = document.getElementById('dossier-checklist');
+    const checkIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-green-600 flex-shrink-0"><path d="M20 6 9 17l-5-5"></path></svg>`;
+    const pendingIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle></svg>`;
+    el.innerHTML = `
+      <div class="flex items-start gap-2">
+        ${dossier.formulaire.ok ? checkIcon : pendingIcon}
+        <div class="text-sm">
+          <p class="font-semibold text-gray-900">Formulaire complété</p>
+          <p class="text-xs text-gray-500">${dossier.formulaire.ok ? 'Reçu le ' + dossier.formulaire.date : 'En attente'}</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-2">
+        ${dossier.pieces.ok ? checkIcon : pendingIcon}
+        <div class="text-sm">
+          <p class="font-semibold text-gray-900">Pièces justificatives</p>
+          <p class="text-xs text-gray-500">${dossier.pieces.ok ? 'Reçues le ' + dossier.pieces.date + ' (' + dossier.pieces.detail + ')' : 'En attente'}</p>
+        </div>
+      </div>
+      ${statut !== 'incomplet' ? `
+      <div class="pt-2 mt-2 border-t border-gray-100 text-xs text-gray-500">
+        Inscrit par <span class="font-semibold text-gray-700">${dossier.inscritPar}</span> le ${dossier.inscritLe}
+      </div>` : ''}
+    `;
+  }
+
+  function renderEntretienVisibility() {
+    document.getElementById('entretien-section').classList.toggle('hidden', statut === 'incomplet');
+  }
+
+  function renderNotes() {
+    document.getElementById('notes-list').innerHTML = notes.map(n => `
+      <div class="rounded-lg border border-gray-200 p-3" id="note-${n.id}">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-2 flex-wrap mb-1">
+              ${n.initial ? '<span class="inline-flex items-center rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5">Entretien initial</span>' : ''}
+            </div>
+            <p class="text-sm text-gray-800 note-view">${n.content}</p>
+            <textarea class="hidden w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm mt-1 note-edit" rows="3">${n.content}</textarea>
+            <p class="text-xs text-gray-400 mt-1.5">Ajouté par ${n.auteur} · ${n.date}${n.editedBy ? ` · modifié par ${n.editedBy} · ${n.editedDate}` : ''}</p>
+          </div>
+          <div class="flex-shrink-0 flex items-center gap-1 note-actions">
+            <button type="button" onclick="toggleEditNote('${n.id}')" class="text-xs font-semibold text-gray-500 hover:text-[#A63629] px-2 py-1 note-edit-btn">Modifier</button>
+            <button type="button" onclick="saveNote('${n.id}')" class="hidden text-xs font-semibold text-white bg-[#A63629] rounded-lg px-2 py-1 note-save-btn">Enregistrer</button>
+            <button type="button" onclick="toggleEditNote('${n.id}')" class="hidden text-xs font-semibold text-gray-500 px-2 py-1 note-cancel-btn">Annuler</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function toggleEditNote(id) {
+    const card = document.getElementById('note-' + id);
+    card.querySelector('.note-view').classList.toggle('hidden');
+    card.querySelector('.note-edit').classList.toggle('hidden');
+    card.querySelector('.note-edit-btn').classList.toggle('hidden');
+    card.querySelector('.note-save-btn').classList.toggle('hidden');
+    card.querySelector('.note-cancel-btn').classList.toggle('hidden');
+  }
+
+  function saveNote(id) {
+    const card = document.getElementById('note-' + id);
+    const newContent = card.querySelector('.note-edit').value.trim();
+    if (!newContent) return;
+    const note = notes.find(n => n.id === id);
+    if (newContent !== note.content) {
+      note.content = newContent;
+      const now = new Date();
+      note.editedBy = 'Vous';
+      note.editedDate = now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    }
+    renderNotes();
+  }
+
+  function addNote() {
+    const textarea = document.getElementById('new-note-text');
+    const content = textarea.value.trim();
+    if (!content) return;
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    notes.push({ id: 'n' + Date.now(), auteur: 'Vous', date: dateStr, content, initial: notes.length === 0, editedBy: null, editedDate: null });
+    textarea.value = '';
+    renderNotes();
+  }
+
+  function renderHistorique() {
+    document.getElementById('historique-list').innerHTML = historique.slice().reverse().map(h => `
+      <li class="flex gap-3">
+        <div class="w-2 h-2 rounded-full bg-[#A63629] mt-1.5 flex-shrink-0"></div>
+        <div>
+          <p class="text-sm text-gray-800">${h.action}</p>
+          <p class="text-xs text-gray-400 mt-0.5">${h.auteur} · ${h.date}</p>
+        </div>
+      </li>
+    `).join('');
+  }
+
+  function addHistorique(action, auteur) {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    historique.push({ date: dateStr, auteur: auteur || 'Vous', action });
+    renderHistorique();
+  }
+
+  function renderAll() {
+    renderStatutBadge();
+    renderActions();
+    renderChecklist();
+    renderEntretienVisibility();
+    renderNotes();
+    renderHistorique();
+  }
+
+  function marquerInscrit() {
+    if (!(dossier.formulaire.ok && dossier.pieces.ok)) return;
+    statut = 'inscrit';
+    dossier.inscritPar = 'Vous';
+    dossier.inscritLe = new Date().toLocaleDateString('fr-FR');
+    addHistorique('Dossier marqué comme inscrit — formulaire et pièces justificatives complets.');
+    renderAll();
+  }
+
+  function setStatut(next) {
+    const labels = { aft: 'AFT (à faire travailler)', npft: 'NPFT (ne pas faire travailler)' };
+    statut = next;
+    addHistorique(`Candidature passée au statut ${labels[next] || next}.`);
+    renderAll();
+  }
+
+  function promouvoirInterimaire() {
+    const ok = confirm("Confirmer que cette personne a réalisé sa première mission ?\n\nElle disparaîtra de la liste des candidatures et apparaîtra désormais dans la liste des intérimaires (taguée PROV le temps de cette première mission).");
+    if (!ok) return;
+    addHistorique('Première mission réalisée — candidature retirée et intérimaire créé (statut PROV).');
+    alert('Candidature transformée en fiche intérimaire. Retour à la liste des candidatures.');
+    window.location.href = 'maquette-candidatures.html';
+  }
+
+  renderAll();
+</script>
+</body>
+</html>

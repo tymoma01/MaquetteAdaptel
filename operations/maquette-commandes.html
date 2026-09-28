@@ -51,6 +51,12 @@
           <span class="font-medium">Chantiers</span>
         </div>
       </a>
+      <a class="block" href="maquette-candidatures.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M2 21a8 8 0 0 1 13.292-6"></path><circle cx="10" cy="8" r="5"></circle><path d="M19 16v6"></path><path d="M22 19h-6"></path></svg>
+          <span class="font-medium">Candidatures</span>
+        </div>
+      </a>
       <a class="block" href="maquette-interimaires.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
@@ -333,7 +339,7 @@
 
         <!-- PAGINATION (cosmétique) -->
         <div class="flex items-center justify-between px-1">
-          <p class="text-sm text-gray-600">Affichage de <span class="font-semibold" id="pagination-count">10</span> sur <span class="font-semibold">10</span> résultats</p>
+          <p class="text-sm text-gray-600">Affichage de <span class="font-semibold" id="pagination-count">10</span> sur <span class="font-semibold" id="pagination-total">10</span> résultats</p>
           <div class="flex items-center gap-2">
             <button disabled class="p-2 rounded-lg text-gray-400 disabled:opacity-50"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m15 18-6-6 6-6"></path></svg></button>
             <button class="px-3 py-2 rounded-lg text-sm font-medium bg-[#A63629] text-white">1</button>
@@ -441,7 +447,8 @@
     { cmd: 'CMD-2609-17', client: 'Résidence Étoile', chantier: 'Accueil', qualifCode: '34', qualif: 'Réceptionniste', periode: '21, 22 puis 24 sept.', horaire: '09:00 - 17:00', capacite: '3/3', interimaires: '3 intérimaires', statut: 'en-cours', statutLabel: 'Validé', border: 'border-l-green-500', groupe: 3 },
     { cmd: 'CMD-2609-07', client: 'Hôtel Prince de Galles', chantier: 'Réception VIP', qualifCode: '34', qualif: 'Réceptionniste', periode: '26 sept.', horaire: '08:00 - 16:00', capacite: '1/1', interimaires: 'Léa ROUSSEL', statut: 'pourvue', statutLabel: 'Contrat établi', border: 'border-l-purple-500' },
     { cmd: 'CMD-2609-16', client: 'Hôtel Le Meurice', chantier: 'Salle / Resto', qualifCode: '?', qualif: 'Serveuse', periode: '15 sept.', horaire: '11:00 - 19:00', capacite: '1/1', interimaires: 'Emma LEFEBVRE', statut: 'terminee', statutLabel: 'Terminée', border: 'border-l-slate-500' },
-    { cmd: 'CMD-2609-05', client: 'La Table du Marais', chantier: 'Bar à Vins', qualifCode: '19', qualif: 'Barman', periode: '21 sept.', horaire: '19:00 - 00:00', capacite: '0/1', interimaires: 'Yanis MOKRANE', statut: 'annulee', statutLabel: 'Annulée', border: 'border-l-gray-300' }
+    { cmd: 'CMD-2609-05', client: 'La Table du Marais', chantier: 'Bar à Vins', qualifCode: '19', qualif: 'Barman', periode: '21 sept.', horaire: '19:00 - 00:00', capacite: '0/1', interimaires: 'Yanis MOKRANE', statut: 'annulee', statutLabel: 'Annulée', border: 'border-l-gray-300' },
+    { cmd: 'CMD-2609-08', client: 'Hôtel Splendide Royal', chantier: 'Voiturier / Conciergerie', qualifCode: '40', qualif: 'Voiturier', periode: '27 sept.', horaire: '07:00 - 15:00', capacite: '0/1', interimaires: '—', statut: 'non-attribuee', statutLabel: 'À staffer', border: 'border-l-red-500' }
   ];
 
   const STATUT_BADGE = {
@@ -564,6 +571,7 @@
       list.innerHTML = filtered.map(renderCommandeRow).join('');
     }
     document.getElementById('pagination-count').textContent = filtered.length;
+    document.getElementById('pagination-total').textContent = COMMANDES.length;
   }
 
   function goToDetail(cmd) {

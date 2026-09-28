@@ -48,6 +48,12 @@
           <span class="font-medium">Chantiers</span>
         </div>
       </a>
+      <a class="block" href="maquette-candidatures.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M2 21a8 8 0 0 1 13.292-6"></path><circle cx="10" cy="8" r="5"></circle><path d="M19 16v6"></path><path d="M22 19h-6"></path></svg>
+          <span class="font-medium">Candidatures</span>
+        </div>
+      </a>
       <a class="block" href="maquette-interimaires.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
@@ -236,13 +242,13 @@
           <form class="flex gap-3" onsubmit="return false;">
             <div class="relative flex-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
-              <input class="flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A63629] focus-visible:border-transparent pl-11 shadow-sm" placeholder="Rechercher par nom, qualification ou ville..." type="text">
+              <input id="interimaire-search" oninput="applyFilters()" class="flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A63629] focus-visible:border-transparent pl-11 shadow-sm" placeholder="Rechercher par nom, qualification ou ville..." type="text">
             </div>
-            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 h-10 px-4 py-2 gap-2" type="submit">
+            <button onclick="applyFilters()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 h-10 px-4 py-2 gap-2" type="submit">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
               Rechercher
             </button>
-            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm transition-all border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4 py-2 gap-2 font-semibold text-gray-900" type="button">
+            <button onclick="toggleExtraFilters()" id="btn-toggle-filtres" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm transition-all border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4 py-2 gap-2 font-semibold text-gray-900" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"></path></svg>
               Filtres
             </button>
@@ -252,12 +258,36 @@
             </button>
           </form>
 
-          <!-- STATUS TABS (cosmetic only) -->
+          <!-- FILTRES AVANCES (repliés par défaut, révélés par le bouton "Filtres") -->
+          <div id="extra-filters-panel" class="hidden rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+            <div class="flex flex-col md:flex-row gap-3">
+              <div class="relative flex-1 min-w-[200px]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
+                <input id="filter-qualif" oninput="applyFilters()" type="text" placeholder="Filtrer par qualification..." class="flex h-10 w-full rounded-lg border border-gray-200 bg-white pl-9 pr-3 py-2 text-sm">
+              </div>
+              <div class="relative flex-1 min-w-[200px]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <input id="filter-ville" oninput="applyFilters()" type="text" placeholder="Filtrer par ville..." class="flex h-10 w-full rounded-lg border border-gray-200 bg-white pl-9 pr-3 py-2 text-sm">
+              </div>
+              <select id="filter-agence" onchange="applyFilters()" class="px-4 py-2 border border-gray-200 rounded-lg bg-white min-w-[190px] text-sm text-gray-700">
+                <option value="">Toutes les agences</option>
+                <option value="001">Agence 001</option>
+                <option value="002">Agence 002</option>
+                <option value="003">Agence 003</option>
+              </select>
+              <button type="button" onclick="resetExtraFilters()" class="inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4">
+                Réinitialiser
+              </button>
+            </div>
+          </div>
+
+          <!-- STATUS TABS (filtrage réel du tableau ci-dessous) -->
           <div class="flex gap-2" id="status-tabs">
             <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-[#A63629] text-white shadow" data-tab="tous">Tous (247)</button>
             <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50" data-tab="dispo">Disponibles (86)</button>
             <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50" data-tab="commande">En commande (132)</button>
             <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50" data-tab="indispo">Indisponibles (29)</button>
+            <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors text-gray-700 bg-white border border-gray-200 hover:bg-gray-50" data-tab="prov" title="Placés sur leur première commande suite à une candidature validée (AFT)">PROV (1)</button>
           </div>
 
           <!-- Legend for availability grid -->
@@ -283,7 +313,7 @@
             </thead>
             <tbody class="divide-y divide-gray-100">
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="window.location.href='maquette-interimaire-detail.html'" title="Voir la fiche de Sofia Martins">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Sofia MARTINS" data-qualif="Chef de rang" data-ville="Paris 11e" data-agence="001" data-status="dispo" data-prov="false" onclick="window.location.href='maquette-interimaire-detail.html'" title="Voir la fiche de Sofia Martins">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -309,7 +339,7 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="window.location.href='maquette-interimaire-detail-hebergement.html'" title="Voir la fiche de Léa Roussel">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Léa ROUSSEL" data-qualif="Réceptionniste" data-ville="Lyon 3e" data-agence="002" data-status="dispo" data-prov="false" onclick="window.location.href='maquette-interimaire-detail-hebergement.html'" title="Voir la fiche de Léa Roussel">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -335,7 +365,7 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="window.location.href='maquette-interimaire-detail-housekeeping.html'" title="Voir la fiche de Nadia Fontaine">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Nadia FONTAINE" data-qualif="Femme de chambre" data-ville="Ivry-sur-Seine" data-agence="001" data-status="dispo" data-prov="false" onclick="window.location.href='maquette-interimaire-detail-housekeeping.html'" title="Voir la fiche de Nadia Fontaine">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -361,7 +391,7 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Karim DIALLO" data-qualif="Cuisinier" data-ville="Boulogne-Billancourt" data-agence="001" data-status="commande" data-prov="false">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
@@ -386,7 +416,7 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1">En commande</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Thomas NGUYEN" data-qualif="Plongeur" data-ville="Roubaix" data-agence="003" data-status="indispo" data-prov="false">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
@@ -411,7 +441,7 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-gray-200 text-gray-700 text-xs font-semibold px-3 py-1">Indisponible</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Amandine BERTIN" data-qualif="Pâtissière" data-ville="Neuilly-sur-Seine" data-agence="001" data-status="commande" data-prov="false">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
@@ -436,7 +466,7 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1">En commande</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Yanis MOKRANE" data-qualif="Barman" data-ville="Villeneuve-d'Ascq" data-agence="003" data-status="dispo" data-prov="false">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
@@ -461,7 +491,7 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Camille DUBOIS" data-qualif="Sommelière" data-ville="Paris 8e" data-agence="001" data-status="dispo" data-prov="false">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
@@ -486,7 +516,7 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Mehdi KACI" data-qualif="Commis de cuisine" data-ville="Gentilly" data-agence="001" data-status="commande" data-prov="false">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
@@ -511,7 +541,7 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1">En commande</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Julie PETIT" data-qualif="Hôtesse d'accueil" data-ville="Plaisir" data-agence="002" data-status="indispo" data-prov="false">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
@@ -536,7 +566,7 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-gray-200 text-gray-700 text-xs font-semibold px-3 py-1">Indisponible</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Rachid BENALI" data-qualif="Chef cuisinier" data-ville="Rueil-Malmaison" data-agence="002" data-status="dispo" data-prov="false">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
@@ -561,7 +591,7 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Emma LEFEBVRE" data-qualif="Serveuse" data-ville="Lille" data-agence="003" data-status="dispo" data-prov="false">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
@@ -586,7 +616,7 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Paul GAUTHIER" data-qualif="Maître d'hôtel" data-ville="Paris 17e" data-agence="001" data-status="commande" data-prov="false">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
@@ -611,8 +641,8 @@
                 <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1">En commande</span></td>
               </tr>
 
-              <tr class="hover:bg-gray-50 transition-colors cursor-pointer">
-                <td class="px-5 py-4 rounded-bl-xl">
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Victor LAMBERT" data-qualif="Extra polyvalent" data-ville="Guyancourt" data-agence="002" data-status="dispo" data-prov="false">
+                <td class="px-5 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
                       <span class="text-xs font-bold text-[#A63629]">VL</span>
@@ -633,7 +663,33 @@
                   </div>
                 </td>
                 <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">8</span></td>
-                <td class="px-5 py-4 rounded-br-xl"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Disponible</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors cursor-pointer" data-name="Clara PELLETIER" data-qualif="Voiturier" data-ville="Paris 17e" data-agence="001" data-status="commande" data-prov="true">
+                <td class="px-5 py-4 rounded-bl-xl">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-xs font-bold text-[#A63629]">CP</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-900">Clara PELLETIER</p>
+                      <p class="text-xs text-gray-500 flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        06 81 23 45 67 · Paris 17e
+                      </p>
+                      <span class="inline-flex items-center gap-1 rounded-full border border-indigo-300 bg-indigo-50 text-indigo-700 text-[10px] font-bold px-2 py-0.5 mt-1" title="Provisoire — placée sur sa première commande suite à sa candidature validée (AFT)">PROV — 1ère mission</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-gray-100 text-gray-800 text-xs font-medium px-3 py-1">Voiturier</span></td>
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-1.5">
+                    <span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-amber-400"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span><span class="avail-dot bg-gray-300"></span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-center"><span class="inline-flex items-center justify-center min-w-[2.5rem] rounded-full bg-[#A63629] text-white font-semibold text-sm px-3 py-1">1</span></td>
+                <td class="px-5 py-4 rounded-br-xl"><span class="inline-flex items-center rounded-full border border-transparent bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1">En commande</span></td>
               </tr>
 
             </tbody>
@@ -667,17 +723,51 @@
 </div>
 
 <script>
-  // Cosmetic-only tab switching: just toggles active styling, no real filtering.
+  // Filtrage réel : onglets de statut + recherche + filtres avancés (qualification, ville, agence),
+  // combinables entre eux, appliqués sur les lignes du tableau de démonstration.
+  let currentTab = 'tous';
+  const interimaireRows = Array.from(document.querySelectorAll('#interimaire-table tbody tr'));
+
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
+      currentTab = btn.dataset.tab;
       document.querySelectorAll('.tab-btn').forEach(b => {
         b.classList.remove('bg-[#A63629]', 'text-white', 'shadow');
         b.classList.add('text-gray-700', 'bg-white', 'border', 'border-gray-200');
       });
       btn.classList.remove('text-gray-700', 'bg-white', 'border', 'border-gray-200');
       btn.classList.add('bg-[#A63629]', 'text-white', 'shadow');
+      applyFilters();
     });
   });
+
+  function toggleExtraFilters() {
+    document.getElementById('extra-filters-panel').classList.toggle('hidden');
+  }
+
+  function resetExtraFilters() {
+    document.getElementById('filter-qualif').value = '';
+    document.getElementById('filter-ville').value = '';
+    document.getElementById('filter-agence').value = '';
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const search = document.getElementById('interimaire-search').value.trim().toLowerCase();
+    const qualif = document.getElementById('filter-qualif').value.trim().toLowerCase();
+    const ville = document.getElementById('filter-ville').value.trim().toLowerCase();
+    const agence = document.getElementById('filter-agence').value;
+
+    interimaireRows.forEach(row => {
+      const d = row.dataset;
+      const matchTab = currentTab === 'tous' || (currentTab === 'prov' ? d.prov === 'true' : d.status === currentTab);
+      const matchSearch = !search || [d.name, d.qualif, d.ville].join(' ').toLowerCase().includes(search);
+      const matchQualif = !qualif || d.qualif.toLowerCase().includes(qualif);
+      const matchVille = !ville || d.ville.toLowerCase().includes(ville);
+      const matchAgence = !agence || d.agence === agence;
+      row.classList.toggle('hidden', !(matchTab && matchSearch && matchQualif && matchVille && matchAgence));
+    });
+  }
 </script>
 
 </body>

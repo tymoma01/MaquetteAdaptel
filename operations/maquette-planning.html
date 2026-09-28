@@ -47,6 +47,12 @@
           <span class="font-medium">Chantiers</span>
         </div>
       </a>
+      <a class="block" href="maquette-candidatures.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M2 21a8 8 0 0 1 13.292-6"></path><circle cx="10" cy="8" r="5"></circle><path d="M19 16v6"></path><path d="M22 19h-6"></path></svg>
+          <span class="font-medium">Candidatures</span>
+        </div>
+      </a>
       <a class="block" href="maquette-interimaires.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
@@ -579,6 +585,52 @@
               <textarea id="comment-input-CMD-2609-07" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
             </div>
           </div>
+
+          <!-- LIGNE 8 : exemple sans aucun intérimaire correspondant -> repli candidats AFT -->
+          <div onclick="openPanel('CMD-2609-08', 'Hôtel Splendide Royal', 'Voiturier', '07:00 - 15:00', '13,20 €/h', 'Accroissement temporaire', 'Dim. 27 sept.', 'Client très haut de gamme : présentation impeccable et anglais courant exigés.', 'Mme Camille ROY', '01 47 80 12 34', 'c.roy@splendideroyal.fr', '001', 'Voiturier / Conciergerie', 'À staffer')"
+               data-cmd="CMD-2609-08" data-client="Hôtel Splendide Royal" data-chantier="Voiturier / Conciergerie" data-motif="Accroissement temporaire" data-taux="13.20" data-interimaire="" data-statut="À staffer" data-agence="001" data-secteur="Hébergement"
+               class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
+            <div class="pt-0.5">
+              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-08</span>
+            </div>
+            <div class="space-y-0.5 min-w-0 pt-0.5">
+              <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">Hôtel Splendide Royal</span>
+              <p class="text-xs text-gray-500 font-medium truncate">Voiturier / Conciergerie <span class="text-gray-400">• 001</span></p>
+            </div>
+            <div class="pt-0.5">
+              <span class="text-sm font-bold text-[#A63629] bg-red-50 px-2.5 py-1 rounded-md border border-red-100 whitespace-nowrap inline-block">07:00 - 15:00</span>
+            </div>
+            <div class="pt-0.5">
+              <p class="flex items-center gap-1.5">
+                <span class="inline-flex items-center justify-center rounded bg-gray-800 text-white text-[10px] font-bold px-1.5 py-0.5 font-mono">40</span>
+                <span class="text-xs font-bold text-gray-800">Voiturier</span>
+              </p>
+            </div>
+            <div class="space-y-1 min-w-0 pt-0.5">
+              <span class="inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-700 border border-red-200"><span class="font-mono font-extrabold">21</span> · Accroissement temporaire</span>
+              <p class="text-gray-500 italic bg-amber-50/70 border border-amber-100 px-2 py-1 rounded text-[11px] truncate">"Présentation impeccable et anglais courant exigés."</p>
+            </div>
+            <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
+              <span id="fin-cell-CMD-2609-08"></span>
+            </div>
+            <div>
+              <div id="assign-box-CMD-2609-08" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-08')" class="h-10 rounded-lg border-2 border-dashed border-red-300 bg-red-50/80 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-red-100/70 hover:border-red-400 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-red-500 flex-shrink-0"><path d="M5 12h14"></path></svg>
+                <div class="min-w-0 leading-tight">
+                  <p class="text-xs font-bold text-red-700 truncate">Aucun attribué</p>
+                  <p class="text-[10px] text-red-600 font-medium underline">Voir candidats</p>
+                </div>
+              </div>
+            </div>
+            <div id="envois-cell-CMD-2609-08" class="pt-0.5 flex justify-center"></div>
+            <div class="pt-0.5 flex justify-end min-w-0">
+              <span id="statut-badge-CMD-2609-08" class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
+            </div>
+            <div class="pt-0.5" onclick="event.stopPropagation()">
+              <textarea id="comment-input-CMD-2609-08" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Aucun intérimaire ne correspond à cette qualification niche : voir les candidats AFT proposés.</textarea>
+            </div>
+          </div>
         </div>
         </div>
       </div>
@@ -776,6 +828,26 @@
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+            </div>
+
+            <!-- CLIENT 8 : À staffer, aucun intérimaire correspondant -> repli candidats AFT -->
+            <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
+              <div onclick="openPanel('CMD-2609-08', 'Hôtel Splendide Royal', 'Voiturier', '07:00 - 15:00', '13,20 €/h', 'Accroissement temporaire', 'Dim. 27 sept.', 'Client très haut de gamme : présentation impeccable et anglais courant exigés.', 'Mme Camille ROY', '01 47 80 12 34', 'c.roy@splendideroyal.fr', '001', 'Voiturier / Conciergerie', 'À staffer')" class="cursor-pointer group">
+                <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Hôtel Splendide Royal</p>
+                <p class="text-gray-500 font-medium">Voiturier / Conciergerie</p>
+                <span class="text-[10px] text-gray-400 font-mono font-semibold">40</span> <span class="text-[10px] text-gray-400">Voiturier</span>
+              </div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
+              <div onclick="openCandidatesModal('CMD-2609-08')" title="Aucun intérimaire ne correspond — voir les candidats AFT"
+                   class="cursor-pointer bg-red-50 border border-red-200 text-red-800 p-2 rounded-lg space-y-1 hover:shadow-md hover:border-red-300 transition-all">
+                <div class="flex justify-between items-center"><span class="font-bold text-[10px]">07h-15h</span> <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span></div>
+                <p class="font-semibold truncate">À staffer</p>
+              </div>
             </div>
           </div>
         </div>
@@ -1110,7 +1182,8 @@
     'CMD-2609-04': { label: 'Mer. 23 sept.', date: '2026-09-23' },
     'CMD-2609-05': { label: 'Lun. 21 sept.', date: '2026-09-21' },
     'CMD-2609-06': { label: 'Jeu. 24 sept.', date: '2026-09-24' },
-    'CMD-2609-07': { label: 'Sam. 26 sept.', date: '2026-09-26' }
+    'CMD-2609-07': { label: 'Sam. 26 sept.', date: '2026-09-26' },
+    'CMD-2609-08': { label: 'Dim. 27 sept.', date: '2026-09-27' }
   };
 
   // Date de début de chaque commande (avec commandeFin, permet de reconstituer la liste des jours pour l'annulation)
@@ -1121,7 +1194,8 @@
     'CMD-2609-04': '2026-09-21',
     'CMD-2609-05': '2026-09-21',
     'CMD-2609-06': '2026-09-23',
-    'CMD-2609-07': '2026-09-26'
+    'CMD-2609-07': '2026-09-26',
+    'CMD-2609-08': '2026-09-27'
   };
 
   // Jours restants APRÈS la date sélectionnée dans le bandeau (considérée comme "aujourd'hui") : le jour même n'est pas compté.
@@ -1451,8 +1525,25 @@
     'CMD-2609-03': { recap: "Commis de cuisine · Fouquet's Barrière · 09:00 - 17:00", current: 'Mehdi KACI', secteur: 'Restauration', exact: ['Commis de cuisine'], related: ['Cuisinier', 'Chef cuisinier', 'Pâtissière'], connuPar: ['Mehdi KACI', 'Rachid BENALI'], condValue: 'Gastronomique' },
     'CMD-2609-04': { recap: 'Réceptionniste · Novotel Paris Est · 07:00 - 15:00', current: 'Julie PETIT', secteur: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Julie PETIT'], condValue: 'Opera Cloud' },
     'CMD-2609-06': { recap: 'Bagagiste · Le Grand Hôtel Parisien · 06:00 - 14:00', current: null, secteur: 'Hébergement', exact: [], related: ["Hôtesse d'accueil", 'Réceptionniste'], connuPar: [] },
-    'CMD-2609-07': { recap: 'Réceptionniste · Hôtel Prince de Galles · 08:00 - 16:00', current: 'Léa ROUSSEL', secteur: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Léa ROUSSEL'], condValue: 'Opera Cloud' }
+    'CMD-2609-07': { recap: 'Réceptionniste · Hôtel Prince de Galles · 08:00 - 16:00', current: 'Léa ROUSSEL', secteur: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Léa ROUSSEL'], condValue: 'Opera Cloud' },
+    // Qualification "Voiturier" : aucun intérimaire du vivier ne la possède (exact ni proche) — sert de démo au repli candidats AFT.
+    'CMD-2609-08': { recap: 'Voiturier · Hôtel Splendide Royal · 07:00 - 15:00', current: null, secteur: 'Hébergement', exact: ['Voiturier'], related: [], connuPar: [] }
   };
+
+  // Vivier des candidatures au statut « AFT » (dossier validé, prêtes à basculer en mission mais pas encore
+  // intégrées comme intérimaires actifs). Utilisé en repli dans la modale « Candidats » quand aucun intérimaire
+  // du vivier actif (exact ni proche) ne correspond à la qualification demandée par la commande.
+  // On peut les positionner directement sur la commande depuis cette modale : ils basculent alors au statut
+  // PROV (provisoire) le temps de cette première mission (cf. assignAftCandidate).
+  // Note : Clara PELLETIER, positionnée de cette façon sur une précédente commande, apparaît déjà en PROV
+  // côté Intérimaires — elle n'est donc plus proposée ici en tant que candidature disponible.
+  const aftCandidatsPool = [
+    { name: 'Antoine ROUX', init: 'AR', qual: 'Voiturier', secteur: 'Hébergement', agence: '001', ville: 'Paris 8e', cp: '75008', telephone: '06 70 12 34 56', email: 'antoine.roux@email.com', dateCandidature: '20 sept. 2026' }
+  ];
+
+  function hasQualifiedInterim(cfg) {
+    return interimRoster.some(p => cfg.exact.includes(p.qual) || cfg.related.includes(p.qual));
+  }
 
   // Filtre conditionnel proposé selon le secteur de la commande (aligné sur les compétences déclaratives des fiches intérimaire)
   const conditionalFilterConfig = {
@@ -1531,6 +1622,13 @@
     const vehiculeOnly = candFilterVehicule.checked;
     const favorisOnly = candFilterFavori.checked;
 
+    // Aucun intérimaire du vivier actif ne correspond (ni exact ni proche) à cette qualification :
+    // on propose les candidatures AFT correspondantes plutôt qu'une liste vide.
+    if (!hasQualifiedInterim(cfg)) {
+      renderAftFallback(cmd, cfg, qualifFilter, deptFilter);
+      return;
+    }
+
     let filtered = interimRoster.filter(p => {
       if (qualifFilter && !p.qual.toLowerCase().includes(qualifFilter)) return false;
       if (deptFilter && p.secteur !== deptFilter) return false;
@@ -1598,6 +1696,112 @@
         </div>
       `;
     }).join('');
+  }
+
+  // Repli « candidats AFT » : affiché quand aucun intérimaire du vivier actif ne correspond à la qualification
+  // demandée. Ces candidats ont un dossier validé (statut AFT côté Candidatures) mais ne sont pas encore
+  // en mission ; on peut les positionner directement sur la commande — ils basculent alors au statut PROV
+  // (provisoire) le temps de cette première mission, plutôt que de simplement renvoyer vers leur candidature.
+  function renderAftFallback(cmd, cfg, qualifFilter, deptFilter) {
+    const aftMatches = aftCandidatsPool.filter(c => {
+      if (!(cfg.exact.includes(c.qual) || cfg.related.includes(c.qual))) return false;
+      if (qualifFilter && !c.qual.toLowerCase().includes(qualifFilter)) return false;
+      if (deptFilter && c.secteur !== deptFilter) return false;
+      return true;
+    });
+
+    candResultsCount.innerHTML = `<span class="inline-flex items-center gap-1.5 text-amber-700 font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>Aucun intérimaire ne correspond à cette qualification</span>`;
+
+    const banner = `
+      <div class="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900 mb-1">
+        Aucun intérimaire du vivier actif ne correspond à cette qualification (ni exact, ni proche).
+        ${aftMatches.length > 0 ? `Candidat${aftMatches.length > 1 ? 's' : ''} AFT (dossier validé, pas encore en mission) proposé${aftMatches.length > 1 ? 's' : ''} à la place : vous pouvez le${aftMatches.length > 1 ? 's' : ''} positionner directement, il${aftMatches.length > 1 ? 's' : ''} passeront au statut <strong>PROV</strong> (provisoire) le temps de cette première mission.` : "Aucun candidat AFT avec cette qualification n'est disponible non plus."}
+      </div>`;
+
+    if (aftMatches.length === 0) {
+      candidatesList.innerHTML = banner;
+      return;
+    }
+
+    candidatesList.innerHTML = banner + aftMatches.map(c => {
+      const isCurrent = c.name === cfg.current;
+      return `
+      <div class="rounded-xl border ${isCurrent ? 'border-fuchsia-300 bg-fuchsia-50/60 ring-1 ring-inset ring-fuchsia-200' : 'border-green-200 bg-white'} p-3.5 flex items-start justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0" onmouseenter="showCandTooltip(event, '${c.telephone.replace(/'/g, "\\'")}', '${c.email.replace(/'/g, "\\'")}')" onmouseleave="hideCandTooltip()">
+          <div class="w-10 h-10 rounded-full bg-green-200 text-green-900 flex items-center justify-center font-bold text-sm flex-shrink-0 cursor-default">${c.init}</div>
+          <div class="min-w-0 cursor-default">
+            <p class="text-sm font-bold text-gray-900 truncate">${c.name}</p>
+            <p class="text-xs text-gray-500 truncate">${c.qual} <span class="text-gray-300">·</span> ${c.secteur} <span class="text-gray-300">·</span> ${c.ville}</p>
+            <div class="flex items-center gap-1.5 mt-1 flex-wrap">
+              <span class="inline-flex items-center rounded-full border bg-green-100 text-green-900 border-green-300 text-[10px] font-semibold px-2 py-0.5">Candidat AFT</span>
+              <span class="text-[10px] text-gray-400">Candidature du ${c.dateCandidature} <span class="text-gray-300">·</span> Agence ${c.agence}</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col items-end gap-1 flex-shrink-0">
+          ${isCurrent
+            ? `<span class="inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-fuchsia-100 text-fuchsia-800 h-8 px-3 gap-1 mt-0.5 whitespace-nowrap">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                 PROV — positionné
+               </span>`
+            : `<button type="button" onclick="assignAftCandidate('${cmd}', '${c.name.replace(/'/g, "\\'")}')" class="inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-gradient-to-r from-fuchsia-600 to-purple-700 text-white shadow hover:opacity-95 h-8 px-3 flex-shrink-0 mt-0.5 whitespace-nowrap">Positionner (PROV)</button>`
+          }
+          <a href="maquette-candidatures.html" class="text-[10px] text-gray-400 hover:text-gray-600 hover:underline">Voir la candidature</a>
+        </div>
+      </div>
+    `;
+    }).join('');
+  }
+
+  // Positionne un candidat AFT directement sur la commande : il n'est pas encore intérimaire actif,
+  // il bascule donc au statut PROV (provisoire) le temps de cette première mission, plutôt que d'être
+  // simplement renvoyé vers sa fiche candidature.
+  function assignAftCandidate(cmd, name) {
+    const candidate = aftCandidatsPool.find(p => p.name === name);
+    const cfg = commandeConfig[cmd];
+    if (!candidate || !cfg) return;
+
+    const confirmed = confirm(`Positionner ${candidate.name} (candidature AFT) sur cette commande ?\n\nCette personne n'est pas encore intérimaire actif : elle sera placée au statut PROV (provisoire) le temps de cette première mission.`);
+    if (!confirmed) return;
+
+    cfg.current = candidate.name;
+
+    const box = document.getElementById('assign-box-' + cmd);
+    if (box) {
+      box.className = 'h-10 rounded-lg border border-fuchsia-300 bg-fuchsia-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-fuchsia-100 hover:border-fuchsia-400 transition-colors';
+      box.innerHTML = `
+        <div class="w-6 h-6 bg-fuchsia-200 text-fuchsia-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">${candidate.init}</div>
+        <div class="min-w-0 leading-tight">
+          <p class="text-xs font-bold text-gray-900 truncate">${candidate.name}</p>
+          <p class="text-[10px] text-fuchsia-700 font-semibold">PROV — candidat AFT · <span class="underline">Voir candidats</span></p>
+        </div>
+      `;
+    }
+
+    const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
+    if (row) {
+      row.dataset.interimaire = candidate.name;
+      row.dataset.statut = 'PROV (candidat AFT)';
+      if (envoisState[cmd]) envoisState[cmd].sms = null;
+      renderEnvoisCell(cmd);
+    }
+
+    const statutBadge = document.getElementById('statut-badge-' + cmd);
+    if (statutBadge) {
+      statutBadge.textContent = 'PROV (candidat AFT)';
+      statutBadge.className = 'inline-flex items-center justify-center rounded-full border border-fuchsia-300 bg-fuchsia-100 text-fuchsia-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full';
+    }
+
+    if (currentPanelCmd === cmd) {
+      const panelBadge = document.getElementById('p-statut-badge');
+      panelBadge.textContent = 'PROV (candidat AFT)';
+      panelBadge.className = 'inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-1 whitespace-nowrap border bg-fuchsia-100 text-fuchsia-900 border-fuchsia-300';
+      document.getElementById('p-validate-wrap').classList.add('hidden');
+    }
+
+    sortRowsByStatutPipeline();
+    renderCandidates(cmd);
+    showToast(`${candidate.name} positionné(e) en PROV sur cette commande`);
   }
 
   // Tooltip contact positionné en fixed (relatif au viewport) au lieu d'être ancré dans la liste scrollable,
@@ -1729,7 +1933,8 @@
     'CMD-2609-04': { contactNom: 'Mme Isabelle ROCHE', contactEmail: 'i.roche@novotel-est.com' },
     'CMD-2609-05': { contactNom: 'M. Julien FABRE', contactEmail: 'j.fabre@latabledumarais.fr' },
     'CMD-2609-06': { contactNom: 'M. Julien MOREAU', contactEmail: 'j.moreau@grandhotelparisien.fr' },
-    'CMD-2609-07': { contactNom: 'M. Antoine REY', contactEmail: 'a.rey@princedegalles.com' }
+    'CMD-2609-07': { contactNom: 'M. Antoine REY', contactEmail: 'a.rey@princedegalles.com' },
+    'CMD-2609-08': { contactNom: 'Mme Camille ROY', contactEmail: 'c.roy@splendideroyal.fr' }
   };
 
   // État des envois par commande : { sms: {to, date} | null, mail: {to, date} | null }
@@ -1956,6 +2161,7 @@
   const STATUT_ORDER = {
     'À staffer': 0,
     'Best match à valider': 1,
+    'PROV (candidat AFT)': 1.5,
     'Notification envoyée': 2,
     'Validé': 3,
     'Contrat établi': 4,
@@ -2009,7 +2215,7 @@
   }
 
   // Création manuelle d'une commande : ouvre la modale, construit une nouvelle ligne de planning et l'ajoute en tête de la vue jour
-  let newCommandeCounter = 8;
+  let newCommandeCounter = 9;
   function openCreateCommandeModal() {
     document.getElementById('create-commande-backdrop').classList.remove('hidden');
     document.getElementById('create-commande-modal').classList.remove('hidden');

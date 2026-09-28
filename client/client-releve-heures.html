@@ -373,6 +373,25 @@
 
   function initials(nom) { return nom.split(' ').map(p => p[0]).join('').toUpperCase().slice(0,2); }
 
+  // Photos des intérimaires (mêmes fiches que client-interimaires.html) — repli sur les initiales si absente.
+  const INTERIM_PHOTOS = {
+    "Marco De Luca": "https://i.pravatar.cc/150?img=33",
+    "Léa Richard": "https://i.pravatar.cc/150?img=47",
+    "Anna Pizzol": "https://i.pravatar.cc/150?img=13",
+    "Julie Bernard": "https://i.pravatar.cc/150?img=29",
+    "Karim Traoré": "https://i.pravatar.cc/150?img=52",
+    "Julien Martin": "https://i.pravatar.cc/150?img=15",
+    "Sofia Nguyen": "https://i.pravatar.cc/150?img=65"
+  };
+
+  function avatarHtml(nom, sizeClass, textSizeClass) {
+    const fallback = `<div class="${sizeClass} rounded-full flex items-center justify-center text-white ${textSizeClass} font-bold flex-shrink-0 bg-gradient-to-br from-gray-500 to-gray-600">${initials(nom)}</div>`;
+    const photo = INTERIM_PHOTOS[nom];
+    if (!photo) return fallback;
+    const fallbackForJsString = fallback.replace(/"/g, '&quot;');
+    return `<img src="${photo}" alt="${nom}" class="${sizeClass} rounded-full object-cover flex-shrink-0" onerror="this.outerHTML='${fallbackForJsString}'">`;
+  }
+
   function render() {
     const rows = getFiltered();
     const tbody = document.getElementById('releve-body');
@@ -384,7 +403,7 @@
       <tr>
         <td class="px-4 py-3">
           <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0 bg-gradient-to-br from-gray-500 to-gray-600">${initials(r.nom)}</div>
+            ${avatarHtml(r.nom, 'w-8 h-8', 'text-[10px]')}
             <span class="font-medium text-gray-800">${r.nom}</span>
           </div>
         </td>

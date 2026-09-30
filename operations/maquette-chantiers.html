@@ -171,6 +171,63 @@
           </button>
         </div>
 
+        <!-- SUIVI DES MISSIONS : KPI + EXPORT -->
+        <div class="mx-auto max-w-[1400px]">
+          <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-6 space-y-5">
+            <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+                  Suivi des missions
+                </h3>
+                <p class="text-sm text-gray-500 mt-0.5 max-w-xl">Exportez le détail des missions passées sur une période, tous chantiers confondus. Le délai moyen commande → début de mission se recalcule sur la même période.</p>
+              </div>
+              <div class="flex flex-wrap items-end gap-2">
+                <div>
+                  <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Du</label>
+                  <input type="date" id="missions-date-start" class="mt-1 flex h-10 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Au</label>
+                  <input type="date" id="missions-date-end" class="mt-1 flex h-10 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                </div>
+                <button type="button" id="btn-export-missions" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M12 15V3"></path><path d="m7 10 5 5 5-5"></path><path d="M2 17v3a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-3"></path></svg>
+                  Exporter les missions
+                </button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div class="rounded-xl border border-gray-200 bg-gray-50/60 p-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Intégrations — mois passé</p>
+                <p id="kpi-integrations" class="text-3xl font-bold text-gray-900 mt-1">—</p>
+                <p id="kpi-integrations-sub" class="text-xs text-gray-500 mt-1">Missions démarrées le mois précédent, tous chantiers confondus</p>
+              </div>
+              <div class="rounded-xl border border-gray-200 bg-gray-50/60 p-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Délai moyen commande → début de mission</p>
+                <p id="kpi-delai" class="text-3xl font-bold text-gray-900 mt-1">—</p>
+                <p id="kpi-delai-sub" class="text-xs text-gray-500 mt-1">—</p>
+              </div>
+              <div class="rounded-xl border border-gray-200 bg-gray-50/60 p-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Annulations</p>
+                <p id="kpi-annulations" class="text-3xl font-bold text-gray-900 mt-1">—</p>
+                <p id="kpi-annulations-sub" class="text-xs text-gray-500 mt-1">—</p>
+              </div>
+              <div class="rounded-xl border border-gray-200 bg-gray-50/60 p-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Intérimaires différents</p>
+                <p id="kpi-interimaires" class="text-3xl font-bold text-gray-900 mt-1">—</p>
+                <p id="kpi-interimaires-sub" class="text-xs text-gray-500 mt-1">—</p>
+              </div>
+              <div class="rounded-xl border border-gray-200 bg-gray-50/60 p-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Dépannages (commande jour même)</p>
+                <p id="kpi-depannages" class="text-3xl font-bold text-gray-900 mt-1">—</p>
+                <p id="kpi-depannages-sub" class="text-xs text-gray-500 mt-1">—</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- SEARCH + FILTERS -->
         <div class="mx-auto max-w-[1400px]">
           <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-6">
@@ -453,6 +510,178 @@
     </div>
   </main>
 </div>
+
+<script>
+  // ===== Suivi des missions : KPI + export CSV =====
+  // Cosmetic: client-side only, no persistence — jeu de données illustratif représentant des
+  // missions passées sur différents chantiers (date de commande vs date de début de mission).
+  const MISSIONS = [
+    { immat: '007707010000153', chantier: 'FLEXI BANQUET - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Chef de rang', interim: 'Julien Marchand', dateCommande: '2026-01-05', dateDebut: '2026-01-12', dateFin: '2026-01-14', statut: 'Terminée' },
+    { immat: '007707010000031', chantier: "FLEXI HOTE/HOTESSE - HYATT REGENCY PARIS ETOILE", ville: '75017 PARIS', qualif: "Hôtesse d'accueil", interim: 'Camille Bertrand', dateCommande: '2026-02-02', dateDebut: '2026-02-09', dateFin: '2026-02-09', statut: 'Terminée' },
+    { immat: '007707010000028', chantier: 'FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Femme de chambre', interim: 'Nadia Ouedraogo', dateCommande: '2026-02-18', dateDebut: '2026-02-20', dateFin: '2026-02-25', statut: 'Terminée' },
+    { immat: '006900136100298', chantier: '10 DOIGTS', ville: '59115 LEERS', qualif: 'Serveuse', interim: 'Manon Lefebvre', dateCommande: '2026-03-01', dateDebut: '2026-03-10', dateFin: '2026-03-10', statut: 'Terminée' },
+    { immat: '001102469103548', chantier: '108 CAFE', ville: '75019 PARIS 19', qualif: 'Barman', interim: 'Karim Haddad', dateCommande: '2026-03-15', dateDebut: '2026-03-18', dateFin: '2026-03-19', statut: 'Terminée' },
+    { immat: '002204228213819', chantier: '11BAUER ETAGES', ville: '93400 SAINT-OUEN', qualif: 'Femme de chambre', interim: 'Fatou Diarra', dateCommande: '2026-04-02', dateDebut: '2026-04-08', dateFin: '2026-04-12', statut: 'Terminée' },
+    { immat: '002204228213818', chantier: '11BAUER RECEPTION', ville: '93400 SAINT-OUEN', qualif: 'Réceptionniste', interim: 'Thomas Nguyen', dateCommande: '2026-04-20', dateDebut: '2026-04-25', dateFin: '2026-04-30', statut: 'Terminée' },
+    { immat: '006900181100499', chantier: '1PULSE9', ville: '59274 MARQUILLIES', qualif: 'Serveur', interim: 'Léa Girard', dateCommande: '2026-05-04', dateDebut: '2026-05-11', dateFin: '2026-05-11', statut: 'Terminée' },
+    { immat: '006900181101781', chantier: '1PULSE9 - ARTOIS EXPO', ville: '62223 SAINT-LAURENT-BLANGY', qualif: 'Plongeur', interim: 'Rachid Belkacem', dateCommande: '2026-05-22', dateDebut: '2026-05-29', dateFin: '2026-06-01', statut: 'Terminée' },
+    { immat: '006900181100965', chantier: '1PULSE9 - COMPLEXE REGIONAL MARECHAL', ville: '62440 HARNES', qualif: 'Cuisinier', interim: 'Sophie Renard', dateCommande: '2026-06-03', dateDebut: '2026-06-10', dateFin: '2026-06-12', statut: 'Terminée' },
+    { immat: '007707010000153', chantier: 'FLEXI BANQUET - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: "Maître d'hôtel", interim: 'Julien Marchand', dateCommande: '2026-06-15', dateDebut: '2026-06-22', dateFin: '2026-06-24', statut: 'Terminée' },
+    { immat: '007707010000028', chantier: 'FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Femme de chambre', interim: 'Nadia Ouedraogo', dateCommande: '2026-07-01', dateDebut: '2026-07-06', dateFin: '2026-07-10', statut: 'Terminée' },
+    { immat: '006900136100298', chantier: '10 DOIGTS', ville: '59115 LEERS', qualif: 'Plongeur', interim: 'Yanis Moreau', dateCommande: '2026-07-14', dateDebut: '2026-07-21', dateFin: '2026-07-21', statut: 'Terminée' },
+    { immat: '001102469103548', chantier: '108 CAFE', ville: '75019 PARIS 19', qualif: 'Serveuse', interim: 'Manon Lefebvre', dateCommande: '2026-07-25', dateDebut: '2026-08-01', dateFin: '2026-08-01', statut: 'Terminée' },
+    { immat: '007707010000031', chantier: "FLEXI HOTE/HOTESSE - HYATT REGENCY PARIS ETOILE", ville: '75017 PARIS', qualif: "Hôtesse d'accueil", interim: 'Camille Bertrand', dateCommande: '2026-08-03', dateDebut: '2026-08-05', dateFin: '2026-08-05', statut: 'Terminée' },
+    { immat: '002204228213819', chantier: '11BAUER ETAGES', ville: '93400 SAINT-OUEN', qualif: 'Femme de chambre', interim: 'Fatou Diarra', dateCommande: '2026-08-10', dateDebut: '2026-08-12', dateFin: '2026-08-16', statut: 'Terminée' },
+    { immat: '006900181100499', chantier: '1PULSE9', ville: '59274 MARQUILLIES', qualif: 'Barman', interim: 'Karim Haddad', dateCommande: '2026-08-14', dateDebut: '2026-08-19', dateFin: '2026-08-19', statut: 'Terminée' },
+    { immat: '007707010000153', chantier: 'FLEXI BANQUET - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Chef de rang', interim: 'Julien Marchand', dateCommande: '2026-08-20', dateDebut: '2026-08-27', dateFin: '2026-08-29', statut: 'Terminée' },
+    { immat: '002204228213818', chantier: '11BAUER RECEPTION', ville: '93400 SAINT-OUEN', qualif: 'Réceptionniste', interim: 'Thomas Nguyen', dateCommande: '2026-08-24', dateDebut: '2026-08-31', dateFin: '2026-09-05', statut: 'Terminée' },
+    { immat: '006900181101781', chantier: '1PULSE9 - ARTOIS EXPO', ville: '62223 SAINT-LAURENT-BLANGY', qualif: 'Cuisinier', interim: 'Sophie Renard', dateCommande: '2026-09-02', dateDebut: '2026-09-09', dateFin: '2026-09-12', statut: 'Terminée' },
+    { immat: '007707010000028', chantier: 'FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Femme de chambre', interim: 'Nadia Ouedraogo', dateCommande: '2026-09-10', dateDebut: '2026-09-15', dateFin: '2026-09-20', statut: 'En cours' },
+    { immat: '001102469103548', chantier: '108 CAFE', ville: '75019 PARIS 19', qualif: 'Plongeur', interim: 'Yanis Moreau', dateCommande: '2026-09-18', dateDebut: '2026-09-24', dateFin: '', statut: 'En cours' },
+    { immat: '007707010000028', chantier: 'FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Femme de chambre', interim: 'Inès Pelletier', dateCommande: '2026-08-27', dateDebut: '2026-09-01', dateFin: '2026-09-03', statut: 'Terminée' },
+    { immat: '002204228213818', chantier: '11BAUER RECEPTION', ville: '93400 SAINT-OUEN', qualif: 'Réceptionniste', interim: 'Thomas Nguyen', dateCommande: '2026-08-13', dateDebut: '2026-08-13', dateFin: '2026-08-13', statut: 'Terminée' },
+    { immat: '006900181100499', chantier: '1PULSE9', ville: '59274 MARQUILLIES', qualif: 'Serveur', interim: 'Léa Girard', dateCommande: '2026-07-09', dateDebut: '2026-07-09', dateFin: '2026-07-09', statut: 'Terminée' },
+    { immat: '007707010000153', chantier: 'FLEXI BANQUET - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Chef de rang', interim: 'Julien Marchand', dateCommande: '2026-09-22', dateDebut: '2026-09-22', dateFin: '2026-09-22', statut: 'Terminée' },
+    { immat: '007707010000031', chantier: "FLEXI HOTE/HOTESSE - HYATT REGENCY PARIS ETOILE", ville: '75017 PARIS', qualif: "Hôtesse d'accueil", interim: 'Camille Bertrand', dateCommande: '2026-08-06', dateDebut: '2026-08-11', dateFin: '', statut: 'Annulée' },
+    { immat: '001102469103548', chantier: '108 CAFE', ville: '75019 PARIS 19', qualif: 'Barman', interim: 'Karim Haddad', dateCommande: '2026-09-05', dateDebut: '2026-09-12', dateFin: '', statut: 'Annulée' },
+    { immat: '006900181101781', chantier: '1PULSE9 - ARTOIS EXPO', ville: '62223 SAINT-LAURENT-BLANGY', qualif: 'Plongeur', interim: '', dateCommande: '2026-09-19', dateDebut: '2026-09-19', dateFin: '', statut: 'Annulée' }
+  ];
+
+  function isoDate(d){ return d.toISOString().slice(0, 10); }
+  function fmtDateFr(iso){
+    const [y, m, d] = iso.split('-');
+    return `${d}/${m}/${y}`;
+  }
+  function daysBetween(isoStart, isoEnd){
+    return Math.round((new Date(isoEnd + 'T00:00:00') - new Date(isoStart + 'T00:00:00')) / 86400000);
+  }
+
+  const startInput = document.getElementById('missions-date-start');
+  const endInput = document.getElementById('missions-date-end');
+
+  function initPeriodDefaults(){
+    const today = new Date();
+    const start = new Date(today);
+    start.setDate(start.getDate() - 90);
+    endInput.value = isoDate(today);
+    startInput.value = isoDate(start);
+  }
+
+  function missionsInPeriod(){
+    const du = startInput.value;
+    const au = endInput.value;
+    if (!du || !au) return [];
+    return MISSIONS.filter(m => m.dateDebut >= du && m.dateDebut <= au);
+  }
+
+  // Missions réellement honorées sur la période (hors annulations) : base des KPI délai / intérimaires / dépannages
+  function executedMissionsInPeriod(){
+    return missionsInPeriod().filter(m => m.statut !== 'Annulée');
+  }
+
+  // KPI 1 : intégrations sur le mois civil précédent (fixe, indépendant du sélecteur de période)
+  function renderIntegrationsKpi(){
+    const today = new Date();
+    const firstOfThisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const firstOfLastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+    const lastMonthStart = isoDate(firstOfLastMonth);
+    const lastMonthEnd = isoDate(new Date(firstOfThisMonth - 1));
+    const count = MISSIONS.filter(m => m.dateDebut >= lastMonthStart && m.dateDebut <= lastMonthEnd).length;
+    const label = firstOfLastMonth.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+    document.getElementById('kpi-integrations').textContent = count;
+    document.getElementById('kpi-integrations-sub').textContent = `${count} mission${count > 1 ? 's' : ''} démarrée${count > 1 ? 's' : ''} en ${label}`;
+  }
+
+  // KPI 2 : délai moyen commande -> début de mission, sur la période sélectionnée (missions honorées uniquement)
+  function renderDelaiKpi(){
+    const missions = executedMissionsInPeriod();
+    const delaiEl = document.getElementById('kpi-delai');
+    const subEl = document.getElementById('kpi-delai-sub');
+    if (!missions.length){
+      delaiEl.textContent = '—';
+      subEl.textContent = 'Aucune mission sur la période sélectionnée';
+      return;
+    }
+    const delais = missions.map(m => daysBetween(m.dateCommande, m.dateDebut));
+    const moyenne = delais.reduce((a, b) => a + b, 0) / delais.length;
+    delaiEl.textContent = `${moyenne.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} j`;
+    subEl.textContent = `Sur ${missions.length} mission${missions.length > 1 ? 's' : ''} · du ${fmtDateFr(startInput.value)} au ${fmtDateFr(endInput.value)}`;
+  }
+
+  // KPI 3 : annulations sur la période sélectionnée
+  function renderAnnulationsKpi(){
+    const missions = missionsInPeriod();
+    const annulees = missions.filter(m => m.statut === 'Annulée');
+    document.getElementById('kpi-annulations').textContent = annulees.length;
+    document.getElementById('kpi-annulations-sub').textContent = missions.length
+      ? `${annulees.length} sur ${missions.length} commande${missions.length > 1 ? 's' : ''} du ${fmtDateFr(startInput.value)} au ${fmtDateFr(endInput.value)}`
+      : 'Aucune mission sur la période sélectionnée';
+  }
+
+  // KPI 4 : nombre d'intérimaires différents ayant travaillé sur la période sélectionnée
+  function renderInterimairesKpi(){
+    const missions = executedMissionsInPeriod();
+    const distincts = new Set(missions.map(m => m.interim).filter(Boolean));
+    document.getElementById('kpi-interimaires').textContent = distincts.size;
+    document.getElementById('kpi-interimaires-sub').textContent = `Sur ${missions.length} mission${missions.length > 1 ? 's' : ''} honorée${missions.length > 1 ? 's' : ''} · du ${fmtDateFr(startInput.value)} au ${fmtDateFr(endInput.value)}`;
+  }
+
+  // KPI 5 : dépannages, missions commandées et démarrées le jour même, sur la période sélectionnée
+  function renderDepannagesKpi(){
+    const missions = executedMissionsInPeriod();
+    const depannages = missions.filter(m => m.dateCommande === m.dateDebut);
+    document.getElementById('kpi-depannages').textContent = depannages.length;
+    document.getElementById('kpi-depannages-sub').textContent = missions.length
+      ? `${depannages.length} sur ${missions.length} mission${missions.length > 1 ? 's' : ''} honorée${missions.length > 1 ? 's' : ''}`
+      : 'Aucune mission sur la période sélectionnée';
+  }
+
+  function renderKpis(){
+    renderIntegrationsKpi();
+    renderDelaiKpi();
+    renderAnnulationsKpi();
+    renderInterimairesKpi();
+    renderDepannagesKpi();
+  }
+
+  function exportMissionsCsv(){
+    const missions = missionsInPeriod();
+    if (!missions.length){
+      alert('Aucune mission à exporter sur la période sélectionnée.');
+      return;
+    }
+    const header = ['Immat', 'Chantier', 'Ville', 'Qualification', 'Intérimaire', 'Date commande', 'Date début mission', 'Date fin mission', 'Statut'];
+    const rows = missions.map(m => [
+      m.immat, m.chantier, m.ville, m.qualif, m.interim,
+      fmtDateFr(m.dateCommande), fmtDateFr(m.dateDebut), m.dateFin ? fmtDateFr(m.dateFin) : '',
+      m.statut
+    ]);
+    const csv = [header, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(';')).join('\r\n');
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `missions_${startInput.value}_au_${endInput.value}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function renderPeriodKpis(){
+    renderDelaiKpi();
+    renderAnnulationsKpi();
+    renderInterimairesKpi();
+    renderDepannagesKpi();
+  }
+
+  startInput.addEventListener('change', renderPeriodKpis);
+  endInput.addEventListener('change', renderPeriodKpis);
+  document.getElementById('btn-export-missions').addEventListener('click', exportMissionsCsv);
+
+  initPeriodDefaults();
+  renderKpis();
+</script>
 
 </body>
 </html>

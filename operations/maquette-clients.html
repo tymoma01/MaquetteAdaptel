@@ -248,7 +248,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
               Rechercher
             </button>
-            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm transition-all border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4 py-2 gap-2 font-semibold text-gray-900" type="button">
+            <button id="btn-toggle-advanced-filters" type="button" onclick="toggleAdvancedFilters()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm transition-all border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4 py-2 gap-2 font-semibold text-gray-900">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"></path></svg>
               Filtres
             </button>
@@ -257,6 +257,24 @@
               Nouveau client
             </button>
           </form>
+
+          <!-- ADVANCED FILTERS (functional: filters the client list below by last-order date) -->
+          <div id="advanced-filters-panel" class="hidden rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Dernière commande depuis</label>
+                <input id="filter-derniere-cmd-debut" type="date" onchange="applyClientFilters()" class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Dernière commande jusqu'au</label>
+                <input id="filter-derniere-cmd-fin" type="date" onchange="applyClientFilters()" class="w-full h-10 border border-gray-200 rounded-lg px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              </div>
+              <div class="lg:col-span-2 flex items-center gap-3">
+                <button type="button" onclick="resetClientFilters()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4">Réinitialiser</button>
+                <p id="client-filter-count" class="text-xs text-gray-500"></p>
+              </div>
+            </div>
+          </div>
 
           <!-- STATUS TABS (cosmetic only) -->
           <div class="flex gap-2" id="status-tabs">
@@ -290,7 +308,7 @@
           <div class="divide-y divide-gray-100" id="client-list">
 
             <!-- Row 1 -->
-            <a href="maquette-client-detail.html" class="block p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
+            <a href="maquette-client-detail.html" data-derniere-commande="2026-09-27" class="block p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
               <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
                 <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -303,6 +321,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       75001 Paris 1er
                     </p>
+                    <p class="text-xs text-gray-500 mt-0.5">Dernière commande : 27/09/2026</p>
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1">Hôtellerie</div>
@@ -322,7 +341,7 @@
             </a>
 
             <!-- Row 2 -->
-            <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
+            <div data-derniere-commande="2026-09-29" class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
               <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
                 <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -335,6 +354,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       75116 Paris 16e
                     </p>
+                    <p class="text-xs text-gray-500 mt-0.5">Dernière commande : 29/09/2026</p>
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1">Traiteur événementiel</div>
@@ -354,7 +374,7 @@
             </div>
 
             <!-- Row 3 -->
-            <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
+            <div data-derniere-commande="2026-09-24" class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
               <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
                 <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -367,6 +387,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       75008 Paris 8e
                     </p>
+                    <p class="text-xs text-gray-500 mt-0.5">Dernière commande : 24/09/2026</p>
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-sm font-medium px-3 py-1">Restaurant gastronomique</div>
@@ -386,7 +407,7 @@
             </div>
 
             <!-- Row 4 -->
-            <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
+            <div data-derniere-commande="2026-09-28" class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
               <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
                 <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -399,6 +420,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       75017 Paris 17e
                     </p>
+                    <p class="text-xs text-gray-500 mt-0.5">Dernière commande : 28/09/2026</p>
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1">Hôtellerie</div>
@@ -418,7 +440,7 @@
             </div>
 
             <!-- Row 5 -->
-            <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
+            <div data-derniere-commande="2026-08-02" class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
               <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
                 <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -431,6 +453,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       78370 Plaisir
                     </p>
+                    <p class="text-xs text-gray-500 mt-0.5">Dernière commande : 02/08/2026</p>
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1">Traiteur événementiel</div>
@@ -450,7 +473,7 @@
             </div>
 
             <!-- Row 6 -->
-            <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
+            <div data-derniere-commande="2026-09-22" class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
               <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
                 <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -463,6 +486,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       75015 Paris 15e
                     </p>
+                    <p class="text-xs text-gray-500 mt-0.5">Dernière commande : 22/09/2026</p>
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1">Hôtellerie</div>
@@ -482,7 +506,7 @@
             </div>
 
             <!-- Row 7 -->
-            <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
+            <div data-derniere-commande="2026-09-19" class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
               <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
                 <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -495,6 +519,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       75006 Paris 6e
                     </p>
+                    <p class="text-xs text-gray-500 mt-0.5">Dernière commande : 19/09/2026</p>
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-sm font-medium px-3 py-1">Brasserie</div>
@@ -514,7 +539,7 @@
             </div>
 
             <!-- Row 8 -->
-            <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
+            <div data-derniere-commande="2026-09-20" class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
               <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
                 <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -527,6 +552,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       69005 Lyon
                     </p>
+                    <p class="text-xs text-gray-500 mt-0.5">Dernière commande : 20/09/2026</p>
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1">Hôtellerie</div>
@@ -546,7 +572,7 @@
             </div>
 
             <!-- Row 9 -->
-            <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
+            <div data-derniere-commande="2026-05-14" class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
               <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
                 <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -559,6 +585,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       75003 Paris 3e
                     </p>
+                    <p class="text-xs text-gray-500 mt-0.5">Dernière commande : 14/05/2026</p>
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-sm font-medium px-3 py-1">Restaurant</div>
@@ -578,7 +605,7 @@
             </div>
 
             <!-- Row 10 -->
-            <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
+            <div data-derniere-commande="2026-09-23" class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
               <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
                 <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -591,6 +618,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       93170 Bagnolet
                     </p>
+                    <p class="text-xs text-gray-500 mt-0.5">Dernière commande : 23/09/2026</p>
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1">Hôtellerie</div>
@@ -610,7 +638,7 @@
             </div>
 
             <!-- Row 11 -->
-            <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
+            <div data-derniere-commande="2026-09-15" class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
               <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
                 <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -623,6 +651,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       75008 Paris 8e
                     </p>
+                    <p class="text-xs text-gray-500 mt-0.5">Dernière commande : 15/09/2026</p>
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-orange-100 text-orange-800 text-sm font-medium px-3 py-1">Restaurant</div>
@@ -642,7 +671,7 @@
             </div>
 
             <!-- Row 12 -->
-            <div class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
+            <div data-derniere-commande="2026-06-30" class="p-5 cursor-pointer transition-colors duration-150 hover:bg-gray-50">
               <div class="grid grid-cols-[minmax(240px,2fr)_170px_150px_120px_150px_140px] items-center gap-4">
                 <div class="flex items-center gap-4 min-w-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400 flex-shrink-0"><path d="m9 18 6-6-6-6"></path></svg>
@@ -655,6 +684,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
                       92100 Boulogne-Billancourt
                     </p>
+                    <p class="text-xs text-gray-500 mt-0.5">Dernière commande : 30/06/2026</p>
                   </div>
                 </div>
                 <div class="inline-flex items-center rounded-full border border-transparent bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1">Traiteur événementiel</div>
@@ -714,6 +744,32 @@
       btn.classList.add('bg-[#A63629]', 'text-white', 'shadow');
     });
   });
+
+  // Functional filter: filters the client list below by "dernière commande" date range.
+  function toggleAdvancedFilters() {
+    document.getElementById('advanced-filters-panel').classList.toggle('hidden');
+  }
+
+  function resetClientFilters() {
+    document.getElementById('filter-derniere-cmd-debut').value = '';
+    document.getElementById('filter-derniere-cmd-fin').value = '';
+    applyClientFilters();
+  }
+
+  function applyClientFilters() {
+    const debut = document.getElementById('filter-derniere-cmd-debut').value;
+    const fin = document.getElementById('filter-derniere-cmd-fin').value;
+    const rows = document.querySelectorAll('#client-list [data-derniere-commande]');
+    let visible = 0;
+    rows.forEach(row => {
+      const date = row.dataset.derniereCommande;
+      const match = (!debut || date >= debut) && (!fin || date <= fin);
+      row.classList.toggle('hidden', !match);
+      if (match) visible++;
+    });
+    const countEl = document.getElementById('client-filter-count');
+    countEl.textContent = (debut || fin) ? `${visible} client(s) correspondant(s)` : '';
+  }
 </script>
 
 </body>

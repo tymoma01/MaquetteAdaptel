@@ -222,6 +222,10 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
               Paramètres
             </button>
+            <button class="tab-btn flex items-center gap-2 px-4 py-3 font-medium transition-colors border-b-2 border-transparent text-gray-600 hover:text-gray-900 whitespace-nowrap" data-tab="commandes">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+              Commandes
+            </button>
             <button class="tab-btn flex items-center gap-2 px-4 py-3 font-medium transition-colors border-b-2 border-transparent text-gray-600 hover:text-gray-900 whitespace-nowrap" data-tab="qualifications">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg>
               Qualifications
@@ -432,6 +436,53 @@
               </div>
             </div>
 
+          </div>
+
+          <!-- ================= PANEL: COMMANDES ================= -->
+          <div id="panel-commandes" class="space-y-4 hidden">
+            <p class="text-xs text-gray-500 px-1">Historique des commandes passées sur ce chantier.</p>
+            <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr class="text-left text-xs uppercase tracking-wider text-gray-500">
+                      <th class="px-5 py-3 font-semibold">N° commande</th>
+                      <th class="px-5 py-3 font-semibold">Qualification</th>
+                      <th class="px-5 py-3 font-semibold">Date</th>
+                      <th class="px-5 py-3 font-semibold">Horaires</th>
+                      <th class="px-5 py-3 font-semibold">Intérimaire</th>
+                      <th class="px-5 py-3 font-semibold">Statut</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-100">
+                    <tr class="hover:bg-gray-50">
+                      <td class="px-5 py-4"><a href="maquette-commande-detail.html" class="font-semibold text-[#A63629] hover:underline">CMD-2609-18</a></td>
+                      <td class="px-5 py-4 text-gray-700">Femme/Valet de chambre</td>
+                      <td class="px-5 py-4 text-gray-700 whitespace-nowrap">23/09/2026</td>
+                      <td class="px-5 py-4 text-gray-700 whitespace-nowrap">08h00 - 15h00</td>
+                      <td class="px-5 py-4 text-gray-700">Nadia AARAB</td>
+                      <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Terminée</span></td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                      <td class="px-5 py-4"><a href="maquette-commande-detail.html" class="font-semibold text-[#A63629] hover:underline">CMD-2609-08</a></td>
+                      <td class="px-5 py-4 text-gray-700">Gouvernante</td>
+                      <td class="px-5 py-4 text-gray-700 whitespace-nowrap">10/09/2026</td>
+                      <td class="px-5 py-4 text-gray-700 whitespace-nowrap">07h00 - 15h00</td>
+                      <td class="px-5 py-4 text-gray-700">Karim BENSAID</td>
+                      <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-green-100 text-green-800 text-xs font-semibold px-3 py-1">Terminée</span></td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                      <td class="px-5 py-4"><a href="maquette-commande-detail.html" class="font-semibold text-[#A63629] hover:underline">CMD-2608-19</a></td>
+                      <td class="px-5 py-4 text-gray-700">Femme/Valet de chambre</td>
+                      <td class="px-5 py-4 text-gray-700 whitespace-nowrap">21/08/2026</td>
+                      <td class="px-5 py-4 text-gray-700 whitespace-nowrap">08h00 - 15h00</td>
+                      <td class="px-5 py-4 text-gray-500">—</td>
+                      <td class="px-5 py-4"><span class="inline-flex items-center rounded-full border border-transparent bg-gray-200 text-gray-600 text-xs font-semibold px-3 py-1">Annulée</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
 
           <!-- ================= PANEL: QUALIFICATIONS ================= -->
@@ -817,6 +868,7 @@
   const panels = {
     details: document.getElementById('panel-details'),
     parametres: document.getElementById('panel-parametres'),
+    commandes: document.getElementById('panel-commandes'),
     qualifications: document.getElementById('panel-qualifications'),
     interdictions: document.getElementById('panel-interdictions'),
     favoris: document.getElementById('panel-favoris'),

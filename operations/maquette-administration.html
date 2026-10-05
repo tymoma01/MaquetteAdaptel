@@ -239,42 +239,6 @@
             </div>
           </div>
 
-          <!-- SECTION : ACCES DE DEBOGAGE -->
-          <div class="mx-auto max-w-[1500px]">
-            <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-6">
-              <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                Accès de débogage à la vue Client
-              </h3>
-              <p class="text-sm text-gray-500 mt-0.5 max-w-2xl">Reproduire ce qu'un utilisateur Client voit exactement, pour diagnostiquer un bug signalé — sans avoir besoin de ses identifiants. Accès en lecture seule, tracé, distinct de votre compte Opérations.</p>
-
-              <div id="debug-idle" class="mt-4 flex flex-col sm:flex-row gap-3">
-                <select id="debug-user-select" class="h-10 flex-1 rounded-lg border border-gray-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]/30 focus:border-[#A63629] transition-colors">
-                  <option value="Sophie Laurent|Hôtel Le Meurice">Sophie Laurent — Hôtel Le Meurice</option>
-                  <option value="Thomas Dubois|Potel et Chabot Traiteur">Thomas Dubois — Potel et Chabot Traiteur</option>
-                  <option value="Isabelle Roche|Novotel Paris Est">Isabelle Roche — Novotel Paris Est</option>
-                  <option value="Marc Veyrat|Fouquet's Barrière">Marc Veyrat — Fouquet's Barrière</option>
-                  <option value="Amélie Kernan|CONSTELLATION ETOILE - HYATT REGENCY PARIS ÉTOILE">Amélie Kernan — Hyatt Regency Paris Étoile</option>
-                </select>
-                <button type="button" onclick="startDebugAccess()" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  Accéder en lecture seule
-                </button>
-              </div>
-
-              <div id="debug-active" class="hidden mt-4 rounded-xl border-2 border-amber-300 bg-amber-50 p-4 flex items-start justify-between gap-3 flex-wrap">
-                <div class="flex items-start gap-2.5">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                  <div>
-                    <p class="text-sm font-semibold text-amber-900">Vous consultez en lecture seule la vue de <span id="debug-active-name">—</span></p>
-                    <p class="text-xs text-amber-800 mt-0.5">Session tracée. Aucune action (validation de commande, modification de données) ne peut être effectuée depuis cet accès.</p>
-                  </div>
-                </div>
-                <button type="button" onclick="stopDebugAccess()" class="inline-flex items-center justify-center rounded-lg text-xs font-semibold border border-amber-300 bg-white text-amber-900 shadow-sm hover:bg-amber-100 h-8 px-3 flex-shrink-0">Quitter la vue de débogage</button>
-              </div>
-            </div>
-          </div>
-
           <!-- SECTION : HISTORIQUE -->
           <div class="mx-auto max-w-[1500px]">
             <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
@@ -283,7 +247,7 @@
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
                   Historique des actions
                 </h3>
-                <p class="text-sm text-gray-500 mt-0.5">Création/suppression de compte, transfert de portefeuille, accès de débogage — pour audit</p>
+                <p class="text-sm text-gray-500 mt-0.5">Création/suppression de compte, transfert de portefeuille — pour audit</p>
               </div>
               <div class="overflow-x-auto">
                 <table class="w-full text-sm">
@@ -559,19 +523,6 @@
     document.getElementById("add-internal-modal").classList.add("hidden");
     pushAudit("Création de compte", `Nouveau compte créé avec le rôle ${role}`);
     alert("✅ Compte créé avec succès.");
-  }
-
-  function startDebugAccess() {
-    const [name, client] = document.getElementById("debug-user-select").value.split("|");
-    document.getElementById("debug-active-name").textContent = `${name} (${client})`;
-    document.getElementById("debug-idle").classList.add("hidden");
-    document.getElementById("debug-active").classList.remove("hidden");
-    pushAudit("Accès de débogage", `Consultation en lecture seule du compte de ${name} (${client})`);
-  }
-
-  function stopDebugAccess() {
-    document.getElementById("debug-active").classList.add("hidden");
-    document.getElementById("debug-idle").classList.remove("hidden");
   }
 
   // Demo-only: this tab is visible only to Administrateur master (cf. section 3).

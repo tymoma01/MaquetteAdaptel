@@ -43,10 +43,10 @@
           <span class="font-medium">Intérimaires</span>
         </div>
       </a>
-      <a class="block" href="client-commandes.html">
+      <a class="block" href="client-demandes.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Commandes</span>
+          <span class="font-medium">Demandes</span>
         </div>
       </a>
       <a class="block" href="client-releve-heures.html">
@@ -141,9 +141,9 @@
           <p class="text-gray-600 text-sm mt-0.5">Vue hebdomadaire des missions par service — cliquez sur un créneau pour le détail</p>
         </div>
         <div class="flex items-center gap-2">
-          <a href="client-commandes.html#nouvelle" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+          <a href="client-demandes.html#nouvelle" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
-            Passer une commande
+            Faire une demande
           </a>
         </div>
       </div>
@@ -173,8 +173,8 @@
       <!-- LEGENDE -->
       <div class="flex flex-wrap items-center gap-4 text-xs font-medium text-gray-600 bg-white px-4 py-3 rounded-xl border border-gray-200 shadow-sm">
         <span class="text-gray-400 font-semibold uppercase tracking-wide text-[10px]">Légende</span>
-        <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-amber-400"></span>À staffer</span>
-        <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-blue-500"></span>En cours / pourvue</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-amber-400"></span>En cours</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-blue-500"></span>Staffée</span>
         <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-green-500"></span>Validée</span>
         <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-gray-400"></span>Terminée</span>
         <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-red-400"></span>Annulée</span>
@@ -203,8 +203,8 @@
     </div>
     <div class="p-6 space-y-4" id="slot-modal-body"></div>
     <div class="px-6 pb-6">
-      <a id="slot-modal-link" href="client-commande-detail.html" class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold h-10 px-4 text-white bg-gradient-to-r from-[#A63629] to-[#8B2B1F] shadow-md hover:shadow-lg transition-all">
-        Voir la commande complète
+      <a id="slot-modal-link" href="client-demande-detail.html" class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold h-10 px-4 text-white bg-gradient-to-r from-[#A63629] to-[#8B2B1F] shadow-md hover:shadow-lg transition-all">
+        Voir la demande complète
       </a>
     </div>
   </div>
@@ -375,31 +375,31 @@
   const MISSIONS = [
     { ligne: 0, day: 1, nom: "A. Pizzol", q: "Réceptionniste", horaire: "7h–15h", statut: "validee" },
     { ligne: 0, day: 2, nom: "A. Pizzol", q: "Réceptionniste", horaire: "7h–15h", statut: "validee" },
-    { ligne: 0, day: 3, nom: "A. Pizzol", q: "Réceptionniste", horaire: "15h–23h", statut: "encours" },
-    { ligne: 0, day: 4, nom: "—", q: "Réceptionniste", horaire: "15h–23h", statut: "astaffer" },
+    { ligne: 0, day: 3, nom: "A. Pizzol", q: "Réceptionniste", horaire: "15h–23h", statut: "staffee" },
+    { ligne: 0, day: 4, nom: "—", q: "Réceptionniste", horaire: "15h–23h", statut: "encours" },
     { ligne: 1, day: 2, nom: "K. Traoré", q: "Bagagiste", horaire: "7h–15h", statut: "validee" },
     { ligne: 1, day: 4, nom: "K. Traoré", q: "Bagagiste", horaire: "7h–15h", statut: "validee" },
     { ligne: 2, day: 0, nom: "L. Richard", q: "Femme de chambre", horaire: "7h–15h", statut: "termine" },
     { ligne: 2, day: 1, nom: "L. Richard", q: "Femme de chambre", horaire: "7h–15h", statut: "termine" },
     { ligne: 2, day: 2, nom: "L. Richard", q: "Femme de chambre", horaire: "7h–15h", statut: "validee", heuresup: true },
     { ligne: 2, day: 3, nom: "L. Richard", q: "Femme de chambre", horaire: "7h–15h", statut: "validee", heuresup: true },
-    { ligne: 2, day: 4, nom: "S. Nguyen", q: "Femme de chambre", horaire: "9h–17h", statut: "encours" },
-    { ligne: 3, day: 2, nom: "M. De Luca", q: "Chef de rang", horaire: "18h–02h", statut: "encours" },
+    { ligne: 2, day: 4, nom: "S. Nguyen", q: "Femme de chambre", horaire: "9h–17h", statut: "staffee" },
+    { ligne: 3, day: 2, nom: "M. De Luca", q: "Chef de rang", horaire: "18h–02h", statut: "staffee" },
     { ligne: 3, day: 4, nom: "M. De Luca", q: "Chef de rang", horaire: "18h–02h", statut: "validee" },
-    { ligne: 3, day: 5, nom: "—", q: "Chef de rang", horaire: "18h–02h", statut: "astaffer" },
+    { ligne: 3, day: 5, nom: "—", q: "Chef de rang", horaire: "18h–02h", statut: "encours" },
     { ligne: 4, day: 4, nom: "J. Martin", q: "Commis de cuisine", horaire: "9h–17h", statut: "validee" },
     { ligne: 4, day: 5, nom: "J. Martin", q: "Commis de cuisine", horaire: "9h–17h", statut: "validee" }
   ].map(m => ({ ...m, photo: PHOTOS[m.nom] || null }));
 
   const STATUT_STYLE = {
-    astaffer: "bg-amber-100 border-amber-300 text-amber-800",
-    encours:  "bg-blue-100 border-blue-300 text-blue-800",
+    encours: "bg-amber-100 border-amber-300 text-amber-800",
+    staffee:  "bg-blue-100 border-blue-300 text-blue-800",
     validee:  "bg-green-100 border-green-300 text-green-800",
     termine:  "bg-gray-100 border-gray-300 text-gray-600",
     annulee:  "bg-red-100 border-red-300 text-red-700"
   };
   const STATUT_LABEL = {
-    astaffer: "À staffer", encours: "En cours / pourvue", validee: "Validée", termine: "Terminée", annulee: "Annulée"
+    encours: "En cours", staffee: "Staffée", validee: "Validée", termine: "Terminée", annulee: "Annulée"
   };
 
   let currentService = "";
@@ -513,5 +513,6 @@
   });
 </script>
 
+<script src="assets/etab-selector.js"></script>
 </body>
 </html>

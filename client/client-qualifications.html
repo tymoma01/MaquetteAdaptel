@@ -42,10 +42,10 @@
           <span class="font-medium">Intérimaires</span>
         </div>
       </a>
-      <a class="block" href="client-commandes.html">
+      <a class="block" href="client-demandes.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Commandes</span>
+          <span class="font-medium">Demandes</span>
         </div>
       </a>
       <a class="block" href="client-releve-heures.html">
@@ -277,7 +277,7 @@
     setTimeout(() => appendChatMessage(CHAT_DEPARTMENTS[chatService].reply, 'bot'), 600);
   }
 
-  // Qualifications réelles (métiers) proposées à la commande, regroupées par secteur — les mêmes
+  // Qualifications réelles (métiers) proposées à la demande, regroupées par secteur — les mêmes
   // intitulés que ceux utilisés côté Opérations (planning, fiches intérimaires…).
   const QUALIFICATIONS = [
     { id: "q1", nom: "Réceptionniste", service: "Hébergement", taux: 13.5, debut: "07:00", fin: "15:00", pause: 30, consignes: "Tenue noire élégante, badge visible. Accueil en front-desk, ton chaleureux et professionnel." },
@@ -393,7 +393,7 @@
         <div class="mt-4">
           <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Consignes / dress code</label>
           <textarea id="${q.id}-consignes" rows="2" placeholder="Ex. tenue attendue, consignes spécifiques…" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">${q.consignes}</textarea>
-          <p class="text-[11px] text-gray-400 mt-1">Ces informations sont visibles sur toute commande utilisant cette qualification.</p>
+          <p class="text-[11px] text-gray-400 mt-1">Ces informations sont visibles sur toute demande utilisant cette qualification.</p>
         </div>
         <div class="mt-4 flex items-center justify-between">
           <p class="text-[11px] text-gray-400">Ces valeurs par défaut restent modifiables au cas par cas lors d'une demande de mission, sans impact ici.</p>
@@ -433,5 +433,6 @@
   });
 </script>
 
+<script src="assets/etab-selector.js"></script>
 </body>
 </html>

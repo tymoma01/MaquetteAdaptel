@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Adaptel Client - Commandes</title>
+<title>Adaptel Client - Demandes</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root { color-scheme: light; }
@@ -45,10 +45,10 @@
           <span class="font-medium">Intérimaires</span>
         </div>
       </a>
-      <a class="block" href="client-commandes.html">
+      <a class="block" href="client-demandes.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Commandes</span>
+          <span class="font-medium">Demandes</span>
         </div>
       </a>
       <a class="block" href="client-releve-heures.html">
@@ -130,19 +130,19 @@
 
       <div class="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Commandes</h1>
-          <p class="text-gray-600 text-sm mt-0.5">Suivez vos commandes et passez de nouvelles demandes de mission</p>
+          <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Demandes</h1>
+          <p class="text-gray-600 text-sm mt-0.5">Suivez vos demandes de mission et faites-en de nouvelles</p>
         </div>
         <button onclick="openNouvelle()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
-          Passer une commande
+          Faire une demande
         </button>
       </div>
 
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex gap-1" id="status-tabs">
-          <button data-status="astaffer" class="status-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">À staffer</button>
           <button data-status="encours" class="status-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">En cours</button>
+          <button data-status="staffee" class="status-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Staffées</button>
           <button data-status="termine" class="status-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Terminées</button>
           <button data-status="" class="status-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Toutes</button>
         </div>
@@ -156,14 +156,14 @@
         </div>
       </div>
 
-      <div id="commandes-list" class="space-y-3"></div>
-      <p id="empty-state" class="hidden text-center text-sm text-gray-400 py-12">Aucune commande pour ce filtre.</p>
+      <div id="demandes-list" class="space-y-3"></div>
+      <p id="empty-state" class="hidden text-center text-sm text-gray-400 py-12">Aucune demande pour ce filtre.</p>
 
     </div>
   </main>
 </div>
 
-<!-- MODALE NOUVELLE COMMANDE - SAISIE CALENDRIER SIMPLIFIEE -->
+<!-- MODALE NOUVELLE DEMANDE - SAISIE CALENDRIER SIMPLIFIEE -->
 <div id="nouvelle-modal" class="hidden fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onclick="if(event.target===this) closeNouvelle()">
   <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
     <div class="px-6 py-4 text-white flex items-center justify-between sticky top-0 z-10" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
@@ -187,7 +187,7 @@
 
       <div id="jours-mission-section" class="opacity-40 pointer-events-none transition-opacity">
         <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Jours de mission</label>
-        <p class="text-xs text-gray-400 mb-2">Cliquez sur un jour : un espace s'ouvre à côté pour ajouter une ou plusieurs commandes ce jour-là (une par qualification), chacune avec son horaire type modifiable. Cliquez sur un autre jour pour en saisir d'autres — qualifications et horaires peuvent différer d'un jour à l'autre.</p>
+        <p class="text-xs text-gray-400 mb-2">Cliquez sur un jour : un espace s'ouvre à côté pour ajouter une ou plusieurs demandes ce jour-là (une par qualification), chacune avec son horaire type modifiable. Cliquez sur un autre jour pour en saisir d'autres — qualifications et horaires peuvent différer d'un jour à l'autre.</p>
         <p id="chantier-gate-hint" class="text-xs font-semibold text-[#A63629] mb-2">Sélectionnez d'abord un chantier ci-dessus pour activer le calendrier.</p>
         <div class="flex items-center justify-between mb-2">
           <button type="button" onclick="shiftCalMonth(-1)" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-500 hover:bg-gray-100">
@@ -200,7 +200,8 @@
         </div>
         <div id="cal-month"></div>
         <div class="flex items-center justify-center gap-4 mt-2 text-[11px] text-gray-500">
-          <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-[#A63629]"></span>Commande validée</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-[#A63629]"></span>Début de mission</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-red-100 border border-[#A63629]/30"></span>Jours suivants de la mission</span>
         </div>
       </div>
 
@@ -208,13 +209,16 @@
         <h3 class="text-sm font-bold text-gray-900 mb-1">Récapitulatif — à vérifier avant l'envoi</h3>
         <p class="text-xs font-semibold text-gray-500 mb-2" id="recap-count"></p>
         <div id="recap-list" class="space-y-1.5"></div>
-        <p id="recap-empty" class="text-sm text-gray-400 text-center py-4 bg-gray-50 rounded-xl border border-dashed border-gray-200">Aucune commande saisie pour le moment — cliquez sur un jour du calendrier ci-dessus.</p>
-        <p id="recap-note" class="hidden text-[11px] text-gray-400 mt-2">Cliquez sur une commande pour la modifier, ou sur ✕ pour la supprimer. Chacune suivra ensuite son propre statut (à staffer, pourvue, validée…).</p>
+        <p id="recap-empty" class="text-sm text-gray-400 text-center py-4 bg-gray-50 rounded-xl border border-dashed border-gray-200">Aucune demande saisie pour le moment — cliquez sur un jour du calendrier ci-dessus.</p>
+        <p id="recap-note" class="hidden text-[11px] text-gray-400 mt-2">Cliquez sur une demande pour la modifier, ou sur ✕ pour la supprimer. Chacune suivra ensuite son propre statut (en cours de staffing, staffée, validée…).</p>
       </div>
 
       <div class="flex items-center justify-end gap-3 pt-2">
         <button onclick="closeNouvelle()" class="h-10 px-4 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-100">Annuler</button>
-        <button onclick="goToMotifsStep()" class="h-10 px-5 rounded-lg text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Envoyer la demande</button>
+        <button onclick="goToMotifsStep()" class="h-10 px-5 rounded-lg text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all inline-flex items-center gap-1.5" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+          Suivant
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m9 18 6-6-6-6"></path></svg>
+        </button>
       </div>
 
       <!-- ESPACE INLINE (à côté du jour cliqué) : QUALIFICATION + HORAIRE TYPE. Positionné en absolute par rapport à #nouvelle-body. -->
@@ -239,6 +243,10 @@
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
                 </button>
               </div>
+            </div>
+            <div class="flex items-center justify-between gap-2 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 mb-2">
+              <span class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Date de fin</span>
+              <input id="j-datefin" type="date" onchange="setCurrentDateFin(this.value)" class="h-7 rounded-md border border-gray-200 bg-white px-1.5 text-[11px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
             </div>
             <div id="j-qualif-list" class="space-y-1"></div>
           </div>
@@ -266,6 +274,10 @@
                 <input id="j-pause" type="number" min="0" step="5" onchange="updateQualifField('pause', this.value)" class="h-8 w-full rounded-md border border-gray-200 bg-white px-1.5 text-[11px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
               </div>
             </div>
+            <div class="mt-2">
+              <label class="block text-[9px] font-semibold text-gray-500 uppercase tracking-wider mb-0.5">Date de fin de mission</label>
+              <input id="j-edit-datefin" type="date" onchange="updateQualifField('dateFin', this.value)" class="h-8 w-full rounded-md border border-gray-200 bg-white px-1.5 text-[11px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+            </div>
           </div>
 
           <div class="flex items-center justify-end pt-1">
@@ -276,11 +288,24 @@
       </div>
     </div>
 
-    <!-- ÉTAPE 2 : motif de recours + justification, requis pour chaque commande avant l'envoi effectif. -->
+    <!-- ÉTAPE 2 : motif de recours + justification, requis pour chaque demande avant l'envoi effectif. -->
     <div id="motifs-step" class="hidden p-6 space-y-4">
       <div>
         <h3 class="text-sm font-bold text-gray-900 mb-1">Motif et justification</h3>
-        <p class="text-xs text-gray-400">Un motif de recours à l'intérim et une justification sont requis pour chaque commande avant l'envoi de la demande.</p>
+        <p class="text-xs text-gray-400">Vérifiez le récapitulatif de chaque mission. Un motif de recours à l'intérim et une justification sont requis pour chaque demande avant l'envoi.</p>
+      </div>
+      <div id="motifs-summary" class="grid grid-cols-3 gap-2"></div>
+      <!-- Saisie commune : remplit motif + justification sur toutes les demandes en une fois (modifiables ensuite une à une). -->
+      <div id="motifs-bulk" class="rounded-xl border border-[#A63629]/30 bg-red-50/40 p-3">
+        <p class="text-xs font-bold text-gray-900">Même motif et justification pour toutes les demandes</p>
+        <p class="text-[11px] text-gray-500 mb-2">Renseignez-les une fois et appliquez-les à toutes ; vous pourrez toujours ajuster une demande en particulier ci-dessous.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <select id="bulk-motif" class="h-9 w-full rounded-lg border border-gray-200 bg-white px-2 text-xs text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]"></select>
+          <textarea id="bulk-justification" rows="1" placeholder="Justification commune…" class="w-full rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-xs text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] resize-none"></textarea>
+        </div>
+        <div class="flex justify-end mt-2">
+          <button type="button" onclick="applyMotifToAll()" class="h-8 px-3 rounded-lg text-xs font-semibold text-[#A63629] border border-[#A63629] bg-white hover:bg-red-50">Appliquer à toutes les demandes</button>
+        </div>
       </div>
       <div id="motifs-list" class="space-y-3"></div>
       <div class="flex items-center justify-between gap-3 pt-3 border-t border-gray-200">
@@ -309,7 +334,7 @@
     <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 text-sm">
       <div class="flex justify-start">
         <div class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-2 max-w-[85%] shadow-sm">
-          Bonjour Thomas 👋 Une question sur une commande ?
+          Bonjour Thomas 👋 Une question sur une demande ?
         </div>
       </div>
       <div id="chat-service-picker" class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-3 max-w-[95%] shadow-sm space-y-2">
@@ -427,21 +452,21 @@
   }
 
   // ---------- Data ----------
-  const COMMANDES = [
-    { id: "CMD-1042", q: "Réceptionniste", service: "Hébergement", date: "24/09/2026", horaire: "15h–23h", statut: "astaffer", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 14.5, lot: "LOT-118" },
-    { id: "CMD-1043", q: "Réceptionniste", service: "Hébergement", date: "25/09/2026", horaire: "15h–23h", statut: "astaffer", capacite: 1, pourvus: 0, enAttente: 1, refuses: 0, taux: 14.5, lot: "LOT-118" },
-    { id: "CMD-1044", q: "Chef de rang", service: "Restauration", date: "26/09/2026", horaire: "18h–02h", statut: "astaffer", capacite: 2, pourvus: 0, enAttente: 0, refuses: 1, taux: 15.2, lot: null },
-    { id: "CMD-1039", q: "Femme de chambre", service: "Housekeeping", date: "23/09/2026", horaire: "7h–15h", statut: "encours", capacite: 2, pourvus: 2, enAttente: 0, refuses: 0, taux: 13.8, lot: null, interimaires: ["Léa Richard", "Sofia Nguyen"] },
-    { id: "CMD-1040", q: "Chef de rang", service: "Restauration", date: "23/09/2026", horaire: "18h–02h", statut: "encours", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 15.2, lot: null, interimaires: ["Marco De Luca"], annulationDemandee: true, annulationDate: "22/09/2026 14:32" },
-    { id: "CMD-1030", q: "Réceptionniste", service: "Hébergement", date: "22/09/2026", horaire: "7h–15h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, interimaires: ["Anna Pizzol"], evaluee: true, note: 5 },
-    { id: "CMD-1029", q: "Réceptionniste", service: "Hébergement", date: "21/09/2026", horaire: "7h–15h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, interimaires: ["Anna Pizzol"], evaluee: false },
-    { id: "CMD-1021", q: "Commis de cuisine", service: "Restauration", date: "19/09/2026", horaire: "9h–17h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 16.0, lot: null, interimaires: ["Julien Martin"], evaluee: true, note: 4 },
-    { id: "CMD-1018", q: "Bagagiste", service: "Hébergement", date: "20/09/2026", horaire: "7h–15h", statut: "annulee", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 13.5, lot: null }
+  const DEMANDES = [
+    { id: "DEM-1042", q: "Réceptionniste", service: "Hébergement", date: "24/09/2026", horaire: "15h–23h", statut: "encours", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 14.5, lot: "LOT-118" },
+    { id: "DEM-1043", q: "Réceptionniste", service: "Hébergement", date: "25/09/2026", horaire: "15h–23h", statut: "encours", capacite: 1, pourvus: 0, enAttente: 1, refuses: 0, taux: 14.5, lot: "LOT-118" },
+    { id: "DEM-1044", q: "Chef de rang", service: "Restauration", date: "26/09/2026", horaire: "18h–02h", statut: "encours", capacite: 2, pourvus: 0, enAttente: 0, refuses: 1, taux: 15.2, lot: null },
+    { id: "DEM-1039", q: "Femme de chambre", service: "Housekeeping", date: "23/09/2026", horaire: "7h–15h", statut: "staffee", capacite: 2, pourvus: 2, enAttente: 0, refuses: 0, taux: 13.8, lot: null, interimaires: ["Léa Richard", "Sofia Nguyen"] },
+    { id: "DEM-1040", q: "Chef de rang", service: "Restauration", date: "23/09/2026", horaire: "18h–02h", statut: "staffee", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 15.2, lot: null, interimaires: ["Marco De Luca"], annulationDemandee: true, annulationDate: "22/09/2026 14:32" },
+    { id: "DEM-1030", q: "Réceptionniste", service: "Hébergement", date: "22/09/2026", horaire: "7h–15h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, interimaires: ["Anna Pizzol"], evaluee: true, note: 5 },
+    { id: "DEM-1029", q: "Réceptionniste", service: "Hébergement", date: "21/09/2026", horaire: "7h–15h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, interimaires: ["Anna Pizzol"], evaluee: false },
+    { id: "DEM-1021", q: "Commis de cuisine", service: "Restauration", date: "19/09/2026", horaire: "9h–17h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 16.0, lot: null, interimaires: ["Julien Martin"], evaluee: true, note: 4 },
+    { id: "DEM-1018", q: "Bagagiste", service: "Hébergement", date: "20/09/2026", horaire: "7h–15h", statut: "annulee", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 13.5, lot: null }
   ];
 
   const STATUT_META = {
-    astaffer: { label: "À staffer", cls: "bg-amber-100 text-amber-700" },
-    encours:  { label: "En cours", cls: "bg-blue-100 text-blue-700" },
+    encours: { label: "En cours", cls: "bg-amber-100 text-amber-700" },
+    staffee:  { label: "Staffée", cls: "bg-blue-100 text-blue-700" },
     termine:  { label: "Terminée", cls: "bg-gray-100 text-gray-600" },
     annulee:  { label: "Annulée", cls: "bg-red-100 text-red-700" }
   };
@@ -452,14 +477,14 @@
   const STAR_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>`;
 
   function render() {
-    let rows = COMMANDES.filter(c => !currentStatus || c.statut === currentStatus);
+    let rows = DEMANDES.filter(c => !currentStatus || c.statut === currentStatus);
     if (currentStatus === 'termine' && currentEvalFilter) {
       rows = rows.filter(c => currentEvalFilter === 'oui' ? c.evaluee : !c.evaluee);
     }
-    const list = document.getElementById('commandes-list');
+    const list = document.getElementById('demandes-list');
     document.getElementById('empty-state').classList.toggle('hidden', rows.length > 0);
 
-    const nonNoteesCount = COMMANDES.filter(c => c.statut === 'termine' && !c.evaluee).length;
+    const nonNoteesCount = DEMANDES.filter(c => c.statut === 'termine' && !c.evaluee).length;
     document.getElementById('eval-count-non').textContent = nonNoteesCount;
 
     list.innerHTML = rows.map(c => {
@@ -469,7 +494,7 @@
         ? `<span class="inline-flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">${STAR_ICON}${c.note}/5</span>`
         : `<span class="text-xs font-semibold text-gray-500 bg-gray-100 border border-gray-200 px-2.5 py-1 rounded-full">Non notée</span>`;
       return `
-      <a href="client-commande-detail.html?id=${c.id}" class="row-card block bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+      <a href="client-demande-detail.html?id=${c.id}" class="row-card block bg-white rounded-xl border border-gray-200 shadow-sm p-4">
         <div class="flex items-center justify-between gap-4 flex-wrap">
           <div class="flex items-center gap-4 min-w-0">
             <div class="p-2.5 bg-gradient-to-br from-gray-600 to-gray-700 rounded-xl shadow-md flex-shrink-0">
@@ -592,11 +617,12 @@
   });
 
   // Jours saisis pour cette demande : clé "YYYY-MM-DD" → { qualif, service, debut, fin, pause, taux, capacite }
-  let dayConfigs = {};       // commandes par jour : key -> { [qualification]: { service, debut, fin, pause, taux, capacite } } (plusieurs qualifications possibles par jour)
+  let dayConfigs = {};       // demandes par jour : key -> { [qualification]: { service, debut, fin, pause, taux, capacite } } (plusieurs qualifications possibles par jour)
   let editingDay = null;     // jour actuellement ouvert dans le panneau
   let editingQualif = null;  // qualification dont l'horaire est actuellement déplié dans le panneau
   let selectedChantier = ""; // chantier choisi pour cette demande — le calendrier reste désactivé tant qu'il est vide
   let currentCapacite = 1;   // capacité (postes) appliquée aux prochaines qualifications ajoutées à ce jour
+  let currentDateFin = null; // date de fin (YYYY-MM-DD) appliquée aux prochaines qualifications ajoutées — mission sur plusieurs jours
 
   // Stepper de capacité, affiché dans le panneau du jour à la place des qualifications à ajouter :
   // la valeur choisie est capturée sur chaque qualification au moment où elle est ajoutée (comme
@@ -604,6 +630,12 @@
   function shiftCapacite(delta) {
     currentCapacite = Math.max(1, Math.min(20, currentCapacite + delta));
     document.getElementById('j-capacite-value').textContent = currentCapacite;
+  }
+
+  // Date de fin capturée, comme la capacité, au moment où une qualification est ajoutée ; jamais avant le jour de début.
+  function setCurrentDateFin(value) {
+    currentDateFin = (value && value >= editingDay) ? value : editingDay;
+    document.getElementById('j-datefin').value = currentDateFin;
   }
 
   // Le calendrier (et donc le choix des qualifications) ne s'active qu'une fois le chantier choisi :
@@ -625,6 +657,20 @@
   function pad(n) { return String(n).padStart(2, '0'); }
   function dateKey(y, m, d) { return `${y}-${pad(m+1)}-${pad(d)}`; }
   function fmtDay(k) { const [y,m,d] = k.split('-'); return `${d}/${m}/${y}`; }
+  function keyToDate(k) { const [y,m,d] = k.split('-').map(Number); return new Date(y, m-1, d); }
+  function nbJours(debutKey, finKey) { return Math.round((keyToDate(finKey || debutKey) - keyToDate(debutKey)) / 86400000) + 1; }
+  // "24/09/2026" pour une mission d'un jour, "du 24/09/2026 au 27/09/2026" sinon.
+  function fmtPeriode(debutKey, finKey) {
+    return (!finKey || finKey === debutKey) ? fmtDay(debutKey) : `du ${fmtDay(debutKey)} au ${fmtDay(finKey)}`;
+  }
+  // Durée travaillée d'une vacation, pause déduite (gère les horaires de nuit qui passent minuit).
+  function heuresVacation(debut, fin, pause) {
+    const [hd, md] = debut.split(':').map(Number), [hf, mf] = fin.split(':').map(Number);
+    let min = (hf * 60 + mf) - (hd * 60 + md);
+    if (min <= 0) min += 24 * 60;
+    return Math.max(0, min - (pause || 0)) / 60;
+  }
+  function fmtHeures(h) { const hh = Math.floor(h), mm = Math.round((h - hh) * 60); return mm ? `${hh}h${pad(mm)}` : `${hh}h`; }
   // Échappe une valeur pour l'insérer dans une chaîne JS à guillemets simples au sein d'un attribut onclick="…" —
   // nécessaire dès qu'un nom de qualification contient une apostrophe (ex. "Maître d'hôtel").
   function jsStr(s) { return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
@@ -647,6 +693,14 @@
       <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
     </div>
     <div class="grid grid-cols-7 gap-2">`;
+    // Jours couverts par une mission multi-jours (hors jour de début) : surlignés plus légèrement.
+    const covered = new Set();
+    Object.entries(dayConfigs).forEach(([start, qualifs]) => Object.values(qualifs).forEach(c => {
+      for (let i = 1; i < nbJours(start, c.dateFin); i++) {
+        const d = keyToDate(start); d.setDate(d.getDate() + i);
+        covered.add(dateKey(d.getFullYear(), d.getMonth(), d.getDate()));
+      }
+    }));
     for (let i = 0; i < startOffset; i++) html += `<span></span>`;
     for (let d = 1; d <= daysInMonth; d++) {
       const key = dateKey(calYear, calMonth, d);
@@ -656,6 +710,7 @@
       let cls = 'hover:bg-gray-100';
       if (isPast) cls = 'disabled';
       else if (count > 0) cls = 'selected';
+      else if (covered.has(key)) cls = 'bg-red-100 text-[#A63629] font-semibold';
       html += `<button type="button" ${isPast ? 'disabled' : `onclick="openJourModal('${key}', this)"`}
         class="cal-day w-full aspect-square rounded-xl text-base flex items-center justify-center ${cls}">${d}${count > 0 ? `<span class="ml-0.5 text-[10px] align-top">${count}</span>` : ''}</button>`;
     }
@@ -697,7 +752,7 @@
         <div class="flex items-stretch">
           <button type="button" onclick="toggleQualif('${jsStr(nom)}')" class="flex-1 text-left flex items-center justify-between gap-2 px-2.5 py-2 min-w-0">
             <span class="font-semibold text-xs truncate ${added ? 'text-[#A63629]' : 'text-gray-700'}">${nom}<span class="block font-normal text-[10px] text-gray-400">${chantier.service}</span></span>
-            <span class="text-[11px] text-gray-400 whitespace-nowrap flex-shrink-0">${added ? `×${vals.capacite} · ` : ''}${vals.debut}–${vals.fin}</span>
+            <span class="text-[11px] text-gray-400 whitespace-nowrap flex-shrink-0">${added ? `×${vals.capacite} · ` : ''}${added && nbJours(editingDay, vals.dateFin) > 1 ? `${nbJours(editingDay, vals.dateFin)} j · ` : ''}${vals.debut}–${vals.fin}</span>
           </button>
           <button type="button" onclick="openHoraireEditor('${jsStr(nom)}')" title="Modifier l'horaire" class="px-2 flex items-center justify-center border-l flex-shrink-0 border-gray-100 text-gray-400 hover:text-[#A63629]">${PENCIL_ICON}</button>
         </div>
@@ -710,7 +765,7 @@
     if (!dayConfigs[editingDay][nom]) {
       const chantier = CHANTIERS[selectedChantier];
       const cfg = chantier.qualifications[nom];
-      dayConfigs[editingDay][nom] = { service: chantier.service, debut: cfg.debut, fin: cfg.fin, pause: cfg.pause, taux: cfg.taux, capacite: currentCapacite };
+      dayConfigs[editingDay][nom] = { service: chantier.service, debut: cfg.debut, fin: cfg.fin, pause: cfg.pause, taux: cfg.taux, capacite: currentCapacite, dateFin: currentDateFin || editingDay };
     }
   }
 
@@ -735,6 +790,8 @@
     document.getElementById('j-debut').value = c.debut;
     document.getElementById('j-fin').value = c.fin;
     document.getElementById('j-pause').value = c.pause;
+    document.getElementById('j-edit-datefin').min = editingDay;
+    document.getElementById('j-edit-datefin').value = c.dateFin || editingDay;
     document.getElementById('j-qualif-section').classList.add('hidden');
     document.getElementById('j-horaire-editor').classList.remove('hidden');
     document.getElementById('j-btn-fermer').classList.add('hidden');
@@ -760,7 +817,12 @@
     if (!editingDay || !editingQualif) return;
     const entry = dayConfigs[editingDay] && dayConfigs[editingDay][editingQualif];
     if (!entry) return;
+    if (field === 'dateFin') {
+      value = (value && value >= editingDay) ? value : editingDay;
+      document.getElementById('j-edit-datefin').value = value;
+    }
     entry[field] = (field === 'pause') ? (parseInt(value, 10) || 0) : (field === 'taux') ? (parseFloat(value) || 0) : value;
+    if (field === 'dateFin') renderCalendar();
     renderRecap();
   }
 
@@ -769,7 +831,10 @@
     editingQualif = null;
     currentCapacite = 1;
     document.getElementById('j-capacite-value').textContent = currentCapacite;
-    document.getElementById('jour-modal-title').textContent = `Commande(s) du ${fmtDay(key)}`;
+    currentDateFin = key;
+    document.getElementById('j-datefin').min = key;
+    document.getElementById('j-datefin').value = key;
+    document.getElementById('jour-modal-title').textContent = `Demande(s) du ${fmtDay(key)}`;
     document.getElementById('j-horaire-editor').classList.add('hidden');
     document.getElementById('j-qualif-section').classList.remove('hidden');
     document.getElementById('j-btn-valider').classList.add('hidden');
@@ -801,7 +866,7 @@
     const rows = collectRecapRows();
     document.getElementById('recap-empty').classList.toggle('hidden', rows.length > 0);
     document.getElementById('recap-note').classList.toggle('hidden', rows.length === 0);
-    document.getElementById('recap-count').textContent = rows.length ? `${rows.length} commande(s) seront créées` : '';
+    document.getElementById('recap-count').textContent = rows.length ? `${rows.length} demande(s) seront créées` : '';
     document.getElementById('recap-list').innerHTML = rows.map(r => `
       <div class="flex items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white hover:border-[#A63629]/40 hover:bg-red-50/30 text-sm">
         <button type="button" onclick="openJourModal('${r.key}', this)" class="flex-1 text-left flex items-center justify-between gap-3 px-3 py-2.5 min-w-0">
@@ -810,19 +875,19 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
               ${r.qualif}
             </span>
-            <span class="block text-xs text-gray-500 mt-0.5">${r.service} · ${fmtDay(r.key)} · ${r.capacite} poste${r.capacite > 1 ? 's' : ''}</span>
+            <span class="block text-xs text-gray-500 mt-0.5">${r.service} · ${fmtPeriode(r.key, r.dateFin)} · ${r.capacite} poste${r.capacite > 1 ? 's' : ''}</span>
           </span>
           <span class="text-right flex-shrink-0">
             <span class="block text-xs font-semibold text-gray-700 whitespace-nowrap">${r.debut}–${r.fin}</span>
             <span class="block text-[11px] text-gray-400 whitespace-nowrap">${r.taux.toFixed(2)} €/h</span>
           </span>
         </button>
-        <button type="button" onclick="removeCommandeFromRecap('${r.key}', '${jsStr(r.qualif)}')" title="Supprimer cette commande" class="flex-shrink-0 p-2 mr-1 text-gray-300 hover:text-red-600">${REMOVE_ICON}</button>
+        <button type="button" onclick="removeDemandeFromRecap('${r.key}', '${jsStr(r.qualif)}')" title="Supprimer cette demande" class="flex-shrink-0 p-2 mr-1 text-gray-300 hover:text-red-600">${REMOVE_ICON}</button>
       </div>`).join('');
   }
 
   // Suppression directe depuis le récapitulatif, sans passer par le panneau du jour.
-  function removeCommandeFromRecap(key, qualif) {
+  function removeDemandeFromRecap(key, qualif) {
     if (!dayConfigs[key]) return;
     delete dayConfigs[key][qualif];
     if (Object.keys(dayConfigs[key]).length === 0) delete dayConfigs[key];
@@ -844,8 +909,10 @@
     dayConfigs = {};
     editingDay = null;
     editingQualif = null;
-    selectedChantier = "";
-    document.getElementById('f-chantier').value = "";
+    // Pré-sélectionne le chantier choisi dans le header, s'il fait partie des chantiers proposés ici.
+    const headerChantier = typeof getEtabSelection === 'function' ? getEtabSelection().chantier : null;
+    selectedChantier = (headerChantier && CHANTIERS[headerChantier]) ? headerChantier : "";
+    document.getElementById('f-chantier').value = selectedChantier;
     calYear = 2026; calMonth = 8;
     closeJourModal();
     updateChantierGate();
@@ -858,7 +925,7 @@
   function closeNouvelle() { document.getElementById('nouvelle-modal').classList.add('hidden'); }
 
   // Motifs de recours à l'intérim reconnus (Code du travail) — un motif et une justification sont requis
-  // pour chaque commande avant l'envoi effectif de la demande.
+  // pour chaque demande avant l'envoi effectif de la demande.
   const MOTIFS = [
     "Accroissement temporaire d'activité",
     "Remplacement d'un salarié absent",
@@ -873,9 +940,9 @@
     return rows;
   }
 
-  // Clic sur "Envoyer la demande" : bascule vers l'étape motif/justification plutôt que d'envoyer directement.
+  // Clic sur "Suivant" : bascule vers l'étape motif/justification plutôt que d'envoyer directement.
   function goToMotifsStep() {
-    if (collectRecapRows().length === 0) { alert("Cliquez sur au moins un jour du calendrier pour créer une commande."); return; }
+    if (collectRecapRows().length === 0) { alert("Cliquez sur au moins un jour du calendrier pour créer une demande."); return; }
     renderMotifsStep();
     document.getElementById('nouvelle-body').classList.add('hidden');
     document.getElementById('motifs-step').classList.remove('hidden');
@@ -887,9 +954,42 @@
   }
 
   function renderMotifsStep() {
-    document.getElementById('motifs-list').innerHTML = collectRecapRows().map(r => `
+    const rows = collectRecapRows();
+    const totals = rows.reduce((t, r) => {
+      const jours = nbJours(r.key, r.dateFin);
+      t.postes += r.capacite;
+      t.heures += heuresVacation(r.debut, r.fin, r.pause) * jours * r.capacite;
+      return t;
+    }, { postes: 0, heures: 0 });
+    document.getElementById('motifs-summary').innerHTML = [
+      ['Demandes', rows.length],
+      ['Postes', totals.postes],
+      ['Heures totales', fmtHeures(totals.heures)]
+    ].map(([l, v]) => `
+      <div class="rounded-lg bg-gray-50 border border-gray-200 px-3 py-2 text-center">
+        <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">${l}</p>
+        <p class="text-base font-bold text-gray-900">${v}</p>
+      </div>`).join('');
+
+    // Le bloc "même motif pour toutes" n'a d'intérêt qu'à partir de deux demandes.
+    document.getElementById('motifs-bulk').classList.toggle('hidden', rows.length < 2);
+    document.getElementById('bulk-motif').innerHTML = `<option value="">Motif de recours…</option>` + MOTIFS.map(m => `<option value="${m}">${m}</option>`).join('');
+
+    document.getElementById('motifs-list').innerHTML = rows.map(r => {
+      const jours = nbJours(r.key, r.dateFin);
+      const hVac = heuresVacation(r.debut, r.fin, r.pause);
+      return `
       <div class="rounded-lg border border-gray-200 p-3">
-        <p class="text-sm font-bold text-gray-800">${r.qualif} <span class="font-normal text-xs text-gray-400">· ${r.service} · ${fmtDay(r.key)} · ${r.capacite} poste${r.capacite > 1 ? 's' : ''}</span></p>
+        <div class="flex items-start justify-between gap-3">
+          <p class="text-sm font-bold text-gray-800">${r.qualif} <span class="font-normal text-xs text-gray-400">· ${r.service} · ${selectedChantier}</span></p>
+          <span class="text-xs font-bold text-gray-700 whitespace-nowrap">${fmtHeures(hVac * jours * r.capacite)} au total</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2 bg-gray-50 rounded-lg px-3 py-2 text-xs">
+          <div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Date${jours > 1 ? 's' : ''}</p><p class="font-semibold text-gray-800">${fmtPeriode(r.key, r.dateFin)}${jours > 1 ? ` <span class="font-normal text-gray-500">(${jours} jours)</span>` : ''}</p></div>
+          <div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Horaires</p><p class="font-semibold text-gray-800">${r.debut} – ${r.fin}</p></div>
+          <div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Pause</p><p class="font-semibold text-gray-800">${r.pause} min</p></div>
+          <div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Postes</p><p class="font-semibold text-gray-800">${r.capacite} × ${fmtHeures(hVac)}/jour</p></div>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
           <div>
             <label class="block text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Motif de recours</label>
@@ -903,7 +1003,20 @@
             <textarea onchange="updateMotif('${r.key}', '${jsStr(r.qualif)}', 'justification', this.value)" rows="1" placeholder="Précisez le contexte (ex. nom du salarié remplacé, événement concerné…)" class="w-full rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-xs text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] resize-none">${r.justification || ''}</textarea>
           </div>
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
+  }
+
+  // Applique le motif et/ou la justification communs à toutes les demandes en cours de saisie.
+  function applyMotifToAll() {
+    const motif = document.getElementById('bulk-motif').value;
+    const justification = document.getElementById('bulk-justification').value;
+    if (!motif && !justification.trim()) { alert("Choisissez un motif et/ou saisissez une justification à appliquer."); return; }
+    collectRecapRows().forEach(r => {
+      if (motif) updateMotif(r.key, r.qualif, 'motif', motif);
+      if (justification.trim()) updateMotif(r.key, r.qualif, 'justification', justification);
+    });
+    renderMotifsStep();
   }
 
   function updateMotif(key, qualif, field, value) {
@@ -915,12 +1028,12 @@
   function confirmEnvoi() {
     const rows = collectRecapRows();
     if (rows.some(r => !r.motif || !r.justification || !r.justification.trim())) {
-      alert("Merci d'indiquer un motif et une justification pour chaque commande avant l'envoi.");
+      alert("Merci d'indiquer un motif et une justification pour chaque demande avant l'envoi.");
       return;
     }
     const n = rows.length;
     closeNouvelle();
-    alert(`Votre demande a été transmise à Adaptel : ${n} commande(s) seront créées, chacune avec sa propre qualification, son horaire, son motif et sa justification.`);
+    alert(`Votre demande a été transmise à Adaptel : ${n} demande(s) seront créées, chacune avec sa propre qualification, son horaire, son motif et sa justification.`);
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -929,5 +1042,6 @@
   });
 </script>
 
+<script src="assets/etab-selector.js"></script>
 </body>
 </html>

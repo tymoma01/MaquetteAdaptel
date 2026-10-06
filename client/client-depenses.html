@@ -46,10 +46,10 @@
           <span class="font-medium">Intérimaires</span>
         </div>
       </a>
-      <a class="block" href="client-commandes.html">
+      <a class="block" href="client-demandes.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Commandes</span>
+          <span class="font-medium">Demandes</span>
         </div>
       </a>
       <a class="block" href="client-releve-heures.html">
@@ -212,14 +212,14 @@
         <!-- TABLE DETAIL -->
         <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-            <h3 class="font-bold text-gray-900">Détail des commandes ayant généré une dépense</h3>
+            <h3 class="font-bold text-gray-900">Détail des demandes ayant généré une dépense</h3>
             <span id="table-count" class="text-xs text-gray-400"></span>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
               <thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
                 <tr>
-                  <th class="px-4 py-2.5 text-left font-semibold sortable" onclick="setSort('id')">Commande</th>
+                  <th class="px-4 py-2.5 text-left font-semibold sortable" onclick="setSort('id')">Demande</th>
                   <th class="px-4 py-2.5 text-left font-semibold sortable" onclick="setSort('q')">Qualification</th>
                   <th class="px-4 py-2.5 text-left font-semibold">Service</th>
                   <th class="px-4 py-2.5 text-left font-semibold sortable" onclick="setSort('date')">Date</th>
@@ -388,16 +388,16 @@
   let sortKey = "montant", sortDir = "desc";
 
   const DEPENSES = [
-    { id: "CMD-1039", q: "Femme de chambre", service: "Housekeeping", date: "23/09/2026", heures: 16, taux: 13.8, montant: 220.8 },
-    { id: "CMD-1035", q: "Femme de chambre", service: "Housekeeping", date: "18/09/2026", heures: 60, taux: 13.8, montant: 828.0 },
-    { id: "CMD-1040", q: "Chef de rang", service: "Restauration", date: "23/09/2026", heures: 8, taux: 15.2, montant: 121.6 },
-    { id: "CMD-1033", q: "Chef de rang", service: "Restauration", date: "17/09/2026", heures: 120, taux: 15.2, montant: 1824.0 },
-    { id: "CMD-1021", q: "Commis de cuisine", service: "Restauration", date: "19/09/2026", heures: 60, taux: 16.0, montant: 960.0 },
-    { id: "CMD-1030", q: "Réceptionniste", service: "Hébergement", date: "22/09/2026", heures: 100, taux: 14.5, montant: 1450.0 },
-    { id: "CMD-1029", q: "Réceptionniste", service: "Hébergement", date: "21/09/2026", heures: 60, taux: 14.5, montant: 870.0 },
-    { id: "CMD-1018", q: "Bagagiste", service: "Hébergement", date: "20/09/2026", heures: 80, taux: 13.5, montant: 1080.0 },
-    { id: "CMD-1012", q: "Veilleur de nuit", service: "Hébergement", date: "15/09/2026", heures: 50, taux: 13.0, montant: 650.0 },
-    { id: "CMD-1005", q: "EMPLOYE POLYVALENT", service: "Restauration", date: "10/09/2026", heures: 90, taux: 13.9, montant: 1251.0 }
+    { id: "DEM-1039", q: "Femme de chambre", service: "Housekeeping", date: "23/09/2026", heures: 16, taux: 13.8, montant: 220.8 },
+    { id: "DEM-1035", q: "Femme de chambre", service: "Housekeeping", date: "18/09/2026", heures: 60, taux: 13.8, montant: 828.0 },
+    { id: "DEM-1040", q: "Chef de rang", service: "Restauration", date: "23/09/2026", heures: 8, taux: 15.2, montant: 121.6 },
+    { id: "DEM-1033", q: "Chef de rang", service: "Restauration", date: "17/09/2026", heures: 120, taux: 15.2, montant: 1824.0 },
+    { id: "DEM-1021", q: "Commis de cuisine", service: "Restauration", date: "19/09/2026", heures: 60, taux: 16.0, montant: 960.0 },
+    { id: "DEM-1030", q: "Réceptionniste", service: "Hébergement", date: "22/09/2026", heures: 100, taux: 14.5, montant: 1450.0 },
+    { id: "DEM-1029", q: "Réceptionniste", service: "Hébergement", date: "21/09/2026", heures: 60, taux: 14.5, montant: 870.0 },
+    { id: "DEM-1018", q: "Bagagiste", service: "Hébergement", date: "20/09/2026", heures: 80, taux: 13.5, montant: 1080.0 },
+    { id: "DEM-1012", q: "Veilleur de nuit", service: "Hébergement", date: "15/09/2026", heures: 50, taux: 13.0, montant: 650.0 },
+    { id: "DEM-1005", q: "EMPLOYE POLYVALENT", service: "Restauration", date: "10/09/2026", heures: 90, taux: 13.9, montant: 1251.0 }
   ];
 
   function renderDonut(svgId, legendId, totalId, items) {
@@ -443,7 +443,7 @@
       if (va > vb) return sortDir === 'asc' ? 1 : -1;
       return 0;
     });
-    document.getElementById('table-count').textContent = `${rows.length} commande(s)`;
+    document.getElementById('table-count').textContent = `${rows.length} demande(s)`;
     document.getElementById('depenses-body').innerHTML = rows.map(r => `
       <tr>
         <td class="px-4 py-2.5 font-medium text-gray-800">${r.id}</td>
@@ -495,5 +495,6 @@
   });
 </script>
 
+<script src="assets/etab-selector.js"></script>
 </body>
 </html>

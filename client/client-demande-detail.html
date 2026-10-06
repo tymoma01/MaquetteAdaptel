@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Adaptel Client - Détail commande</title>
+<title>Adaptel Client - Détail demande</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root { color-scheme: light; }
@@ -42,10 +42,10 @@
           <span class="font-medium">Intérimaires</span>
         </div>
       </a>
-      <a class="block" href="client-commandes.html">
+      <a class="block" href="client-demandes.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Commandes</span>
+          <span class="font-medium">Demandes</span>
         </div>
       </a>
       <a class="block" href="client-releve-heures.html">
@@ -125,9 +125,9 @@
 
     <div class="p-6 space-y-5 max-w-[1200px] w-full mx-auto">
 
-      <a href="client-commandes.html" class="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-500 hover:text-[#A63629]">
+      <a href="client-demandes.html" class="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-500 hover:text-[#A63629]">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m15 18-6-6 6-6"></path></svg>
-        Retour aux commandes
+        Retour aux demandes
       </a>
 
       <div id="banner-annulation" class="hidden bg-amber-50 border border-amber-200 text-amber-800 text-sm rounded-xl px-4 py-3 flex items-start gap-2">
@@ -224,7 +224,7 @@
           <div id="lot-block" class="hidden bg-white rounded-xl border border-gray-200 shadow-sm p-5">
             <h3 class="text-sm font-bold text-gray-900 mb-3 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629]"><path d="m10 13-1 1a3 3 0 1 0 4 4l1-1"></path><path d="m14 11 1-1a3 3 0 1 0-4-4l-1 1"></path></svg>
-              Commandes de la même saisie
+              Demandes de la même saisie
             </h3>
             <div id="lot-list" class="space-y-2"></div>
           </div>
@@ -240,7 +240,7 @@
       <!-- ANNULATION - volontairement discret, en bas de page -->
       <div id="annulation-block" class="hidden pt-5 mt-2 border-t border-gray-200 text-center">
         <button id="btn-annulation" onclick="demanderAnnulation()" class="text-xs text-gray-400 hover:text-red-600 underline decoration-dotted">
-          Besoin de changer de plan ? Demander l'annulation de cette commande
+          Besoin de changer de plan ? Demander l'annulation de cette demande
         </button>
         <p id="annulation-hint" class="text-[11px] text-gray-400 mt-1"></p>
       </div>
@@ -264,7 +264,7 @@
     <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 text-sm">
       <div class="flex justify-start">
         <div class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-2 max-w-[85%] shadow-sm">
-          Bonjour Thomas 👋 Une question sur cette commande ?
+          Bonjour Thomas 👋 Une question sur cette demande ?
         </div>
       </div>
       <div id="chat-service-picker" class="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-3 py-3 max-w-[95%] shadow-sm space-y-2">
@@ -383,21 +383,21 @@
 
   const NOW = new Date(2026, 8, 23, 9, 0); // "aujourd'hui" pour la démo
 
-  const COMMANDES = [
-    { id: "CMD-1042", q: "Réceptionniste", service: "Hébergement", dateISO: "2026-09-24", date: "24/09/2026", horaire: "15h–23h", debutISO: "2026-09-24T15:00:00", statut: "astaffer", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 14.5, lot: "LOT-118", lieu: "Hyatt Regency Paris Étoile" },
-    { id: "CMD-1043", q: "Réceptionniste", service: "Hébergement", dateISO: "2026-09-25", date: "25/09/2026", horaire: "15h–23h", debutISO: "2026-09-25T15:00:00", statut: "astaffer", capacite: 1, pourvus: 0, enAttente: 1, refuses: 0, taux: 14.5, lot: "LOT-118", lieu: "Hyatt Regency Paris Étoile" },
-    { id: "CMD-1044", q: "Chef de rang", service: "Restauration", dateISO: "2026-09-26", date: "26/09/2026", horaire: "18h–02h", debutISO: "2026-09-26T18:00:00", statut: "astaffer", capacite: 2, pourvus: 0, enAttente: 0, refuses: 1, taux: 15.2, lot: null, lieu: "Hyatt Regency Paris Étoile" },
-    { id: "CMD-1039", q: "Femme de chambre", service: "Housekeeping", dateISO: "2026-09-23", date: "23/09/2026", horaire: "7h–15h", debutISO: "2026-09-23T07:00:00", statut: "encours", capacite: 2, pourvus: 2, enAttente: 0, refuses: 0, taux: 13.8, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Léa Richard", "Sofia Nguyen"] },
-    { id: "CMD-1040", q: "Chef de rang", service: "Restauration", dateISO: "2026-09-23", date: "23/09/2026", horaire: "18h–02h", debutISO: "2026-09-23T18:00:00", statut: "encours", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 15.2, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Marco De Luca"], annulationDemandee: true, annulationDate: "22/09/2026 14:32" },
-    { id: "CMD-1030", q: "Réceptionniste", service: "Hébergement", dateISO: "2026-09-22", date: "22/09/2026", horaire: "7h–15h", debutISO: "2026-09-22T07:00:00", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Anna Pizzol"], evaluee: true, note: 5 },
-    { id: "CMD-1029", q: "Réceptionniste", service: "Hébergement", dateISO: "2026-09-21", date: "21/09/2026", horaire: "7h–15h", debutISO: "2026-09-21T07:00:00", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Anna Pizzol"], evaluee: false },
-    { id: "CMD-1021", q: "Commis de cuisine", service: "Restauration", dateISO: "2026-09-19", date: "19/09/2026", horaire: "9h–17h", debutISO: "2026-09-19T09:00:00", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 16.0, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Julien Martin"], evaluee: true, note: 4 },
-    { id: "CMD-1018", q: "Bagagiste", service: "Hébergement", dateISO: "2026-09-20", date: "20/09/2026", horaire: "7h–15h", debutISO: "2026-09-20T07:00:00", statut: "annulee", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 13.5, lot: null, lieu: "Hyatt Regency Paris Étoile" }
+  const DEMANDES = [
+    { id: "DEM-1042", q: "Réceptionniste", service: "Hébergement", dateISO: "2026-09-24", date: "24/09/2026", horaire: "15h–23h", debutISO: "2026-09-24T15:00:00", statut: "encours", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 14.5, lot: "LOT-118", lieu: "Hyatt Regency Paris Étoile" },
+    { id: "DEM-1043", q: "Réceptionniste", service: "Hébergement", dateISO: "2026-09-25", date: "25/09/2026", horaire: "15h–23h", debutISO: "2026-09-25T15:00:00", statut: "encours", capacite: 1, pourvus: 0, enAttente: 1, refuses: 0, taux: 14.5, lot: "LOT-118", lieu: "Hyatt Regency Paris Étoile" },
+    { id: "DEM-1044", q: "Chef de rang", service: "Restauration", dateISO: "2026-09-26", date: "26/09/2026", horaire: "18h–02h", debutISO: "2026-09-26T18:00:00", statut: "encours", capacite: 2, pourvus: 0, enAttente: 0, refuses: 1, taux: 15.2, lot: null, lieu: "Hyatt Regency Paris Étoile" },
+    { id: "DEM-1039", q: "Femme de chambre", service: "Housekeeping", dateISO: "2026-09-23", date: "23/09/2026", horaire: "7h–15h", debutISO: "2026-09-23T07:00:00", statut: "staffee", capacite: 2, pourvus: 2, enAttente: 0, refuses: 0, taux: 13.8, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Léa Richard", "Sofia Nguyen"] },
+    { id: "DEM-1040", q: "Chef de rang", service: "Restauration", dateISO: "2026-09-23", date: "23/09/2026", horaire: "18h–02h", debutISO: "2026-09-23T18:00:00", statut: "staffee", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 15.2, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Marco De Luca"], annulationDemandee: true, annulationDate: "22/09/2026 14:32" },
+    { id: "DEM-1030", q: "Réceptionniste", service: "Hébergement", dateISO: "2026-09-22", date: "22/09/2026", horaire: "7h–15h", debutISO: "2026-09-22T07:00:00", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Anna Pizzol"], evaluee: true, note: 5 },
+    { id: "DEM-1029", q: "Réceptionniste", service: "Hébergement", dateISO: "2026-09-21", date: "21/09/2026", horaire: "7h–15h", debutISO: "2026-09-21T07:00:00", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Anna Pizzol"], evaluee: false },
+    { id: "DEM-1021", q: "Commis de cuisine", service: "Restauration", dateISO: "2026-09-19", date: "19/09/2026", horaire: "9h–17h", debutISO: "2026-09-19T09:00:00", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 16.0, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Julien Martin"], evaluee: true, note: 4 },
+    { id: "DEM-1018", q: "Bagagiste", service: "Hébergement", dateISO: "2026-09-20", date: "20/09/2026", horaire: "7h–15h", debutISO: "2026-09-20T07:00:00", statut: "annulee", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 13.5, lot: null, lieu: "Hyatt Regency Paris Étoile" }
   ];
 
   const STATUT_META = {
-    astaffer: { label: "À staffer", cls: "bg-amber-100 text-amber-700" },
-    encours:  { label: "En cours", cls: "bg-blue-100 text-blue-700" },
+    encours: { label: "En cours", cls: "bg-amber-100 text-amber-700" },
+    staffee:  { label: "Staffée", cls: "bg-blue-100 text-blue-700" },
     termine:  { label: "Terminée", cls: "bg-gray-100 text-gray-600" },
     annulee:  { label: "Annulée", cls: "bg-red-100 text-red-700" }
   };
@@ -443,8 +443,8 @@
   }
 
   function load() {
-    const id = new URLSearchParams(window.location.search).get('id') || COMMANDES[0].id;
-    const c = COMMANDES.find(x => x.id === id) || COMMANDES[0];
+    const id = new URLSearchParams(window.location.search).get('id') || DEMANDES[0].id;
+    const c = DEMANDES.find(x => x.id === id) || DEMANDES[0];
     const meta = STATUT_META[c.statut];
 
     document.getElementById('c-titre').textContent = `${c.q} — ${c.id}`;
@@ -459,10 +459,10 @@
     if (c.lot) {
       document.getElementById('c-lot').classList.remove('hidden');
       document.getElementById('c-lot').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="m10 13-1 1a3 3 0 1 0 4 4l1-1"></path><path d="m14 11 1-1a3 3 0 1 0-4-4l-1 1"></path></svg> Issue d'une saisie groupée · ${c.lot}`;
-      const lotRows = COMMANDES.filter(x => x.lot === c.lot);
+      const lotRows = DEMANDES.filter(x => x.lot === c.lot);
       document.getElementById('lot-block').classList.remove('hidden');
       document.getElementById('lot-list').innerHTML = lotRows.map(x => `
-        <a href="client-commande-detail.html?id=${x.id}" class="flex items-center justify-between px-3 py-2 rounded-lg text-sm ${x.id===c.id ? 'bg-red-50 border border-[#A63629]/30' : 'hover:bg-gray-50'}">
+        <a href="client-demande-detail.html?id=${x.id}" class="flex items-center justify-between px-3 py-2 rounded-lg text-sm ${x.id===c.id ? 'bg-red-50 border border-[#A63629]/30' : 'hover:bg-gray-50'}">
           <span class="font-medium text-gray-700">${x.date}</span>
           <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${STATUT_META[x.statut].cls}">${STATUT_META[x.statut].label}</span>
         </a>`).join('');
@@ -530,7 +530,7 @@
     }
 
     // historique evaluations
-    const evalRows = COMMANDES.filter(x => x.evaluee);
+    const evalRows = DEMANDES.filter(x => x.evaluee);
     document.getElementById('eval-history').innerHTML = evalRows.length ? evalRows.map(x => `
       <div class="flex items-center justify-between text-sm">
         <div>
@@ -541,12 +541,12 @@
       </div>
     `).join('') : `<p class="text-xs text-gray-400">Aucune évaluation laissée pour le moment.</p>`;
 
-    window._currentCommande = c;
+    window._currentDemande = c;
   }
 
   function submitEvaluation() {
     if (currentRating === 0) { alert("Sélectionnez une note de 1 à 5 étoiles."); return; }
-    const c = window._currentCommande;
+    const c = window._currentDemande;
     c.evaluee = true; c.note = currentRating;
     document.getElementById('eval-form').classList.add('hidden');
     document.getElementById('eval-done').classList.remove('hidden');
@@ -555,9 +555,9 @@
   }
 
   function demanderAnnulation() {
-    const c = window._currentCommande;
+    const c = window._currentDemande;
     if (document.getElementById('btn-annulation').disabled) return;
-    if (!confirm("Confirmer la demande d'annulation de cette commande auprès d'Adaptel ?")) return;
+    if (!confirm("Demander à Adaptel l'annulation de cette demande ?")) return;
     c.annulationDemandee = true;
     c.annulationDate = "23/09/2026 09:00";
     load();
@@ -566,5 +566,6 @@
   document.addEventListener('DOMContentLoaded', load);
 </script>
 
+<script src="assets/etab-selector.js"></script>
 </body>
 </html>

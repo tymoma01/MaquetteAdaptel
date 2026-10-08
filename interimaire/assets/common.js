@@ -210,7 +210,7 @@ function ensureMissionModal(){
         </div>
         <div class="locked-field rounded-xl p-3 flex items-center gap-2 text-xs">
           ${icon('lock', 'w-3.5 h-3.5 flex-shrink-0')}
-          <span>Motif de la commande : information interne réservée aux équipes Adaptel — non communiquée à l'intérimaire.</span>
+          <span>Motif de la demande : information interne réservée aux équipes Adaptel — non communiquée à l'intérimaire.</span>
         </div>
         <div id="mm-actions" class="flex items-center justify-end gap-2 pt-1"></div>
       </div>

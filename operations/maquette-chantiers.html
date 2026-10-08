@@ -77,10 +77,10 @@
           <span class="font-medium">Recherche dispo.</span>
         </div>
       </a>
-      <a class="block" href="maquette-commandes.html">
+      <a class="block" href="maquette-demandes.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Commandes</span>
+          <span class="font-medium">Demandes</span>
         </div>
       </a>
       <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
@@ -180,7 +180,7 @@
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
                   Suivi des missions
                 </h3>
-                <p class="text-sm text-gray-500 mt-0.5 max-w-xl">Exportez le détail des missions passées sur une période, tous chantiers confondus. Le délai moyen commande → début de mission se recalcule sur la même période.</p>
+                <p class="text-sm text-gray-500 mt-0.5 max-w-xl">Exportez le détail des missions passées sur une période, tous chantiers confondus. Le délai moyen demande → début de mission se recalcule sur la même période.</p>
               </div>
               <div class="flex flex-wrap items-end gap-2">
                 <div>
@@ -205,7 +205,7 @@
                 <p id="kpi-integrations-sub" class="text-xs text-gray-500 mt-1">Missions démarrées le mois précédent, tous chantiers confondus</p>
               </div>
               <div class="rounded-xl border border-gray-200 bg-gray-50/60 p-4">
-                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Délai moyen commande → début de mission</p>
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Délai moyen demande → début de mission</p>
                 <p id="kpi-delai" class="text-3xl font-bold text-gray-900 mt-1">—</p>
                 <p id="kpi-delai-sub" class="text-xs text-gray-500 mt-1">—</p>
               </div>
@@ -220,7 +220,7 @@
                 <p id="kpi-interimaires-sub" class="text-xs text-gray-500 mt-1">—</p>
               </div>
               <div class="rounded-xl border border-gray-200 bg-gray-50/60 p-4">
-                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Dépannages (commande jour même)</p>
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Dépannages (demande jour même)</p>
                 <p id="kpi-depannages" class="text-3xl font-bold text-gray-900 mt-1">—</p>
                 <p id="kpi-depannages-sub" class="text-xs text-gray-500 mt-1">—</p>
               </div>
@@ -303,7 +303,7 @@
                     <td class="px-4 py-3 align-middle">
                       <div class="flex items-center gap-1.5 flex-wrap">
                         <span class="inline-flex items-center rounded-full border border-transparent bg-green-600 text-white text-xs font-semibold px-2.5 py-0.5">Validé</span>
-                        <span class="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5 cursor-help" title="Retards de règlement récurrents sur les dernières échéances — vérifier la solvabilité avant d'engager de nouvelles commandes.">
+                        <span class="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5 cursor-help" title="Retards de règlement récurrents sur les dernières échéances — vérifier la solvabilité avant d'engager de nouvelles demandes.">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
                           À suivre
                         </span>
@@ -514,37 +514,37 @@
 <script>
   // ===== Suivi des missions : KPI + export CSV =====
   // Cosmetic: client-side only, no persistence — jeu de données illustratif représentant des
-  // missions passées sur différents chantiers (date de commande vs date de début de mission).
+  // missions passées sur différents chantiers (date de demande vs date de début de mission).
   const MISSIONS = [
-    { immat: '007707010000153', chantier: 'FLEXI BANQUET - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Chef de rang', interim: 'Julien Marchand', dateCommande: '2026-01-05', dateDebut: '2026-01-12', dateFin: '2026-01-14', statut: 'Terminée' },
-    { immat: '007707010000031', chantier: "FLEXI HOTE/HOTESSE - HYATT REGENCY PARIS ETOILE", ville: '75017 PARIS', qualif: "Hôtesse d'accueil", interim: 'Camille Bertrand', dateCommande: '2026-02-02', dateDebut: '2026-02-09', dateFin: '2026-02-09', statut: 'Terminée' },
-    { immat: '007707010000028', chantier: 'FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Femme de chambre', interim: 'Nadia Ouedraogo', dateCommande: '2026-02-18', dateDebut: '2026-02-20', dateFin: '2026-02-25', statut: 'Terminée' },
-    { immat: '006900136100298', chantier: '10 DOIGTS', ville: '59115 LEERS', qualif: 'Serveuse', interim: 'Manon Lefebvre', dateCommande: '2026-03-01', dateDebut: '2026-03-10', dateFin: '2026-03-10', statut: 'Terminée' },
-    { immat: '001102469103548', chantier: '108 CAFE', ville: '75019 PARIS 19', qualif: 'Barman', interim: 'Karim Haddad', dateCommande: '2026-03-15', dateDebut: '2026-03-18', dateFin: '2026-03-19', statut: 'Terminée' },
-    { immat: '002204228213819', chantier: '11BAUER ETAGES', ville: '93400 SAINT-OUEN', qualif: 'Femme de chambre', interim: 'Fatou Diarra', dateCommande: '2026-04-02', dateDebut: '2026-04-08', dateFin: '2026-04-12', statut: 'Terminée' },
-    { immat: '002204228213818', chantier: '11BAUER RECEPTION', ville: '93400 SAINT-OUEN', qualif: 'Réceptionniste', interim: 'Thomas Nguyen', dateCommande: '2026-04-20', dateDebut: '2026-04-25', dateFin: '2026-04-30', statut: 'Terminée' },
-    { immat: '006900181100499', chantier: '1PULSE9', ville: '59274 MARQUILLIES', qualif: 'Serveur', interim: 'Léa Girard', dateCommande: '2026-05-04', dateDebut: '2026-05-11', dateFin: '2026-05-11', statut: 'Terminée' },
-    { immat: '006900181101781', chantier: '1PULSE9 - ARTOIS EXPO', ville: '62223 SAINT-LAURENT-BLANGY', qualif: 'Plongeur', interim: 'Rachid Belkacem', dateCommande: '2026-05-22', dateDebut: '2026-05-29', dateFin: '2026-06-01', statut: 'Terminée' },
-    { immat: '006900181100965', chantier: '1PULSE9 - COMPLEXE REGIONAL MARECHAL', ville: '62440 HARNES', qualif: 'Cuisinier', interim: 'Sophie Renard', dateCommande: '2026-06-03', dateDebut: '2026-06-10', dateFin: '2026-06-12', statut: 'Terminée' },
-    { immat: '007707010000153', chantier: 'FLEXI BANQUET - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: "Maître d'hôtel", interim: 'Julien Marchand', dateCommande: '2026-06-15', dateDebut: '2026-06-22', dateFin: '2026-06-24', statut: 'Terminée' },
-    { immat: '007707010000028', chantier: 'FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Femme de chambre', interim: 'Nadia Ouedraogo', dateCommande: '2026-07-01', dateDebut: '2026-07-06', dateFin: '2026-07-10', statut: 'Terminée' },
-    { immat: '006900136100298', chantier: '10 DOIGTS', ville: '59115 LEERS', qualif: 'Plongeur', interim: 'Yanis Moreau', dateCommande: '2026-07-14', dateDebut: '2026-07-21', dateFin: '2026-07-21', statut: 'Terminée' },
-    { immat: '001102469103548', chantier: '108 CAFE', ville: '75019 PARIS 19', qualif: 'Serveuse', interim: 'Manon Lefebvre', dateCommande: '2026-07-25', dateDebut: '2026-08-01', dateFin: '2026-08-01', statut: 'Terminée' },
-    { immat: '007707010000031', chantier: "FLEXI HOTE/HOTESSE - HYATT REGENCY PARIS ETOILE", ville: '75017 PARIS', qualif: "Hôtesse d'accueil", interim: 'Camille Bertrand', dateCommande: '2026-08-03', dateDebut: '2026-08-05', dateFin: '2026-08-05', statut: 'Terminée' },
-    { immat: '002204228213819', chantier: '11BAUER ETAGES', ville: '93400 SAINT-OUEN', qualif: 'Femme de chambre', interim: 'Fatou Diarra', dateCommande: '2026-08-10', dateDebut: '2026-08-12', dateFin: '2026-08-16', statut: 'Terminée' },
-    { immat: '006900181100499', chantier: '1PULSE9', ville: '59274 MARQUILLIES', qualif: 'Barman', interim: 'Karim Haddad', dateCommande: '2026-08-14', dateDebut: '2026-08-19', dateFin: '2026-08-19', statut: 'Terminée' },
-    { immat: '007707010000153', chantier: 'FLEXI BANQUET - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Chef de rang', interim: 'Julien Marchand', dateCommande: '2026-08-20', dateDebut: '2026-08-27', dateFin: '2026-08-29', statut: 'Terminée' },
-    { immat: '002204228213818', chantier: '11BAUER RECEPTION', ville: '93400 SAINT-OUEN', qualif: 'Réceptionniste', interim: 'Thomas Nguyen', dateCommande: '2026-08-24', dateDebut: '2026-08-31', dateFin: '2026-09-05', statut: 'Terminée' },
-    { immat: '006900181101781', chantier: '1PULSE9 - ARTOIS EXPO', ville: '62223 SAINT-LAURENT-BLANGY', qualif: 'Cuisinier', interim: 'Sophie Renard', dateCommande: '2026-09-02', dateDebut: '2026-09-09', dateFin: '2026-09-12', statut: 'Terminée' },
-    { immat: '007707010000028', chantier: 'FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Femme de chambre', interim: 'Nadia Ouedraogo', dateCommande: '2026-09-10', dateDebut: '2026-09-15', dateFin: '2026-09-20', statut: 'En cours' },
-    { immat: '001102469103548', chantier: '108 CAFE', ville: '75019 PARIS 19', qualif: 'Plongeur', interim: 'Yanis Moreau', dateCommande: '2026-09-18', dateDebut: '2026-09-24', dateFin: '', statut: 'En cours' },
-    { immat: '007707010000028', chantier: 'FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Femme de chambre', interim: 'Inès Pelletier', dateCommande: '2026-08-27', dateDebut: '2026-09-01', dateFin: '2026-09-03', statut: 'Terminée' },
-    { immat: '002204228213818', chantier: '11BAUER RECEPTION', ville: '93400 SAINT-OUEN', qualif: 'Réceptionniste', interim: 'Thomas Nguyen', dateCommande: '2026-08-13', dateDebut: '2026-08-13', dateFin: '2026-08-13', statut: 'Terminée' },
-    { immat: '006900181100499', chantier: '1PULSE9', ville: '59274 MARQUILLIES', qualif: 'Serveur', interim: 'Léa Girard', dateCommande: '2026-07-09', dateDebut: '2026-07-09', dateFin: '2026-07-09', statut: 'Terminée' },
-    { immat: '007707010000153', chantier: 'FLEXI BANQUET - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Chef de rang', interim: 'Julien Marchand', dateCommande: '2026-09-22', dateDebut: '2026-09-22', dateFin: '2026-09-22', statut: 'Terminée' },
-    { immat: '007707010000031', chantier: "FLEXI HOTE/HOTESSE - HYATT REGENCY PARIS ETOILE", ville: '75017 PARIS', qualif: "Hôtesse d'accueil", interim: 'Camille Bertrand', dateCommande: '2026-08-06', dateDebut: '2026-08-11', dateFin: '', statut: 'Annulée' },
-    { immat: '001102469103548', chantier: '108 CAFE', ville: '75019 PARIS 19', qualif: 'Barman', interim: 'Karim Haddad', dateCommande: '2026-09-05', dateDebut: '2026-09-12', dateFin: '', statut: 'Annulée' },
-    { immat: '006900181101781', chantier: '1PULSE9 - ARTOIS EXPO', ville: '62223 SAINT-LAURENT-BLANGY', qualif: 'Plongeur', interim: '', dateCommande: '2026-09-19', dateDebut: '2026-09-19', dateFin: '', statut: 'Annulée' }
+    { immat: '007707010000153', chantier: 'FLEXI BANQUET - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Chef de rang', interim: 'Julien Marchand', dateDemande: '2026-01-05', dateDebut: '2026-01-12', dateFin: '2026-01-14', statut: 'Terminée' },
+    { immat: '007707010000031', chantier: "FLEXI HOTE/HOTESSE - HYATT REGENCY PARIS ETOILE", ville: '75017 PARIS', qualif: "Hôtesse d'accueil", interim: 'Camille Bertrand', dateDemande: '2026-02-02', dateDebut: '2026-02-09', dateFin: '2026-02-09', statut: 'Terminée' },
+    { immat: '007707010000028', chantier: 'FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Femme de chambre', interim: 'Nadia Ouedraogo', dateDemande: '2026-02-18', dateDebut: '2026-02-20', dateFin: '2026-02-25', statut: 'Terminée' },
+    { immat: '006900136100298', chantier: '10 DOIGTS', ville: '59115 LEERS', qualif: 'Serveuse', interim: 'Manon Lefebvre', dateDemande: '2026-03-01', dateDebut: '2026-03-10', dateFin: '2026-03-10', statut: 'Terminée' },
+    { immat: '001102469103548', chantier: '108 CAFE', ville: '75019 PARIS 19', qualif: 'Barman', interim: 'Karim Haddad', dateDemande: '2026-03-15', dateDebut: '2026-03-18', dateFin: '2026-03-19', statut: 'Terminée' },
+    { immat: '002204228213819', chantier: '11BAUER ETAGES', ville: '93400 SAINT-OUEN', qualif: 'Femme de chambre', interim: 'Fatou Diarra', dateDemande: '2026-04-02', dateDebut: '2026-04-08', dateFin: '2026-04-12', statut: 'Terminée' },
+    { immat: '002204228213818', chantier: '11BAUER RECEPTION', ville: '93400 SAINT-OUEN', qualif: 'Réceptionniste', interim: 'Thomas Nguyen', dateDemande: '2026-04-20', dateDebut: '2026-04-25', dateFin: '2026-04-30', statut: 'Terminée' },
+    { immat: '006900181100499', chantier: '1PULSE9', ville: '59274 MARQUILLIES', qualif: 'Serveur', interim: 'Léa Girard', dateDemande: '2026-05-04', dateDebut: '2026-05-11', dateFin: '2026-05-11', statut: 'Terminée' },
+    { immat: '006900181101781', chantier: '1PULSE9 - ARTOIS EXPO', ville: '62223 SAINT-LAURENT-BLANGY', qualif: 'Plongeur', interim: 'Rachid Belkacem', dateDemande: '2026-05-22', dateDebut: '2026-05-29', dateFin: '2026-06-01', statut: 'Terminée' },
+    { immat: '006900181100965', chantier: '1PULSE9 - COMPLEXE REGIONAL MARECHAL', ville: '62440 HARNES', qualif: 'Cuisinier', interim: 'Sophie Renard', dateDemande: '2026-06-03', dateDebut: '2026-06-10', dateFin: '2026-06-12', statut: 'Terminée' },
+    { immat: '007707010000153', chantier: 'FLEXI BANQUET - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: "Maître d'hôtel", interim: 'Julien Marchand', dateDemande: '2026-06-15', dateDebut: '2026-06-22', dateFin: '2026-06-24', statut: 'Terminée' },
+    { immat: '007707010000028', chantier: 'FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Femme de chambre', interim: 'Nadia Ouedraogo', dateDemande: '2026-07-01', dateDebut: '2026-07-06', dateFin: '2026-07-10', statut: 'Terminée' },
+    { immat: '006900136100298', chantier: '10 DOIGTS', ville: '59115 LEERS', qualif: 'Plongeur', interim: 'Yanis Moreau', dateDemande: '2026-07-14', dateDebut: '2026-07-21', dateFin: '2026-07-21', statut: 'Terminée' },
+    { immat: '001102469103548', chantier: '108 CAFE', ville: '75019 PARIS 19', qualif: 'Serveuse', interim: 'Manon Lefebvre', dateDemande: '2026-07-25', dateDebut: '2026-08-01', dateFin: '2026-08-01', statut: 'Terminée' },
+    { immat: '007707010000031', chantier: "FLEXI HOTE/HOTESSE - HYATT REGENCY PARIS ETOILE", ville: '75017 PARIS', qualif: "Hôtesse d'accueil", interim: 'Camille Bertrand', dateDemande: '2026-08-03', dateDebut: '2026-08-05', dateFin: '2026-08-05', statut: 'Terminée' },
+    { immat: '002204228213819', chantier: '11BAUER ETAGES', ville: '93400 SAINT-OUEN', qualif: 'Femme de chambre', interim: 'Fatou Diarra', dateDemande: '2026-08-10', dateDebut: '2026-08-12', dateFin: '2026-08-16', statut: 'Terminée' },
+    { immat: '006900181100499', chantier: '1PULSE9', ville: '59274 MARQUILLIES', qualif: 'Barman', interim: 'Karim Haddad', dateDemande: '2026-08-14', dateDebut: '2026-08-19', dateFin: '2026-08-19', statut: 'Terminée' },
+    { immat: '007707010000153', chantier: 'FLEXI BANQUET - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Chef de rang', interim: 'Julien Marchand', dateDemande: '2026-08-20', dateDebut: '2026-08-27', dateFin: '2026-08-29', statut: 'Terminée' },
+    { immat: '002204228213818', chantier: '11BAUER RECEPTION', ville: '93400 SAINT-OUEN', qualif: 'Réceptionniste', interim: 'Thomas Nguyen', dateDemande: '2026-08-24', dateDebut: '2026-08-31', dateFin: '2026-09-05', statut: 'Terminée' },
+    { immat: '006900181101781', chantier: '1PULSE9 - ARTOIS EXPO', ville: '62223 SAINT-LAURENT-BLANGY', qualif: 'Cuisinier', interim: 'Sophie Renard', dateDemande: '2026-09-02', dateDebut: '2026-09-09', dateFin: '2026-09-12', statut: 'Terminée' },
+    { immat: '007707010000028', chantier: 'FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Femme de chambre', interim: 'Nadia Ouedraogo', dateDemande: '2026-09-10', dateDebut: '2026-09-15', dateFin: '2026-09-20', statut: 'En cours' },
+    { immat: '001102469103548', chantier: '108 CAFE', ville: '75019 PARIS 19', qualif: 'Plongeur', interim: 'Yanis Moreau', dateDemande: '2026-09-18', dateDebut: '2026-09-24', dateFin: '', statut: 'En cours' },
+    { immat: '007707010000028', chantier: 'FLEXI HOUSEKEEPING - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Femme de chambre', interim: 'Inès Pelletier', dateDemande: '2026-08-27', dateDebut: '2026-09-01', dateFin: '2026-09-03', statut: 'Terminée' },
+    { immat: '002204228213818', chantier: '11BAUER RECEPTION', ville: '93400 SAINT-OUEN', qualif: 'Réceptionniste', interim: 'Thomas Nguyen', dateDemande: '2026-08-13', dateDebut: '2026-08-13', dateFin: '2026-08-13', statut: 'Terminée' },
+    { immat: '006900181100499', chantier: '1PULSE9', ville: '59274 MARQUILLIES', qualif: 'Serveur', interim: 'Léa Girard', dateDemande: '2026-07-09', dateDebut: '2026-07-09', dateFin: '2026-07-09', statut: 'Terminée' },
+    { immat: '007707010000153', chantier: 'FLEXI BANQUET - HYATT REGENCY PARIS ETOILE', ville: '75017 PARIS', qualif: 'Chef de rang', interim: 'Julien Marchand', dateDemande: '2026-09-22', dateDebut: '2026-09-22', dateFin: '2026-09-22', statut: 'Terminée' },
+    { immat: '007707010000031', chantier: "FLEXI HOTE/HOTESSE - HYATT REGENCY PARIS ETOILE", ville: '75017 PARIS', qualif: "Hôtesse d'accueil", interim: 'Camille Bertrand', dateDemande: '2026-08-06', dateDebut: '2026-08-11', dateFin: '', statut: 'Annulée' },
+    { immat: '001102469103548', chantier: '108 CAFE', ville: '75019 PARIS 19', qualif: 'Barman', interim: 'Karim Haddad', dateDemande: '2026-09-05', dateDebut: '2026-09-12', dateFin: '', statut: 'Annulée' },
+    { immat: '006900181101781', chantier: '1PULSE9 - ARTOIS EXPO', ville: '62223 SAINT-LAURENT-BLANGY', qualif: 'Plongeur', interim: '', dateDemande: '2026-09-19', dateDebut: '2026-09-19', dateFin: '', statut: 'Annulée' }
   ];
 
   function isoDate(d){ return d.toISOString().slice(0, 10); }
@@ -592,7 +592,7 @@
     document.getElementById('kpi-integrations-sub').textContent = `${count} mission${count > 1 ? 's' : ''} démarrée${count > 1 ? 's' : ''} en ${label}`;
   }
 
-  // KPI 2 : délai moyen commande -> début de mission, sur la période sélectionnée (missions honorées uniquement)
+  // KPI 2 : délai moyen demande -> début de mission, sur la période sélectionnée (missions honorées uniquement)
   function renderDelaiKpi(){
     const missions = executedMissionsInPeriod();
     const delaiEl = document.getElementById('kpi-delai');
@@ -602,7 +602,7 @@
       subEl.textContent = 'Aucune mission sur la période sélectionnée';
       return;
     }
-    const delais = missions.map(m => daysBetween(m.dateCommande, m.dateDebut));
+    const delais = missions.map(m => daysBetween(m.dateDemande, m.dateDebut));
     const moyenne = delais.reduce((a, b) => a + b, 0) / delais.length;
     delaiEl.textContent = `${moyenne.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} j`;
     subEl.textContent = `Sur ${missions.length} mission${missions.length > 1 ? 's' : ''} · du ${fmtDateFr(startInput.value)} au ${fmtDateFr(endInput.value)}`;
@@ -614,7 +614,7 @@
     const annulees = missions.filter(m => m.statut === 'Annulée');
     document.getElementById('kpi-annulations').textContent = annulees.length;
     document.getElementById('kpi-annulations-sub').textContent = missions.length
-      ? `${annulees.length} sur ${missions.length} commande${missions.length > 1 ? 's' : ''} du ${fmtDateFr(startInput.value)} au ${fmtDateFr(endInput.value)}`
+      ? `${annulees.length} sur ${missions.length} demande${missions.length > 1 ? 's' : ''} du ${fmtDateFr(startInput.value)} au ${fmtDateFr(endInput.value)}`
       : 'Aucune mission sur la période sélectionnée';
   }
 
@@ -626,10 +626,10 @@
     document.getElementById('kpi-interimaires-sub').textContent = `Sur ${missions.length} mission${missions.length > 1 ? 's' : ''} honorée${missions.length > 1 ? 's' : ''} · du ${fmtDateFr(startInput.value)} au ${fmtDateFr(endInput.value)}`;
   }
 
-  // KPI 5 : dépannages, missions commandées et démarrées le jour même, sur la période sélectionnée
+  // KPI 5 : dépannages, missions demandées et démarrées le jour même, sur la période sélectionnée
   function renderDepannagesKpi(){
     const missions = executedMissionsInPeriod();
-    const depannages = missions.filter(m => m.dateCommande === m.dateDebut);
+    const depannages = missions.filter(m => m.dateDemande === m.dateDebut);
     document.getElementById('kpi-depannages').textContent = depannages.length;
     document.getElementById('kpi-depannages-sub').textContent = missions.length
       ? `${depannages.length} sur ${missions.length} mission${missions.length > 1 ? 's' : ''} honorée${missions.length > 1 ? 's' : ''}`
@@ -650,10 +650,10 @@
       alert('Aucune mission à exporter sur la période sélectionnée.');
       return;
     }
-    const header = ['Immat', 'Chantier', 'Ville', 'Qualification', 'Intérimaire', 'Date commande', 'Date début mission', 'Date fin mission', 'Statut'];
+    const header = ['Immat', 'Chantier', 'Ville', 'Qualification', 'Intérimaire', 'Date demande', 'Date début mission', 'Date fin mission', 'Statut'];
     const rows = missions.map(m => [
       m.immat, m.chantier, m.ville, m.qualif, m.interim,
-      fmtDateFr(m.dateCommande), fmtDateFr(m.dateDebut), m.dateFin ? fmtDateFr(m.dateFin) : '',
+      fmtDateFr(m.dateDemande), fmtDateFr(m.dateDebut), m.dateFin ? fmtDateFr(m.dateFin) : '',
       m.statut
     ]);
     const csv = [header, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(';')).join('\r\n');

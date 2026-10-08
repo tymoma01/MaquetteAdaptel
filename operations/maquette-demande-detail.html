@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Adaptel - Fiche commande</title>
+<title>Adaptel - Fiche demande</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root { color-scheme: light; }
@@ -79,10 +79,10 @@
           <span class="font-medium">Recherche dispo.</span>
         </div>
       </a>
-      <a class="block" href="maquette-commandes.html">
+      <a class="block" href="maquette-demandes.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Commandes</span>
+          <span class="font-medium">Demandes</span>
         </div>
       </a>
       <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
@@ -142,24 +142,24 @@
 
     <div class="p-6 space-y-6 max-w-5xl mx-auto w-full">
 
-      <a href="maquette-commandes.html" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-[#A63629] transition-colors">
+      <a href="maquette-demandes.html" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-[#A63629] transition-colors">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
-        Retour à la liste des commandes
+        Retour à la liste des demandes
       </a>
 
       <!-- TITLE + ACTIONS -->
       <div class="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <div class="flex items-center gap-2 flex-wrap">
-            <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded">CMD-2609-01</span>
+            <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded">DEM-2609-01</span>
             <span id="p-statut-badge" class="inline-flex items-center rounded-full border text-xs font-semibold px-2.5 py-1"></span>
           </div>
           <h1 class="text-2xl font-bold text-gray-900 mt-2">Chef de rang · <a href="maquette-client-detail.html" class="text-[#A63629] hover:underline">Hôtel Le Meurice</a></h1>
           <p class="text-gray-600 mt-0.5">Chantier : <a href="maquette-chantier-detail.html" class="font-medium text-gray-800 hover:text-[#A63629] hover:underline">Salle / Resto</a> · Agence 001</p>
         </div>
-        <button type="button" id="btn-annuler-commande" onclick="openCancelModal()" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-red-300 bg-white text-red-600 shadow-sm hover:bg-red-50 h-10 px-4">
+        <button type="button" id="btn-annuler-demande" onclick="openCancelModal()" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-red-300 bg-white text-red-600 shadow-sm hover:bg-red-50 h-10 px-4">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
-          Annuler la commande
+          Annuler la demande
         </button>
       </div>
 
@@ -229,7 +229,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
             Horaires &amp; pause
           </h3>
-          <p class="text-xs text-gray-500 mt-1">Préremplis depuis l'horaire type et la pause par défaut de la qualification « Chef de rang » — modifiables au cas par cas sur cette commande.</p>
+          <p class="text-xs text-gray-500 mt-1">Préremplis depuis l'horaire type et la pause par défaut de la qualification « Chef de rang » — modifiables au cas par cas sur cette demande.</p>
         </div>
         <div class="p-6 pt-0">
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -289,12 +289,12 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M9 17H7A5 5 0 0 1 7 7h2"></path><path d="M15 7h2a5 5 0 1 1 0 10h-2"></path><line x1="8" x2="16" y1="12" y2="12"></line></svg>
             Traçabilité — saisie calendrier groupée
           </h3>
-          <p class="text-xs text-indigo-700 mt-1">Le client a sélectionné plusieurs jours en une seule saisie ; la plateforme les a automatiquement répartis en commandes distinctes (une coupure de plus de 2 jours calendaires sépare deux commandes).</p>
+          <p class="text-xs text-indigo-700 mt-1">Le client a sélectionné plusieurs jours en une seule saisie ; la plateforme les a automatiquement répartis en demandes distinctes (une coupure de plus de 2 jours calendaires sépare deux demandes).</p>
         </div>
         <div class="p-6 pt-0 flex flex-wrap gap-2">
-          <a href="maquette-commandes.html" class="inline-flex items-center gap-1.5 rounded-lg border border-indigo-300 bg-white text-indigo-800 text-xs font-semibold px-3 py-1.5 hover:bg-indigo-100 transition-colors">CMD-2609-17 · 21 sept.</a>
-          <a href="maquette-commandes.html" class="inline-flex items-center gap-1.5 rounded-lg border border-indigo-300 bg-white text-indigo-800 text-xs font-semibold px-3 py-1.5 hover:bg-indigo-100 transition-colors">CMD-2609-18 · 22 sept.</a>
-          <span class="inline-flex items-center gap-1.5 rounded-lg border border-indigo-400 bg-indigo-600 text-white text-xs font-semibold px-3 py-1.5">CMD-2609-19 · 24 sept. (commande actuelle)</span>
+          <a href="maquette-demandes.html" class="inline-flex items-center gap-1.5 rounded-lg border border-indigo-300 bg-white text-indigo-800 text-xs font-semibold px-3 py-1.5 hover:bg-indigo-100 transition-colors">DEM-2609-17 · 21 sept.</a>
+          <a href="maquette-demandes.html" class="inline-flex items-center gap-1.5 rounded-lg border border-indigo-300 bg-white text-indigo-800 text-xs font-semibold px-3 py-1.5 hover:bg-indigo-100 transition-colors">DEM-2609-18 · 22 sept.</a>
+          <span class="inline-flex items-center gap-1.5 rounded-lg border border-indigo-400 bg-indigo-600 text-white text-xs font-semibold px-3 py-1.5">DEM-2609-19 · 24 sept. (demande actuelle)</span>
         </div>
       </div>
 
@@ -321,8 +321,8 @@
   <div class="bg-white rounded-xl shadow-2xl w-full max-w-md">
     <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3">
       <div>
-        <h3 class="font-bold text-gray-900 text-lg">Annuler la commande</h3>
-        <p class="text-xs text-gray-500 mt-0.5">CMD-2609-01 · Hôtel Le Meurice</p>
+        <h3 class="font-bold text-gray-900 text-lg">Annuler la demande</h3>
+        <p class="text-xs text-gray-500 mt-0.5">DEM-2609-01 · Hôtel Le Meurice</p>
       </div>
       <button type="button" onclick="closeCancelModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
@@ -333,14 +333,14 @@
         <input type="radio" name="cancel-scope" value="jour" checked onchange="updateCancelScope()" class="mt-1 w-4 h-4 text-[#A63629]">
         <div class="flex-1">
           <p class="text-sm font-semibold text-gray-900">Annuler un ou plusieurs jours précis</p>
-          <p class="text-xs text-gray-500 mt-0.5">La commande est raccourcie : les autres jours restent actifs. Les jours annulés restent visibles, marqués comme annulés.</p>
+          <p class="text-xs text-gray-500 mt-0.5">La demande est raccourcie : les autres jours restent actifs. Les jours annulés restent visibles, marqués comme annulés.</p>
           <div id="cancel-day-list" class="mt-2 max-h-40 overflow-y-auto space-y-1 rounded-lg border border-gray-200 bg-white p-2"></div>
         </div>
       </label>
       <label class="flex items-start gap-3 p-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50">
         <input type="radio" name="cancel-scope" value="totale" onchange="updateCancelScope()" class="mt-1 w-4 h-4 text-[#A63629]">
         <div class="flex-1">
-          <p class="text-sm font-semibold text-gray-900">Annuler toute la commande</p>
+          <p class="text-sm font-semibold text-gray-900">Annuler toute la demande</p>
           <p class="text-xs text-red-600 mt-0.5">Tous les jours restants seront annulés, y compris ceux déjà attribués.</p>
         </div>
       </label>
@@ -353,7 +353,7 @@
 </div>
 
 <script>
-  // ===== Modèle de la commande (démo) =====
+  // ===== Modèle de la demande (démo) =====
   let statut = 'À staffer';
   const days = [
     { date: '2026-09-21', label: 'Lun. 21 sept.', cancelled: false },
@@ -364,7 +364,7 @@
   ];
 
   const historique = [
-    { date: '20/09/2026 09:12', auteur: 'Client — Hôtel Le Meurice', action: 'Commande créée depuis le calendrier client (5 jours sélectionnés).' },
+    { date: '20/09/2026 09:12', auteur: 'Client — Hôtel Le Meurice', action: 'Demande créée depuis le calendrier client (5 jours sélectionnés).' },
     { date: '20/09/2026 09:13', auteur: 'Système', action: 'Calcul des meilleurs matchs lancé automatiquement.' },
     { date: '21/09/2026 08:40', auteur: 'Sarah Benamar', action: "Heure de fin modifiée : 18:00 → 19:00." },
     { date: '22/09/2026 16:05', auteur: 'Client — Hôtel Le Meurice', action: 'Jour du mercredi 23 septembre annulé (absence exceptionnelle).' }
@@ -434,7 +434,7 @@
   function openCancelModal() {
     const list = document.getElementById('cancel-day-list');
     const activeDays = days.filter(d => !d.cancelled);
-    if (activeDays.length === 0) { alert('Tous les jours de cette commande sont déjà annulés.'); return; }
+    if (activeDays.length === 0) { alert('Tous les jours de cette demande sont déjà annulés.'); return; }
     list.innerHTML = activeDays.map(d => `
       <label class="flex items-center gap-2 py-1 px-1 rounded hover:bg-gray-50 cursor-pointer">
         <input type="checkbox" class="cancel-day-checkbox w-4 h-4 text-[#A63629] rounded border-gray-300 focus:ring-[#A63629]" value="${d.date}">
@@ -466,10 +466,10 @@
     if (scope === 'totale') {
       let count = 0;
       days.forEach(d => {
-        if (!d.cancelled) { d.cancelled = true; d.info = 'Commande annulée intégralement.'; count++; }
+        if (!d.cancelled) { d.cancelled = true; d.info = 'Demande annulée intégralement.'; count++; }
       });
       statut = 'Annulée';
-      addHistorique(`Commande annulée intégralement (${count} jour${count > 1 ? 's' : ''} restant${count > 1 ? 's' : ''} concerné${count > 1 ? 's' : ''}).`);
+      addHistorique(`Demande annulée intégralement (${count} jour${count > 1 ? 's' : ''} restant${count > 1 ? 's' : ''} concerné${count > 1 ? 's' : ''}).`);
     } else {
       const checkedDates = Array.from(document.querySelectorAll('.cancel-day-checkbox:checked')).map(cb => cb.value);
       if (checkedDates.length === 0) { alert('Sélectionnez au moins un jour à annuler.'); return; }
@@ -483,12 +483,12 @@
         }
       });
       addHistorique(cancelledLabels.length > 1
-        ? `Jours annulés (${cancelledLabels.join(', ')}) — commande raccourcie.`
-        : `Jour du ${cancelledLabels[0]} annulé — commande raccourcie.`);
+        ? `Jours annulés (${cancelledLabels.join(', ')}) — demande raccourcie.`
+        : `Jour du ${cancelledLabels[0]} annulé — demande raccourcie.`);
       const stillActive = days.some(d => !d.cancelled);
       if (!stillActive) {
         statut = 'Annulée';
-        addHistorique('Tous les jours de la commande sont désormais annulés — commande automatiquement clôturée.');
+        addHistorique('Tous les jours de la demande sont désormais annulés — demande automatiquement clôturée.');
       }
     }
 
@@ -519,7 +519,7 @@
     const stillActive = days.some(d => !d.cancelled);
     if (!stillActive) {
       statut = 'Annulée';
-      addHistorique('Tous les jours de la commande sont désormais annulés — commande automatiquement clôturée.');
+      addHistorique('Tous les jours de la demande sont désormais annulés — demande automatiquement clôturée.');
     }
     renderStatutBadge();
     renderJours();

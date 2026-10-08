@@ -87,10 +87,10 @@
           <span class="font-medium">Recherche dispo.</span>
         </div>
       </a>
-      <a class="block" href="maquette-commandes.html">
+      <a class="block" href="maquette-demandes.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Commandes</span>
+          <span class="font-medium">Demandes</span>
         </div>
       </a>
       <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
@@ -167,7 +167,7 @@
       <div class="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Reporting</h1>
-          <p class="text-gray-600 text-sm mt-0.5">Suivi du nombre de commandes par jour, secteur et agence</p>
+          <p class="text-gray-600 text-sm mt-0.5">Suivi du nombre de demandes par jour, secteur et agence</p>
         </div>
       </div>
 
@@ -205,7 +205,7 @@
       <!-- KPI -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
-          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total commandes — période</p>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total demandes — période</p>
           <p id="kpi-total" class="text-2xl font-bold text-gray-900 mt-1">—</p>
           <p id="kpi-total-delta" class="text-xs font-semibold mt-1.5"></p>
         </div>
@@ -228,7 +228,7 @@
       <!-- GRAPHIQUE -->
       <div class="viz-root rounded-xl border border-gray-200 bg-white shadow-sm p-5">
         <div class="flex items-center justify-between flex-wrap gap-3 mb-3">
-          <h3 class="text-sm font-bold text-gray-900">Commandes par jour, ventilées par secteur</h3>
+          <h3 class="text-sm font-bold text-gray-900">Demandes par jour, ventilées par secteur</h3>
           <div id="chart-legend" class="flex items-center gap-4 text-xs font-medium text-gray-600"></div>
         </div>
         <div class="relative">
@@ -369,7 +369,7 @@
       <div class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-hidden">
         <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <h3 class="text-sm font-bold text-gray-900">Détail Agence × Secteur</h3>
-          <span class="text-xs text-gray-400">Nombre de commandes par jour</span>
+          <span class="text-xs text-gray-400">Nombre de demandes par jour</span>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
@@ -400,7 +400,7 @@
   const DAY_LABELS = ["Lun. 21/09", "Mar. 22/09", "Mer. 23/09", "Jeu. 24/09", "Ven. 25/09", "Sam. 26/09", "Dim. 27/09"];
   const DAY_LABELS_PREV = ["Lun. 14/09", "Mar. 15/09", "Mer. 16/09", "Jeu. 17/09", "Ven. 18/09", "Sam. 19/09", "Dim. 20/09"];
 
-  // Données de démo : nombre de commandes par jour, pour chaque couple agence / secteur suivi par cette agence.
+  // Données de démo : nombre de demandes par jour, pour chaque couple agence / secteur suivi par cette agence.
   const REPORTING_DATA = {
     "cette-semaine": [
       { agence: "001", secteur: "Housekeeping",  values: [6, 5, 7, 4, 8, 3, 2] },
@@ -660,7 +660,7 @@
     svg.querySelectorAll('.n1-point').forEach(circle => {
       circle.addEventListener('mousemove', (ev) => {
         const dow = DOW_NAMES[parseInt(circle.dataset.day, 10)];
-        tooltip.innerHTML = `<strong>${circle.dataset.val}</strong> commande(s) — Total N-1<br>${dow} · ${WEEK_META[periode].labelN1}`;
+        tooltip.innerHTML = `<strong>${circle.dataset.val}</strong> demande(s) — Total N-1<br>${dow} · ${WEEK_META[periode].labelN1}`;
         tooltip.classList.remove('hidden');
         const svgRect = svg.getBoundingClientRect();
         tooltip.style.left = (ev.clientX - svgRect.left + 12) + 'px';
@@ -672,7 +672,7 @@
     svg.querySelectorAll('.bar-seg').forEach(rect => {
       rect.addEventListener('mousemove', (ev) => {
         const day = DAY_LABELS[parseInt(rect.dataset.day, 10)];
-        tooltip.innerHTML = `<strong>${rect.dataset.val}</strong> commande(s) — ${rect.dataset.dep}<br>${rect.dataset.agence} · ${day}`;
+        tooltip.innerHTML = `<strong>${rect.dataset.val}</strong> demande(s) — ${rect.dataset.dep}<br>${rect.dataset.agence} · ${day}`;
         tooltip.classList.remove('hidden');
         const svgRect = svg.getBoundingClientRect();
         tooltip.style.left = (ev.clientX - svgRect.left + 12) + 'px';

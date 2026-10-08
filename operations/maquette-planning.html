@@ -77,10 +77,10 @@
           <span class="font-medium">Recherche dispo.</span>
         </div>
       </a>
-      <a class="block" href="maquette-commandes.html">
+      <a class="block" href="maquette-demandes.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Commandes</span>
+          <span class="font-medium">Demandes</span>
         </div>
       </a>
       <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
@@ -185,9 +185,9 @@
       </div>
 
       <div class="flex items-center gap-2 flex-wrap">
-        <button type="button" onclick="openCreateCommandeModal()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all shadow bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white hover:opacity-95 h-9 px-3.5 gap-2">
+        <button type="button" onclick="openCreateDemandeModal()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all shadow bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white hover:opacity-95 h-9 px-3.5 gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
-          Nouvelle commande
+          Nouvelle demande
         </button>
         <button type="button" title="Actualiser les matchs" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 h-9 w-9">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
@@ -238,7 +238,7 @@
       <div id="view-day" class="rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm overflow-x-auto" style="-webkit-overflow-scrolling:touch;">
         <div class="lg:min-w-[1760px]">
         <div id="view-day-header" class="hidden lg:grid grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-center gap-3 px-4 py-2 text-xs font-bold text-gray-500 uppercase tracking-wider bg-gray-50 border-b border-gray-200">
-          <button type="button" data-sort-field="cmd" onclick="sortPlanningRows('cmd')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">N° Commande <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
+          <button type="button" data-sort-field="cmd" onclick="sortPlanningRows('cmd')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">N° Demande <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
           <button type="button" data-sort-field="client" onclick="sortPlanningRows('client')" class="flex items-center gap-1 text-left hover:text-gray-800 transition-colors">Client &amp; Chantier <span class="sort-icon opacity-0 text-[9px]">▲</span></button>
           <div>Horaires</div>
           <div>Qualification</div>
@@ -252,11 +252,11 @@
 
         <div id="view-day-rows" class="divide-y divide-gray-200">
           <!-- LIGNE 1 -->
-          <div onclick="openPanel('CMD-2609-01', 'Hôtel Le Meurice', 'Chef de rang', '11:00 - 19:00', '14,20 €/h', 'Remplacement maladie', 'Ven. 25 sept. (5j)', 'Besoin de qqn d\'autonome sur le rang 3.', 'Mme Sophie LAURENT', '01 44 58 10 10', 's.laurent@lemeurice.com', '001', 'Salle / Resto', 'À staffer')"
-               data-cmd="CMD-2609-01" data-client="Hôtel Le Meurice" data-chantier="Salle / Resto" data-motif="Remplacement maladie" data-taux="14.20" data-interimaire="" data-statut="À staffer" data-agence="001" data-secteur="Restauration"
+          <div onclick="openPanel('DEM-2609-01', 'Hôtel Le Meurice', 'Chef de rang', '11:00 - 19:00', '14,20 €/h', 'Remplacement maladie', 'Ven. 25 sept. (5j)', 'Besoin de qqn d\'autonome sur le rang 3.', 'Mme Sophie LAURENT', '01 44 58 10 10', 's.laurent@lemeurice.com', '001', 'Salle / Resto', 'À staffer')"
+               data-cmd="DEM-2609-01" data-client="Hôtel Le Meurice" data-chantier="Salle / Resto" data-motif="Remplacement maladie" data-taux="14.20" data-interimaire="" data-statut="À staffer" data-agence="001" data-secteur="Restauration"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
-              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-01</span>
+              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">DEM-2609-01</span>
             </div>
             <div class="space-y-0.5 min-w-0 pt-0.5">
               <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">Hôtel Le Meurice</span>
@@ -277,10 +277,10 @@
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span id="fin-cell-CMD-2609-01"></span>
+              <span id="fin-cell-DEM-2609-01"></span>
             </div>
             <div>
-              <div id="assign-box-CMD-2609-01" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-01')" class="h-10 rounded-lg border-2 border-dashed border-red-300 bg-red-50/80 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-red-100/70 hover:border-red-400 transition-colors">
+              <div id="assign-box-DEM-2609-01" onclick="event.stopPropagation(); openCandidatesModal('DEM-2609-01')" class="h-10 rounded-lg border-2 border-dashed border-red-300 bg-red-50/80 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-red-100/70 hover:border-red-400 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-red-500 flex-shrink-0"><path d="M5 12h14"></path></svg>
                 <div class="min-w-0 leading-tight">
                   <p class="text-xs font-bold text-red-700 truncate">Aucun attribué</p>
@@ -288,21 +288,21 @@
                 </div>
               </div>
             </div>
-            <div id="envois-cell-CMD-2609-01" class="pt-0.5 flex justify-center"></div>
+            <div id="envois-cell-DEM-2609-01" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span id="statut-badge-CMD-2609-01" class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
+              <span id="statut-badge-DEM-2609-01" class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
-              <textarea id="comment-input-CMD-2609-01" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Rappeler le client avant 17h pour confirmer l'accès.</textarea>
+              <textarea id="comment-input-DEM-2609-01" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Rappeler le client avant 17h pour confirmer l'accès.</textarea>
             </div>
           </div>
 
           <!-- LIGNE 2 -->
-          <div onclick="openPanel('CMD-2609-02', 'Potel et Chabot Traiteur', 'Extra service', '18:00 - 01:00', '13,80 €/h', 'Accroissement temporaire', 'Lun. 21 sept. (1j)', 'Accès par le quai de déchargement obligatoire.', 'M. Thomas DUBOIS', '06 12 34 56 78', 't.dubois@potel.com', '002', 'Réception Hoche', 'Notification envoyée')"
-               data-cmd="CMD-2609-02" data-client="Potel et Chabot Traiteur" data-chantier="Réception Hoche" data-motif="Accroissement temporaire" data-taux="13.80" data-interimaire="Sofia MARTINS" data-statut="Notification envoyée" data-agence="002" data-secteur="Restauration"
+          <div onclick="openPanel('DEM-2609-02', 'Potel et Chabot Traiteur', 'Extra service', '18:00 - 01:00', '13,80 €/h', 'Accroissement temporaire', 'Lun. 21 sept. (1j)', 'Accès par le quai de déchargement obligatoire.', 'M. Thomas DUBOIS', '06 12 34 56 78', 't.dubois@potel.com', '002', 'Réception Hoche', 'Notification envoyée')"
+               data-cmd="DEM-2609-02" data-client="Potel et Chabot Traiteur" data-chantier="Réception Hoche" data-motif="Accroissement temporaire" data-taux="13.80" data-interimaire="Sofia MARTINS" data-statut="Notification envoyée" data-agence="002" data-secteur="Restauration"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-amber-400 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
-              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-02</span>
+              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">DEM-2609-02</span>
             </div>
             <div class="space-y-0.5 min-w-0 pt-0.5">
               <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">Potel et Chabot Traiteur</span>
@@ -323,10 +323,10 @@
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span id="fin-cell-CMD-2609-02"></span>
+              <span id="fin-cell-DEM-2609-02"></span>
             </div>
             <div>
-              <div id="assign-box-CMD-2609-02" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-02')" class="h-10 rounded-lg border border-amber-300 bg-amber-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-amber-100 hover:border-amber-400 transition-colors">
+              <div id="assign-box-DEM-2609-02" onclick="event.stopPropagation(); openCandidatesModal('DEM-2609-02')" class="h-10 rounded-lg border border-amber-300 bg-amber-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-amber-100 hover:border-amber-400 transition-colors">
                 <div class="w-6 h-6 bg-amber-200 text-amber-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">SM</div>
                 <div class="min-w-0 leading-tight">
                   <p class="text-xs font-bold text-gray-900 truncate">Sofia MARTINS</p>
@@ -334,21 +334,21 @@
                 </div>
               </div>
             </div>
-            <div id="envois-cell-CMD-2609-02" class="pt-0.5 flex justify-center"></div>
+            <div id="envois-cell-DEM-2609-02" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span id="statut-badge-CMD-2609-02" class="inline-flex items-center justify-center rounded-full border border-amber-300 bg-amber-100 text-amber-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Notification envoyée</span>
+              <span id="statut-badge-DEM-2609-02" class="inline-flex items-center justify-center rounded-full border border-amber-300 bg-amber-100 text-amber-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Notification envoyée</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
-              <textarea id="comment-input-CMD-2609-02" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
+              <textarea id="comment-input-DEM-2609-02" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
             </div>
           </div>
 
           <!-- LIGNE 3 -->
-          <div onclick="openPanel('CMD-2609-03', 'Fouquet\'s Barrière', 'Commis de cuisine', '09:00 - 17:00', '13,10 €/h', 'Remplacement CP', 'Mar. 22 sept. (2j)', 'Tablier et veste de cuisine personnels requis.', 'Chef Marc VEYRAT', '01 40 69 60 00', 'mveyrat@fouquets.com', '001', 'Cuisine centrale', 'Validé')"
-               data-cmd="CMD-2609-03" data-client="Fouquet's Barrière" data-chantier="Cuisine centrale" data-motif="Remplacement CP" data-taux="13.10" data-interimaire="Mehdi KACI" data-statut="Validé" data-agence="001" data-secteur="Restauration"
+          <div onclick="openPanel('DEM-2609-03', 'Fouquet\'s Barrière', 'Commis de cuisine', '09:00 - 17:00', '13,10 €/h', 'Remplacement CP', 'Mar. 22 sept. (2j)', 'Tablier et veste de cuisine personnels requis.', 'Chef Marc VEYRAT', '01 40 69 60 00', 'mveyrat@fouquets.com', '001', 'Cuisine centrale', 'Validé')"
+               data-cmd="DEM-2609-03" data-client="Fouquet's Barrière" data-chantier="Cuisine centrale" data-motif="Remplacement CP" data-taux="13.10" data-interimaire="Mehdi KACI" data-statut="Validé" data-agence="001" data-secteur="Restauration"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-green-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
-              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-03</span>
+              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">DEM-2609-03</span>
             </div>
             <div class="space-y-0.5 min-w-0 pt-0.5">
               <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">Fouquet's Barrière</span>
@@ -369,10 +369,10 @@
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span id="fin-cell-CMD-2609-03"></span>
+              <span id="fin-cell-DEM-2609-03"></span>
             </div>
             <div>
-              <div id="assign-box-CMD-2609-03" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-03')" class="h-10 rounded-lg border border-green-300 bg-green-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-green-100 hover:border-green-400 transition-colors">
+              <div id="assign-box-DEM-2609-03" onclick="event.stopPropagation(); openCandidatesModal('DEM-2609-03')" class="h-10 rounded-lg border border-green-300 bg-green-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-green-100 hover:border-green-400 transition-colors">
                 <div class="w-6 h-6 bg-green-200 text-green-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">MK</div>
                 <div class="min-w-0 leading-tight">
                   <p class="text-xs font-bold text-gray-900 truncate">Mehdi KACI</p>
@@ -380,21 +380,21 @@
                 </div>
               </div>
             </div>
-            <div id="envois-cell-CMD-2609-03" class="pt-0.5 flex justify-center"></div>
+            <div id="envois-cell-DEM-2609-03" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span id="statut-badge-CMD-2609-03" class="inline-flex items-center justify-center rounded-full border border-green-300 bg-green-100 text-green-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Validé</span>
+              <span id="statut-badge-DEM-2609-03" class="inline-flex items-center justify-center rounded-full border border-green-300 bg-green-100 text-green-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Validé</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
-              <textarea id="comment-input-CMD-2609-03" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
+              <textarea id="comment-input-DEM-2609-03" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
             </div>
           </div>
 
           <!-- LIGNE 4 -->
-          <div onclick="openPanel('CMD-2609-04', 'Novotel Paris Est', 'Réceptionniste', '07:00 - 15:00', '12,90 €/h', 'Accroissement temporaire', 'Mer. 23 sept. (3j)', 'Anglais courant indispensable, accueil d\'une clientèle internationale.', 'Mme Isabelle ROCHE', '01 55 66 23 10', 'i.roche@novotel-est.com', '001', 'Réception', 'Best match à valider')"
-               data-cmd="CMD-2609-04" data-client="Novotel Paris Est" data-chantier="Réception" data-motif="Accroissement temporaire" data-taux="12.90" data-interimaire="Julie PETIT" data-statut="Best match à valider" data-agence="001" data-secteur="Hébergement"
+          <div onclick="openPanel('DEM-2609-04', 'Novotel Paris Est', 'Réceptionniste', '07:00 - 15:00', '12,90 €/h', 'Accroissement temporaire', 'Mer. 23 sept. (3j)', 'Anglais courant indispensable, accueil d\'une clientèle internationale.', 'Mme Isabelle ROCHE', '01 55 66 23 10', 'i.roche@novotel-est.com', '001', 'Réception', 'Best match à valider')"
+               data-cmd="DEM-2609-04" data-client="Novotel Paris Est" data-chantier="Réception" data-motif="Accroissement temporaire" data-taux="12.90" data-interimaire="Julie PETIT" data-statut="Best match à valider" data-agence="001" data-secteur="Hébergement"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-blue-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
-              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-04</span>
+              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">DEM-2609-04</span>
             </div>
             <div class="space-y-0.5 min-w-0 pt-0.5">
               <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">Novotel Paris Est</span>
@@ -415,35 +415,35 @@
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span id="fin-cell-CMD-2609-04"></span>
+              <span id="fin-cell-DEM-2609-04"></span>
             </div>
             <div>
-              <div id="assign-box-CMD-2609-04" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-04')" class="h-10 rounded-lg border border-blue-300 bg-blue-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-blue-100 hover:border-blue-400 transition-colors">
+              <div id="assign-box-DEM-2609-04" onclick="event.stopPropagation(); openCandidatesModal('DEM-2609-04')" class="h-10 rounded-lg border border-blue-300 bg-blue-50 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-blue-100 hover:border-blue-400 transition-colors">
                 <div class="w-6 h-6 bg-blue-200 text-blue-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">JP</div>
                 <div class="min-w-0 leading-tight flex-1">
                   <p class="text-xs font-bold text-gray-900 truncate">Julie PETIT</p>
                   <p class="text-[10px] text-blue-700 font-semibold">Best Match · <span class="underline">Voir candidats</span></p>
                 </div>
-                <button type="button" onclick="event.stopPropagation(); validateMatch('CMD-2609-04')" title="Valider ce profil" class="ml-auto flex-shrink-0 w-6 h-6 rounded-full bg-white border border-blue-300 text-blue-600 hover:bg-green-50 hover:border-green-400 hover:text-green-600 flex items-center justify-center transition-colors">
+                <button type="button" onclick="event.stopPropagation(); validateMatch('DEM-2609-04')" title="Valider ce profil" class="ml-auto flex-shrink-0 w-6 h-6 rounded-full bg-white border border-blue-300 text-blue-600 hover:bg-green-50 hover:border-green-400 hover:text-green-600 flex items-center justify-center transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M20 6 9 17l-5-5"></path></svg>
                 </button>
               </div>
             </div>
-            <div id="envois-cell-CMD-2609-04" class="pt-0.5 flex justify-center"></div>
+            <div id="envois-cell-DEM-2609-04" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span id="statut-badge-CMD-2609-04" class="inline-flex items-center justify-center rounded-full border border-blue-300 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Best match à valider</span>
+              <span id="statut-badge-DEM-2609-04" class="inline-flex items-center justify-center rounded-full border border-blue-300 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Best match à valider</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
-              <textarea id="comment-input-CMD-2609-04" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
+              <textarea id="comment-input-DEM-2609-04" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
             </div>
           </div>
 
           <!-- LIGNE 5 -->
-          <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — commande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')"
-               data-cmd="CMD-2609-05" data-client="La Table du Marais" data-chantier="Bar à Vins" data-motif="Événement privé" data-taux="13.50" data-interimaire="Yanis MOKRANE" data-statut="Annulée" data-agence="002" data-secteur="Restauration"
+          <div onclick="openPanel('DEM-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — demande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')"
+               data-cmd="DEM-2609-05" data-client="La Table du Marais" data-chantier="Bar à Vins" data-motif="Événement privé" data-taux="13.50" data-interimaire="Yanis MOKRANE" data-statut="Annulée" data-agence="002" data-secteur="Restauration"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-gray-300 opacity-60 hover:opacity-100 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
-              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-05</span>
+              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">DEM-2609-05</span>
             </div>
             <div class="space-y-0.5 min-w-0 pt-0.5">
               <span class="text-sm font-extrabold text-gray-500 tracking-tight leading-tight line-through block truncate">La Table du Marais</span>
@@ -464,32 +464,32 @@
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-500 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span id="fin-cell-CMD-2609-05"></span>
+              <span id="fin-cell-DEM-2609-05"></span>
             </div>
             <div>
               <div class="h-10 rounded-lg border border-dashed border-gray-300 bg-gray-50 px-2.5 flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
                 <div class="min-w-0 leading-tight">
                   <p class="text-xs font-bold text-gray-500 truncate">Yanis MOKRANE</p>
-                  <p class="text-[10px] text-gray-400 font-medium">Commande annulée</p>
+                  <p class="text-[10px] text-gray-400 font-medium">Demande annulée</p>
                 </div>
               </div>
             </div>
-            <div id="envois-cell-CMD-2609-05" class="pt-0.5 flex justify-center"></div>
+            <div id="envois-cell-DEM-2609-05" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span id="statut-badge-CMD-2609-05" class="inline-flex items-center justify-center rounded-full border border-gray-300 bg-gray-200 text-gray-600 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Annulée</span>
+              <span id="statut-badge-DEM-2609-05" class="inline-flex items-center justify-center rounded-full border border-gray-300 bg-gray-200 text-gray-600 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Annulée</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
-              <textarea id="comment-input-CMD-2609-05" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-500 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Client a annulé l'événement, rien à faire.</textarea>
+              <textarea id="comment-input-DEM-2609-05" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-500 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Client a annulé l'événement, rien à faire.</textarea>
             </div>
           </div>
 
           <!-- LIGNE 6 : client à suivre -->
-          <div onclick="openPanel('CMD-2609-06', 'Le Grand Hôtel Parisien', 'Bagagiste', '06:00 - 14:00', '12,60 €/h', 'Accroissement temporaire', 'Jeu. 24 sept. (2j)', 'Client sensible : exiger tenue complète et ponctualité stricte.', 'M. Julien MOREAU', '01 47 20 30 40', 'j.moreau@grandhotelparisien.fr', '003', 'Étage Prestige', 'À staffer')"
-               data-cmd="CMD-2609-06" data-client="Le Grand Hôtel Parisien" data-chantier="Étage Prestige" data-motif="Accroissement temporaire" data-taux="12.60" data-interimaire="" data-statut="À staffer" data-agence="003" data-secteur="Hébergement"
+          <div onclick="openPanel('DEM-2609-06', 'Le Grand Hôtel Parisien', 'Bagagiste', '06:00 - 14:00', '12,60 €/h', 'Accroissement temporaire', 'Jeu. 24 sept. (2j)', 'Client sensible : exiger tenue complète et ponctualité stricte.', 'M. Julien MOREAU', '01 47 20 30 40', 'j.moreau@grandhotelparisien.fr', '003', 'Étage Prestige', 'À staffer')"
+               data-cmd="DEM-2609-06" data-client="Le Grand Hôtel Parisien" data-chantier="Étage Prestige" data-motif="Accroissement temporaire" data-taux="12.60" data-interimaire="" data-statut="À staffer" data-agence="003" data-secteur="Hébergement"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
-              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-06</span>
+              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">DEM-2609-06</span>
             </div>
             <div class="space-y-0.5 min-w-0 pt-0.5">
               <div class="flex items-center gap-1.5">
@@ -520,10 +520,10 @@
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span id="fin-cell-CMD-2609-06"></span>
+              <span id="fin-cell-DEM-2609-06"></span>
             </div>
             <div>
-              <div id="assign-box-CMD-2609-06" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-06')" class="h-10 rounded-lg border-2 border-dashed border-red-300 bg-red-50/80 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-red-100/70 hover:border-red-400 transition-colors">
+              <div id="assign-box-DEM-2609-06" onclick="event.stopPropagation(); openCandidatesModal('DEM-2609-06')" class="h-10 rounded-lg border-2 border-dashed border-red-300 bg-red-50/80 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-red-100/70 hover:border-red-400 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-red-500 flex-shrink-0"><path d="M5 12h14"></path></svg>
                 <div class="min-w-0 leading-tight">
                   <p class="text-xs font-bold text-red-700 truncate">Aucun attribué</p>
@@ -531,21 +531,21 @@
                 </div>
               </div>
             </div>
-            <div id="envois-cell-CMD-2609-06" class="pt-0.5 flex justify-center"></div>
+            <div id="envois-cell-DEM-2609-06" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span id="statut-badge-CMD-2609-06" class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
+              <span id="statut-badge-DEM-2609-06" class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
-              <textarea id="comment-input-CMD-2609-06" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Client sensible : confirmer la tenue avec l'intérimaire avant le début.</textarea>
+              <textarea id="comment-input-DEM-2609-06" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Client sensible : confirmer la tenue avec l'intérimaire avant le début.</textarea>
             </div>
           </div>
 
           <!-- LIGNE 7 : exemple de contrat établi -->
-          <div onclick="openPanel('CMD-2609-07', 'Hôtel Prince de Galles', 'Réceptionniste', '08:00 - 16:00', '14,50 €/h', 'Accroissement temporaire', 'Sam. 26 sept.', 'Contrat transmis et signé, prise de poste prévue lundi.', 'M. Antoine REY', '01 53 23 77 00', 'a.rey@princedegalles.com', '001', 'Réception VIP', 'Contrat établi')"
-               data-cmd="CMD-2609-07" data-client="Hôtel Prince de Galles" data-chantier="Réception VIP" data-motif="Accroissement temporaire" data-taux="14.50" data-interimaire="Léa ROUSSEL" data-statut="Contrat établi" data-agence="001" data-secteur="Hébergement"
+          <div onclick="openPanel('DEM-2609-07', 'Hôtel Prince de Galles', 'Réceptionniste', '08:00 - 16:00', '14,50 €/h', 'Accroissement temporaire', 'Sam. 26 sept.', 'Contrat transmis et signé, prise de poste prévue lundi.', 'M. Antoine REY', '01 53 23 77 00', 'a.rey@princedegalles.com', '001', 'Réception VIP', 'Contrat établi')"
+               data-cmd="DEM-2609-07" data-client="Hôtel Prince de Galles" data-chantier="Réception VIP" data-motif="Accroissement temporaire" data-taux="14.50" data-interimaire="Léa ROUSSEL" data-statut="Contrat établi" data-agence="001" data-secteur="Hébergement"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-purple-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
-              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-07</span>
+              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">DEM-2609-07</span>
             </div>
             <div class="space-y-0.5 min-w-0 pt-0.5">
               <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">Hôtel Prince de Galles</span>
@@ -566,10 +566,10 @@
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span id="fin-cell-CMD-2609-07"></span>
+              <span id="fin-cell-DEM-2609-07"></span>
             </div>
             <div>
-              <div id="assign-box-CMD-2609-07" class="h-10 rounded-lg border border-purple-300 bg-purple-50 px-2.5 flex items-center gap-2">
+              <div id="assign-box-DEM-2609-07" class="h-10 rounded-lg border border-purple-300 bg-purple-50 px-2.5 flex items-center gap-2">
                 <div class="w-6 h-6 bg-purple-200 text-purple-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">LR</div>
                 <div class="min-w-0 leading-tight">
                   <p class="text-xs font-bold text-gray-900 truncate">Léa ROUSSEL</p>
@@ -577,21 +577,21 @@
                 </div>
               </div>
             </div>
-            <div id="envois-cell-CMD-2609-07" class="pt-0.5 flex justify-center"></div>
+            <div id="envois-cell-DEM-2609-07" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span id="statut-badge-CMD-2609-07" class="inline-flex items-center justify-center rounded-full border border-purple-300 bg-purple-100 text-purple-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Contrat établi</span>
+              <span id="statut-badge-DEM-2609-07" class="inline-flex items-center justify-center rounded-full border border-purple-300 bg-purple-100 text-purple-900 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">Contrat établi</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
-              <textarea id="comment-input-CMD-2609-07" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
+              <textarea id="comment-input-DEM-2609-07" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug"></textarea>
             </div>
           </div>
 
           <!-- LIGNE 8 : exemple sans aucun intérimaire correspondant -> repli candidats AFT -->
-          <div onclick="openPanel('CMD-2609-08', 'Hôtel Splendide Royal', 'Voiturier', '07:00 - 15:00', '13,20 €/h', 'Accroissement temporaire', 'Dim. 27 sept.', 'Client très haut de gamme : présentation impeccable et anglais courant exigés.', 'Mme Camille ROY', '01 47 80 12 34', 'c.roy@splendideroyal.fr', '001', 'Voiturier / Conciergerie', 'À staffer')"
-               data-cmd="CMD-2609-08" data-client="Hôtel Splendide Royal" data-chantier="Voiturier / Conciergerie" data-motif="Accroissement temporaire" data-taux="13.20" data-interimaire="" data-statut="À staffer" data-agence="001" data-secteur="Hébergement"
+          <div onclick="openPanel('DEM-2609-08', 'Hôtel Splendide Royal', 'Voiturier', '07:00 - 15:00', '13,20 €/h', 'Accroissement temporaire', 'Dim. 27 sept.', 'Client très haut de gamme : présentation impeccable et anglais courant exigés.', 'Mme Camille ROY', '01 47 80 12 34', 'c.roy@splendideroyal.fr', '001', 'Voiturier / Conciergerie', 'À staffer')"
+               data-cmd="DEM-2609-08" data-client="Hôtel Splendide Royal" data-chantier="Voiturier / Conciergerie" data-motif="Accroissement temporaire" data-taux="13.20" data-interimaire="" data-statut="À staffer" data-agence="001" data-secteur="Hébergement"
                class="planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150">
             <div class="pt-0.5">
-              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">CMD-2609-08</span>
+              <span class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-1 rounded inline-block">DEM-2609-08</span>
             </div>
             <div class="space-y-0.5 min-w-0 pt-0.5">
               <span class="text-sm font-extrabold text-gray-900 tracking-tight leading-tight block truncate">Hôtel Splendide Royal</span>
@@ -612,10 +612,10 @@
             </div>
             <div class="pt-0.5 text-xs font-bold text-gray-900 flex items-center gap-1.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400 flex-shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
-              <span id="fin-cell-CMD-2609-08"></span>
+              <span id="fin-cell-DEM-2609-08"></span>
             </div>
             <div>
-              <div id="assign-box-CMD-2609-08" onclick="event.stopPropagation(); openCandidatesModal('CMD-2609-08')" class="h-10 rounded-lg border-2 border-dashed border-red-300 bg-red-50/80 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-red-100/70 hover:border-red-400 transition-colors">
+              <div id="assign-box-DEM-2609-08" onclick="event.stopPropagation(); openCandidatesModal('DEM-2609-08')" class="h-10 rounded-lg border-2 border-dashed border-red-300 bg-red-50/80 px-2.5 flex items-center gap-2 cursor-pointer hover:bg-red-100/70 hover:border-red-400 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-red-500 flex-shrink-0"><path d="M5 12h14"></path></svg>
                 <div class="min-w-0 leading-tight">
                   <p class="text-xs font-bold text-red-700 truncate">Aucun attribué</p>
@@ -623,12 +623,12 @@
                 </div>
               </div>
             </div>
-            <div id="envois-cell-CMD-2609-08" class="pt-0.5 flex justify-center"></div>
+            <div id="envois-cell-DEM-2609-08" class="pt-0.5 flex justify-center"></div>
             <div class="pt-0.5 flex justify-end min-w-0">
-              <span id="statut-badge-CMD-2609-08" class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
+              <span id="statut-badge-DEM-2609-08" class="inline-flex items-center justify-center rounded-full border border-red-200 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 text-center leading-tight max-w-full">À staffer</span>
             </div>
             <div class="pt-0.5" onclick="event.stopPropagation()">
-              <textarea id="comment-input-CMD-2609-08" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Aucun intérimaire ne correspond à cette qualification niche : voir les candidats AFT proposés.</textarea>
+              <textarea id="comment-input-DEM-2609-08" rows="2" placeholder="Note pour l'équipe..." class="w-full min-h-[32px] rounded-md border border-transparent hover:border-gray-200 focus:border-[#A63629] bg-transparent hover:bg-gray-50 focus:bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#A63629] transition-colors resize-none leading-snug">Aucun intérimaire ne correspond à cette qualification niche : voir les candidats AFT proposés.</textarea>
             </div>
           </div>
         </div>
@@ -652,32 +652,32 @@
           <div class="divide-y divide-gray-200 text-xs">
             <!-- CLIENT 1 : À staffer -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-01', 'Hôtel Le Meurice', 'Chef de rang', '11:00 - 19:00', '14,20 €/h', 'Remplacement maladie', 'Ven. 25 sept. (5j)', 'Besoin de qqn d\'autonome sur le rang 3.', 'Mme Sophie LAURENT', '01 44 58 10 10', 's.laurent@lemeurice.com', '001', 'Salle / Resto', 'À staffer')" class="cursor-pointer group">
+              <div onclick="openPanel('DEM-2609-01', 'Hôtel Le Meurice', 'Chef de rang', '11:00 - 19:00', '14,20 €/h', 'Remplacement maladie', 'Ven. 25 sept. (5j)', 'Besoin de qqn d\'autonome sur le rang 3.', 'Mme Sophie LAURENT', '01 44 58 10 10', 's.laurent@lemeurice.com', '001', 'Salle / Resto', 'À staffer')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Hôtel Le Meurice</p>
                 <p class="text-gray-500 font-medium">Salle / Resto</p>
                 <span class="text-[10px] text-gray-400 font-mono font-semibold">28</span> <span class="text-[10px] text-gray-400">Chef de rang</span>
               </div>
-              <div onclick="openCandidatesModal('CMD-2609-01')"
+              <div onclick="openCandidatesModal('DEM-2609-01')"
                    class="cursor-pointer bg-red-50 border border-red-200 text-red-800 p-2 rounded-lg space-y-1 hover:shadow-md hover:border-red-300 transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">11h-19h</span> <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span></div>
                 <p class="font-semibold truncate">À staffer</p>
               </div>
-              <div onclick="openCandidatesModal('CMD-2609-01')"
+              <div onclick="openCandidatesModal('DEM-2609-01')"
                    class="cursor-pointer bg-red-50 border border-red-200 text-red-800 p-2 rounded-lg space-y-1 opacity-80 hover:opacity-100 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">11h-19h</span> <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span></div>
                 <p class="font-semibold truncate">À staffer</p>
               </div>
-              <div onclick="openCandidatesModal('CMD-2609-01')"
+              <div onclick="openCandidatesModal('DEM-2609-01')"
                    class="cursor-pointer bg-red-50 border border-red-200 text-red-800 p-2 rounded-lg space-y-1 opacity-80 hover:opacity-100 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">11h-19h</span> <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span></div>
                 <p class="font-semibold truncate">À staffer</p>
               </div>
-              <div onclick="openCandidatesModal('CMD-2609-01')"
+              <div onclick="openCandidatesModal('DEM-2609-01')"
                    class="cursor-pointer bg-red-50 border border-red-200 text-red-800 p-2 rounded-lg space-y-1 opacity-80 hover:opacity-100 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">11h-19h</span> <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span></div>
                 <p class="font-semibold truncate">À staffer</p>
               </div>
-              <div onclick="openCandidatesModal('CMD-2609-01')"
+              <div onclick="openCandidatesModal('DEM-2609-01')"
                    class="cursor-pointer bg-red-50 border border-red-200 text-red-800 p-2 rounded-lg space-y-1 opacity-80 hover:opacity-100 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">11h-19h</span> <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span></div>
                 <p class="font-semibold truncate">À staffer</p>
@@ -688,7 +688,7 @@
 
             <!-- CLIENT 2 : À staffer, client à suivre -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-06', 'Le Grand Hôtel Parisien', 'Bagagiste', '06:00 - 14:00', '12,60 €/h', 'Accroissement temporaire', 'Jeu. 24 sept. (2j)', 'Client sensible : exiger tenue complète et ponctualité stricte.', 'M. Julien MOREAU', '01 47 20 30 40', 'j.moreau@grandhotelparisien.fr', '003', 'Étage Prestige', 'À staffer')" class="cursor-pointer group">
+              <div onclick="openPanel('DEM-2609-06', 'Le Grand Hôtel Parisien', 'Bagagiste', '06:00 - 14:00', '12,60 €/h', 'Accroissement temporaire', 'Jeu. 24 sept. (2j)', 'Client sensible : exiger tenue complète et ponctualité stricte.', 'M. Julien MOREAU', '01 47 20 30 40', 'j.moreau@grandhotelparisien.fr', '003', 'Étage Prestige', 'À staffer')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors flex items-center gap-1.5">
                   Le Grand Hôtel Parisien
                   <span class="relative group/tip inline-flex flex-shrink-0" onclick="event.stopPropagation()">
@@ -705,12 +705,12 @@
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-              <div onclick="openCandidatesModal('CMD-2609-06')"
+              <div onclick="openCandidatesModal('DEM-2609-06')"
                    class="cursor-pointer bg-red-50 border border-red-200 text-red-800 p-2 rounded-lg space-y-1 hover:shadow-md hover:border-red-300 transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">06h-14h</span> <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span></div>
                 <p class="font-semibold truncate">À staffer</p>
               </div>
-              <div onclick="openCandidatesModal('CMD-2609-06')"
+              <div onclick="openCandidatesModal('DEM-2609-06')"
                    class="cursor-pointer bg-red-50 border border-red-200 text-red-800 p-2 rounded-lg space-y-1 opacity-80 hover:opacity-100 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">06h-14h</span> <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span></div>
                 <p class="font-semibold truncate">À staffer</p>
@@ -721,24 +721,24 @@
 
             <!-- CLIENT 3 : Best match à valider -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-04', 'Novotel Paris Est', 'Réceptionniste', '07:00 - 15:00', '12,90 €/h', 'Accroissement temporaire', 'Mer. 23 sept. (3j)', 'Anglais courant indispensable, accueil d\'une clientèle internationale.', 'Mme Isabelle ROCHE', '01 55 66 23 10', 'i.roche@novotel-est.com', '001', 'Réception', 'Best match à valider')" class="cursor-pointer group">
+              <div onclick="openPanel('DEM-2609-04', 'Novotel Paris Est', 'Réceptionniste', '07:00 - 15:00', '12,90 €/h', 'Accroissement temporaire', 'Mer. 23 sept. (3j)', 'Anglais courant indispensable, accueil d\'une clientèle internationale.', 'Mme Isabelle ROCHE', '01 55 66 23 10', 'i.roche@novotel-est.com', '001', 'Réception', 'Best match à valider')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Novotel Paris Est</p>
                 <p class="text-gray-500 font-medium">Réception</p>
                 <span class="text-[10px] text-gray-400 font-mono font-semibold">34</span> <span class="text-[10px] text-gray-400">Réceptionniste</span>
               </div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-              <div onclick="openCandidatesModal('CMD-2609-04')"
+              <div onclick="openCandidatesModal('DEM-2609-04')"
                    class="cursor-pointer bg-blue-50 border border-blue-300 text-blue-900 p-2 rounded-lg space-y-1 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">07h-15h</span> <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span></div>
                 <p class="font-bold truncate">Julie P. ?</p>
               </div>
-              <div onclick="openCandidatesModal('CMD-2609-04')"
+              <div onclick="openCandidatesModal('DEM-2609-04')"
                    class="cursor-pointer bg-blue-50 border border-blue-300 text-blue-900 p-2 rounded-lg space-y-1 opacity-80 hover:opacity-100 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">07h-15h</span> <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span></div>
                 <p class="font-bold truncate">Julie P. ?</p>
               </div>
-              <div onclick="openCandidatesModal('CMD-2609-04')"
+              <div onclick="openCandidatesModal('DEM-2609-04')"
                    class="cursor-pointer bg-blue-50 border border-blue-300 text-blue-900 p-2 rounded-lg space-y-1 opacity-80 hover:opacity-100 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">07h-15h</span> <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span></div>
                 <p class="font-bold truncate">Julie P. ?</p>
@@ -749,12 +749,12 @@
 
             <!-- CLIENT 4 : Notification envoyée -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-02', 'Potel et Chabot Traiteur', 'Extra service', '18:00 - 01:00', '13,80 €/h', 'Accroissement temporaire', 'Lun. 21 sept. (1j)', 'Accès par le quai de déchargement obligatoire.', 'M. Thomas DUBOIS', '06 12 34 56 78', 't.dubois@potel.com', '002', 'Réception Hoche', 'Notification envoyée')" class="cursor-pointer group">
+              <div onclick="openPanel('DEM-2609-02', 'Potel et Chabot Traiteur', 'Extra service', '18:00 - 01:00', '13,80 €/h', 'Accroissement temporaire', 'Lun. 21 sept. (1j)', 'Accès par le quai de déchargement obligatoire.', 'M. Thomas DUBOIS', '06 12 34 56 78', 't.dubois@potel.com', '002', 'Réception Hoche', 'Notification envoyée')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Potel et Chabot</p>
                 <p class="text-gray-500 font-medium">Réception Hoche</p>
                 <span class="text-[10px] text-gray-400 font-mono font-semibold">12</span> <span class="text-[10px] text-gray-400">Extra service</span>
               </div>
-              <div onclick="openCandidatesModal('CMD-2609-02')"
+              <div onclick="openCandidatesModal('DEM-2609-02')"
                    class="cursor-pointer bg-amber-50 border border-amber-300 text-amber-900 p-2 rounded-lg space-y-1 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">18h-01h</span> <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span></div>
                 <p class="font-bold truncate">Sofia M.</p>
@@ -769,18 +769,18 @@
 
             <!-- CLIENT 5 : Validé -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-03', 'Fouquet\'s Barrière', 'Commis de cuisine', '09:00 - 17:00', '13,10 €/h', 'Remplacement CP', 'Mar. 22 sept. (2j)', 'Tablier et veste de cuisine personnels requis.', 'Chef Marc VEYRAT', '01 40 69 60 00', 'mveyrat@fouquets.com', '001', 'Cuisine centrale', 'Validé')" class="cursor-pointer group">
+              <div onclick="openPanel('DEM-2609-03', 'Fouquet\'s Barrière', 'Commis de cuisine', '09:00 - 17:00', '13,10 €/h', 'Remplacement CP', 'Mar. 22 sept. (2j)', 'Tablier et veste de cuisine personnels requis.', 'Chef Marc VEYRAT', '01 40 69 60 00', 'mveyrat@fouquets.com', '001', 'Cuisine centrale', 'Validé')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Fouquet's Barrière</p>
                 <p class="text-gray-500 font-medium">Cuisine centrale</p>
                 <span class="text-[10px] text-gray-400 font-mono font-semibold">01</span> <span class="text-[10px] text-gray-400">Commis de cuisine</span>
               </div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-              <div onclick="openCandidatesModal('CMD-2609-03')"
+              <div onclick="openCandidatesModal('DEM-2609-03')"
                    class="cursor-pointer bg-green-50 border border-green-300 text-green-900 p-2 rounded-lg space-y-1 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">09h-17h</span> <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span></div>
                 <p class="font-bold truncate">Mehdi K.</p>
               </div>
-              <div onclick="openCandidatesModal('CMD-2609-03')"
+              <div onclick="openCandidatesModal('DEM-2609-03')"
                    class="cursor-pointer bg-green-50 border border-green-300 text-green-900 p-2 rounded-lg space-y-1 opacity-80 hover:opacity-100 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">09h-17h</span> <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span></div>
                 <p class="font-bold truncate">Mehdi K.</p>
@@ -793,7 +793,7 @@
 
             <!-- CLIENT 6 : Contrat établi -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-07', 'Hôtel Prince de Galles', 'Réceptionniste', '08:00 - 16:00', '14,50 €/h', 'Accroissement temporaire', 'Sam. 26 sept.', 'Contrat transmis et signé, prise de poste prévue lundi.', 'M. Antoine REY', '01 53 23 77 00', 'a.rey@princedegalles.com', '001', 'Réception VIP', 'Contrat établi')" class="cursor-pointer group">
+              <div onclick="openPanel('DEM-2609-07', 'Hôtel Prince de Galles', 'Réceptionniste', '08:00 - 16:00', '14,50 €/h', 'Accroissement temporaire', 'Sam. 26 sept.', 'Contrat transmis et signé, prise de poste prévue lundi.', 'M. Antoine REY', '01 53 23 77 00', 'a.rey@princedegalles.com', '001', 'Réception VIP', 'Contrat établi')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Hôtel Prince de Galles</p>
                 <p class="text-gray-500 font-medium">Réception VIP</p>
                 <span class="text-[10px] text-gray-400 font-mono font-semibold">34</span> <span class="text-[10px] text-gray-400">Réceptionniste</span>
@@ -803,7 +803,7 @@
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-              <div onclick="openPanel('CMD-2609-07', 'Hôtel Prince de Galles', 'Réceptionniste', '08:00 - 16:00', '14,50 €/h', 'Accroissement temporaire', 'Sam. 26 sept.', 'Contrat transmis et signé, prise de poste prévue lundi.', 'M. Antoine REY', '01 53 23 77 00', 'a.rey@princedegalles.com', '001', 'Réception VIP', 'Contrat établi')"
+              <div onclick="openPanel('DEM-2609-07', 'Hôtel Prince de Galles', 'Réceptionniste', '08:00 - 16:00', '14,50 €/h', 'Accroissement temporaire', 'Sam. 26 sept.', 'Contrat transmis et signé, prise de poste prévue lundi.', 'M. Antoine REY', '01 53 23 77 00', 'a.rey@princedegalles.com', '001', 'Réception VIP', 'Contrat établi')"
                    class="cursor-pointer bg-purple-50 border border-purple-300 text-purple-900 p-2 rounded-lg space-y-1 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">08h-16h</span> <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span></div>
                 <p class="font-bold truncate">Léa R.</p>
@@ -813,12 +813,12 @@
 
             <!-- CLIENT 7 : Annulée -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80 opacity-70">
-              <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — commande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')" class="cursor-pointer group">
+              <div onclick="openPanel('DEM-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — demande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">La Table du Marais</p>
                 <p class="text-gray-500 font-medium">Bar à Vins</p>
                 <span class="text-[10px] text-gray-400 font-mono font-semibold">19</span> <span class="text-[10px] text-gray-400">Barman</span>
               </div>
-              <div onclick="openPanel('CMD-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — commande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')"
+              <div onclick="openPanel('DEM-2609-05', 'La Table du Marais', 'Barman', '19:00 - 00:00', '13,50 €/h', 'Événement privé', 'Lun. 21 sept. (1j)', 'Événement annulé par le client — demande close automatiquement.', 'M. Julien FABRE', '01 42 78 55 40', 'j.fabre@latabledumarais.fr', '002', 'Bar à Vins', 'Annulée')"
                    class="cursor-pointer bg-gray-100 border border-gray-300 text-gray-500 p-2 rounded-lg space-y-1 hover:shadow-md transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px] line-through">19h-00h</span> <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span></div>
                 <p class="font-semibold truncate line-through">Annulée</p>
@@ -832,7 +832,7 @@
 
             <!-- CLIENT 8 : À staffer, aucun intérimaire correspondant -> repli candidats AFT -->
             <div class="grid grid-cols-[220px_repeat(7,1fr)] items-center gap-2 p-3 hover:bg-gray-50/80">
-              <div onclick="openPanel('CMD-2609-08', 'Hôtel Splendide Royal', 'Voiturier', '07:00 - 15:00', '13,20 €/h', 'Accroissement temporaire', 'Dim. 27 sept.', 'Client très haut de gamme : présentation impeccable et anglais courant exigés.', 'Mme Camille ROY', '01 47 80 12 34', 'c.roy@splendideroyal.fr', '001', 'Voiturier / Conciergerie', 'À staffer')" class="cursor-pointer group">
+              <div onclick="openPanel('DEM-2609-08', 'Hôtel Splendide Royal', 'Voiturier', '07:00 - 15:00', '13,20 €/h', 'Accroissement temporaire', 'Dim. 27 sept.', 'Client très haut de gamme : présentation impeccable et anglais courant exigés.', 'Mme Camille ROY', '01 47 80 12 34', 'c.roy@splendideroyal.fr', '001', 'Voiturier / Conciergerie', 'À staffer')" class="cursor-pointer group">
                 <p class="font-bold text-gray-900 text-sm group-hover:text-[#A63629] transition-colors">Hôtel Splendide Royal</p>
                 <p class="text-gray-500 font-medium">Voiturier / Conciergerie</p>
                 <span class="text-[10px] text-gray-400 font-mono font-semibold">40</span> <span class="text-[10px] text-gray-400">Voiturier</span>
@@ -843,7 +843,7 @@
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
               <div class="bg-gray-50 border border-dashed border-gray-200 text-gray-400 p-2 rounded-lg text-center">—</div>
-              <div onclick="openCandidatesModal('CMD-2609-08')" title="Aucun intérimaire ne correspond — voir les candidats AFT"
+              <div onclick="openCandidatesModal('DEM-2609-08')" title="Aucun intérimaire ne correspond — voir les candidats AFT"
                    class="cursor-pointer bg-red-50 border border-red-200 text-red-800 p-2 rounded-lg space-y-1 hover:shadow-md hover:border-red-300 transition-all">
                 <div class="flex justify-between items-center"><span class="font-bold text-[10px]">07h-15h</span> <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span></div>
                 <p class="font-semibold truncate">À staffer</p>
@@ -864,7 +864,7 @@
 <aside id="side-panel" class="fixed top-0 right-0 h-screen w-full sm:w-[450px] bg-white shadow-2xl z-50 border-l border-gray-200 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
   <div class="p-5 border-b border-gray-200 flex items-start justify-between gap-3 bg-white sticky top-0">
     <div>
-      <span id="p-cmd" class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-0.5 rounded">CMD-2609-01</span>
+      <span id="p-cmd" class="text-xs font-mono font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-0.5 rounded">DEM-2609-01</span>
       <h2 id="p-poste" class="text-lg font-bold text-gray-900 mt-1">Chef de rang</h2>
       <p id="p-heure" class="text-xs font-semibold text-[#A63629]">11:00 - 19:00</p>
     </div>
@@ -886,37 +886,37 @@
       </div>
     </div>
 
-    <!-- ACTIONS : valider le profil positionné, annuler la commande (tout ou un seul jour) -->
+    <!-- ACTIONS : valider le profil positionné, annuler la demande (tout ou un seul jour) -->
     <div class="rounded-xl border border-gray-200 p-4 space-y-2">
       <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Actions</h3>
       <div id="p-validate-wrap" class="hidden">
-        <button type="button" onclick="validateMatch(currentPanelCmd)" title="Best match suggéré : envoie la notification à l'intérimaire. Positionnement déjà confirmé (de vive voix ou digitalement) : passe directement la commande au statut Validé." class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-green-600 to-green-700 text-white shadow hover:opacity-95 h-10 transition-colors">
+        <button type="button" onclick="validateMatch(currentPanelCmd)" title="Best match suggéré : envoie la notification à l'intérimaire. Positionnement déjà confirmé (de vive voix ou digitalement) : passe directement la demande au statut Validé." class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-green-600 to-green-700 text-white shadow hover:opacity-95 h-10 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M20 6 9 17l-5-5"></path></svg>
           Valider ce profil
         </button>
       </div>
-      <!-- BLOCAGE : réserve l'intérimaire positionné sur cette commande (ne peut plus être remplacé ni proposé ailleurs) -->
+      <!-- BLOCAGE : réserve l'intérimaire positionné sur cette demande (ne peut plus être remplacé ni proposé ailleurs) -->
       <div id="p-block-wrap" class="hidden">
         <button type="button" id="p-block-btn" onclick="toggleBlockInterim(currentPanelCmd)" class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold border h-10 transition-colors"></button>
         <p id="p-block-hint" class="text-[11px] text-gray-500 mt-1.5 leading-snug"></p>
       </div>
       <button type="button" id="p-cancel-btn" onclick="openCancelModal(currentPanelCmd)" class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold border border-red-300 bg-white text-red-600 hover:bg-red-50 h-10 transition-colors">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
-        Annuler la commande
+        Annuler la demande
       </button>
     </div>
 
     <div class="rounded-xl border border-gray-200 p-4 space-y-2">
-      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Détails de la commande</h3>
+      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Détails de la demande</h3>
       <div class="flex justify-between text-sm"><span class="text-gray-500">Chantier :</span><span id="p-chantier" class="font-bold text-gray-900">Salle / Resto</span></div>
       <div class="flex justify-between text-sm"><span class="text-gray-500">Justification :</span><span id="p-justif" class="font-semibold text-gray-900">Remplacement maladie</span></div>
       <div class="flex justify-between text-sm"><span class="text-gray-500">Suite :</span><span id="p-fin" class="font-semibold text-gray-900">Ven. 25 sept. (5j)</span></div>
       <div class="flex justify-between text-sm"><span class="text-gray-500">Taux horaire :</span><span id="p-taux" class="font-semibold text-gray-900">14,20 €/h</span></div>
     </div>
 
-    <!-- JOURS DE LA COMMANDE : visible pour les commandes sur plusieurs jours -->
+    <!-- JOURS DE LA DEMANDE : visible pour les demandes sur plusieurs jours -->
     <div id="p-jours-wrap" class="rounded-xl border border-gray-200 p-4 hidden">
-      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Jours de la commande</h3>
+      <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Jours de la demande</h3>
       <div id="p-jours-list" class="flex flex-wrap gap-1.5"></div>
     </div>
 
@@ -937,13 +937,13 @@
   </div>
 </aside>
 
-<!-- BACKDROP ANNULATION COMMANDE -->
-<div id="cancel-commande-backdrop" class="fixed inset-0 bg-gray-900/30 z-[80] hidden"></div>
-<div id="cancel-commande-modal" class="fixed inset-0 z-[90] hidden flex items-center justify-center p-4">
+<!-- BACKDROP ANNULATION DEMANDE -->
+<div id="cancel-demande-backdrop" class="fixed inset-0 bg-gray-900/30 z-[80] hidden"></div>
+<div id="cancel-demande-modal" class="fixed inset-0 z-[90] hidden flex items-center justify-center p-4">
   <div class="bg-white rounded-xl shadow-2xl w-full max-w-md">
     <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3">
       <div>
-        <h3 class="font-bold text-gray-900 text-lg">Annuler la commande</h3>
+        <h3 class="font-bold text-gray-900 text-lg">Annuler la demande</h3>
         <p id="cancel-modal-recap" class="text-xs text-gray-500 mt-0.5">—</p>
       </div>
       <button type="button" onclick="closeCancelModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
@@ -955,21 +955,21 @@
         <input type="radio" name="cancel-scope" value="jour" checked onchange="updateCancelScope()" class="mt-1 w-4 h-4 text-[#A63629]">
         <div class="flex-1">
           <p class="text-sm font-semibold text-gray-900">Annuler un ou plusieurs jours précis</p>
-          <p class="text-xs text-gray-500 mt-0.5">La commande est raccourcie : les autres jours restent actifs. Les jours annulés restent visibles, marqués comme annulés.</p>
+          <p class="text-xs text-gray-500 mt-0.5">La demande est raccourcie : les autres jours restent actifs. Les jours annulés restent visibles, marqués comme annulés.</p>
           <div id="cancel-day-list" class="mt-2 max-h-40 overflow-y-auto space-y-1 rounded-lg border border-gray-200 bg-white p-2"></div>
         </div>
       </label>
       <label class="flex items-start gap-3 p-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50">
         <input type="radio" name="cancel-scope" value="totale" onchange="updateCancelScope()" class="mt-1 w-4 h-4 text-[#A63629]">
         <div class="flex-1">
-          <p class="text-sm font-semibold text-gray-900">Annuler toute la commande</p>
+          <p class="text-sm font-semibold text-gray-900">Annuler toute la demande</p>
           <p class="text-xs text-red-600 mt-0.5">Tous les jours restants seront annulés, y compris ceux déjà attribués.</p>
         </div>
       </label>
     </div>
     <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
       <button type="button" onclick="closeCancelModal()" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-100 transition-colors">Fermer</button>
-      <button type="button" onclick="confirmCancelCommande()" class="px-5 py-2 rounded-lg bg-red-600 text-white text-sm font-semibold shadow hover:bg-red-700 transition-colors">Confirmer l'annulation</button>
+      <button type="button" onclick="confirmCancelDemande()" class="px-5 py-2 rounded-lg bg-red-600 text-white text-sm font-semibold shadow hover:bg-red-700 transition-colors">Confirmer l'annulation</button>
     </div>
   </div>
 </div>
@@ -982,8 +982,8 @@
   <div class="bg-white rounded-xl shadow-2xl w-full max-w-xl max-h-[88vh] flex flex-col pointer-events-auto">
     <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3">
       <div class="min-w-0">
-        <h3 class="font-bold text-gray-900 text-lg">Candidats pour la commande</h3>
-        <p id="cand-commande-recap" class="text-xs text-gray-500 mt-0.5 truncate">—</p>
+        <h3 class="font-bold text-gray-900 text-lg">Candidats pour la demande</h3>
+        <p id="cand-demande-recap" class="text-xs text-gray-500 mt-0.5 truncate">—</p>
       </div>
       <button id="candidates-close" type="button" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
@@ -1037,23 +1037,23 @@
 <!-- TOOLTIP CONTACT CANDIDAT : positionné en fixed via JS pour ne jamais être coupé par le scroll de la liste (ex : dernier candidat) -->
 <div id="cand-tooltip" class="hidden fixed z-[80] w-60 rounded-lg border border-gray-200 bg-white shadow-lg p-3 pointer-events-none"></div>
 
-<!-- BACKDROP CRÉATION COMMANDE -->
-<div id="create-commande-backdrop" class="fixed inset-0 bg-gray-900/30 z-[60] hidden"></div>
+<!-- BACKDROP CRÉATION DEMANDE -->
+<div id="create-demande-backdrop" class="fixed inset-0 bg-gray-900/30 z-[60] hidden"></div>
 
-<!-- MODALE CRÉATION COMMANDE MANUELLE -->
-<div id="create-commande-modal" class="fixed inset-0 z-[70] hidden flex items-center justify-center p-4">
+<!-- MODALE CRÉATION DEMANDE MANUELLE -->
+<div id="create-demande-modal" class="fixed inset-0 z-[70] hidden flex items-center justify-center p-4">
   <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
     <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3">
       <div>
-        <h3 class="font-bold text-gray-900 text-lg">Nouvelle commande</h3>
+        <h3 class="font-bold text-gray-900 text-lg">Nouvelle demande</h3>
         <p class="text-xs text-gray-500 mt-0.5">Création manuelle d'une ligne de planning pour le jour affiché</p>
       </div>
-      <button type="button" onclick="closeCreateCommandeModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
+      <button type="button" onclick="closeCreateDemandeModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
       </button>
     </div>
 
-    <form id="create-commande-form" class="p-5 space-y-4 overflow-y-auto" onsubmit="return false;">
+    <form id="create-demande-form" class="p-5 space-y-4 overflow-y-auto" onsubmit="return false;">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Client</label>
@@ -1122,8 +1122,8 @@
     </form>
 
     <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
-      <button type="button" onclick="closeCreateCommandeModal()" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-100 transition-colors">Annuler</button>
-      <button type="button" onclick="createManualCommande()" class="px-5 py-2 rounded-lg bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white text-sm font-semibold shadow hover:opacity-95 transition-colors">Créer la commande</button>
+      <button type="button" onclick="closeCreateDemandeModal()" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-100 transition-colors">Annuler</button>
+      <button type="button" onclick="createManualDemande()" class="px-5 py-2 rounded-lg bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white text-sm font-semibold shadow hover:opacity-95 transition-colors">Créer la demande</button>
     </div>
   </div>
 </div>
@@ -1137,7 +1137,7 @@
     <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3">
       <div>
         <h3 class="font-bold text-gray-900 text-lg">Envoyer SMS / e-mails</h3>
-        <p class="text-xs text-gray-500 mt-0.5">Sélectionnez les intérimaires et les clients à notifier pour les commandes du jour affiché.</p>
+        <p class="text-xs text-gray-500 mt-0.5">Sélectionnez les intérimaires et les clients à notifier pour les demandes du jour affiché.</p>
       </div>
       <button type="button" onclick="closeBulkSendModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
@@ -1157,7 +1157,7 @@
 
     <div class="px-5 pt-3">
       <div class="grid grid-cols-[90px_1fr_1fr_1fr] gap-3 px-3 pb-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-        <span>Commande</span><span>Client</span><span>SMS intérimaire</span><span>E-mail client</span>
+        <span>Demande</span><span>Client</span><span>SMS intérimaire</span><span>E-mail client</span>
       </div>
     </div>
     <div id="bulk-send-list" class="px-5 pb-5 space-y-2 overflow-y-auto"></div>
@@ -1177,30 +1177,30 @@
   const backdrop = document.getElementById('panel-backdrop');
   const closeBtn = document.getElementById('close-panel-btn');
 
-  // ===== FIN DE COMMANDE : nombre de jours RESTANTS (à partir de la date sélectionnée dans le bandeau), pas la durée totale =====
+  // ===== FIN DE DEMANDE : nombre de jours RESTANTS (à partir de la date sélectionnée dans le bandeau), pas la durée totale =====
 
-  // Date de fin réelle de chaque commande (la date affichée + le "(+Nj)" sont recalculés à partir de là)
-  const commandeFin = {
-    'CMD-2609-01': { label: 'Ven. 25 sept.', date: '2026-09-25' },
-    'CMD-2609-02': { label: 'Lun. 21 sept.', date: '2026-09-21' },
-    'CMD-2609-03': { label: 'Mar. 22 sept.', date: '2026-09-22' },
-    'CMD-2609-04': { label: 'Mer. 23 sept.', date: '2026-09-23' },
-    'CMD-2609-05': { label: 'Lun. 21 sept.', date: '2026-09-21' },
-    'CMD-2609-06': { label: 'Jeu. 24 sept.', date: '2026-09-24' },
-    'CMD-2609-07': { label: 'Sam. 26 sept.', date: '2026-09-26' },
-    'CMD-2609-08': { label: 'Dim. 27 sept.', date: '2026-09-27' }
+  // Date de fin réelle de chaque demande (la date affichée + le "(+Nj)" sont recalculés à partir de là)
+  const demandeFin = {
+    'DEM-2609-01': { label: 'Ven. 25 sept.', date: '2026-09-25' },
+    'DEM-2609-02': { label: 'Lun. 21 sept.', date: '2026-09-21' },
+    'DEM-2609-03': { label: 'Mar. 22 sept.', date: '2026-09-22' },
+    'DEM-2609-04': { label: 'Mer. 23 sept.', date: '2026-09-23' },
+    'DEM-2609-05': { label: 'Lun. 21 sept.', date: '2026-09-21' },
+    'DEM-2609-06': { label: 'Jeu. 24 sept.', date: '2026-09-24' },
+    'DEM-2609-07': { label: 'Sam. 26 sept.', date: '2026-09-26' },
+    'DEM-2609-08': { label: 'Dim. 27 sept.', date: '2026-09-27' }
   };
 
-  // Date de début de chaque commande (avec commandeFin, permet de reconstituer la liste des jours pour l'annulation)
-  const commandeDebut = {
-    'CMD-2609-01': '2026-09-21',
-    'CMD-2609-02': '2026-09-21',
-    'CMD-2609-03': '2026-09-21',
-    'CMD-2609-04': '2026-09-21',
-    'CMD-2609-05': '2026-09-21',
-    'CMD-2609-06': '2026-09-23',
-    'CMD-2609-07': '2026-09-26',
-    'CMD-2609-08': '2026-09-27'
+  // Date de début de chaque demande (avec demandeFin, permet de reconstituer la liste des jours pour l'annulation)
+  const demandeDebut = {
+    'DEM-2609-01': '2026-09-21',
+    'DEM-2609-02': '2026-09-21',
+    'DEM-2609-03': '2026-09-21',
+    'DEM-2609-04': '2026-09-21',
+    'DEM-2609-05': '2026-09-21',
+    'DEM-2609-06': '2026-09-23',
+    'DEM-2609-07': '2026-09-26',
+    'DEM-2609-08': '2026-09-27'
   };
 
   // Jours restants APRÈS la date sélectionnée dans le bandeau (considérée comme "aujourd'hui") : le jour même n'est pas compté.
@@ -1218,7 +1218,7 @@
   }
 
   function finCellHTML(cmd) {
-    const info = commandeFin[cmd];
+    const info = demandeFin[cmd];
     if (!info) return '';
     const suffix = finSuffix(info.date);
     return suffix ? `${info.label} <span class="text-gray-500 font-semibold">(${suffix})</span>` : info.label;
@@ -1230,7 +1230,7 @@
   }
 
   function renderAllFinCells() {
-    Object.keys(commandeFin).forEach(renderFinCell);
+    Object.keys(demandeFin).forEach(renderFinCell);
   }
 
   let currentPanelCmd = null;
@@ -1248,7 +1248,7 @@
     document.getElementById('p-heure').textContent = heure;
     document.getElementById('p-taux').textContent = taux;
     document.getElementById('p-justif').textContent = justif;
-    const finInfo = commandeFin[cmd];
+    const finInfo = demandeFin[cmd];
     const finPanelSuffix = finInfo ? finSuffix(finInfo.date) : '';
     document.getElementById('p-fin').textContent = finInfo ? (finPanelSuffix ? `${finInfo.label} (${finPanelSuffix})` : finInfo.label) : fin;
     document.getElementById('p-commentaire').textContent = `"${commentaire}"`;
@@ -1379,13 +1379,13 @@
     showToast(`${name} validé(e)`);
   }
 
-  // ===== Blocage d'un intérimaire sur une commande =====
-  // Bloquer réserve l'intérimaire positionné sur la commande : il ne peut plus être remplacé (ni à la main,
-  // ni par le best match) et n'est plus proposé sur les autres commandes tant que le blocage est actif.
-  // Le statut de la commande n'est pas modifié (notification, validation... suivent leur cours normal).
+  // ===== Blocage d'un intérimaire sur une demande =====
+  // Bloquer réserve l'intérimaire positionné sur la demande : il ne peut plus être remplacé (ni à la main,
+  // ni par le best match) et n'est plus proposé sur les autres demandes tant que le blocage est actif.
+  // Le statut de la demande n'est pas modifié (notification, validation... suivent leur cours normal).
   const blockedInterims = {}; // { cmd: nomIntérimaire }
 
-  function blockedCommandeFor(name) {
+  function blockedDemandeFor(name) {
     return Object.keys(blockedInterims).find(cmd => blockedInterims[cmd] === name) || null;
   }
 
@@ -1398,7 +1398,7 @@
       tag = document.createElement('p');
       tag.id = 'block-tag-' + cmd;
       tag.className = 'mt-1 inline-flex items-center gap-1 rounded-md bg-gray-900 text-white text-[10px] font-semibold px-1.5 py-0.5';
-      tag.title = 'Intérimaire bloqué sur cette commande : il ne peut pas être remplacé ni positionné ailleurs';
+      tag.title = 'Intérimaire bloqué sur cette demande : il ne peut pas être remplacé ni positionné ailleurs';
       tag.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Bloqué`;
       box.insertAdjacentElement('afterend', tag);
     }
@@ -1417,11 +1417,11 @@
     if (blockedInterims[cmd]) {
       btn.className = 'w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold border border-gray-900 bg-gray-900 text-white hover:bg-gray-800 h-10 transition-colors';
       btn.innerHTML = unlockIcon + `Débloquer ${name}`;
-      hint.textContent = `${name} est réservé(e) sur cette commande : non remplaçable et non proposé(e) sur d'autres commandes.`;
+      hint.textContent = `${name} est réservé(e) sur cette demande : non remplaçable et non proposé(e) sur d'autres demandes.`;
     } else {
       btn.className = 'w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold border border-gray-300 bg-white text-gray-800 hover:bg-gray-50 h-10 transition-colors';
-      btn.innerHTML = lockIcon + `Bloquer ${name} sur cette commande`;
-      hint.textContent = "Empêche son remplacement (manuel ou best match) et le/la retire des propositions sur les autres commandes.";
+      btn.innerHTML = lockIcon + `Bloquer ${name} sur cette demande`;
+      hint.textContent = "Empêche son remplacement (manuel ou best match) et le/la retire des propositions sur les autres demandes.";
     }
   }
 
@@ -1432,12 +1432,12 @@
     if (!name) return;
     if (blockedInterims[cmd]) {
       delete blockedInterims[cmd];
-      showToast(`${name} débloqué(e) de la commande ${cmd}`);
+      showToast(`${name} débloqué(e) de la demande ${cmd}`);
     } else {
-      const other = blockedCommandeFor(name);
+      const other = blockedDemandeFor(name);
       if (other) { showToast(`${name} est déjà bloqué(e) sur ${other}`); return; }
       blockedInterims[cmd] = name;
-      showToast(`${name} bloqué(e) sur la commande ${cmd}`);
+      showToast(`${name} bloqué(e) sur la demande ${cmd}`);
     }
     renderBlockIndicator(cmd);
     if (currentPanelCmd === cmd) renderPanelBlock(cmd);
@@ -1450,8 +1450,8 @@
     toggleBlockInterim(cmd);
   }
 
-  // ===== Annulation d'une commande : toute la commande, ou un seul jour si elle en compte plusieurs =====
-  const commandeJoursState = {};
+  // ===== Annulation d'une demande : toute la demande, ou un seul jour si elle en compte plusieurs =====
+  const demandeJoursState = {};
 
   function frenchDayLabel(dateStr) {
     const d = new Date(dateStr + 'T00:00:00');
@@ -1469,9 +1469,9 @@
     return `${y}-${m}-${day}`;
   }
 
-  function buildDaysForCommande(cmd) {
-    const debut = commandeDebut[cmd];
-    const finInfo = commandeFin[cmd];
+  function buildDaysForDemande(cmd) {
+    const debut = demandeDebut[cmd];
+    const finInfo = demandeFin[cmd];
     if (!debut || !finInfo) return [];
     const days = [];
     let cur = new Date(debut + 'T00:00:00');
@@ -1481,14 +1481,14 @@
       days.push({ date: iso, label: frenchDayLabel(iso), cancelled: false });
       cur.setDate(cur.getDate() + 1);
     }
-    // CMD-2609-05 est annulée dès l'ouverture de la page : son unique jour l'est donc aussi.
-    if (cmd === 'CMD-2609-05') days.forEach(d => d.cancelled = true);
+    // DEM-2609-05 est annulée dès l'ouverture de la page : son unique jour l'est donc aussi.
+    if (cmd === 'DEM-2609-05') days.forEach(d => d.cancelled = true);
     return days;
   }
 
   function getDays(cmd) {
-    if (!commandeJoursState[cmd]) commandeJoursState[cmd] = buildDaysForCommande(cmd);
-    return commandeJoursState[cmd];
+    if (!demandeJoursState[cmd]) demandeJoursState[cmd] = buildDaysForDemande(cmd);
+    return demandeJoursState[cmd];
   }
 
   function renderPanelJours(cmd) {
@@ -1502,11 +1502,11 @@
     ).join('');
   }
 
-  function recomputeCommandeFin(cmd) {
+  function recomputeDemandeFin(cmd) {
     const activeDays = getDays(cmd).filter(d => !d.cancelled);
     if (activeDays.length === 0) return;
     const lastActive = activeDays[activeDays.length - 1];
-    commandeFin[cmd] = { label: lastActive.label, date: lastActive.date };
+    demandeFin[cmd] = { label: lastActive.label, date: lastActive.date };
     renderFinCell(cmd);
   }
 
@@ -1515,7 +1515,7 @@
   function openCancelModal(cmd) {
     if (!cmd) return;
     const activeDays = getDays(cmd).filter(d => !d.cancelled);
-    if (activeDays.length === 0) { showToast('Cette commande est déjà entièrement annulée.'); return; }
+    if (activeDays.length === 0) { showToast('Cette demande est déjà entièrement annulée.'); return; }
     cancelModalCmd = cmd;
     document.getElementById('cancel-modal-recap').textContent = cmd + ' · ' + (document.querySelector(`.planning-row[data-cmd="${cmd}"]`)?.dataset.client || '');
     document.getElementById('cancel-day-list').innerHTML = activeDays.map(d => `
@@ -1526,16 +1526,16 @@
     `).join('');
     document.querySelector('input[name="cancel-scope"][value="jour"]').checked = true;
     updateCancelScope();
-    document.getElementById('cancel-commande-backdrop').classList.remove('hidden');
-    document.getElementById('cancel-commande-modal').classList.remove('hidden');
+    document.getElementById('cancel-demande-backdrop').classList.remove('hidden');
+    document.getElementById('cancel-demande-modal').classList.remove('hidden');
   }
 
   function closeCancelModal() {
-    document.getElementById('cancel-commande-backdrop').classList.add('hidden');
-    document.getElementById('cancel-commande-modal').classList.add('hidden');
+    document.getElementById('cancel-demande-backdrop').classList.add('hidden');
+    document.getElementById('cancel-demande-modal').classList.add('hidden');
     cancelModalCmd = null;
   }
-  document.getElementById('cancel-commande-backdrop').addEventListener('click', closeCancelModal);
+  document.getElementById('cancel-demande-backdrop').addEventListener('click', closeCancelModal);
 
   function updateCancelScope() {
     const scope = document.querySelector('input[name="cancel-scope"]:checked').value;
@@ -1544,11 +1544,11 @@
     list.querySelectorAll('.cancel-day-checkbox').forEach(cb => { cb.disabled = scope !== 'jour'; });
   }
 
-  function setCommandeAnnulee(cmd) {
+  function setDemandeAnnulee(cmd) {
     const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
     if (!row) return;
     row.dataset.statut = 'Annulée';
-    // Une commande annulée libère l'intérimaire qui y était bloqué
+    // Une demande annulée libère l'intérimaire qui y était bloqué
     delete blockedInterims[cmd];
     renderBlockIndicator(cmd);
 
@@ -1567,7 +1567,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>
         <div class="min-w-0 leading-tight">
           <p class="text-xs font-bold text-gray-500 truncate">${name || 'Aucun attribué'}</p>
-          <p class="text-[10px] text-gray-400 font-medium">Commande annulée</p>
+          <p class="text-[10px] text-gray-400 font-medium">Demande annulée</p>
         </div>
       `;
     }
@@ -1586,7 +1586,7 @@
     sortRowsByStatutPipeline();
   }
 
-  function confirmCancelCommande() {
+  function confirmCancelDemande() {
     const cmd = cancelModalCmd;
     if (!cmd) return;
     const scope = document.querySelector('input[name="cancel-scope"]:checked').value;
@@ -1594,8 +1594,8 @@
 
     if (scope === 'totale') {
       days.forEach(d => { d.cancelled = true; });
-      setCommandeAnnulee(cmd);
-      showToast(`Commande ${cmd} annulée intégralement.`);
+      setDemandeAnnulee(cmd);
+      showToast(`Demande ${cmd} annulée intégralement.`);
     } else {
       const checkedDates = Array.from(document.querySelectorAll('.cancel-day-checkbox:checked')).map(cb => cb.value);
       if (checkedDates.length === 0) {
@@ -1610,14 +1610,14 @@
       const stillActive = days.some(d => !d.cancelled);
       const daysLabel = cancelledDays.map(d => d.label).join(', ');
       if (stillActive) {
-        recomputeCommandeFin(cmd);
+        recomputeDemandeFin(cmd);
         if (currentPanelCmd === cmd) renderPanelJours(cmd);
         showToast(cancelledDays.length > 1
-          ? `Jours annulés (${daysLabel}) — commande raccourcie.`
-          : `Jour du ${daysLabel} annulé — commande raccourcie.`);
+          ? `Jours annulés (${daysLabel}) — demande raccourcie.`
+          : `Jour du ${daysLabel} annulé — demande raccourcie.`);
       } else {
-        setCommandeAnnulee(cmd);
-        showToast(`Commande ${cmd} annulée (tous les jours restants ont été annulés).`);
+        setDemandeAnnulee(cmd);
+        showToast(`Demande ${cmd} annulée (tous les jours restants ont été annulés).`);
       }
     }
 
@@ -1632,7 +1632,7 @@
   // Vivier partagé d'intérimaires (mêmes profils que Planning / Disponibilités / Intérimaires)
   const interimRoster = [
     { name: 'Sofia MARTINS', init: 'SM', qual: 'Chef de rang', secteur: 'Restauration', vehicule: true, dispo: true, favori: true, note: '4.8/5', dernierContrat: '15 sept. 2026', phone: '06 12 45 78 90', email: 'sofia.martins@gmail.com', specialites: ['Gastronomique', 'Banquet / Événementiel'] },
-    { name: 'Karim DIALLO', init: 'KD', qual: 'Cuisinier', secteur: 'Restauration', vehicule: true, dispo: false, raisonIndispo: 'En commande (Le Meurice, jusqu\'au 25/09)', note: '4.3/5', dernierContrat: '02 sept. 2026', phone: '07 65 32 10 44', email: 'karim.diallo@gmail.com', specialites: ['Brunch'] },
+    { name: 'Karim DIALLO', init: 'KD', qual: 'Cuisinier', secteur: 'Restauration', vehicule: true, dispo: false, raisonIndispo: 'En demande (Le Meurice, jusqu\'au 25/09)', note: '4.3/5', dernierContrat: '02 sept. 2026', phone: '07 65 32 10 44', email: 'karim.diallo@gmail.com', specialites: ['Brunch'] },
     { name: 'Léa ROUSSEL', init: 'LR', qual: 'Réceptionniste', secteur: 'Hébergement', vehicule: true, dispo: true, favori: true, note: '4.9/5', dernierContrat: '18 sept. 2026', phone: '06 78 90 12 33', email: 'lea.roussel@gmail.com', logiciels: ['Opera Cloud', 'Opera PMS', 'Fidelio', 'Mews'] },
     { name: 'Thomas NGUYEN', init: 'TN', qual: 'Plongeur', secteur: 'Restauration', vehicule: false, dispo: false, raisonIndispo: 'Indisponibilité déclarée (jusqu\'au 27/09)', note: '4.0/5', dernierContrat: '28 août 2026', phone: '06 23 56 89 21', email: 'thomas.nguyen@gmail.com', specialites: ['Banquet / Événementiel'] },
     { name: 'Amandine BERTIN', init: 'AB', qual: 'Pâtissière', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.7/5', dernierContrat: '10 sept. 2026', phone: '06 44 12 87 65', email: 'amandine.bertin@gmail.com', specialites: ['Gastronomique'] },
@@ -1640,31 +1640,31 @@
     { name: 'Camille DUBOIS', init: 'CD', qual: 'Sommelière', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.6/5', dernierContrat: '12 sept. 2026', phone: '06 55 44 33 22', email: 'camille.dubois@gmail.com', specialites: ['Gastronomique'] },
     { name: 'Mehdi KACI', init: 'MK', qual: 'Commis de cuisine', secteur: 'Restauration', vehicule: true, dispo: true, favori: true, note: '4.2/5', dernierContrat: '22 sept. 2026', phone: '07 88 99 00 11', email: 'mehdi.kaci@gmail.com', specialites: ['Brunch'] },
     { name: 'Julie PETIT', init: 'JP', qual: "Hôtesse d'accueil", secteur: 'Hébergement', vehicule: false, dispo: true, note: '4.5/5', dernierContrat: '19 sept. 2026', phone: '06 33 22 11 00', email: 'julie.petit@gmail.com', logiciels: ['Mews'] },
-    { name: 'Paul GAUTHIER', init: 'PG', qual: "Maître d'hôtel", secteur: 'Restauration', vehicule: true, dispo: false, favori: true, raisonIndispo: 'En commande (Potel et Chabot, jusqu\'au 23/09)', note: '4.9/5', dernierContrat: '27 sept. 2026', phone: '07 34 56 78 90', email: 'paul.gauthier@gmail.com', specialites: ['Gastronomique', 'Banquet / Événementiel'] },
+    { name: 'Paul GAUTHIER', init: 'PG', qual: "Maître d'hôtel", secteur: 'Restauration', vehicule: true, dispo: false, favori: true, raisonIndispo: 'En demande (Potel et Chabot, jusqu\'au 23/09)', note: '4.9/5', dernierContrat: '27 sept. 2026', phone: '07 34 56 78 90', email: 'paul.gauthier@gmail.com', specialites: ['Gastronomique', 'Banquet / Événementiel'] },
     { name: 'Rachid BENALI', init: 'RB', qual: 'Chef cuisinier', secteur: 'Restauration', vehicule: true, dispo: true, note: '4.7/5', dernierContrat: '14 sept. 2026', phone: '06 90 80 70 60', email: 'rachid.benali@gmail.com', specialites: ['Gastronomique'] },
     { name: 'Emma LEFEBVRE', init: 'EL', qual: 'Serveuse', secteur: 'Restauration', vehicule: false, dispo: true, note: '4.1/5', dernierContrat: '05 sept. 2026', phone: '06 21 43 65 87', email: 'emma.lefebvre@gmail.com', specialites: ['Brunch'] },
     { name: 'Nadia FONTAINE', init: 'NF', qual: 'Femme de chambre', secteur: 'Housekeeping', vehicule: false, dispo: true, favori: true, note: '4.6/5', dernierContrat: '16 sept. 2026', phone: '06 66 77 88 99', email: 'nadia.fontaine@gmail.com', etoiles: [3, 4, 5] }
   ];
 
-  // Config par commande : secteur (détermine le filtre conditionnel proposé), qualification exacte / proche, qui connaît déjà ce chantier,
+  // Config par demande : secteur (détermine le filtre conditionnel proposé), qualification exacte / proche, qui connaît déjà ce chantier,
   // et condValue = l'exigence du chantier sur le filtre conditionnel (pré-appliquée automatiquement à l'ouverture des candidats)
-  const commandeConfig = {
-    'CMD-2609-01': { recap: 'Chef de rang · Hôtel Le Meurice · 11:00 - 19:00', current: null, secteur: 'Restauration', exact: ['Chef de rang'], related: ["Maître d'hôtel", 'Serveuse'], connuPar: ['Sofia MARTINS', 'Paul GAUTHIER'], condValue: 'Gastronomique' },
-    'CMD-2609-02': { recap: 'Extra service · Potel et Chabot Traiteur · 18:00 - 01:00', current: 'Sofia MARTINS', secteur: 'Restauration', exact: [], related: ['Serveuse', "Hôtesse d'accueil", 'Chef de rang'], connuPar: ['Sofia MARTINS', 'Emma LEFEBVRE'], condValue: 'Banquet / Événementiel' },
-    'CMD-2609-03': { recap: "Commis de cuisine · Fouquet's Barrière · 09:00 - 17:00", current: 'Mehdi KACI', secteur: 'Restauration', exact: ['Commis de cuisine'], related: ['Cuisinier', 'Chef cuisinier', 'Pâtissière'], connuPar: ['Mehdi KACI', 'Rachid BENALI'], condValue: 'Gastronomique' },
-    'CMD-2609-04': { recap: 'Réceptionniste · Novotel Paris Est · 07:00 - 15:00', current: 'Julie PETIT', secteur: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Julie PETIT'], condValue: 'Opera Cloud' },
-    'CMD-2609-06': { recap: 'Bagagiste · Le Grand Hôtel Parisien · 06:00 - 14:00', current: null, secteur: 'Hébergement', exact: [], related: ["Hôtesse d'accueil", 'Réceptionniste'], connuPar: [] },
-    'CMD-2609-07': { recap: 'Réceptionniste · Hôtel Prince de Galles · 08:00 - 16:00', current: 'Léa ROUSSEL', secteur: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Léa ROUSSEL'], condValue: 'Opera Cloud' },
+  const demandeConfig = {
+    'DEM-2609-01': { recap: 'Chef de rang · Hôtel Le Meurice · 11:00 - 19:00', current: null, secteur: 'Restauration', exact: ['Chef de rang'], related: ["Maître d'hôtel", 'Serveuse'], connuPar: ['Sofia MARTINS', 'Paul GAUTHIER'], condValue: 'Gastronomique' },
+    'DEM-2609-02': { recap: 'Extra service · Potel et Chabot Traiteur · 18:00 - 01:00', current: 'Sofia MARTINS', secteur: 'Restauration', exact: [], related: ['Serveuse', "Hôtesse d'accueil", 'Chef de rang'], connuPar: ['Sofia MARTINS', 'Emma LEFEBVRE'], condValue: 'Banquet / Événementiel' },
+    'DEM-2609-03': { recap: "Commis de cuisine · Fouquet's Barrière · 09:00 - 17:00", current: 'Mehdi KACI', secteur: 'Restauration', exact: ['Commis de cuisine'], related: ['Cuisinier', 'Chef cuisinier', 'Pâtissière'], connuPar: ['Mehdi KACI', 'Rachid BENALI'], condValue: 'Gastronomique' },
+    'DEM-2609-04': { recap: 'Réceptionniste · Novotel Paris Est · 07:00 - 15:00', current: 'Julie PETIT', secteur: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Julie PETIT'], condValue: 'Opera Cloud' },
+    'DEM-2609-06': { recap: 'Bagagiste · Le Grand Hôtel Parisien · 06:00 - 14:00', current: null, secteur: 'Hébergement', exact: [], related: ["Hôtesse d'accueil", 'Réceptionniste'], connuPar: [] },
+    'DEM-2609-07': { recap: 'Réceptionniste · Hôtel Prince de Galles · 08:00 - 16:00', current: 'Léa ROUSSEL', secteur: 'Hébergement', exact: ['Réceptionniste'], related: ["Hôtesse d'accueil", 'Sommelière'], connuPar: ['Léa ROUSSEL'], condValue: 'Opera Cloud' },
     // Qualification "Voiturier" : aucun intérimaire du vivier ne la possède (exact ni proche) — sert de démo au repli candidats AFT.
-    'CMD-2609-08': { recap: 'Voiturier · Hôtel Splendide Royal · 07:00 - 15:00', current: null, secteur: 'Hébergement', exact: ['Voiturier'], related: [], connuPar: [] }
+    'DEM-2609-08': { recap: 'Voiturier · Hôtel Splendide Royal · 07:00 - 15:00', current: null, secteur: 'Hébergement', exact: ['Voiturier'], related: [], connuPar: [] }
   };
 
   // Vivier des candidatures au statut « AFT » (dossier validé, prêtes à basculer en mission mais pas encore
   // intégrées comme intérimaires actifs). Utilisé en repli dans la modale « Candidats » quand aucun intérimaire
-  // du vivier actif (exact ni proche) ne correspond à la qualification demandée par la commande.
-  // On peut les positionner directement sur la commande depuis cette modale : ils basculent alors au statut
+  // du vivier actif (exact ni proche) ne correspond à la qualification demandée par la demande.
+  // On peut les positionner directement sur la demande depuis cette modale : ils basculent alors au statut
   // PROV (provisoire) le temps de cette première mission (cf. assignAftCandidate).
-  // Note : Clara PELLETIER, positionnée de cette façon sur une précédente commande, apparaît déjà en PROV
+  // Note : Clara PELLETIER, positionnée de cette façon sur une précédente demande, apparaît déjà en PROV
   // côté Intérimaires — elle n'est donc plus proposée ici en tant que candidature disponible.
   const aftCandidatsPool = [
     { name: 'Antoine ROUX', init: 'AR', qual: 'Voiturier', secteur: 'Hébergement', agence: '001', ville: 'Paris 8e', cp: '75008', telephone: '06 70 12 34 56', email: 'antoine.roux@email.com', dateCandidature: '20 sept. 2026' }
@@ -1674,7 +1674,7 @@
     return interimRoster.some(p => cfg.exact.includes(p.qual) || cfg.related.includes(p.qual));
   }
 
-  // Filtre conditionnel proposé selon le secteur de la commande (aligné sur les compétences déclaratives des fiches intérimaire)
+  // Filtre conditionnel proposé selon le secteur de la demande (aligné sur les compétences déclaratives des fiches intérimaire)
   const conditionalFilterConfig = {
     'Restauration': { id: 'cand-filter-specialite', label: 'Spécialité maîtrisée', type: 'select', field: 'specialites', options: ['Gastronomique', 'Banquet / Événementiel', 'Brunch'] },
     'Hébergement': { id: 'cand-filter-logiciel', label: 'Logiciel maîtrisé', type: 'text', field: 'logiciels', placeholder: 'Ex : Opera, Mews...' },
@@ -1695,7 +1695,7 @@
 
   const candidatesBackdrop = document.getElementById('candidates-backdrop');
   const candidatesModal = document.getElementById('candidates-modal');
-  const candCommandeRecap = document.getElementById('cand-commande-recap');
+  const candDemandeRecap = document.getElementById('cand-demande-recap');
   const candidatesList = document.getElementById('candidates-list');
   const candResultsCount = document.getElementById('cand-results-count');
   const candFilterQualif = document.getElementById('cand-filter-qualif');
@@ -1741,8 +1741,8 @@
   }
 
   function renderCandidates(cmd) {
-    const cfg = commandeConfig[cmd];
-    candCommandeRecap.textContent = cfg.recap;
+    const cfg = demandeConfig[cmd];
+    candDemandeRecap.textContent = cfg.recap;
 
     const qualifFilter = candFilterQualif.value.trim().toLowerCase();
     const deptFilter = candFilterSecteur.value;
@@ -1785,13 +1785,13 @@
     const lockSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>';
     const unlockSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>';
     const blockBanner = cmdBlocked
-      ? `<div class="rounded-lg border border-gray-300 bg-gray-50 p-3 text-xs text-gray-700 flex items-center gap-2">${lockSvg}<span><strong>${blockedInterims[cmd]}</strong> est bloqué(e) sur cette commande : débloquez-le/la pour positionner quelqu'un d'autre.</span></div>`
+      ? `<div class="rounded-lg border border-gray-300 bg-gray-50 p-3 text-xs text-gray-700 flex items-center gap-2">${lockSvg}<span><strong>${blockedInterims[cmd]}</strong> est bloqué(e) sur cette demande : débloquez-le/la pour positionner quelqu'un d'autre.</span></div>`
       : '';
 
     candidatesList.innerHTML = blockBanner + filtered.map(({ person: c, match, isCurrent }) => {
       const colors = candColorClasses[match.color];
       const connaitChantier = cfg.connuPar.includes(c.name);
-      const blockedElsewhere = blockedCommandeFor(c.name);
+      const blockedElsewhere = blockedDemandeFor(c.name);
       const isBlockedElsewhere = blockedElsewhere && blockedElsewhere !== cmd;
       const safeName = c.name.replace(/'/g, "\\'");
       let actionHTML;
@@ -1802,19 +1802,19 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
               Positionné
             </span>
-            <button type="button" onclick="toggleBlockInterim('${cmd}')" title="${cmdBlocked ? 'Débloquer cet intérimaire' : 'Bloquer cet intérimaire sur la commande'}" class="inline-flex items-center justify-center gap-1 rounded-lg text-xs font-semibold h-8 px-2.5 border transition-colors ${cmdBlocked ? 'bg-gray-900 border-gray-900 text-white hover:bg-gray-800' : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'}">
+            <button type="button" onclick="toggleBlockInterim('${cmd}')" title="${cmdBlocked ? 'Débloquer cet intérimaire' : 'Bloquer cet intérimaire sur la demande'}" class="inline-flex items-center justify-center gap-1 rounded-lg text-xs font-semibold h-8 px-2.5 border transition-colors ${cmdBlocked ? 'bg-gray-900 border-gray-900 text-white hover:bg-gray-800' : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'}">
               ${cmdBlocked ? unlockSvg + 'Débloquer' : lockSvg + 'Bloquer'}
             </button>
           </div>`;
       } else if (isBlockedElsewhere) {
-        actionHTML = `<span class="inline-flex items-center justify-center gap-1 rounded-lg text-xs font-semibold bg-gray-100 text-gray-500 h-8 px-3 flex-shrink-0 mt-0.5 whitespace-nowrap" title="Bloqué(e) sur une autre commande">${lockSvg}Bloqué sur ${blockedElsewhere}</span>`;
+        actionHTML = `<span class="inline-flex items-center justify-center gap-1 rounded-lg text-xs font-semibold bg-gray-100 text-gray-500 h-8 px-3 flex-shrink-0 mt-0.5 whitespace-nowrap" title="Bloqué(e) sur une autre demande">${lockSvg}Bloqué sur ${blockedElsewhere}</span>`;
       } else if (cmdBlocked) {
-        actionHTML = `<button type="button" disabled title="Un intérimaire est bloqué sur cette commande" class="inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-gray-100 text-gray-400 h-8 px-3 flex-shrink-0 mt-0.5 cursor-not-allowed">Positionner</button>`;
+        actionHTML = `<button type="button" disabled title="Un intérimaire est bloqué sur cette demande" class="inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-gray-100 text-gray-400 h-8 px-3 flex-shrink-0 mt-0.5 cursor-not-allowed">Positionner</button>`;
       } else {
         actionHTML = `
           <div class="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
             <button type="button" onclick="assignCandidate('${cmd}', '${safeName}')" class="inline-flex items-center justify-center rounded-lg text-xs font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow hover:opacity-95 h-8 px-3">Positionner</button>
-            <button type="button" onclick="assignAndBlockCandidate('${cmd}', '${safeName}')" title="Positionner et bloquer sur cette commande" class="inline-flex items-center justify-center rounded-lg h-8 w-8 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors">${lockSvg}</button>
+            <button type="button" onclick="assignAndBlockCandidate('${cmd}', '${safeName}')" title="Positionner et bloquer sur cette demande" class="inline-flex items-center justify-center rounded-lg h-8 w-8 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors">${lockSvg}</button>
           </div>`;
       }
       return `
@@ -1856,7 +1856,7 @@
 
   // Repli « candidats AFT » : affiché quand aucun intérimaire du vivier actif ne correspond à la qualification
   // demandée. Ces candidats ont un dossier validé (statut AFT côté Candidatures) mais ne sont pas encore
-  // en mission ; on peut les positionner directement sur la commande — ils basculent alors au statut PROV
+  // en mission ; on peut les positionner directement sur la demande — ils basculent alors au statut PROV
   // (provisoire) le temps de cette première mission, plutôt que de simplement renvoyer vers leur candidature.
   function renderAftFallback(cmd, cfg, qualifFilter, deptFilter) {
     const aftMatches = aftCandidatsPool.filter(c => {
@@ -1909,16 +1909,16 @@
     }).join('');
   }
 
-  // Positionne un candidat AFT directement sur la commande : il n'est pas encore intérimaire actif,
+  // Positionne un candidat AFT directement sur la demande : il n'est pas encore intérimaire actif,
   // il bascule donc au statut PROV (provisoire) le temps de cette première mission, plutôt que d'être
   // simplement renvoyé vers sa fiche candidature.
   function assignAftCandidate(cmd, name) {
     const candidate = aftCandidatsPool.find(p => p.name === name);
-    const cfg = commandeConfig[cmd];
+    const cfg = demandeConfig[cmd];
     if (!candidate || !cfg) return;
-    if (blockedInterims[cmd]) { showToast(`${blockedInterims[cmd]} est bloqué(e) sur cette commande`); return; }
+    if (blockedInterims[cmd]) { showToast(`${blockedInterims[cmd]} est bloqué(e) sur cette demande`); return; }
 
-    const confirmed = confirm(`Positionner ${candidate.name} (candidature AFT) sur cette commande ?\n\nCette personne n'est pas encore intérimaire actif : elle sera placée au statut PROV (provisoire) le temps de cette première mission.`);
+    const confirmed = confirm(`Positionner ${candidate.name} (candidature AFT) sur cette demande ?\n\nCette personne n'est pas encore intérimaire actif : elle sera placée au statut PROV (provisoire) le temps de cette première mission.`);
     if (!confirmed) return;
 
     cfg.current = candidate.name;
@@ -1958,7 +1958,7 @@
 
     sortRowsByStatutPipeline();
     renderCandidates(cmd);
-    showToast(`${candidate.name} positionné(e) en PROV sur cette commande`);
+    showToast(`${candidate.name} positionné(e) en PROV sur cette demande`);
   }
 
   // Tooltip contact positionné en fixed (relatif au viewport) au lieu d'être ancré dans la liste scrollable,
@@ -2003,7 +2003,7 @@
   document.getElementById('candidates-list').addEventListener('scroll', hideCandTooltip);
 
   function resetCandidateFilters(cmd) {
-    const cfg = commandeConfig[cmd];
+    const cfg = demandeConfig[cmd];
     candFilterQualif.value = '';
     candFilterSecteur.value = cfg ? cfg.secteur : '';
     candFilterChantier.checked = false;
@@ -2012,7 +2012,7 @@
     candFilterFavori.checked = false;
     renderConditionalFilter(candFilterSecteur.value);
 
-    // Le filtre conditionnel (spécialité / logiciel / étoiles) est pré-rempli avec l'exigence du chantier pour cette commande
+    // Le filtre conditionnel (spécialité / logiciel / étoiles) est pré-rempli avec l'exigence du chantier pour cette demande
     if (cfg && cfg.condValue) {
       const condCfg = conditionalFilterConfig[cfg.secteur];
       if (condCfg) {
@@ -2038,12 +2038,12 @@
   }
 
   function assignCandidate(cmd, name) {
-    const cfg = commandeConfig[cmd];
+    const cfg = demandeConfig[cmd];
     const candidate = interimRoster.find(p => p.name === name);
     if (!candidate) return;
-    // Un intérimaire bloqué ne peut pas être remplacé, ni positionné sur une autre commande
-    if (blockedInterims[cmd]) { showToast(`${blockedInterims[cmd]} est bloqué(e) sur cette commande`); return; }
-    const other = blockedCommandeFor(candidate.name);
+    // Un intérimaire bloqué ne peut pas être remplacé, ni positionné sur une autre demande
+    if (blockedInterims[cmd]) { showToast(`${blockedInterims[cmd]} est bloqué(e) sur cette demande`); return; }
+    const other = blockedDemandeFor(candidate.name);
     if (other) { showToast(`${candidate.name} est bloqué(e) sur ${other}`); return; }
     cfg.current = candidate.name;
 
@@ -2103,25 +2103,25 @@
   candFilterVehicule.addEventListener('change', () => { if (currentCandCmd) renderCandidates(currentCandCmd); });
   candFilterFavori.addEventListener('change', () => { if (currentCandCmd) renderCandidates(currentCandCmd); });
 
-  // ===== ENVOIS SMS (intérimaire) / MAIL (client) : 1 clic par commande + envoi groupé via pop-up =====
+  // ===== ENVOIS SMS (intérimaire) / MAIL (client) : 1 clic par demande + envoi groupé via pop-up =====
 
-  // Coordonnées du contact client par commande (repris des mêmes infos que le panneau latéral / la création manuelle)
-  const commandeContacts = {
-    'CMD-2609-01': { contactNom: 'Mme Sophie LAURENT', contactEmail: 's.laurent@lemeurice.com' },
-    'CMD-2609-02': { contactNom: 'M. Thomas DUBOIS', contactEmail: 't.dubois@potel.com' },
-    'CMD-2609-03': { contactNom: 'Chef Marc VEYRAT', contactEmail: 'mveyrat@fouquets.com' },
-    'CMD-2609-04': { contactNom: 'Mme Isabelle ROCHE', contactEmail: 'i.roche@novotel-est.com' },
-    'CMD-2609-05': { contactNom: 'M. Julien FABRE', contactEmail: 'j.fabre@latabledumarais.fr' },
-    'CMD-2609-06': { contactNom: 'M. Julien MOREAU', contactEmail: 'j.moreau@grandhotelparisien.fr' },
-    'CMD-2609-07': { contactNom: 'M. Antoine REY', contactEmail: 'a.rey@princedegalles.com' },
-    'CMD-2609-08': { contactNom: 'Mme Camille ROY', contactEmail: 'c.roy@splendideroyal.fr' }
+  // Coordonnées du contact client par demande (repris des mêmes infos que le panneau latéral / la création manuelle)
+  const demandeContacts = {
+    'DEM-2609-01': { contactNom: 'Mme Sophie LAURENT', contactEmail: 's.laurent@lemeurice.com' },
+    'DEM-2609-02': { contactNom: 'M. Thomas DUBOIS', contactEmail: 't.dubois@potel.com' },
+    'DEM-2609-03': { contactNom: 'Chef Marc VEYRAT', contactEmail: 'mveyrat@fouquets.com' },
+    'DEM-2609-04': { contactNom: 'Mme Isabelle ROCHE', contactEmail: 'i.roche@novotel-est.com' },
+    'DEM-2609-05': { contactNom: 'M. Julien FABRE', contactEmail: 'j.fabre@latabledumarais.fr' },
+    'DEM-2609-06': { contactNom: 'M. Julien MOREAU', contactEmail: 'j.moreau@grandhotelparisien.fr' },
+    'DEM-2609-07': { contactNom: 'M. Antoine REY', contactEmail: 'a.rey@princedegalles.com' },
+    'DEM-2609-08': { contactNom: 'Mme Camille ROY', contactEmail: 'c.roy@splendideroyal.fr' }
   };
 
-  // État des envois par commande : { sms: {to, date} | null, mail: {to, date} | null }
-  // CMD-2609-03 et CMD-2609-07 sont initialisées déjà notifiées des deux côtés, pour illustrer l'état "envoyé" dès l'ouverture de la page.
+  // État des envois par demande : { sms: {to, date} | null, mail: {to, date} | null }
+  // DEM-2609-03 et DEM-2609-07 sont initialisées déjà notifiées des deux côtés, pour illustrer l'état "envoyé" dès l'ouverture de la page.
   const envoisState = {
-    'CMD-2609-03': { sms: { to: 'Mehdi KACI', date: new Date(2026, 8, 21, 9, 15) }, mail: { to: 'Chef Marc VEYRAT', date: new Date(2026, 8, 21, 9, 16) } },
-    'CMD-2609-07': { sms: { to: 'Léa ROUSSEL', date: new Date(2026, 8, 20, 17, 40) }, mail: { to: 'M. Antoine REY', date: new Date(2026, 8, 20, 17, 42) } }
+    'DEM-2609-03': { sms: { to: 'Mehdi KACI', date: new Date(2026, 8, 21, 9, 15) }, mail: { to: 'Chef Marc VEYRAT', date: new Date(2026, 8, 21, 9, 16) } },
+    'DEM-2609-07': { sms: { to: 'Léa ROUSSEL', date: new Date(2026, 8, 20, 17, 40) }, mail: { to: 'M. Antoine REY', date: new Date(2026, 8, 20, 17, 42) } }
   };
 
   function formatEnvoiTime(d) {
@@ -2143,7 +2143,7 @@
     if (!row) return '';
     const cancelled = row.dataset.statut === 'Annulée';
     const interimaire = row.dataset.interimaire;
-    const contact = commandeContacts[cmd];
+    const contact = demandeContacts[cmd];
     const state = envoisState[cmd] || {};
 
     const smsDisabled = cancelled || !interimaire;
@@ -2151,8 +2151,8 @@
     const smsSent = state.sms;
     const mailSent = state.mail;
 
-    const smsTitle = cancelled ? 'Commande annulée' : !interimaire ? 'Aucun intérimaire assigné' : smsSent ? `SMS envoyé à ${smsSent.to} · ${formatEnvoiTime(smsSent.date)}` : `Envoyer un SMS à ${interimaire}`;
-    const mailTitle = cancelled ? 'Commande annulée' : !contact ? 'Aucun contact client' : mailSent ? `E-mail envoyé à ${mailSent.to} · ${formatEnvoiTime(mailSent.date)}` : `Envoyer un e-mail à ${contact.contactNom}`;
+    const smsTitle = cancelled ? 'Demande annulée' : !interimaire ? 'Aucun intérimaire assigné' : smsSent ? `SMS envoyé à ${smsSent.to} · ${formatEnvoiTime(smsSent.date)}` : `Envoyer un SMS à ${interimaire}`;
+    const mailTitle = cancelled ? 'Demande annulée' : !contact ? 'Aucun contact client' : mailSent ? `E-mail envoyé à ${mailSent.to} · ${formatEnvoiTime(mailSent.date)}` : `Envoyer un e-mail à ${contact.contactNom}`;
 
     return `
       <button type="button" title="${smsTitle}" ${smsDisabled ? 'disabled' : ''} onclick="event.stopPropagation(); sendSms('${cmd}')" class="${envoiButtonClasses(smsDisabled ? 'disabled' : smsSent ? 'sent' : 'default')}">
@@ -2204,7 +2204,7 @@
   function sendMail(cmd, silent) {
     const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
     if (!row || row.dataset.statut === 'Annulée') return;
-    const contact = commandeContacts[cmd];
+    const contact = demandeContacts[cmd];
     if (!contact || !contact.contactEmail) return;
     envoisState[cmd] = envoisState[cmd] || {};
     envoisState[cmd].mail = { to: contact.contactNom, date: new Date() };
@@ -2218,11 +2218,11 @@
     const cancelled = row.dataset.statut === 'Annulée';
     const client = row.dataset.client;
     const interimaire = row.dataset.interimaire;
-    const contact = commandeContacts[cmd];
+    const contact = demandeContacts[cmd];
     const state = envoisState[cmd] || {};
 
     const smsCell = cancelled
-      ? `<span class="text-[11px] text-gray-400">Commande annulée</span>`
+      ? `<span class="text-[11px] text-gray-400">Demande annulée</span>`
       : !interimaire
         ? `<span class="text-[11px] text-gray-400">Aucun intérimaire</span>`
         : state.sms
@@ -2394,20 +2394,20 @@
     });
   }
 
-  // Création manuelle d'une commande : ouvre la modale, construit une nouvelle ligne de planning et l'ajoute en tête de la vue jour
-  let newCommandeCounter = 9;
-  function openCreateCommandeModal() {
-    document.getElementById('create-commande-backdrop').classList.remove('hidden');
-    document.getElementById('create-commande-modal').classList.remove('hidden');
+  // Création manuelle d'une demande : ouvre la modale, construit une nouvelle ligne de planning et l'ajoute en tête de la vue jour
+  let newDemandeCounter = 9;
+  function openCreateDemandeModal() {
+    document.getElementById('create-demande-backdrop').classList.remove('hidden');
+    document.getElementById('create-demande-modal').classList.remove('hidden');
   }
-  function closeCreateCommandeModal() {
-    document.getElementById('create-commande-backdrop').classList.add('hidden');
-    document.getElementById('create-commande-modal').classList.add('hidden');
-    document.getElementById('create-commande-form').reset();
+  function closeCreateDemandeModal() {
+    document.getElementById('create-demande-backdrop').classList.add('hidden');
+    document.getElementById('create-demande-modal').classList.add('hidden');
+    document.getElementById('create-demande-form').reset();
   }
-  document.getElementById('create-commande-backdrop').addEventListener('click', closeCreateCommandeModal);
+  document.getElementById('create-demande-backdrop').addEventListener('click', closeCreateDemandeModal);
 
-  function createManualCommande() {
+  function createManualDemande() {
     const client = document.getElementById('cm-client').value.trim() || 'Client à préciser';
     const chantier = document.getElementById('cm-chantier').value.trim() || 'Chantier à préciser';
     const agence = document.getElementById('cm-agence').value;
@@ -2422,7 +2422,7 @@
     const contactEmail = document.getElementById('cm-contact-email').value.trim();
     const remarque = document.getElementById('cm-remarque').value.trim() || 'Aucune remarque particulière.';
 
-    const cmd = 'CMD-2609-' + String(newCommandeCounter++).padStart(2, '0');
+    const cmd = 'DEM-2609-' + String(newDemandeCounter++).padStart(2, '0');
     const heureLabel = heureDebut + ' - ' + heureFin;
 
     const row = document.createElement('div');
@@ -2436,7 +2436,7 @@
     row.dataset.statut = 'À staffer';
     row.dataset.agence = agence;
     row.dataset.secteur = QUALIF_SECTEUR[qualifCode] || 'Restauration';
-    commandeContacts[cmd] = { contactNom, contactEmail };
+    demandeContacts[cmd] = { contactNom, contactEmail };
     envoisState[cmd] = { sms: null, mail: null };
     row.className = 'planning-row grid grid-cols-1 lg:grid-cols-[100px_220px_110px_140px_260px_110px_190px_100px_130px_260px] items-start gap-3 py-2.5 px-4 border-l-4 border-l-red-500 hover:bg-gray-50/80 cursor-pointer transition-colors duration-150';
     row.innerHTML = `
@@ -2486,7 +2486,7 @@
     container.insertBefore(row, container.firstChild);
     renderEnvoisCell(cmd);
     applyPlanningFilters();
-    closeCreateCommandeModal();
+    closeCreateDemandeModal();
   }
 </script>
 

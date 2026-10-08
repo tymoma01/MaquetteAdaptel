@@ -77,10 +77,10 @@
           <span class="font-medium">Recherche dispo.</span>
         </div>
       </a>
-      <a class="block" href="maquette-commandes.html">
+      <a class="block" href="maquette-demandes.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
-          <span class="font-medium">Commandes</span>
+          <span class="font-medium">Demandes</span>
         </div>
       </a>
       <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
@@ -177,10 +177,10 @@
 
         <form class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" onsubmit="return false;">
           
-          <!-- Recherche par N° de commande (Auto-remplissage) -->
+          <!-- Recherche par N° de demande (Auto-remplissage) -->
           <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">N° de commande (Auto-remplissage)</label>
-            <input id="input-cmd" oninput="simulateAutofill(this.value)" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" placeholder="Ex: CMD-2609-01" type="text">
+            <label class="text-xs font-semibold text-gray-700 uppercase tracking-wider">N° de demande (Auto-remplissage)</label>
+            <input id="input-cmd" oninput="simulateAutofill(this.value)" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]" placeholder="Ex: DEM-2609-01" type="text">
           </div>
 
           <!-- Agence -->
@@ -255,7 +255,7 @@
         <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center justify-between text-xs text-amber-900">
           <div class="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-amber-600 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-            <span><strong>Astuce :</strong> Faites un <strong>clic droit</strong> sur une ligne de résultat pour valider instantanément et placer l'intérimaire en attente sur la commande.</span>
+            <span><strong>Astuce :</strong> Faites un <strong>clic droit</strong> sur une ligne de résultat pour valider instantanément et placer l'intérimaire en attente sur la demande.</span>
           </div>
           <span class="font-bold">3 résultats correspondants</span>
         </div>
@@ -283,7 +283,7 @@
 </div>
 
 <script>
-  // Simulation de l'auto-remplissage par numéro de commande
+  // Simulation de l'auto-remplissage par numéro de demande
   function simulateAutofill(value) {
     if (value.trim().length > 2) {
       document.getElementById('select-agence').value = "001";
@@ -351,7 +351,7 @@
 
   // Action exécutée lors du clic droit sur un candidat
   function validerSelection(nomIntérimaire) {
-    alert(`✅ VALIDATION EFFECTUÉE (Clic droit) :\n\nL'intérimaire "${nomIntérimaire}" a été ajouté à la commande au statut « en attente de validation ».\nNotification/Appel immédiat déclenché.`);
+    alert(`✅ VALIDATION EFFECTUÉE (Clic droit) :\n\nL'intérimaire "${nomIntérimaire}" a été ajouté à la demande au statut « en attente de validation ».\nNotification/Appel immédiat déclenché.`);
   }
 </script>
 

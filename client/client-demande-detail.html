@@ -511,7 +511,8 @@
       } else if (hoursLeft <= 48) {
         btn.disabled = true;
         btn.classList.add('opacity-40', 'cursor-not-allowed');
-        hint.textContent = "Non disponible : la mission débute dans moins de 48h.";
+        // Moins de 48h : l'annulation passe obligatoirement par un appel à l'interlocuteur Adaptel.
+        hint.innerHTML = `Non disponible en ligne : la mission débute dans moins de 48h.<br>Pour toute modification ou annulation, contactez votre interlocuteur Adaptel au <a href="tel:0671224590" class="font-semibold text-[#A63629] hover:underline whitespace-nowrap">06 71 22 45 90</a> ou au fixe <a href="tel:0153583030" class="font-semibold text-[#A63629] hover:underline whitespace-nowrap">01 53 58 30 30</a>.`;
       } else {
         hint.textContent = "Transmise à Adaptel avec un engagement de retour sous 24h. L'intérimaire n'en est pas informé directement.";
       }

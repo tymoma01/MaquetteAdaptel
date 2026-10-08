@@ -308,12 +308,28 @@
         </div>
       </div>
       <div id="motifs-list" class="space-y-3"></div>
+      <!-- Attestation obligatoire : le client confirme que les risques de la fiche de liaison transmise sont inchangés. -->
+      <div class="rounded-xl border border-amber-200 bg-amber-50/60 p-3">
+        <label class="flex items-start gap-2.5 cursor-pointer">
+          <input id="fiche-liaison-check" type="checkbox" onchange="updateEnvoiGate()" class="mt-0.5 h-4 w-4 rounded border-gray-300 accent-[#A63629] cursor-pointer">
+          <span class="text-xs text-gray-700">J'atteste que les risques mentionnés dans la <span class="font-semibold">fiche de liaison</span> transmise à Adaptel sont inchangés pour ces missions.</span>
+        </label>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5 ml-[26px] text-[11px]">
+          <a href="#" onclick="event.preventDefault()" class="inline-flex items-center gap-1 font-semibold text-[#A63629] hover:underline">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 13H8"></path><path d="M16 17H8"></path><path d="M16 13h-2"></path></svg>
+            Consulter la fiche de liaison transmise
+          </a>
+          <span class="text-gray-500">Les risques ont évolué ?
+            <a href="#" onclick="event.preventDefault()" class="font-semibold text-[#A63629] hover:underline">Mettre à jour la fiche de liaison</a>
+          </span>
+        </div>
+      </div>
       <div class="flex items-center justify-between gap-3 pt-3 border-t border-gray-200">
         <button type="button" onclick="backToRecap()" class="h-10 px-4 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-100 inline-flex items-center gap-1.5">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m15 18-6-6 6-6"></path></svg>
           Retour
         </button>
-        <button type="button" onclick="confirmEnvoi()" class="h-10 px-5 rounded-lg text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Confirmer l'envoi</button>
+        <button id="btn-confirm-envoi" type="button" onclick="confirmEnvoi()" disabled class="h-10 px-5 rounded-lg text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Confirmer l'envoi</button>
       </div>
     </div>
   </div>
@@ -693,7 +709,7 @@
       <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
     </div>
     <div class="grid grid-cols-7 gap-2">`;
-    // Jours couverts par une mission multi-jours (hors jour de début) : surlignés plus légèrement.
+    // Jours couverts par une mission multi-jours (hors jour de début) : en rouge comme le jour de début.
     const covered = new Set();
     Object.entries(dayConfigs).forEach(([start, qualifs]) => Object.values(qualifs).forEach(c => {
       for (let i = 1; i < nbJours(start, c.dateFin); i++) {
@@ -710,7 +726,7 @@
       let cls = 'hover:bg-gray-100';
       if (isPast) cls = 'disabled';
       else if (count > 0) cls = 'selected';
-      else if (covered.has(key)) cls = 'bg-red-100 text-[#A63629] font-semibold';
+      else if (covered.has(key)) cls = 'selected';
       html += `<button type="button" ${isPast ? 'disabled' : `onclick="openJourModal('${key}', this)"`}
         class="cal-day w-full aspect-square rounded-xl text-base flex items-center justify-center ${cls}">${d}${count > 0 ? `<span class="ml-0.5 text-[10px] align-top">${count}</span>` : ''}</button>`;
     }
@@ -944,6 +960,8 @@
   function goToMotifsStep() {
     if (collectRecapRows().length === 0) { alert("Cliquez sur au moins un jour du calendrier pour créer une demande."); return; }
     renderMotifsStep();
+    document.getElementById('fiche-liaison-check').checked = false;
+    updateEnvoiGate();
     document.getElementById('nouvelle-body').classList.add('hidden');
     document.getElementById('motifs-step').classList.remove('hidden');
   }
@@ -1025,7 +1043,13 @@
     entry[field] = value;
   }
 
+  // Le bouton d'envoi reste désactivé tant que l'attestation sur la fiche de liaison n'est pas cochée.
+  function updateEnvoiGate() {
+    document.getElementById('btn-confirm-envoi').disabled = !document.getElementById('fiche-liaison-check').checked;
+  }
+
   function confirmEnvoi() {
+    if (!document.getElementById('fiche-liaison-check').checked) return;
     const rows = collectRecapRows();
     if (rows.some(r => !r.motif || !r.justification || !r.justification.trim())) {
       alert("Merci d'indiquer un motif et une justification pour chaque demande avant l'envoi.");

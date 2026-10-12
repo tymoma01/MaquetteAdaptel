@@ -161,56 +161,11 @@
         <!-- TITLE -->
         <div class="max-w-[1400px] mx-auto space-y-2">
           <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Paramètres</h1>
-          <p class="text-sm text-gray-600 max-w-2xl">Configuration transverse des règles utilisées par les modules Disponibilités et Planning.</p>
-        </div>
-
-        <!-- FILTRE DE SECTION -->
-        <div class="max-w-[1400px] mx-auto">
-          <div class="flex flex-wrap items-center gap-2.5">
-            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider mr-0.5">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-              Filtrer
-            </span>
-            <div id="section-filters" class="flex flex-wrap gap-2">
-              <button type="button" data-filter="all" onclick="setSectionFilter('all')" class="section-filter-btn inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-semibold h-9 px-4 transition-all cursor-pointer">
-                <svg class="section-filter-check hidden h-3.5 w-3.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-                Toutes les sections
-              </button>
-              <button type="button" data-filter="dispo" onclick="setSectionFilter('dispo')" class="section-filter-btn inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-semibold h-9 px-4 transition-all cursor-pointer">
-                <svg class="section-filter-check hidden h-3.5 w-3.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-                Disponibilités type par qualification
-              </button>
-              <button type="button" data-filter="groupes" onclick="setSectionFilter('groupes')" class="section-filter-btn inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-semibold h-9 px-4 transition-all cursor-pointer">
-                <svg class="section-filter-check hidden h-3.5 w-3.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-                Groupes de qualifications similaires
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- SECTION : DISPONIBILITES TYPE PAR QUALIFICATION -->
-        <div class="max-w-[1400px] mx-auto" data-section="dispo">
-          <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 p-6 border-b border-gray-200 bg-gray-50">
-              <div>
-                <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
-                  Disponibilités type par qualification
-                </h3>
-                <p class="text-sm text-gray-500 mt-0.5 max-w-2xl">Créneaux horaires proposés à l'intérimaire lorsqu'il déclare une disponibilité. S'il possède plusieurs qualifications, il doit d'abord choisir la qualification concernée : seuls les créneaux type de cette qualification lui sont ensuite proposés.</p>
-              </div>
-              <button type="button" id="btn-add-qualif" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 gap-2 flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
-                Ajouter une qualification
-              </button>
-            </div>
-
-            <div id="qualif-templates-list" class="divide-y divide-gray-100"></div>
-          </div>
+          <p class="text-sm text-gray-600 max-w-2xl">Configuration transverse des règles utilisées par le module Planning.</p>
         </div>
 
         <!-- SECTION : GROUPES DE QUALIFICATIONS SIMILAIRES -->
-        <div class="max-w-[1400px] mx-auto" data-section="groupes">
+        <div class="max-w-[1400px] mx-auto">
           <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
             <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 p-6 border-b border-gray-200 bg-gray-50">
               <div>
@@ -233,57 +188,6 @@
       </div>
     </div>
   </main>
-</div>
-
-<!-- MODAL : AJOUTER / MODIFIER UN CRENEAU TYPE -->
-<div id="slot-modal-backdrop" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center p-4">
-  <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6 space-y-4">
-    <div class="flex items-center justify-between">
-      <h3 id="slot-modal-title" class="font-bold text-gray-900 text-lg">Créneau type</h3>
-      <button id="slot-modal-close" class="p-1.5 rounded-lg hover:bg-gray-100">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-gray-500"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
-      </button>
-    </div>
-    <p id="slot-modal-qualif" class="text-xs text-gray-500 -mt-2">—</p>
-    <div>
-      <label class="text-sm text-gray-700 font-semibold">Libellé</label>
-      <input id="slot-modal-label" type="text" placeholder="Ex : Service midi" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
-    </div>
-    <div class="grid grid-cols-2 gap-3">
-      <div>
-        <label class="text-sm text-gray-700 font-semibold">Heure de début</label>
-        <input id="slot-modal-start" type="time" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
-      </div>
-      <div>
-        <label class="text-sm text-gray-700 font-semibold">Heure de fin</label>
-        <input id="slot-modal-end" type="time" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
-      </div>
-    </div>
-    <div class="flex gap-3 pt-1">
-      <button id="slot-modal-cancel" type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4 flex-1">Annuler</button>
-      <button id="slot-modal-save" type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 flex-1">Enregistrer</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL : AJOUTER UNE QUALIFICATION -->
-<div id="qualif-modal-backdrop" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center p-4">
-  <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6 space-y-4">
-    <div class="flex items-center justify-between">
-      <h3 class="font-bold text-gray-900 text-lg">Nouvelle qualification</h3>
-      <button id="qualif-modal-close" class="p-1.5 rounded-lg hover:bg-gray-100">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-gray-500"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
-      </button>
-    </div>
-    <div>
-      <label class="text-sm text-gray-700 font-semibold">Nom de la qualification</label>
-      <input id="qualif-modal-name" type="text" placeholder="Ex : Chef de partie" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
-    </div>
-    <div class="flex gap-3 pt-1">
-      <button id="qualif-modal-cancel" type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-10 px-4 flex-1">Annuler</button>
-      <button id="qualif-modal-save" type="button" class="inline-flex items-center justify-center rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4 flex-1">Créer</button>
-    </div>
-  </div>
 </div>
 
 <!-- MODAL : CREER UN GROUPE DE QUALIFICATIONS -->
@@ -332,158 +236,6 @@
 </div>
 
 <script>
-  // Cosmetic: client-side only, no persistence — mirrors the illustrative template set referenced from
-  // "interimaire-disponibilites.html" (espace intérimaire) where these presets are proposed to the intérimaire.
-  let QUALIF_TEMPLATES = [
-    { qualif: 'Chef de rang', slots: [
-      { id: 's1', label: 'Service midi', debut: '11:00', fin: '15:00' },
-      { id: 's2', label: 'Service soir', debut: '18:30', fin: '23:30' }
-    ]},
-    { qualif: 'Sous-Chef', slots: [
-      { id: 's3', label: 'Service midi', debut: '08:00', fin: '15:00' },
-      { id: 's4', label: 'Service soir', debut: '16:00', fin: '23:00' }
-    ]},
-    { qualif: 'Banquet', slots: [
-      { id: 's5', label: 'Journée banquet', debut: '07:00', fin: '19:00' }
-    ]},
-    { qualif: 'Hôte / Hôtesse', slots: [
-      { id: 's6', label: 'Matin', debut: '07:00', fin: '15:00' },
-      { id: 's7', label: 'Soir', debut: '15:00', fin: '23:00' }
-    ]},
-    { qualif: 'Housekeeping', slots: [
-      { id: 's8', label: 'Journée', debut: '08:00', fin: '16:00' }
-    ]},
-    { qualif: 'Cuisinier', slots: [
-      { id: 's9', label: 'Service midi', debut: '08:00', fin: '15:00' },
-      { id: 's10', label: 'Service soir', debut: '16:00', fin: '23:00' }
-    ]},
-    { qualif: 'Réceptionniste', slots: [
-      { id: 's11', label: 'Matin', debut: '07:00', fin: '15:00' },
-      { id: 's12', label: 'Après-midi', debut: '15:00', fin: '23:00' }
-    ]},
-    { qualif: 'Plongeur', slots: [
-      { id: 's13', label: 'Service midi', debut: '10:00', fin: '15:00' },
-      { id: 's14', label: 'Service soir', debut: '18:00', fin: '23:00' }
-    ]},
-    { qualif: 'Pâtissière', slots: [
-      { id: 's15', label: 'Journée', debut: '06:00', fin: '14:00' }
-    ]},
-    { qualif: 'Barman', slots: [
-      { id: 's16', label: 'Soir', debut: '18:00', fin: '02:00' }
-    ]},
-    { qualif: 'Sommelière', slots: [
-      { id: 's17', label: 'Service soir', debut: '18:00', fin: '23:30' }
-    ]},
-    { qualif: "Maître d'hôtel", slots: [
-      { id: 's18', label: 'Service midi', debut: '11:00', fin: '15:00' },
-      { id: 's19', label: 'Service soir', debut: '18:30', fin: '23:30' }
-    ]}
-  ];
-  let nextSlotId = 20;
-
-  function fmtSlot(s){ return s.label + ' · ' + s.debut + ' – ' + s.fin; }
-
-  function render(){
-    const wrap = document.getElementById('qualif-templates-list');
-    wrap.innerHTML = QUALIF_TEMPLATES.map(q => `
-      <div class="p-5">
-        <div class="flex items-center justify-between gap-3 mb-3">
-          <h4 class="font-semibold text-gray-900">${q.qualif}</h4>
-          <div class="flex items-center gap-2">
-            <button type="button" onclick="openSlotModal('${q.qualif}')" class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-8 px-3 text-xs font-semibold text-gray-700">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
-              Ajouter un créneau
-            </button>
-            <button type="button" onclick="removeQualif('${q.qualif}')" title="Supprimer cette qualification" class="p-1.5 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-            </button>
-          </div>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          ${q.slots.length ? q.slots.map(s => `
-            <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 pl-3 pr-1.5 py-1 text-xs font-medium text-gray-700">
-              ${fmtSlot(s)}
-              <button type="button" onclick="openSlotModal('${q.qualif}', '${s.id}')" title="Modifier" class="p-1 rounded-full hover:bg-gray-200 text-gray-500">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
-              </button>
-              <button type="button" onclick="removeSlot('${q.qualif}', '${s.id}')" title="Supprimer" class="p-1 rounded-full hover:bg-red-100 text-gray-500 hover:text-red-600">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
-              </button>
-            </span>
-          `).join('') : '<p class="text-xs text-gray-400 italic">Aucun créneau type — cette qualification n\'aura pas de proposition côté intérimaire.</p>'}
-        </div>
-      </div>
-    `).join('');
-  }
-
-  /* ---- Créneau modal ---- */
-  const slotBackdrop = document.getElementById('slot-modal-backdrop');
-  let slotContext = { qualif: null, id: null };
-
-  function openSlotModal(qualif, id){
-    slotContext = { qualif, id: id || null };
-    const q = QUALIF_TEMPLATES.find(x => x.qualif === qualif);
-    const slot = id ? q.slots.find(s => s.id === id) : null;
-    document.getElementById('slot-modal-title').textContent = slot ? 'Modifier le créneau' : 'Nouveau créneau';
-    document.getElementById('slot-modal-qualif').textContent = 'Qualification : ' + qualif;
-    document.getElementById('slot-modal-label').value = slot ? slot.label : '';
-    document.getElementById('slot-modal-start').value = slot ? slot.debut : '09:00';
-    document.getElementById('slot-modal-end').value = slot ? slot.fin : '17:00';
-    slotBackdrop.classList.remove('hidden');
-  }
-  function closeSlotModal(){ slotBackdrop.classList.add('hidden'); }
-  function saveSlot(){
-    const label = document.getElementById('slot-modal-label').value.trim();
-    const debut = document.getElementById('slot-modal-start').value;
-    const fin = document.getElementById('slot-modal-end').value;
-    if(!label || !debut || !fin) return;
-    const q = QUALIF_TEMPLATES.find(x => x.qualif === slotContext.qualif);
-    if(slotContext.id){
-      const slot = q.slots.find(s => s.id === slotContext.id);
-      slot.label = label; slot.debut = debut; slot.fin = fin;
-    } else {
-      q.slots.push({ id: 's' + (nextSlotId++), label, debut, fin });
-    }
-    render();
-    closeSlotModal();
-  }
-  function removeSlot(qualif, id){
-    const q = QUALIF_TEMPLATES.find(x => x.qualif === qualif);
-    q.slots = q.slots.filter(s => s.id !== id);
-    render();
-  }
-
-  /* ---- Qualification modal ---- */
-  const qualifBackdrop = document.getElementById('qualif-modal-backdrop');
-  function openQualifModal(){
-    document.getElementById('qualif-modal-name').value = '';
-    qualifBackdrop.classList.remove('hidden');
-  }
-  function closeQualifModal(){ qualifBackdrop.classList.add('hidden'); }
-  function saveQualif(){
-    const name = document.getElementById('qualif-modal-name').value.trim();
-    if(!name || QUALIF_TEMPLATES.some(q => q.qualif.toLowerCase() === name.toLowerCase())) return;
-    QUALIF_TEMPLATES.push({ qualif: name, slots: [] });
-    render();
-    closeQualifModal();
-  }
-  function removeQualif(qualif){
-    QUALIF_TEMPLATES = QUALIF_TEMPLATES.filter(q => q.qualif !== qualif);
-    render();
-  }
-
-  document.getElementById('btn-add-qualif').addEventListener('click', openQualifModal);
-  document.getElementById('slot-modal-close').addEventListener('click', closeSlotModal);
-  document.getElementById('slot-modal-cancel').addEventListener('click', closeSlotModal);
-  document.getElementById('slot-modal-save').addEventListener('click', saveSlot);
-  slotBackdrop.addEventListener('click', (e) => { if (e.target === slotBackdrop) closeSlotModal(); });
-  document.getElementById('qualif-modal-close').addEventListener('click', closeQualifModal);
-  document.getElementById('qualif-modal-cancel').addEventListener('click', closeQualifModal);
-  document.getElementById('qualif-modal-save').addEventListener('click', saveQualif);
-  qualifBackdrop.addEventListener('click', (e) => { if (e.target === qualifBackdrop) closeQualifModal(); });
-
-  render();
-
   // ===== Groupes de qualifications similaires =====
   // Cosmetic: client-side only, no persistence. Sert à proposer des correspondances partielles
   // côté Planning ("best match") lorsqu'aucun intérimaire n'est disponible sur la qualification exacte.
@@ -607,24 +359,6 @@
   groupQualifBackdrop.addEventListener('click', (e) => { if (e.target === groupQualifBackdrop) closeAddQualifToGroupModal(); });
 
   renderGroups();
-
-  // ===== Filtre de section =====
-  const SECTION_FILTER_ACTIVE = 'rounded-full border border-transparent bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20';
-  const SECTION_FILTER_INACTIVE = 'rounded-full border border-gray-300 bg-white text-gray-700 shadow-sm hover:bg-gray-50 hover:border-[#A63629]/40 hover:text-[#A63629]';
-
-  function setSectionFilter(filter){
-    document.querySelectorAll('.section-filter-btn').forEach(btn => {
-      const active = btn.dataset.filter === filter;
-      btn.className = 'section-filter-btn inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-semibold h-9 px-4 transition-all cursor-pointer ' + (active ? SECTION_FILTER_ACTIVE : SECTION_FILTER_INACTIVE);
-      const check = btn.querySelector('.section-filter-check');
-      if (check) check.classList.toggle('hidden', !active);
-    });
-    document.querySelectorAll('[data-section]').forEach(sec => {
-      sec.classList.toggle('hidden', filter !== 'all' && sec.dataset.section !== filter);
-    });
-  }
-
-  setSectionFilter('all');
 </script>
 
 </body>

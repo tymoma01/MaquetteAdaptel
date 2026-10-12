@@ -143,6 +143,11 @@
             <button onclick="setRole('Standard')" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">Utilisateur standard</button>
           </div>
         </div>
+        <a href="https://www.coffreo.pro" target="_blank" rel="noopener" title="Ouvrir Coffreo Pro — gestion documentaire &amp; signature électronique" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm font-semibold text-gray-700 hover:border-[#A63629]/40 hover:text-[#A63629] hover:bg-red-50/40 transition-all duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629]"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="m9 15 2 2 4-4"></path></svg>
+          <span class="hidden sm:inline">Coffreo</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+        </a>
         <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
           <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">3</span>
@@ -159,7 +164,7 @@
 
     <div class="p-6 space-y-6 max-w-[1500px] w-full mx-auto">
 
-      <!-- TITRE + SERVICES -->
+      <!-- TITRE + CHANTIERS -->
       <div class="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Tableau de bord</h1>
@@ -167,11 +172,18 @@
         </div>
       </div>
 
-      <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="service-tabs">
-        <button data-service="" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous services</button>
-        <button data-service="Hébergement" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Hébergement</button>
-        <button data-service="Housekeeping" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Housekeeping</button>
-        <button data-service="Restauration" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Restauration</button>
+      <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="chantier-tabs">
+        <button data-chantier="" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous chantiers</button>
+        <button data-chantier="FLEXI HOTE/HOTESSE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOTE/HOTESSE</button>
+        <button data-chantier="FLEXI BAGAGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BAGAGERIE</button>
+        <button data-chantier="FLEXI HOUSEKEEPING" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOUSEKEEPING</button>
+        <button data-chantier="FLEXI BANQUET" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BANQUET</button>
+        <button data-chantier="FLEXI SOUS-CHEF" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SOUS-CHEF</button>
+        <button data-chantier="FLEXI ROOM SERVICE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI ROOM SERVICE</button>
+        <button data-chantier="FLEXI SPA" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SPA</button>
+        <button data-chantier="FLEXI PLONGE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI PLONGE</button>
+        <button data-chantier="FLEXI CONCIERGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI CONCIERGERIE</button>
+        <button data-chantier="FLEXI VOITURIER" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI VOITURIER</button>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -236,7 +248,7 @@
           <div data-role-gate="standard" class="flex flex-col items-center justify-center text-center py-10 text-gray-400">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10 mb-3"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             <p class="text-sm font-semibold text-gray-500">Indicateurs réservés aux managers / administrateurs</p>
-            <p class="text-xs text-gray-400 mt-1 max-w-sm">Votre rôle actuel ne donne pas accès au budget prévisionnel et aux dépenses de ce service.</p>
+            <p class="text-xs text-gray-400 mt-1 max-w-sm">Votre rôle actuel ne donne pas accès au budget prévisionnel et aux dépenses de ce chantier.</p>
           </div>
         </div>
       </div>
@@ -442,50 +454,56 @@
       { q: "Bagagiste", montant: 1800 },
       { q: "Autres qualifications", montant: 3600 }
     ]},
-    "Hébergement": { total: 7100, items: [
+    "FLEXI HOTE/HOTESSE": { total: 5300, items: [
       { q: "Réceptionniste", montant: 3200 },
-      { q: "Bagagiste", montant: 1800 },
       { q: "Veilleur de nuit", montant: 1200 },
       { q: "Concierge", montant: 900 }
     ]},
-    "Housekeeping": { total: 5400, items: [
+    "FLEXI BAGAGERIE": { total: 1800, items: [
+      { q: "Bagagiste", montant: 1800 }
+    ]},
+    "FLEXI HOUSEKEEPING": { total: 5400, items: [
       { q: "Femme de chambre", montant: 5400 }
     ]},
-    "Restauration": { total: 8200, items: [
+    "FLEXI BANQUET": { total: 5600, items: [
       { q: "Chef de rang", montant: 4100 },
-      { q: "Commis de cuisine", montant: 2600 },
       { q: "EMPLOYE POLYVALENT", montant: 1500 }
+    ]},
+    "FLEXI SOUS-CHEF": { total: 2600, items: [
+      { q: "Commis de cuisine", montant: 2600 }
+    ]},
+    "FLEXI ROOM SERVICE": { total: 1400, items: [
+      { q: "Serveur room service", montant: 1400 }
+    ]},
+    "FLEXI SPA": { total: 900, items: [
+      { q: "Praticien spa", montant: 900 }
+    ]},
+    "FLEXI PLONGE": { total: 700, items: [
+      { q: "Plongeur", montant: 700 }
+    ]},
+    "FLEXI CONCIERGERIE": { total: 1100, items: [
+      { q: "Concierge", montant: 1100 }
+    ]},
+    "FLEXI VOITURIER": { total: 600, items: [
+      { q: "Voiturier", montant: 600 }
     ]}
   };
   const SERIES = ["var(--series-1)", "var(--series-2)", "var(--series-3)", "var(--series-4)", "var(--series-5)", "#c3c2b7"];
 
-  const PLANNING = {
-    "": [
-      { jour: "Aujourd'hui 23/09", service: "Restauration", q: "Chef de rang", nom: "M. De Luca", horaire: "18h–02h" },
-      { jour: "Aujourd'hui 23/09", service: "Housekeeping", q: "Femme de chambre", nom: "L. Richard", horaire: "7h–15h" },
-      { jour: "Demain 24/09", service: "Hébergement", q: "Réceptionniste", nom: "A. Pizzol", horaire: "15h–23h" },
-      { jour: "Ven. 25/09", service: "Restauration", q: "Commis de cuisine", nom: "J. Martin", horaire: "9h–17h" },
-      { jour: "Ven. 25/09", service: "Hébergement", q: "Bagagiste", nom: "K. Traoré", horaire: "7h–15h" }
-    ],
-    "Hébergement": [
-      { jour: "Demain 24/09", service: "Hébergement", q: "Réceptionniste", nom: "A. Pizzol", horaire: "15h–23h" },
-      { jour: "Ven. 25/09", service: "Hébergement", q: "Bagagiste", nom: "K. Traoré", horaire: "7h–15h" }
-    ],
-    "Housekeeping": [
-      { jour: "Aujourd'hui 23/09", service: "Housekeeping", q: "Femme de chambre", nom: "L. Richard", horaire: "7h–15h" }
-    ],
-    "Restauration": [
-      { jour: "Aujourd'hui 23/09", service: "Restauration", q: "Chef de rang", nom: "M. De Luca", horaire: "18h–02h" },
-      { jour: "Ven. 25/09", service: "Restauration", q: "Commis de cuisine", nom: "J. Martin", horaire: "9h–17h" }
-    ]
-  };
+  const PLANNING_ROWS = [
+    { jour: "Aujourd'hui 23/09", chantier: "FLEXI BANQUET", q: "Chef de rang", nom: "M. De Luca", horaire: "18h–02h" },
+    { jour: "Aujourd'hui 23/09", chantier: "FLEXI HOUSEKEEPING", q: "Femme de chambre", nom: "L. Richard", horaire: "7h–15h" },
+    { jour: "Demain 24/09", chantier: "FLEXI HOTE/HOTESSE", q: "Réceptionniste", nom: "A. Pizzol", horaire: "15h–23h" },
+    { jour: "Ven. 25/09", chantier: "FLEXI SOUS-CHEF", q: "Commis de cuisine", nom: "J. Martin", horaire: "9h–17h" },
+    { jour: "Ven. 25/09", chantier: "FLEXI BAGAGERIE", q: "Bagagiste", nom: "K. Traoré", horaire: "7h–15h" }
+  ];
 
   function initials(nom) {
     return nom.split(' ').map(p => p.replace('.', '')[0]).join('').toUpperCase().slice(0,2);
   }
 
-  function renderDonut(service) {
-    const data = BUDGET[service];
+  function renderDonut(chantier) {
+    const data = BUDGET[chantier];
     const svg = document.getElementById('donut-svg');
     const cx = 110, cy = 110, r = 80, stroke = 26;
     const circ = 2 * Math.PI * r;
@@ -513,11 +531,11 @@
     `).join('');
   }
 
-  function renderPlanning(service) {
-    const rows = PLANNING[service] || [];
+  function renderPlanning(chantier) {
+    const rows = PLANNING_ROWS.filter(r => !chantier || r.chantier === chantier);
     const el = document.getElementById('planning-summary');
     if (rows.length === 0) {
-      el.innerHTML = `<p class="text-sm text-gray-400 py-6 text-center">Aucune mission à venir pour ce service.</p>`;
+      el.innerHTML = `<p class="text-sm text-gray-400 py-6 text-center">Aucune mission à venir sur ce chantier.</p>`;
       return;
     }
     el.innerHTML = rows.map(r => `
@@ -525,35 +543,36 @@
         <div class="w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 bg-gradient-to-br from-gray-500 to-gray-600">${initials(r.nom)}</div>
         <div class="flex-1 min-w-0">
           <p class="text-sm font-bold text-gray-900 truncate">${r.nom} <span class="font-medium text-gray-500">· ${r.horaire}</span></p>
-          <p class="text-xs text-gray-500 truncate">${r.q} · ${r.service}</p>
+          <p class="text-xs text-gray-500 truncate">${r.q} · ${r.chantier}</p>
         </div>
         <span class="text-xs font-semibold text-gray-500 whitespace-nowrap">${r.jour}</span>
       </div>
     `).join('');
   }
 
-  function setActiveService(service) {
-    document.querySelectorAll('.service-tab').forEach(btn => {
-      const active = btn.dataset.service === service;
+  function setActiveChantier(chantier) {
+    document.querySelectorAll('.chantier-tab').forEach(btn => {
+      const active = btn.dataset.chantier === chantier;
       btn.classList.toggle('text-white', active);
       btn.classList.toggle('shadow-md', active);
       btn.classList.toggle('text-gray-600', !active);
       btn.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
     });
-    renderDonut(service);
-    renderPlanning(service);
+    renderDonut(chantier);
+    renderPlanning(chantier);
   }
 
-  document.querySelectorAll('.service-tab').forEach(btn => {
-    btn.addEventListener('click', () => setActiveService(btn.dataset.service));
+  document.querySelectorAll('.chantier-tab').forEach(btn => {
+    btn.addEventListener('click', () => setActiveChantier(btn.dataset.chantier));
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    setActiveService("");
+    setActiveChantier("");
     setRole('Manager');
   });
 </script>
 
 <script src="assets/etab-selector.js"></script>
+<script src="assets/chantier-tabs.js"></script>
 </body>
 </html>

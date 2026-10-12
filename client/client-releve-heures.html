@@ -107,6 +107,11 @@
         </div>
       </div>
       <div class="flex items-center gap-3">
+        <a href="https://www.coffreo.pro" target="_blank" rel="noopener" title="Ouvrir Coffreo Pro — gestion documentaire &amp; signature électronique" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm font-semibold text-gray-700 hover:border-[#A63629]/40 hover:text-[#A63629] hover:bg-red-50/40 transition-all duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629]"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="m9 15 2 2 4-4"></path></svg>
+          <span class="hidden sm:inline">Coffreo</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+        </a>
         <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
           <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">3</span>
@@ -166,12 +171,19 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Service</label>
-            <select id="f-service" onchange="render()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-              <option value="">Tous services</option>
-              <option value="Hébergement">Hébergement</option>
-              <option value="Housekeeping">Housekeeping</option>
-              <option value="Restauration">Restauration</option>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Chantier</label>
+            <select id="f-chantier" onchange="render()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              <option value="">Tous chantiers</option>
+              <option value="FLEXI HOTE/HOTESSE">FLEXI HOTE/HOTESSE</option>
+              <option value="FLEXI BAGAGERIE">FLEXI BAGAGERIE</option>
+              <option value="FLEXI HOUSEKEEPING">FLEXI HOUSEKEEPING</option>
+              <option value="FLEXI BANQUET">FLEXI BANQUET</option>
+              <option value="FLEXI SOUS-CHEF">FLEXI SOUS-CHEF</option>
+              <option value="FLEXI ROOM SERVICE">FLEXI ROOM SERVICE</option>
+              <option value="FLEXI SPA">FLEXI SPA</option>
+              <option value="FLEXI PLONGE">FLEXI PLONGE</option>
+              <option value="FLEXI CONCIERGERIE">FLEXI CONCIERGERIE</option>
+              <option value="FLEXI VOITURIER">FLEXI VOITURIER</option>
             </select>
           </div>
           <div>
@@ -192,10 +204,13 @@
                 <th class="px-4 py-2.5 text-left font-semibold w-10"><input id="select-all" type="checkbox" onchange="toggleSelectAll(this.checked)" title="Tout sélectionner" class="w-4 h-4 rounded border-gray-300 accent-[#A63629] cursor-pointer"></th>
                 <th class="px-4 py-2.5 text-left font-semibold">Intérimaire</th>
                 <th class="px-4 py-2.5 text-left font-semibold">Qualification</th>
-                <th class="px-4 py-2.5 text-left font-semibold">Service</th>
+                <th class="px-4 py-2.5 text-left font-semibold">Chantier</th>
                 <th class="px-4 py-2.5 text-left font-semibold">Date</th>
                 <th class="px-4 py-2.5 text-left font-semibold">Prévu</th>
-                <th class="px-4 py-2.5 text-left font-semibold">Déclaré</th>
+                <th class="px-2 py-2.5 text-left font-semibold">Début</th>
+                <th class="px-2 py-2.5 text-left font-semibold">Fin</th>
+                <th class="px-2 py-2.5 text-left font-semibold">Pause (min)</th>
+                <th class="px-4 py-2.5 text-left font-semibold">Durée</th>
                 <th class="px-4 py-2.5 text-left font-semibold">Statut</th>
                 <th class="px-4 py-2.5 text-right font-semibold">Action</th>
               </tr>
@@ -388,13 +403,13 @@
 
   // Horaires déclarés (début / fin / pause en minutes) — la durée affichée en est déduite.
   const RELEVES = [
-    { id: 1, nom: "Anna Pizzol", q: "Réceptionniste", service: "Hébergement", date: "22/09/2026", prevu: "7h00", debut: "06:55", fin: "15:30", pause: 30, statut: "valide" },
-    { id: 2, nom: "Anna Pizzol", q: "Réceptionniste", service: "Hébergement", date: "21/09/2026", prevu: "7h00", debut: "07:00", fin: "14:30", pause: 30, statut: "a_valider" },
-    { id: 3, nom: "Julien Martin", q: "Commis de cuisine", service: "Restauration", date: "19/09/2026", prevu: "7h30", debut: "07:00", fin: "15:00", pause: 30, statut: "valide" },
-    { id: 4, nom: "Léa Richard", q: "Femme de chambre", service: "Housekeeping", date: "22/09/2026", prevu: "7h30", debut: "08:00", fin: "16:15", pause: 30, statut: "a_valider" },
-    { id: 5, nom: "Léa Richard", q: "Femme de chambre", service: "Housekeeping", date: "21/09/2026", prevu: "7h30", debut: "08:00", fin: "16:00", pause: 30, statut: "a_valider" },
-    { id: 6, nom: "Marco De Luca", q: "Chef de rang", service: "Restauration", date: "20/09/2026", prevu: "7h30", debut: "11:00", fin: "19:20", pause: 30, statut: "a_valider" },
-    { id: 7, nom: "Karim Traoré", q: "Bagagiste", service: "Hébergement", date: "19/09/2026", prevu: "7h30", debut: "07:00", fin: "15:00", pause: 30, statut: "valide" }
+    { id: 1, nom: "Anna Pizzol", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "22/09/2026", prevu: "7h00", debut: "06:55", fin: "15:30", pause: 30, statut: "valide" },
+    { id: 2, nom: "Anna Pizzol", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "21/09/2026", prevu: "7h00", debut: "07:00", fin: "14:30", pause: 30, statut: "a_valider" },
+    { id: 3, nom: "Julien Martin", q: "Commis de cuisine", chantier: "FLEXI SOUS-CHEF", date: "19/09/2026", prevu: "7h30", debut: "07:00", fin: "15:00", pause: 30, statut: "valide" },
+    { id: 4, nom: "Léa Richard", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", date: "22/09/2026", prevu: "7h30", debut: "08:00", fin: "16:15", pause: 30, statut: "a_valider" },
+    { id: 5, nom: "Léa Richard", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", date: "21/09/2026", prevu: "7h30", debut: "08:00", fin: "16:00", pause: 30, statut: "a_valider" },
+    { id: 6, nom: "Marco De Luca", q: "Chef de rang", chantier: "FLEXI BANQUET", date: "20/09/2026", prevu: "7h30", debut: "11:00", fin: "19:20", pause: 30, statut: "a_valider" },
+    { id: 7, nom: "Karim Traoré", q: "Bagagiste", chantier: "FLEXI BAGAGERIE", date: "19/09/2026", prevu: "7h30", debut: "07:00", fin: "15:00", pause: 30, statut: "valide" }
   ];
 
   const selectedIds = new Set();
@@ -422,12 +437,12 @@
   function getFiltered() {
     const statut = document.getElementById('f-statut').value;
     const interim = document.getElementById('f-interim').value;
-    const service = document.getElementById('f-service').value;
+    const chantier = document.getElementById('f-chantier').value;
     const qualif = document.getElementById('f-qualif').value;
     return RELEVES.filter(r =>
       (!statut || r.statut === statut) &&
       (!interim || r.nom === interim) &&
-      (!service || r.service === service) &&
+      (!chantier || r.chantier === chantier) &&
       (!qualif || r.q === qualif)
     );
   }
@@ -453,11 +468,35 @@
     return `<img src="${photo}" alt="${nom}" class="${sizeClass} rounded-full object-cover flex-shrink-0" onerror="this.outerHTML='${fallbackForJsString}'">`;
   }
 
+  const INLINE_INPUT = 'h-8 rounded-md border border-gray-200 bg-white px-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]';
+
+  function dureeCellHtml(r) {
+    return `<div class="flex items-center gap-1.5">
+        <span class="font-semibold text-gray-800">${formatDuree(dureeMinutes(r.debut, r.fin, r.pause))}</span>
+        ${r.modifie ? `<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-700" title="${r.motif ? r.motif.replace(/"/g, '&quot;') : 'Modifié par le client'}">Modifié</span>` : ''}
+      </div>`;
+  }
+
+  // Saisie directe dans le tableau (relevés à valider) : on ne met à jour que la cellule "Durée" de la
+  // ligne, sans re-rendre le tableau, pour ne pas faire perdre le focus pendant la saisie.
+  function updateInline(id) {
+    const r = RELEVES.find(x => x.id === id);
+    const inputs = ['debut', 'fin', 'pause'].map(k => document.getElementById(`in-${k}-${id}`));
+    const [debut, fin] = [inputs[0].value, inputs[1].value];
+    const pause = Number(inputs[2].value) || 0;
+    const invalide = !debut || !fin || pause < 0 || dureeMinutes(debut, fin, pause) <= 0;
+    inputs.forEach(el => el.classList.toggle('border-red-400', invalide));
+    if (invalide) return;
+    if (r.debut !== debut || r.fin !== fin || r.pause !== pause) r.modifie = true;
+    Object.assign(r, { debut, fin, pause });
+    document.getElementById(`duree-${id}`).innerHTML = dureeCellHtml(r);
+  }
+
   function render() {
     const rows = getFiltered();
     const tbody = document.getElementById('releve-body');
     if (rows.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="9" class="px-4 py-8 text-center text-gray-400 text-sm">Aucun relevé pour ces filtres.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="12" class="px-4 py-8 text-center text-gray-400 text-sm">Aucun relevé pour ces filtres.</td></tr>`;
       updateSelectionUI();
       return;
     }
@@ -475,16 +514,17 @@
           </div>
         </td>
         <td class="px-4 py-3 text-gray-600">${r.q}</td>
-        <td class="px-4 py-3 text-gray-600">${r.service}</td>
+        <td class="px-4 py-3 text-gray-600">${r.chantier}</td>
         <td class="px-4 py-3 text-gray-600">${r.date}</td>
         <td class="px-4 py-3 text-gray-600">${r.prevu}</td>
-        <td class="px-4 py-3">
-          <div class="flex items-center gap-1.5">
-            <span class="font-semibold text-gray-800">${formatDuree(dureeMinutes(r.debut, r.fin, r.pause))}</span>
-            ${r.modifie ? `<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-700" title="${r.motif ? r.motif.replace(/"/g, '&quot;') : 'Modifié par le client'}">Modifié</span>` : ''}
-          </div>
-          <p class="text-xs text-gray-400">${formatHeure(r.debut)} → ${formatHeure(r.fin)} · pause ${r.pause} min</p>
-        </td>
+        ${r.statut === 'a_valider'
+          ? `<td class="px-2 py-3"><input id="in-debut-${r.id}" type="time" value="${r.debut}" onchange="updateInline(${r.id})" class="${INLINE_INPUT} w-[6.5rem]"></td>
+        <td class="px-2 py-3"><input id="in-fin-${r.id}" type="time" value="${r.fin}" onchange="updateInline(${r.id})" class="${INLINE_INPUT} w-[6.5rem]"></td>
+        <td class="px-2 py-3"><input id="in-pause-${r.id}" type="number" min="0" max="240" step="5" value="${r.pause}" onchange="updateInline(${r.id})" class="${INLINE_INPUT} w-16"></td>`
+          : `<td class="px-2 py-3 text-gray-600">${formatHeure(r.debut)}</td>
+        <td class="px-2 py-3 text-gray-600">${formatHeure(r.fin)}</td>
+        <td class="px-2 py-3 text-gray-600">${r.pause} min</td>`}
+        <td id="duree-${r.id}" class="px-4 py-3">${dureeCellHtml(r)}</td>
         <td class="px-4 py-3">
           ${r.statut === 'valide'
             ? `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">Validé</span>`

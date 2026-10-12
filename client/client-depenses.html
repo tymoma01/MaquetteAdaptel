@@ -125,6 +125,11 @@
             <button onclick="setRole('Standard')" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">Utilisateur standard</button>
           </div>
         </div>
+        <a href="https://www.coffreo.pro" target="_blank" rel="noopener" title="Ouvrir Coffreo Pro — gestion documentaire &amp; signature électronique" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm font-semibold text-gray-700 hover:border-[#A63629]/40 hover:text-[#A63629] hover:bg-red-50/40 transition-all duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629]"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="m9 15 2 2 4-4"></path></svg>
+          <span class="hidden sm:inline">Coffreo</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+        </a>
         <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
           <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">3</span>
@@ -165,14 +170,21 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m9 18 6-6-6-6"></path></svg>
             </button>
           </div>
-          <div class="flex items-center gap-2">
-            <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="service-tabs">
-              <button data-service="" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous services</button>
-              <button data-service="Hébergement" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Hébergement</button>
-              <button data-service="Housekeeping" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Housekeeping</button>
-              <button data-service="Restauration" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Restauration</button>
+          <div class="flex items-center gap-2 min-w-0 max-w-full">
+            <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="chantier-tabs">
+              <button data-chantier="" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous chantiers</button>
+              <button data-chantier="FLEXI HOTE/HOTESSE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOTE/HOTESSE</button>
+              <button data-chantier="FLEXI BAGAGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BAGAGERIE</button>
+              <button data-chantier="FLEXI HOUSEKEEPING" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOUSEKEEPING</button>
+              <button data-chantier="FLEXI BANQUET" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BANQUET</button>
+              <button data-chantier="FLEXI SOUS-CHEF" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SOUS-CHEF</button>
+              <button data-chantier="FLEXI ROOM SERVICE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI ROOM SERVICE</button>
+              <button data-chantier="FLEXI SPA" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SPA</button>
+              <button data-chantier="FLEXI PLONGE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI PLONGE</button>
+              <button data-chantier="FLEXI CONCIERGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI CONCIERGERIE</button>
+              <button data-chantier="FLEXI VOITURIER" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI VOITURIER</button>
             </div>
-            <button onclick="alert('Export en cours (format tableur).')" class="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-100 text-gray-800 rounded-xl font-semibold text-sm hover:bg-gray-200 transition-all">
+            <button onclick="alert('Export en cours (format tableur).')" class="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2.5 bg-gray-100 text-gray-800 rounded-xl font-semibold text-sm hover:bg-gray-200 transition-all">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M12 15V3"></path><path d="M3 15v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>
               Exporter
             </button>
@@ -195,16 +207,16 @@
             </div>
           </div>
           <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <h3 class="font-bold text-gray-900 mb-4">Par service</h3>
+            <h3 class="font-bold text-gray-900 mb-4">Par chantier</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
               <div class="relative flex items-center justify-center">
-                <svg id="donut-service" viewBox="0 0 220 220" class="w-52 h-52"></svg>
+                <svg id="donut-chantier" viewBox="0 0 220 220" class="w-52 h-52"></svg>
                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <p id="donut-service-total" class="text-xl font-bold text-gray-900">—</p>
+                  <p id="donut-chantier-total" class="text-xl font-bold text-gray-900">—</p>
                   <p class="text-[10px] text-gray-500 uppercase tracking-wide font-semibold">Total</p>
                 </div>
               </div>
-              <div id="legend-service" class="space-y-2 text-sm"></div>
+              <div id="legend-chantier" class="space-y-2 text-sm"></div>
             </div>
           </div>
         </div>
@@ -221,7 +233,7 @@
                 <tr>
                   <th class="px-4 py-2.5 text-left font-semibold sortable" onclick="setSort('id')">Demande</th>
                   <th class="px-4 py-2.5 text-left font-semibold sortable" onclick="setSort('q')">Qualification</th>
-                  <th class="px-4 py-2.5 text-left font-semibold">Service</th>
+                  <th class="px-4 py-2.5 text-left font-semibold">Chantier</th>
                   <th class="px-4 py-2.5 text-left font-semibold sortable" onclick="setSort('date')">Date</th>
                   <th class="px-4 py-2.5 text-right font-semibold">Heures</th>
                   <th class="px-4 py-2.5 text-right font-semibold">Taux moyen</th>
@@ -384,20 +396,20 @@
 
   const MONTHS_FR = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
   let monthIndex = 8, monthYear = 2026; // septembre 2026
-  let currentService = "";
+  let currentChantier = "";
   let sortKey = "montant", sortDir = "desc";
 
   const DEPENSES = [
-    { id: "DEM-1039", q: "Femme de chambre", service: "Housekeeping", date: "23/09/2026", heures: 16, taux: 13.8, montant: 220.8 },
-    { id: "DEM-1035", q: "Femme de chambre", service: "Housekeeping", date: "18/09/2026", heures: 60, taux: 13.8, montant: 828.0 },
-    { id: "DEM-1040", q: "Chef de rang", service: "Restauration", date: "23/09/2026", heures: 8, taux: 15.2, montant: 121.6 },
-    { id: "DEM-1033", q: "Chef de rang", service: "Restauration", date: "17/09/2026", heures: 120, taux: 15.2, montant: 1824.0 },
-    { id: "DEM-1021", q: "Commis de cuisine", service: "Restauration", date: "19/09/2026", heures: 60, taux: 16.0, montant: 960.0 },
-    { id: "DEM-1030", q: "Réceptionniste", service: "Hébergement", date: "22/09/2026", heures: 100, taux: 14.5, montant: 1450.0 },
-    { id: "DEM-1029", q: "Réceptionniste", service: "Hébergement", date: "21/09/2026", heures: 60, taux: 14.5, montant: 870.0 },
-    { id: "DEM-1018", q: "Bagagiste", service: "Hébergement", date: "20/09/2026", heures: 80, taux: 13.5, montant: 1080.0 },
-    { id: "DEM-1012", q: "Veilleur de nuit", service: "Hébergement", date: "15/09/2026", heures: 50, taux: 13.0, montant: 650.0 },
-    { id: "DEM-1005", q: "EMPLOYE POLYVALENT", service: "Restauration", date: "10/09/2026", heures: 90, taux: 13.9, montant: 1251.0 }
+    { id: "DEM-1039", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", date: "23/09/2026", heures: 16, taux: 13.8, montant: 220.8 },
+    { id: "DEM-1035", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", date: "18/09/2026", heures: 60, taux: 13.8, montant: 828.0 },
+    { id: "DEM-1040", q: "Chef de rang", chantier: "FLEXI BANQUET", date: "23/09/2026", heures: 8, taux: 15.2, montant: 121.6 },
+    { id: "DEM-1033", q: "Chef de rang", chantier: "FLEXI BANQUET", date: "17/09/2026", heures: 120, taux: 15.2, montant: 1824.0 },
+    { id: "DEM-1021", q: "Commis de cuisine", chantier: "FLEXI SOUS-CHEF", date: "19/09/2026", heures: 60, taux: 16.0, montant: 960.0 },
+    { id: "DEM-1030", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "22/09/2026", heures: 100, taux: 14.5, montant: 1450.0 },
+    { id: "DEM-1029", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "21/09/2026", heures: 60, taux: 14.5, montant: 870.0 },
+    { id: "DEM-1018", q: "Bagagiste", chantier: "FLEXI BAGAGERIE", date: "20/09/2026", heures: 80, taux: 13.5, montant: 1080.0 },
+    { id: "DEM-1012", q: "Veilleur de nuit", chantier: "FLEXI HOTE/HOTESSE", date: "15/09/2026", heures: 50, taux: 13.0, montant: 650.0 },
+    { id: "DEM-1005", q: "EMPLOYE POLYVALENT", chantier: "FLEXI BANQUET", date: "10/09/2026", heures: 90, taux: 13.9, montant: 1251.0 }
   ];
 
   function renderDonut(svgId, legendId, totalId, items) {
@@ -431,7 +443,7 @@
   }
 
   function getFilteredRows() {
-    return DEPENSES.filter(d => !currentService || d.service === currentService);
+    return DEPENSES.filter(d => !currentChantier || d.chantier === currentChantier);
   }
 
   function renderTable() {
@@ -448,7 +460,7 @@
       <tr>
         <td class="px-4 py-2.5 font-medium text-gray-800">${r.id}</td>
         <td class="px-4 py-2.5 text-gray-600">${r.q}</td>
-        <td class="px-4 py-2.5 text-gray-600">${r.service}</td>
+        <td class="px-4 py-2.5 text-gray-600">${r.chantier}</td>
         <td class="px-4 py-2.5 text-gray-600">${r.date}</td>
         <td class="px-4 py-2.5 text-right text-gray-600">${r.heures} h</td>
         <td class="px-4 py-2.5 text-right text-gray-600">${r.taux.toFixed(2)} €</td>
@@ -465,7 +477,7 @@
   function renderAll() {
     const rows = getFilteredRows();
     renderDonut('donut-qualif', 'legend-qualif', 'donut-qualif-total', aggregate(rows, 'q'));
-    renderDonut('donut-service', 'legend-service', 'donut-service-total', aggregate(rows, 'service'));
+    renderDonut('donut-chantier', 'legend-chantier', 'donut-chantier-total', aggregate(rows, 'chantier'));
     renderTable();
   }
 
@@ -476,10 +488,10 @@
     document.getElementById('month-label').textContent = `${MONTHS_FR[monthIndex]} ${monthYear}`;
   }
 
-  document.querySelectorAll('.service-tab').forEach(btn => {
+  document.querySelectorAll('.chantier-tab').forEach(btn => {
     btn.addEventListener('click', () => {
-      currentService = btn.dataset.service;
-      document.querySelectorAll('.service-tab').forEach(b => {
+      currentChantier = btn.dataset.chantier;
+      document.querySelectorAll('.chantier-tab').forEach(b => {
         const active = b === btn;
         b.classList.toggle('text-white', active);
         b.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
@@ -490,11 +502,12 @@
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.service-tab[data-service=""]').click();
+    document.querySelector('.chantier-tab[data-chantier=""]').click();
     setRole('Manager');
   });
 </script>
 
 <script src="assets/etab-selector.js"></script>
+<script src="assets/chantier-tabs.js"></script>
 </body>
 </html>

@@ -119,6 +119,11 @@
         </div>
       </div>
       <div class="flex items-center gap-3">
+        <a href="https://www.coffreo.pro" target="_blank" rel="noopener" title="Ouvrir Coffreo Pro — gestion documentaire &amp; signature électronique" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 text-sm font-semibold text-gray-700 hover:border-[#A63629]/40 hover:text-[#A63629] hover:bg-red-50/40 transition-all duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629]"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="m9 15 2 2 4-4"></path></svg>
+          <span class="hidden sm:inline">Coffreo</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+        </a>
         <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
           <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">3</span>
@@ -138,7 +143,7 @@
       <div class="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Planning</h1>
-          <p class="text-gray-600 text-sm mt-0.5">Vue hebdomadaire des missions par service — cliquez sur un créneau pour le détail</p>
+          <p class="text-gray-600 text-sm mt-0.5">Vue hebdomadaire des missions par chantier — cliquez sur un créneau pour le détail</p>
         </div>
         <div class="flex items-center gap-2">
           <a href="client-demandes.html#nouvelle" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
@@ -162,11 +167,18 @@
           <button class="px-3 h-9 rounded-lg text-sm font-semibold text-white" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Semaine</button>
           <button class="px-3 h-9 rounded-lg text-sm font-semibold text-gray-500 hover:bg-gray-100" title="Vue étendue (mois, multi-semaines)">Mois</button>
         </div>
-        <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="service-tabs">
-          <button data-service="" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous services</button>
-          <button data-service="Hébergement" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Hébergement</button>
-          <button data-service="Housekeeping" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Housekeeping</button>
-          <button data-service="Restauration" class="service-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Restauration</button>
+        <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="chantier-tabs">
+          <button data-chantier="" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous chantiers</button>
+          <button data-chantier="FLEXI HOTE/HOTESSE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOTE/HOTESSE</button>
+          <button data-chantier="FLEXI BAGAGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BAGAGERIE</button>
+          <button data-chantier="FLEXI HOUSEKEEPING" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOUSEKEEPING</button>
+          <button data-chantier="FLEXI BANQUET" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BANQUET</button>
+          <button data-chantier="FLEXI SOUS-CHEF" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SOUS-CHEF</button>
+          <button data-chantier="FLEXI ROOM SERVICE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI ROOM SERVICE</button>
+          <button data-chantier="FLEXI SPA" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SPA</button>
+          <button data-chantier="FLEXI PLONGE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI PLONGE</button>
+          <button data-chantier="FLEXI CONCIERGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI CONCIERGERIE</button>
+          <button data-chantier="FLEXI VOITURIER" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI VOITURIER</button>
         </div>
       </div>
 
@@ -354,11 +366,16 @@
   ];
 
   const LIGNES = [
-    { service: "Hébergement", label: "Hébergement — Accueil" },
-    { service: "Hébergement", label: "Hébergement — Bagagerie" },
-    { service: "Housekeeping", label: "Housekeeping" },
-    { service: "Restauration", label: "Restauration — Banquet" },
-    { service: "Restauration", label: "Restauration — Cuisine" }
+    { chantier: "FLEXI HOTE/HOTESSE", label: "FLEXI HOTE/HOTESSE" },
+    { chantier: "FLEXI BAGAGERIE", label: "FLEXI BAGAGERIE" },
+    { chantier: "FLEXI HOUSEKEEPING", label: "FLEXI HOUSEKEEPING" },
+    { chantier: "FLEXI BANQUET", label: "FLEXI BANQUET" },
+    { chantier: "FLEXI SOUS-CHEF", label: "FLEXI SOUS-CHEF" },
+    { chantier: "FLEXI ROOM SERVICE", label: "FLEXI ROOM SERVICE" },
+    { chantier: "FLEXI SPA", label: "FLEXI SPA" },
+    { chantier: "FLEXI PLONGE", label: "FLEXI PLONGE" },
+    { chantier: "FLEXI CONCIERGERIE", label: "FLEXI CONCIERGERIE" },
+    { chantier: "FLEXI VOITURIER", label: "FLEXI VOITURIER" }
   ];
 
   // Photo par intérimaire (portrait carré, recadré en rond à l'affichage)
@@ -402,7 +419,7 @@
     encours: "En cours", staffee: "Staffée", validee: "Validée", termine: "Terminée", annulee: "Annulée"
   };
 
-  let currentService = "";
+  let currentChantier = "";
   let weekOffset = 0;
 
   function initials(nom) {
@@ -418,11 +435,11 @@
   }
 
   function renderGrid() {
-    const lignes = LIGNES.filter(l => !currentService || l.service === currentService);
+    const lignes = LIGNES.filter(l => !currentChantier || l.chantier === currentChantier);
     let html = `<div class="grid" style="grid-template-columns: 190px repeat(7, minmax(120px,1fr));">`;
 
     // header row
-    html += `<div class="p-3 text-xs font-bold text-gray-400 uppercase tracking-wide border-b border-r border-gray-100 sticky left-0 bg-white z-10">Service</div>`;
+    html += `<div class="p-3 text-xs font-bold text-gray-400 uppercase tracking-wide border-b border-r border-gray-100 sticky left-0 bg-white z-10">Chantier</div>`;
     DAYS.forEach((d, i) => {
       html += `<div class="p-3 text-center border-b border-gray-100 ${i===2 ? 'bg-red-50/40' : ''}">
         <p class="text-xs font-bold text-gray-800">${d.label}</p>
@@ -494,10 +511,10 @@
     document.getElementById('week-label').textContent = `${fmt(base)} → ${fmt(end)} ${end.getFullYear()}`;
   }
 
-  document.querySelectorAll('.service-tab').forEach(btn => {
+  document.querySelectorAll('.chantier-tab').forEach(btn => {
     btn.addEventListener('click', () => {
-      currentService = btn.dataset.service;
-      document.querySelectorAll('.service-tab').forEach(b => {
+      currentChantier = btn.dataset.chantier;
+      document.querySelectorAll('.chantier-tab').forEach(b => {
         const active = b === btn;
         b.classList.toggle('text-white', active);
         b.classList.toggle('shadow-md', active);
@@ -509,10 +526,11 @@
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.service-tab[data-service=""]').click();
+    document.querySelector('.chantier-tab[data-chantier=""]').click();
   });
 </script>
 
 <script src="assets/etab-selector.js"></script>
+<script src="assets/chantier-tabs.js"></script>
 </body>
 </html>

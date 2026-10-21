@@ -171,19 +171,6 @@
             </button>
           </div>
           <div class="flex items-center gap-2 min-w-0 max-w-full">
-            <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="chantier-tabs">
-              <button data-chantier="" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous chantiers</button>
-              <button data-chantier="FLEXI HOTE/HOTESSE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOTE/HOTESSE</button>
-              <button data-chantier="FLEXI BAGAGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BAGAGERIE</button>
-              <button data-chantier="FLEXI HOUSEKEEPING" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOUSEKEEPING</button>
-              <button data-chantier="FLEXI BANQUET" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BANQUET</button>
-              <button data-chantier="FLEXI SOUS-CHEF" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SOUS-CHEF</button>
-              <button data-chantier="FLEXI ROOM SERVICE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI ROOM SERVICE</button>
-              <button data-chantier="FLEXI SPA" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SPA</button>
-              <button data-chantier="FLEXI PLONGE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI PLONGE</button>
-              <button data-chantier="FLEXI CONCIERGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI CONCIERGERIE</button>
-              <button data-chantier="FLEXI VOITURIER" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI VOITURIER</button>
-            </div>
             <button onclick="alert('Export en cours (format tableur).')" class="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2.5 bg-gray-100 text-gray-800 rounded-xl font-semibold text-sm hover:bg-gray-200 transition-all">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M12 15V3"></path><path d="M3 15v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>
               Exporter
@@ -223,9 +210,52 @@
 
         <!-- TABLE DETAIL -->
         <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-3 flex-wrap">
             <h3 class="font-bold text-gray-900">Détail des demandes ayant généré une dépense</h3>
-            <span id="table-count" class="text-xs text-gray-400"></span>
+            <span class="text-xs text-gray-400"><span id="table-count"></span> · <span id="table-total" class="font-semibold text-gray-700"></span></span>
+          </div>
+
+          <!-- FILTRES DU TABLEAU : qualification, période, nombre d'heures -->
+          <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/60">
+            <div class="flex flex-col xl:flex-row xl:items-end gap-3">
+              <div class="xl:w-56">
+                <label for="f-qualif" class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Qualification</label>
+                <select id="f-qualif" onchange="renderTable()" class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] w-full">
+                  <option value="">Toutes</option>
+                </select>
+              </div>
+              <div>
+                <p class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Période</p>
+                <div class="bg-white p-1 rounded-xl border border-gray-200 inline-flex flex-wrap gap-1" role="group" aria-label="Période">
+                  <button type="button" data-periode="" class="periode-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all">Tout le mois</button>
+                  <button type="button" data-periode="semaine" class="periode-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all">Cette semaine</button>
+                  <button type="button" data-periode="semaine-1" class="periode-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all">Semaine dernière</button>
+                  <button type="button" data-periode="perso" class="periode-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all">Personnalisée</button>
+                </div>
+              </div>
+              <div>
+                <label for="f-heures-min" class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Nombre d'heures</label>
+                <!-- Fourchette libre : on peut ne remplir qu'une borne (ex. « à partir de 40 h »). -->
+                <div class="h-10 inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2 text-sm text-gray-500 shadow-sm">
+                  <span>de</span>
+                  <input id="f-heures-min" type="number" min="0" step="1" inputmode="numeric" oninput="renderTable()" class="w-14 h-8 rounded-md border-0 bg-transparent px-1 text-sm text-center text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#A63629] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" aria-label="Nombre d'heures minimum">
+                  <span>à</span>
+                  <input id="f-heures-max" type="number" min="0" step="1" inputmode="numeric" oninput="renderTable()" class="w-14 h-8 rounded-md border-0 bg-transparent px-1 text-sm text-center text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#A63629] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" aria-label="Nombre d'heures maximum">
+                  <span>h</span>
+                </div>
+              </div>
+              <button id="reset-filters" type="button" onclick="resetFilters()" class="hidden xl:ml-auto h-10 px-3 text-sm font-semibold text-[#A63629] hover:underline">Effacer les filtres</button>
+            </div>
+            <div id="periode-perso" class="hidden mt-3 flex flex-wrap items-end gap-3">
+              <div>
+                <label for="f-du" class="block text-[11px] font-semibold text-gray-500 mb-1">Du</label>
+                <input id="f-du" type="date" onchange="renderTable()" class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              </div>
+              <div>
+                <label for="f-au" class="block text-[11px] font-semibold text-gray-500 mb-1">Au</label>
+                <input id="f-au" type="date" onchange="renderTable()" class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              </div>
+            </div>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
@@ -235,13 +265,14 @@
                   <th class="px-4 py-2.5 text-left font-semibold sortable" onclick="setSort('q')">Qualification</th>
                   <th class="px-4 py-2.5 text-left font-semibold">Chantier</th>
                   <th class="px-4 py-2.5 text-left font-semibold sortable" onclick="setSort('date')">Date</th>
-                  <th class="px-4 py-2.5 text-right font-semibold">Heures</th>
+                  <th class="px-4 py-2.5 text-right font-semibold sortable" onclick="setSort('heures')">Heures</th>
                   <th class="px-4 py-2.5 text-right font-semibold">Taux moyen</th>
                   <th class="px-4 py-2.5 text-right font-semibold sortable" onclick="setSort('montant')">Montant</th>
                 </tr>
               </thead>
               <tbody id="depenses-body" class="divide-y divide-gray-100"></tbody>
             </table>
+            <p id="table-empty" class="hidden px-6 py-10 text-center text-sm text-gray-400">Aucune demande ne correspond à ces filtres.</p>
           </div>
         </div>
 
@@ -396,10 +427,9 @@
 
   const MONTHS_FR = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
   let monthIndex = 8, monthYear = 2026; // septembre 2026
-  let currentChantier = "";
   let sortKey = "montant", sortDir = "desc";
 
-  const DEPENSES = [
+  const DEPENSES_ETOILE = [
     { id: "DEM-1039", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", date: "23/09/2026", heures: 16, taux: 13.8, montant: 220.8 },
     { id: "DEM-1035", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", date: "18/09/2026", heures: 60, taux: 13.8, montant: 828.0 },
     { id: "DEM-1040", q: "Chef de rang", chantier: "FLEXI BANQUET", date: "23/09/2026", heures: 8, taux: 15.2, montant: 121.6 },
@@ -436,18 +466,96 @@
       </div>`).join('');
   }
 
+  // Au-delà de 6 parts (ex. un client à 100 chantiers), les plus petites sont regroupées dans « Autres ».
   function aggregate(rows, key) {
     const map = {};
     rows.forEach(r => { map[r[key]] = (map[r[key]] || 0) + r.montant; });
-    return Object.entries(map).sort((a,b) => b[1]-a[1]).map(([label, montant]) => ({ label, montant }));
+    const items = Object.entries(map).sort((a,b) => b[1]-a[1]).map(([label, montant]) => ({ label, montant }));
+    if (items.length <= SERIES.length) return items;
+    const autres = items.slice(SERIES.length - 1).reduce((s, i) => s + i.montant, 0);
+    return [...items.slice(0, SERIES.length - 1), { label: "Autres", montant: Math.round(autres * 100) / 100 }];
   }
 
+  // Dépenses du mois du client / chantier choisi dans le header.
   function getFilteredRows() {
-    return DEPENSES.filter(d => !currentChantier || d.chantier === currentChantier);
+    return demoRows('depenses', DEPENSES_ETOILE, demoDepenses);
+  }
+
+  // ---------- Filtres du tableau (les donuts restent sur tout le mois) ----------
+  const TODAY = new Date(2026, 8, 23); // "aujourd'hui" pour la démo
+  const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+  const parseDateFr = s => { const [j, m, a] = s.split('/').map(Number); return new Date(a, m - 1, j); };
+  const parseDateIso = s => { const [a, m, j] = s.split('-').map(Number); return new Date(a, m - 1, j); };
+  let currentPeriode = ""; // "" = tout le mois, "semaine", "semaine-1" ou "perso"
+
+  // Bornes [du, au] de la période choisie (null = pas de borne). Les semaines vont du lundi au dimanche.
+  function periodeBornes() {
+    const lundi = addDays(TODAY, -((TODAY.getDay() + 6) % 7));
+    if (currentPeriode === 'semaine') return [lundi, addDays(lundi, 6)];
+    if (currentPeriode === 'semaine-1') return [addDays(lundi, -7), addDays(lundi, -1)];
+    if (currentPeriode === 'perso') {
+      const du = document.getElementById('f-du').value, au = document.getElementById('f-au').value;
+      return [du ? parseDateIso(du) : null, au ? parseDateIso(au) : null];
+    }
+    return [null, null];
+  }
+
+  function setPeriode(periode) {
+    currentPeriode = periode;
+    document.querySelectorAll('.periode-btn').forEach(b => {
+      const active = b.dataset.periode === periode;
+      b.classList.toggle('text-white', active);
+      b.classList.toggle('shadow-sm', active);
+      b.classList.toggle('text-gray-600', !active);
+      b.classList.toggle('hover:bg-gray-100', !active);
+      b.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
+      b.setAttribute('aria-pressed', active);
+    });
+    document.getElementById('periode-perso').classList.toggle('hidden', periode !== 'perso');
+    renderTable();
+  }
+  document.querySelectorAll('.periode-btn').forEach(b => b.addEventListener('click', () => setPeriode(b.dataset.periode)));
+
+  function resetFilters() {
+    document.getElementById('f-qualif').value = '';
+    document.getElementById('f-heures-min').value = '';
+    document.getElementById('f-heures-max').value = '';
+    document.getElementById('f-du').value = '';
+    document.getElementById('f-au').value = '';
+    setPeriode('');
+  }
+
+  // Qualifications proposées : celles présentes ce mois-ci (la valeur choisie est gardée si elle existe encore).
+  function populateQualifs() {
+    const sel = document.getElementById('f-qualif');
+    const current = sel.value;
+    sel.querySelectorAll('option:not([value=""])').forEach(o => o.remove());
+    [...new Set(getFilteredRows().map(r => r.q))].sort().forEach(q => sel.insertAdjacentHTML('beforeend', `<option value="${q}">${q}</option>`));
+    sel.value = [...sel.options].some(o => o.value === current) ? current : '';
+    // Les champs d'heures affichent en indication la plus petite et la plus grande durée du mois.
+    const heures = getFilteredRows().map(r => r.heures);
+    document.getElementById('f-heures-min').placeholder = heures.length ? Math.min(...heures) : '';
+    document.getElementById('f-heures-max').placeholder = heures.length ? Math.max(...heures) : '';
+  }
+
+  // Le mois affiché est septembre 2026 : la période personnalisée est limitée à ce mois.
+  document.getElementById('f-du').min = document.getElementById('f-au').min = '2026-09-01';
+  document.getElementById('f-du').max = document.getElementById('f-au').max = '2026-09-30';
+
+  function getTableRows() {
+    const qualif = document.getElementById('f-qualif').value;
+    const [hMin, hMax] = ['f-heures-min', 'f-heures-max'].map(id => document.getElementById(id).value === '' ? null : Number(document.getElementById(id).value));
+    const [du, au] = periodeBornes();
+    return getFilteredRows().filter(r => {
+      const d = parseDateFr(r.date);
+      return (!qualif || r.q === qualif)
+        && (hMin === null || r.heures >= hMin) && (hMax === null || r.heures <= hMax)
+        && (!du || d >= du) && (!au || d <= au);
+    });
   }
 
   function renderTable() {
-    let rows = [...getFilteredRows()];
+    let rows = getTableRows();
     rows.sort((a, b) => {
       let va = a[sortKey], vb = b[sortKey];
       if (typeof va === 'string') { va = va.toLowerCase(); vb = vb.toLowerCase(); }
@@ -456,6 +564,10 @@
       return 0;
     });
     document.getElementById('table-count').textContent = `${rows.length} demande(s)`;
+    document.getElementById('table-total').textContent = rows.reduce((s, r) => s + r.montant, 0).toLocaleString('fr-FR', { maximumFractionDigits: 2 }) + ' €';
+    document.getElementById('table-empty').classList.toggle('hidden', rows.length > 0);
+    document.getElementById('reset-filters').classList.toggle('hidden',
+      !document.getElementById('f-qualif').value && !document.getElementById('f-heures-min').value && !document.getElementById('f-heures-max').value && !currentPeriode);
     document.getElementById('depenses-body').innerHTML = rows.map(r => `
       <tr>
         <td class="px-4 py-2.5 font-medium text-gray-800">${r.id}</td>
@@ -476,6 +588,7 @@
 
   function renderAll() {
     const rows = getFilteredRows();
+    populateQualifs();
     renderDonut('donut-qualif', 'legend-qualif', 'donut-qualif-total', aggregate(rows, 'q'));
     renderDonut('donut-chantier', 'legend-chantier', 'donut-chantier-total', aggregate(rows, 'chantier'));
     renderTable();
@@ -488,26 +601,16 @@
     document.getElementById('month-label').textContent = `${MONTHS_FR[monthIndex]} ${monthYear}`;
   }
 
-  document.querySelectorAll('.chantier-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentChantier = btn.dataset.chantier;
-      document.querySelectorAll('.chantier-tab').forEach(b => {
-        const active = b === btn;
-        b.classList.toggle('text-white', active);
-        b.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
-        b.classList.toggle('text-gray-600', !active);
-      });
-      renderAll();
-    });
-  });
+  document.addEventListener('etab-change', renderAll);
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.chantier-tab[data-chantier=""]').click();
+    renderAll();
+    setPeriode('');
     setRole('Manager');
   });
 </script>
 
 <script src="assets/etab-selector.js"></script>
-<script src="assets/chantier-tabs.js"></script>
+<script src="assets/demo-data.js"></script>
 </body>
 </html>

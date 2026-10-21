@@ -473,7 +473,7 @@
   }
 
   // ---------- Data ----------
-  const DEMANDES = [
+  const DEMANDES_ETOILE = [
     { id: "DEM-1042", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "24/09/2026", horaire: "15h–23h", statut: "encours", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 14.5, lot: "LOT-118" },
     { id: "DEM-1043", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "25/09/2026", horaire: "15h–23h", statut: "encours", capacite: 1, pourvus: 0, enAttente: 1, refuses: 0, taux: 14.5, lot: "LOT-118" },
     { id: "DEM-1044", q: "Chef de rang", chantier: "FLEXI BANQUET", date: "26/09/2026", horaire: "18h–02h", statut: "encours", capacite: 2, pourvus: 0, enAttente: 0, refuses: 1, taux: 15.2, lot: null },
@@ -497,15 +497,19 @@
 
   const STAR_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>`;
 
+  // Demandes du client / chantier choisi dans le header.
+  const getDemandes = () => demoRows('demandes', DEMANDES_ETOILE, demoDemandes);
+
   function render() {
-    let rows = DEMANDES.filter(c => !currentStatus || c.statut === currentStatus);
+    const all = getDemandes();
+    let rows = all.filter(c => !currentStatus || c.statut === currentStatus);
     if (currentStatus === 'termine' && currentEvalFilter) {
       rows = rows.filter(c => currentEvalFilter === 'oui' ? c.evaluee : !c.evaluee);
     }
     const list = document.getElementById('demandes-list');
     document.getElementById('empty-state').classList.toggle('hidden', rows.length > 0);
 
-    const nonNoteesCount = DEMANDES.filter(c => c.statut === 'termine' && !c.evaluee).length;
+    const nonNoteesCount = all.filter(c => c.statut === 'termine' && !c.evaluee).length;
     document.getElementById('eval-count-non').textContent = nonNoteesCount;
 
     list.innerHTML = rows.map(c => {
@@ -586,7 +590,7 @@
   // Chantiers du client (contrats de staffing, ex. "FLEXI BANQUET") et, pour chacun, les qualifications
   // réellement proposées au clic sur un jour du calendrier — avec leur(s) horaire(s) type(s) et taux de référence
   // (mêmes valeurs que la fiche Qualifications : une qualification peut avoir plusieurs horaires types, ex. matin / soir).
-  const CHANTIERS = {
+  const CHANTIERS_ETOILE = {
     "FLEXI HOTE/HOTESSE": {
       qualifications: {
         "Réceptionniste":    { taux: 13.5, horaires: [{ libelle: "Matin", debut: "07:00", fin: "15:00", pause: 30 }, { libelle: "Soir", debut: "15:00", fin: "23:00", pause: 30 }] },
@@ -623,14 +627,30 @@
     }
   };
 
-  // Le menu "Chantier" liste les chantiers ci-dessus — généré depuis CHANTIERS pour ne jamais désynchroniser
+  // Chantiers du client choisi dans le header : saisis ci-dessus pour Hyatt Étoile, issus des profils de démo
+  // (qualifications et horaires types) pour les autres clients.
+  let CHANTIERS = {};
+
+  // Le menu "Chantier" liste les chantiers de CHANTIERS — généré depuis CHANTIERS pour ne jamais désynchroniser
   // la liste affichée des qualifications réellement disponibles par chantier.
-  Object.keys(CHANTIERS).forEach(nom => {
-    const opt = document.createElement('option');
-    opt.value = nom;
-    opt.textContent = nom;
-    document.getElementById('f-chantier').appendChild(opt);
-  });
+  function loadChantiers() {
+    const sel = getEtabSelection();
+    if (sel.client === DEMO_HAND_CLIENT) CHANTIERS = CHANTIERS_ETOILE;
+    else {
+      CHANTIERS = {};
+      ETAB_CLIENTS.find(c => c.nom === sel.client).chantiers.forEach(ch => {
+        CHANTIERS[ch] = { qualifications: Object.fromEntries(demoProfile(sel.client, ch).qualifs.map(q => [q.nom, { taux: q.taux, horaires: q.horaires }])) };
+      });
+    }
+    const select = document.getElementById('f-chantier');
+    select.querySelectorAll('option:not([value=""])').forEach(o => o.remove());
+    Object.keys(CHANTIERS).forEach(nom => {
+      const opt = document.createElement('option');
+      opt.value = nom;
+      opt.textContent = nom;
+      select.appendChild(opt);
+    });
+  }
 
   // Jours saisis pour cette demande : clé "YYYY-MM-DD" → { qualif, debut, fin, pause, taux, capacite }
   let dayConfigs = {};       // demandes par jour : key -> { [ligne]: { nom, horaire, debut, fin, pause, taux, capacite } } — une ligne = qualification + horaire type (plusieurs par jour possibles, ex. Réceptionniste matin ET soir)
@@ -1080,12 +1100,19 @@
     alert(`Votre demande a été transmise à Adaptel : ${n} demande(s) seront créées, chacune avec sa propre qualification, son horaire, son motif et sa justification.`);
   }
 
+  document.addEventListener('etab-change', () => {
+    loadChantiers();
+    render();
+  });
+
   document.addEventListener('DOMContentLoaded', () => {
+    loadChantiers();
     document.querySelector('.status-tab[data-status=""]').click();
     if (window.location.hash === '#nouvelle') openNouvelle();
   });
 </script>
 
 <script src="assets/etab-selector.js"></script>
+<script src="assets/demo-data.js"></script>
 </body>
 </html>

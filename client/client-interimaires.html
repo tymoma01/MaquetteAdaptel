@@ -143,18 +143,31 @@
             Favoris <span class="ml-1 text-[10px] bg-amber-100 text-amber-700 font-bold px-1.5 py-0.5 rounded-full" id="fav-count">0</span>
           </button>
         </div>
-        <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="chantier-tabs">
-          <button data-chantier="" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous chantiers</button>
-          <button data-chantier="FLEXI HOTE/HOTESSE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOTE/HOTESSE</button>
-          <button data-chantier="FLEXI BAGAGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BAGAGERIE</button>
-          <button data-chantier="FLEXI HOUSEKEEPING" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOUSEKEEPING</button>
-          <button data-chantier="FLEXI BANQUET" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BANQUET</button>
-          <button data-chantier="FLEXI SOUS-CHEF" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SOUS-CHEF</button>
-          <button data-chantier="FLEXI ROOM SERVICE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI ROOM SERVICE</button>
-          <button data-chantier="FLEXI SPA" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SPA</button>
-          <button data-chantier="FLEXI PLONGE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI PLONGE</button>
-          <button data-chantier="FLEXI CONCIERGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI CONCIERGERIE</button>
-          <button data-chantier="FLEXI VOITURIER" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI VOITURIER</button>
+      </div>
+
+      <!-- FILTRES : nom / prénom + date de dernière mission (boutons à droite de la recherche) -->
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+        <div class="flex flex-col lg:flex-row lg:items-end gap-3">
+          <div class="flex-1 min-w-0">
+            <label for="f-search" class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Rechercher un intérimaire</label>
+            <div class="relative">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+              <input id="f-search" type="search" autocomplete="off" oninput="render()" placeholder="Nom ou prénom…" class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] w-full pl-9">
+            </div>
+          </div>
+          <div id="day-picker" class="relative flex-shrink-0">
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Jour de mission</p>
+            <button id="day-btn" type="button" onclick="toggleDayMenu()" class="h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] w-full lg:w-60 inline-flex items-center gap-2 hover:border-gray-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#A63629] flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+              <span id="day-label" class="flex-1 text-left truncate">Les 2 dernières semaines</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 flex-shrink-0"><path d="m6 9 6 6 6-6"></path></svg>
+            </button>
+            <div id="day-menu" class="hidden absolute right-0 mt-1 w-72 bg-white rounded-xl shadow-xl border border-gray-200 p-3 z-30"></div>
+          </div>
+        </div>
+        <div class="mt-3 flex items-center justify-between gap-3 text-xs text-gray-500">
+          <span><span id="result-count" class="font-semibold text-gray-700">0</span> · triés du plus récent au plus ancien</span>
+          <button id="reset-filters" type="button" onclick="resetFilters()" class="hidden font-semibold text-[#A63629] hover:underline">Effacer les filtres</button>
         </div>
       </div>
 
@@ -304,18 +317,102 @@
 
   // ---------- Data ----------
   // Intérimaires sous interdiction de chantier sont déjà exclus côté serveur — n'apparaissent jamais ici.
-  const INTERIMAIRES = [
-    { id: 1, nom: "Marco De Luca", quals: ["Chef de rang"], chantier: "FLEXI BANQUET", derniere: "23/09/2026", enMission: true, favori: true, photo: "https://i.pravatar.cc/150?img=33" },
-    { id: 2, nom: "Léa Richard", quals: ["Femme de chambre"], chantier: "FLEXI HOUSEKEEPING", derniere: "22/09/2026", enMission: true, favori: true, photo: "https://i.pravatar.cc/150?img=47" },
-    { id: 3, nom: "Anna Pizzol", quals: ["Réceptionniste"], chantier: "FLEXI HOTE/HOTESSE", derniere: "23/09/2026", enMission: true, favori: false, photo: "https://i.pravatar.cc/150?img=13" },
-    { id: 4, nom: "Julie Bernard", quals: ["Veilleur de nuit"], chantier: "FLEXI HOTE/HOTESSE", derniere: "18/09/2026", enMission: false, favori: false, photo: "https://i.pravatar.cc/150?img=29" },
-    { id: 5, nom: "Karim Traoré", quals: ["Bagagiste"], chantier: "FLEXI BAGAGERIE", derniere: "20/09/2026", enMission: false, favori: true, photo: "https://i.pravatar.cc/150?img=52" },
-    { id: 6, nom: "Julien Martin", quals: ["Commis de cuisine"], chantier: "FLEXI SOUS-CHEF", derniere: "19/09/2026", enMission: false, favori: false, photo: "https://i.pravatar.cc/150?img=15" },
-    { id: 7, nom: "Sofia Nguyen", quals: ["Femme de chambre"], chantier: "FLEXI HOUSEKEEPING", derniere: "21/09/2026", enMission: false, favori: false, photo: "https://i.pravatar.cc/150?img=65" }
+  // Une ligne par intérimaire et par chantier, avec les dates de ses missions sur ce chantier (plus récente en premier).
+  const INTERIMAIRES_ETOILE = [
+    { id: 1, nom: "Marco De Luca", quals: ["Chef de rang"], chantier: "FLEXI BANQUET", missions: ["23/09/2026", "20/09/2026", "17/09/2026"], enMission: true, photo: "https://i.pravatar.cc/150?img=33" },
+    { id: 2, nom: "Léa Richard", quals: ["Femme de chambre"], chantier: "FLEXI HOUSEKEEPING", missions: ["22/09/2026", "21/09/2026", "18/09/2026", "15/09/2026"], enMission: true, photo: "https://i.pravatar.cc/150?img=47" },
+    { id: 3, nom: "Anna Pizzol", quals: ["Réceptionniste"], chantier: "FLEXI HOTE/HOTESSE", missions: ["23/09/2026", "22/09/2026", "21/09/2026"], enMission: true, photo: "https://i.pravatar.cc/150?img=13" },
+    { id: 4, nom: "Julie Bernard", quals: ["Veilleur de nuit"], chantier: "FLEXI HOTE/HOTESSE", missions: ["18/09/2026"], enMission: false, photo: "https://i.pravatar.cc/150?img=29" },
+    { id: 5, nom: "Karim Traoré", quals: ["Bagagiste"], chantier: "FLEXI BAGAGERIE", missions: ["20/09/2026", "19/09/2026"], enMission: false, photo: "https://i.pravatar.cc/150?img=52" },
+    { id: 6, nom: "Julien Martin", quals: ["Commis de cuisine"], chantier: "FLEXI SOUS-CHEF", missions: ["19/09/2026"], enMission: false, photo: "https://i.pravatar.cc/150?img=15" },
+    { id: 7, nom: "Sofia Nguyen", quals: ["Femme de chambre"], chantier: "FLEXI HOUSEKEEPING", missions: ["21/09/2026", "14/09/2026"], enMission: false, photo: "https://i.pravatar.cc/150?img=65" }
   ];
 
   let currentFilter = "recents";
-  let currentChantier = "";
+  const TODAY = new Date(2026, 8, 23); // "aujourd'hui" pour la démo
+
+  const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+  const formatDateFr = d => `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+  const parseDateFr = s => { const [j, m, a] = s.split('/').map(Number); return new Date(a, m - 1, j); };
+  // Recherche insensible à la casse et aux accents.
+  const normalize = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  // ---------- Filtre « jour de mission » ----------
+  // La page ne montre que les intérimaires des 2 dernières semaines : le calendrier ne propose que ces 14 jours.
+  const NB_JOURS = 14;
+  const PREMIER_JOUR = addDays(TODAY, -(NB_JOURS - 1));
+  const JOURS_COURTS = ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"];
+  let selectedDay = null; // "JJ/MM/AAAA", ou null = tous les jours
+
+  function toggleDayMenu() {
+    const menu = document.getElementById('day-menu');
+    const opening = menu.classList.contains('hidden');
+    document.querySelectorAll('[id$="-menu"]').forEach(el => el.classList.add('hidden'));
+    if (opening) { renderDayMenu(); menu.classList.remove('hidden'); }
+  }
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#day-picker')) document.getElementById('day-menu').classList.add('hidden');
+  });
+
+  // Calendrier en semaines (lundi → dimanche) couvrant les 14 jours ; les jours hors période sont grisés,
+  // un point signale les jours où au moins un intérimaire a travaillé (sur le client / chantier choisi).
+  function renderDayMenu() {
+    const joursAvecMission = new Set(getPersonnes().flatMap(p => p.missions.map(m => m.date)));
+    const debut = addDays(PREMIER_JOUR, -((PREMIER_JOUR.getDay() + 6) % 7));
+    const fin = addDays(TODAY, (7 - TODAY.getDay()) % 7);
+    const mois = d => d.toLocaleString('fr-FR', { month: 'long' });
+    let cells = '';
+    for (let d = debut; d <= fin; d = addDays(d, 1)) {
+      const date = formatDateFr(d);
+      if (d < PREMIER_JOUR || d > TODAY) {
+        cells += `<span class="h-9 flex items-center justify-center text-sm text-gray-300">${d.getDate()}</span>`;
+        continue;
+      }
+      const active = date === selectedDay;
+      const isToday = d.getTime() === TODAY.getTime();
+      cells += `
+        <button type="button" onclick="setDay('${date}')" title="${d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}"
+          class="relative h-9 rounded-lg text-sm font-semibold transition-colors ${active ? 'text-white shadow-sm' : 'text-gray-700 hover:bg-gray-100'} ${isToday && !active ? 'ring-1 ring-[#A63629]/40' : ''}"
+          ${active ? 'style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);"' : ''}>
+          ${d.getDate()}
+          ${joursAvecMission.has(date) ? `<span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${active ? 'bg-white' : 'bg-[#A63629]'}"></span>` : ''}
+        </button>`;
+    }
+    const titre = mois(PREMIER_JOUR) === mois(TODAY)
+      ? `${PREMIER_JOUR.getDate()} – ${TODAY.getDate()} ${mois(TODAY)} ${TODAY.getFullYear()}`
+      : `${PREMIER_JOUR.getDate()} ${mois(PREMIER_JOUR)} – ${TODAY.getDate()} ${mois(TODAY)} ${TODAY.getFullYear()}`;
+    document.getElementById('day-menu').innerHTML = `
+      <p class="text-sm font-bold text-gray-800 text-center mb-2">${titre}</p>
+      <div class="grid grid-cols-7 gap-1 text-center">
+        ${JOURS_COURTS.map(j => `<span class="text-[10px] font-bold uppercase text-gray-400">${j}</span>`).join('')}
+        ${cells}
+      </div>
+      <button type="button" onclick="setDay(null)" class="mt-3 w-full h-9 rounded-lg text-sm font-semibold ${selectedDay ? 'text-[#A63629] hover:bg-[#A63629]/5' : 'text-gray-400'}">Les 2 dernières semaines</button>`;
+  }
+
+  function setDay(date) {
+    selectedDay = date;
+    document.getElementById('day-label').textContent = date
+      ? parseDateFr(date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }).replace(/^./, c => c.toUpperCase())
+      : 'Les 2 dernières semaines';
+    document.getElementById('day-menu').classList.add('hidden');
+    render();
+  }
+
+  function resetFilters() {
+    document.getElementById('f-search').value = '';
+    setDay(null);
+  }
+  // Intérimaires du client / chantier choisi dans le header.
+  function getInterimaires() {
+    return demoRows('interimaires', INTERIMAIRES_ETOILE, (chantier, rand, profil) =>
+      profil.interimaires.map(i => ({
+        id: demoId(), nom: i.nom, quals: [i.q.nom], chantier, photo: i.photo,
+        missions: [...new Set(Array.from({ length: demoInt(rand, 1, 3) }, () => demoInt(rand, 0, NB_JOURS - 1)))]
+          .sort((a, b) => a - b).map(n => formatDateFr(addDays(TODAY, -n))),
+        enMission: rand() < 0.1
+      })));
+  }
 
   function initials(nom) {
     return nom.split(' ').map(p => p[0]).join('').toUpperCase().slice(0,2);
@@ -328,43 +425,80 @@
     return `<img src="${photo}" alt="${nom}" class="${sizeClass} rounded-full object-cover flex-shrink-0" onerror="this.outerHTML='${fallbackForJsString}'">`;
   }
 
-  function toggleFavori(id) {
-    const item = INTERIMAIRES.find(i => i.id === id);
-    item.favori = !item.favori;
+  // Une carte par intérimaire : ses lignes (une par chantier) sont regroupées et ses missions fusionnées,
+  // de la plus récente à la plus ancienne.
+  function getPersonnes() {
+    const parNom = {};
+    getInterimaires().forEach(r => {
+      const p = parNom[r.nom] || (parNom[r.nom] = { nom: r.nom, photo: r.photo, lignes: [], missions: [] });
+      p.lignes.push(r);
+      r.missions.forEach(date => p.missions.push({ date, chantier: r.chantier, q: r.quals[0] }));
+    });
+    return Object.values(parNom).map(p => {
+      p.missions.sort((a, b) => parseDateFr(b.date) - parseDateFr(a.date));
+      // Qualifications exercées, de la plus récente à la plus ancienne.
+      const quals = [...new Set(p.missions.map(m => m.q))];
+      return { ...p, quals, derniere: p.missions[0].date, favori: demoEstFavori(p.nom), enMission: p.lignes.some(r => r.enMission) };
+    });
+  }
+
+  // Les 3 dernières missions ; si un jour est choisi, sa mission y figure toujours (à la place de la 3ᵉ au besoin).
+  function missionsAffichees(p) {
+    const top = p.missions.slice(0, 3);
+    if (!selectedDay || top.some(m => m.date === selectedDay)) return top;
+    return [...top.slice(0, 2), p.missions.find(m => m.date === selectedDay)];
+  }
+
+  let shown = []; // cartes affichées (index utilisé par le bouton favori)
+
+  function toggleFavori(index) {
+    const p = shown[index];
+    demoSetFavori(p.nom, !p.favori);
     render();
   }
 
   function render() {
-    let rows = INTERIMAIRES.filter(i => !currentChantier || i.chantier === currentChantier);
-    if (currentFilter === "favoris") rows = rows.filter(i => i.favori);
+    const all = getPersonnes();
+    const query = normalize(document.getElementById('f-search').value.trim());
+    // Chaque mot tapé doit se retrouver dans le nom complet (« léa rich », « richard léa »…).
+    const rows = shown = (currentFilter === "favoris" ? all.filter(i => i.favori) : all)
+      .filter(i => query.split(/\s+/).every(mot => normalize(i.nom).includes(mot)))
+      .filter(i => !selectedDay || i.missions.some(m => m.date === selectedDay))
+      .sort((a, b) => parseDateFr(b.derniere) - parseDateFr(a.derniere));
 
-    document.getElementById('fav-count').textContent = INTERIMAIRES.filter(i => i.favori).length;
+    document.getElementById('result-count').textContent = `${rows.length} intérimaire${rows.length > 1 ? 's' : ''}`;
+    document.getElementById('reset-filters').classList.toggle('hidden', !query && !selectedDay);
+
+    document.getElementById('fav-count').textContent = all.filter(i => i.favori).length;
 
     const grid = document.getElementById('interim-grid');
     document.getElementById('empty-state').classList.toggle('hidden', rows.length > 0);
-    grid.innerHTML = rows.map(i => `
+    grid.innerHTML = rows.map((i, index) => `
       <div class="interim-card bg-white rounded-xl border border-gray-200 shadow-sm p-5">
         <div class="flex items-start justify-between">
           <div class="flex items-center gap-3">
             ${avatarHtml(i.nom, i.photo, 'w-12 h-12', 'text-sm')}
             <div>
               <p class="font-bold text-gray-900">${i.nom}</p>
-              <p class="text-xs text-gray-500">${i.quals.join(', ')}</p>
+              <p class="text-xs text-gray-500">${i.quals.slice(0, 2).join(', ')}${i.quals.length > 2 ? ` <span class="text-gray-400">+${i.quals.length - 2}</span>` : ''}</p>
             </div>
           </div>
-          <button onclick="toggleFavori(${i.id})" class="fav-btn ${i.favori ? 'is-fav' : ''} p-1.5 rounded-lg hover:bg-amber-50" title="Marquer comme favori">
+          <button onclick="toggleFavori(${index})" class="fav-btn ${i.favori ? 'is-fav' : ''} p-1.5 rounded-lg hover:bg-amber-50" title="Marquer comme favori">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-300"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
           </button>
         </div>
-        <div class="mt-4 space-y-1.5 text-sm">
-          <p class="flex items-center gap-1.5 text-gray-600">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            ${i.chantier}
-          </p>
-          <p class="flex items-center gap-1.5 text-gray-600">
+        <div class="mt-4">
+          <p class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-gray-400"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
-            Dernière mission : ${i.derniere}
+            ${i.missions.length > 1 ? 'Dernières missions' : 'Dernière mission'}
           </p>
+          <ul class="space-y-1 text-sm">
+            ${missionsAffichees(i).map(m => `
+              <li class="flex items-baseline gap-2 min-w-0 ${m.date === selectedDay ? 'bg-[#A63629]/5 -mx-2 px-2 py-0.5 rounded-md' : ''}">
+                <span class="font-semibold text-gray-800 whitespace-nowrap">${m.date.slice(0, 5)}</span>
+                <span class="text-gray-600 truncate" title="${m.chantier} · ${m.q}">${m.chantier} <span class="text-gray-400">· ${m.q}</span></span>
+              </li>`).join('')}
+          </ul>
         </div>
         ${i.enMission
           ? `<div class="mt-4"><span class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 bg-blue-100 px-2.5 py-1 rounded-full">En mission actuellement</span></div>`
@@ -385,26 +519,14 @@
       render();
     });
   });
-  document.querySelectorAll('.chantier-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentChantier = btn.dataset.chantier;
-      document.querySelectorAll('.chantier-tab').forEach(b => {
-        const active = b === btn;
-        b.classList.toggle('text-white', active);
-        b.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
-        b.classList.toggle('text-gray-600', !active);
-      });
-      render();
-    });
-  });
+  document.addEventListener('etab-change', render);
 
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.filter-tab[data-filter="recents"]').click();
-    document.querySelector('.chantier-tab[data-chantier=""]').click();
   });
 </script>
 
 <script src="assets/etab-selector.js"></script>
-<script src="assets/chantier-tabs.js"></script>
+<script src="assets/demo-data.js"></script>
 </body>
 </html>

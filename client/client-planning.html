@@ -167,19 +167,6 @@
           <button class="px-3 h-9 rounded-lg text-sm font-semibold text-white" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Semaine</button>
           <button class="px-3 h-9 rounded-lg text-sm font-semibold text-gray-500 hover:bg-gray-100" title="Vue étendue (mois, multi-semaines)">Mois</button>
         </div>
-        <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="chantier-tabs">
-          <button data-chantier="" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous chantiers</button>
-          <button data-chantier="FLEXI HOTE/HOTESSE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOTE/HOTESSE</button>
-          <button data-chantier="FLEXI BAGAGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BAGAGERIE</button>
-          <button data-chantier="FLEXI HOUSEKEEPING" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOUSEKEEPING</button>
-          <button data-chantier="FLEXI BANQUET" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BANQUET</button>
-          <button data-chantier="FLEXI SOUS-CHEF" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SOUS-CHEF</button>
-          <button data-chantier="FLEXI ROOM SERVICE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI ROOM SERVICE</button>
-          <button data-chantier="FLEXI SPA" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SPA</button>
-          <button data-chantier="FLEXI PLONGE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI PLONGE</button>
-          <button data-chantier="FLEXI CONCIERGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI CONCIERGERIE</button>
-          <button data-chantier="FLEXI VOITURIER" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI VOITURIER</button>
-        </div>
       </div>
 
       <!-- LEGENDE -->
@@ -419,7 +406,12 @@
     encours: "En cours", staffee: "Staffée", validee: "Validée", termine: "Terminée", annulee: "Annulée"
   };
 
-  let currentChantier = "";
+  // Lignes du planning (une par chantier, avec ses missions de la semaine) pour la sélection du header.
+  const LIGNES_ETOILE = LIGNES.map((l, i) => ({ ...l, missions: MISSIONS.filter(m => m.ligne === i) }));
+
+  function getLignes() {
+    return demoRows('planning', LIGNES_ETOILE, demoPlanning);
+  }
   let weekOffset = 0;
 
   function initials(nom) {
@@ -435,7 +427,7 @@
   }
 
   function renderGrid() {
-    const lignes = LIGNES.filter(l => !currentChantier || l.chantier === currentChantier);
+    const lignes = getLignes();
     let html = `<div class="grid" style="grid-template-columns: 190px repeat(7, minmax(120px,1fr));">`;
 
     // header row
@@ -448,10 +440,9 @@
     });
 
     lignes.forEach(ligne => {
-      const globalIndex = LIGNES.indexOf(ligne);
       html += `<div class="p-3 text-sm font-semibold text-gray-700 border-b border-r border-gray-100 sticky left-0 bg-white flex items-center z-10">${ligne.label}</div>`;
       for (let day = 0; day < 7; day++) {
-        const m = MISSIONS.find(x => x.ligne === globalIndex && x.day === day);
+        const m = ligne.missions.find(x => x.day === day);
         html += `<div class="p-1.5 border-b border-gray-100 min-h-[64px] ${day===2 ? 'bg-red-50/20' : ''}">`;
         if (m) {
           const style = STATUT_STYLE[m.statut];
@@ -511,26 +502,14 @@
     document.getElementById('week-label').textContent = `${fmt(base)} → ${fmt(end)} ${end.getFullYear()}`;
   }
 
-  document.querySelectorAll('.chantier-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentChantier = btn.dataset.chantier;
-      document.querySelectorAll('.chantier-tab').forEach(b => {
-        const active = b === btn;
-        b.classList.toggle('text-white', active);
-        b.classList.toggle('shadow-md', active);
-        b.classList.toggle('text-gray-600', !active);
-        b.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
-      });
-      renderGrid();
-    });
-  });
+  document.addEventListener('etab-change', renderGrid);
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.chantier-tab[data-chantier=""]').click();
+    renderGrid();
   });
 </script>
 
 <script src="assets/etab-selector.js"></script>
-<script src="assets/chantier-tabs.js"></script>
+<script src="assets/demo-data.js"></script>
 </body>
 </html>

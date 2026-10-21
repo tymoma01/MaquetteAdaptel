@@ -135,19 +135,6 @@
         <p class="text-gray-600 text-sm mt-0.5">Horaire type, pause par défaut et consignes propres à chaque poste — repris automatiquement à chaque nouvelle demande de mission</p>
       </div>
 
-      <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex flex-wrap gap-1" id="chantier-tabs">
-        <button data-chantier="" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Tous chantiers</button>
-        <button data-chantier="FLEXI HOTE/HOTESSE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOTE/HOTESSE</button>
-        <button data-chantier="FLEXI BAGAGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BAGAGERIE</button>
-        <button data-chantier="FLEXI HOUSEKEEPING" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI HOUSEKEEPING</button>
-        <button data-chantier="FLEXI BANQUET" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI BANQUET</button>
-        <button data-chantier="FLEXI SOUS-CHEF" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SOUS-CHEF</button>
-        <button data-chantier="FLEXI ROOM SERVICE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI ROOM SERVICE</button>
-        <button data-chantier="FLEXI SPA" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI SPA</button>
-        <button data-chantier="FLEXI PLONGE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI PLONGE</button>
-        <button data-chantier="FLEXI CONCIERGERIE" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI CONCIERGERIE</button>
-        <button data-chantier="FLEXI VOITURIER" class="chantier-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">FLEXI VOITURIER</button>
-      </div>
 
       <div id="secteur-block"></div>
 
@@ -291,7 +278,7 @@
 
   // Qualifications réelles (métiers) proposées à la demande, regroupées par chantier — les mêmes
   // intitulés que ceux utilisés côté Opérations (planning, fiches intérimaires…).
-  const QUALIFICATIONS = [
+  const QUALIFICATIONS_ETOILE = [
     { id: "q1", nom: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", taux: 13.5, horaires: [{ libelle: "Matin", debut: "07:00", fin: "15:00", pause: 30 }, { libelle: "Soir", debut: "15:00", fin: "23:00", pause: 30 }], consignes: "Tenue noire élégante, badge visible. Accueil en front-desk, ton chaleureux et professionnel." },
     { id: "q2", nom: "Hôtesse d'accueil", chantier: "FLEXI HOTE/HOTESSE", taux: 14.0, horaires: [{ libelle: "Matin", debut: "07:00", fin: "15:00", pause: 30 }], consignes: "Tenue noire élégante, badge visible. Accueil en front-desk, ton chaleureux et professionnel." },
     { id: "q3", nom: "Bagagiste", chantier: "FLEXI BAGAGERIE", taux: 12.6, horaires: [{ libelle: "Matin", debut: "06:00", fin: "14:00", pause: 30 }], consignes: "Tenue technique fournie sur place. Port de charges — chaussures fermées obligatoires." },
@@ -348,7 +335,7 @@
 
   function renderSecteur() {
     const box = document.getElementById('secteur-block');
-    const secteur = CHANTIER_SECTEUR[currentChantier];
+    const secteur = secteurOf(currentChantier);
     const cfg = SECTEUR_CHAMPS[secteur];
     if (!cfg) { box.innerHTML = ''; return; }
     box.innerHTML = `
@@ -379,7 +366,7 @@
   }
 
   function saveSecteur() {
-    const cfg = SECTEUR_CHAMPS[CHANTIER_SECTEUR[currentChantier]];
+    const cfg = SECTEUR_CHAMPS[secteurOf(currentChantier)];
     if (!cfg) return;
     cfg.fields.forEach(f => {
       const el = document.getElementById(`secteur-${f.key}`);
@@ -390,7 +377,23 @@
     setTimeout(() => card.classList.remove('save-flash'), 1200);
   }
 
-  let currentChantier = "";
+  let currentChantier = ""; // chantier choisi dans le header ("" = tous)
+
+  // Secteur d'un chantier : saisi à la main pour Hyatt Étoile, issu du profil de démo pour les autres clients.
+  function secteurOf(chantier) {
+    if (!chantier) return null;
+    const sel = getEtabSelection();
+    return sel.client === DEMO_HAND_CLIENT ? CHANTIER_SECTEUR[chantier] : demoProfile(sel.client, chantier).secteur;
+  }
+
+  // Qualifications du client / chantier choisi dans le header.
+  function getQualifications() {
+    return demoRows('qualifications', QUALIFICATIONS_ETOILE, (chantier, rand, profil) =>
+      profil.qualifs.map(q => ({
+        id: `g${demoId()}`, nom: q.nom, chantier, taux: q.taux,
+        horaires: q.horaires.map(h => ({ ...h })), consignes: q.consignes
+      })));
+  }
 
   // Une qualification peut avoir plusieurs horaires types (ex. matin / soir) : chacun sera proposé
   // au choix lors d'une demande de mission.
@@ -432,7 +435,7 @@
   }
 
   function render() {
-    const rows = QUALIFICATIONS.filter(q => !currentChantier || q.chantier === currentChantier);
+    const rows = getQualifications();
     document.getElementById('qualif-list').innerHTML = rows.map(q => `
       <div id="card-${q.id}" class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
         <div class="flex items-start justify-between gap-4 flex-wrap mb-4">
@@ -472,7 +475,7 @@
   }
 
   function saveQualif(id) {
-    const q = QUALIFICATIONS.find(x => x.id === id);
+    const q = getQualifications().find(x => x.id === id);
     const horaires = [...document.querySelectorAll(`#${id}-horaires .horaire-row`)].map(r => ({
       libelle: r.querySelector('[data-field="libelle"]').value.trim(),
       debut: r.querySelector('[data-field="debut"]').value,
@@ -486,26 +489,20 @@
     setTimeout(() => card.classList.remove('save-flash'), 1200);
   }
 
-  document.querySelectorAll('.chantier-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentChantier = btn.dataset.chantier;
-      document.querySelectorAll('.chantier-tab').forEach(b => {
-        const active = b === btn;
-        b.classList.toggle('text-white', active);
-        b.style.background = active ? 'linear-gradient(135deg, #A63629 0%, #8B2B1F 100%)' : '';
-        b.classList.toggle('text-gray-600', !active);
-      });
-      renderSecteur();
-      render();
-    });
-  });
+  function renderPage() {
+    currentChantier = getEtabSelection().chantier || "";
+    renderSecteur();
+    render();
+  }
+
+  document.addEventListener('etab-change', renderPage);
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.chantier-tab[data-chantier=""]').click();
+    renderPage();
   });
 </script>
 
 <script src="assets/etab-selector.js"></script>
-<script src="assets/chantier-tabs.js"></script>
+<script src="assets/demo-data.js"></script>
 </body>
 </html>

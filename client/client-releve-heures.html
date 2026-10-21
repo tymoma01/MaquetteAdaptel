@@ -147,7 +147,7 @@
 
       <!-- FILTRES -->
       <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
           <div>
             <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Période</label>
             <select id="f-periode" onchange="render()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
@@ -168,22 +168,6 @@
             <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Intérimaire</label>
             <select id="f-interim" onchange="render()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
               <option value="">Tous</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Chantier</label>
-            <select id="f-chantier" onchange="render()" class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
-              <option value="">Tous chantiers</option>
-              <option value="FLEXI HOTE/HOTESSE">FLEXI HOTE/HOTESSE</option>
-              <option value="FLEXI BAGAGERIE">FLEXI BAGAGERIE</option>
-              <option value="FLEXI HOUSEKEEPING">FLEXI HOUSEKEEPING</option>
-              <option value="FLEXI BANQUET">FLEXI BANQUET</option>
-              <option value="FLEXI SOUS-CHEF">FLEXI SOUS-CHEF</option>
-              <option value="FLEXI ROOM SERVICE">FLEXI ROOM SERVICE</option>
-              <option value="FLEXI SPA">FLEXI SPA</option>
-              <option value="FLEXI PLONGE">FLEXI PLONGE</option>
-              <option value="FLEXI CONCIERGERIE">FLEXI CONCIERGERIE</option>
-              <option value="FLEXI VOITURIER">FLEXI VOITURIER</option>
             </select>
           </div>
           <div>
@@ -402,7 +386,7 @@
   }
 
   // Horaires déclarés (début / fin / pause en minutes) — la durée affichée en est déduite.
-  const RELEVES = [
+  const RELEVES_ETOILE = [
     { id: 1, nom: "Anna Pizzol", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "22/09/2026", prevu: "7h00", debut: "06:55", fin: "15:30", pause: 30, statut: "valide" },
     { id: 2, nom: "Anna Pizzol", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "21/09/2026", prevu: "7h00", debut: "07:00", fin: "14:30", pause: 30, statut: "a_valider" },
     { id: 3, nom: "Julien Martin", q: "Commis de cuisine", chantier: "FLEXI SOUS-CHEF", date: "19/09/2026", prevu: "7h30", debut: "07:00", fin: "15:00", pause: 30, statut: "valide" },
@@ -411,6 +395,24 @@
     { id: 6, nom: "Marco De Luca", q: "Chef de rang", chantier: "FLEXI BANQUET", date: "20/09/2026", prevu: "7h30", debut: "11:00", fin: "19:20", pause: 30, statut: "a_valider" },
     { id: 7, nom: "Karim Traoré", q: "Bagagiste", chantier: "FLEXI BAGAGERIE", date: "19/09/2026", prevu: "7h30", debut: "07:00", fin: "15:00", pause: 30, statut: "valide" }
   ];
+
+  // Relevés du client / chantier choisi dans le header (rechargés à chaque changement de sélection).
+  let RELEVES = [];
+  function loadReleves() {
+    RELEVES = demoRows('releves', RELEVES_ETOILE, (chantier, rand, profil) =>
+      profil.interimaires.flatMap(i => Array.from({ length: demoInt(rand, 1, 2) }, () => {
+        // Horaire type de la qualification, avec quelques minutes d'écart à l'arrivée / au départ.
+        const h = demoPick(rand, i.q.horaires);
+        const hhmm = m => { m = (m + 1440) % 1440; return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };
+        const debut = hhmm(toMinutes(h.debut) + demoPick(rand, [-10, -5, 0, 0, 5, 15]));
+        const fin = hhmm(toMinutes(h.fin) + demoPick(rand, [-30, 0, 0, 10, 20, 45]));
+        return {
+          id: demoId(), nom: i.nom, q: i.q.nom, chantier, date: demoDate(rand, 14, 22),
+          prevu: formatDuree(dureeMinutes(h.debut, h.fin, h.pause)),
+          debut, fin, pause: h.pause, statut: rand() < 0.5 ? "a_valider" : "valide"
+        };
+      })));
+  }
 
   const selectedIds = new Set();
   let editingId = null;
@@ -425,24 +427,24 @@
   function formatDuree(min) { const h = Math.floor(min / 60), m = min % 60; return `${h}h${String(m).padStart(2, '0')}`; }
   function formatHeure(hhmm) { return hhmm.replace(':', 'h'); }
 
+  // Options des filtres Intérimaire / Qualification, d'après les relevés chargés (valeur choisie conservée si elle existe encore).
   function populateSelectOptions() {
-    const interims = [...new Set(RELEVES.map(r => r.nom))].sort();
-    const quals = [...new Set(RELEVES.map(r => r.q))].sort();
-    const interimSel = document.getElementById('f-interim');
-    interims.forEach(n => interimSel.insertAdjacentHTML('beforeend', `<option value="${n}">${n}</option>`));
-    const qualSel = document.getElementById('f-qualif');
-    quals.forEach(q => qualSel.insertAdjacentHTML('beforeend', `<option value="${q}">${q}</option>`));
+    [['f-interim', 'nom'], ['f-qualif', 'q']].forEach(([id, key]) => {
+      const sel = document.getElementById(id);
+      const current = sel.value;
+      sel.querySelectorAll('option:not([value=""])').forEach(o => o.remove());
+      [...new Set(RELEVES.map(r => r[key]))].sort().forEach(v => sel.insertAdjacentHTML('beforeend', `<option value="${v}">${v}</option>`));
+      sel.value = [...sel.options].some(o => o.value === current) ? current : '';
+    });
   }
 
   function getFiltered() {
     const statut = document.getElementById('f-statut').value;
     const interim = document.getElementById('f-interim').value;
-    const chantier = document.getElementById('f-chantier').value;
     const qualif = document.getElementById('f-qualif').value;
     return RELEVES.filter(r =>
       (!statut || r.statut === statut) &&
       (!interim || r.nom === interim) &&
-      (!chantier || r.chantier === chantier) &&
       (!qualif || r.q === qualif)
     );
   }
@@ -462,7 +464,7 @@
 
   function avatarHtml(nom, sizeClass, textSizeClass) {
     const fallback = `<div class="${sizeClass} rounded-full flex items-center justify-center text-white ${textSizeClass} font-bold flex-shrink-0 bg-gradient-to-br from-gray-500 to-gray-600">${initials(nom)}</div>`;
-    const photo = INTERIM_PHOTOS[nom];
+    const photo = INTERIM_PHOTOS[nom] || (DEMO_INTERIMAIRES.find(i => i.nom === nom) || {}).photo;
     if (!photo) return fallback;
     const fallbackForJsString = fallback.replace(/"/g, '&quot;');
     return `<img src="${photo}" alt="${nom}" class="${sizeClass} rounded-full object-cover flex-shrink-0" onerror="this.outerHTML='${fallbackForJsString}'">`;
@@ -527,8 +529,8 @@
         <td id="duree-${r.id}" class="px-4 py-3">${dureeCellHtml(r)}</td>
         <td class="px-4 py-3">
           ${r.statut === 'valide'
-            ? `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">Validé</span>`
-            : `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-700">À valider</span>`}
+            ? `<span class="px-2.5 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-green-100 text-green-700">Validé</span>`
+            : `<span class="px-2.5 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-amber-100 text-amber-700">À valider</span>`}
         </td>
         <td class="px-4 py-3 text-right">
           ${r.statut === 'a_valider'
@@ -629,12 +631,17 @@
   }
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && editingId !== null) closeEditModal(); });
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function reloadPage() {
+    loadReleves();
     populateSelectOptions();
     render();
-  });
+  }
+
+  document.addEventListener('etab-change', reloadPage);
+  document.addEventListener('DOMContentLoaded', reloadPage);
 </script>
 
 <script src="assets/etab-selector.js"></script>
+<script src="assets/demo-data.js"></script>
 </body>
 </html>

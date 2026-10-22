@@ -588,7 +588,7 @@
       ${section(2, 'Caractéristiques du poste', `
         <div class="rounded-xl border border-[#A63629]/30 bg-red-50/30 p-3 mb-3">
           ${label('Description du poste — fiche de poste', String(f.descriptifPoste || '').trim() ? PREREMPLI : '')}
-          <textarea data-key="descriptifPoste" rows="6" placeholder="Missions principales, environnement de travail, rythme, interlocuteurs, contraintes particulières…" class="${INPUT} border-gray-200 py-2 resize-y">${esc(f.descriptifPoste)}</textarea>
+          <textarea data-key="descriptifPoste" rows="${Math.min(20, Math.max(6, String(f.descriptifPoste || '').split('\n').length + 1))}" placeholder="Missions principales, environnement de travail, rythme, interlocuteurs, contraintes particulières…" class="${INPUT} border-gray-200 py-2 resize-y">${esc(f.descriptifPoste)}</textarea>
           <p class="text-[11px] text-gray-500 mt-1">Sert de fiche de poste : elle est transmise à l'intérimaire avec la mission et jointe à la fiche de liaison, notamment en cas de déclaration d'accident du travail. Adaptez-la à votre établissement si besoin.</p>
         </div>
         ${ligne('Poste demandé', `<div class="flex flex-wrap items-center gap-3">${choix('poste', [...m.postes, 'Autre'], m.postes.includes(f.poste) ? f.poste : 'Autre')}<input data-key="posteAutre" value="${esc(f.posteAutre)}" placeholder="Autre : …" class="${INPUT} h-8 border-gray-200 max-w-xs"></div>`)}

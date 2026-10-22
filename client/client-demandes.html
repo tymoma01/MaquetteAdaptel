@@ -78,7 +78,7 @@
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-utilisateurs.html">Utilisateurs</a>
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-roles.html">Rôles</a>
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-notifications.html">Notifications</a>
-          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-documents-legaux.html">Documents légaux</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-documents-legaux.html">Légal</a>
         </div>
       </div>
     </nav>
@@ -316,16 +316,17 @@
       <!-- Attestation obligatoire : le client confirme que les risques de la fiche de liaison transmise sont inchangés. -->
       <div class="rounded-xl border border-amber-200 bg-amber-50/60 p-3">
         <label class="flex items-start gap-2.5 cursor-pointer">
-          <input id="fiche-liaison-check" type="checkbox" onchange="updateEnvoiGate()" class="mt-0.5 h-4 w-4 rounded border-gray-300 accent-[#A63629] cursor-pointer">
+          <input id="fiche-liaison-check" type="checkbox" onchange="onAttestationChange()" class="mt-0.5 h-4 w-4 rounded border-gray-300 accent-[#A63629] cursor-pointer">
           <span class="text-xs text-gray-700">J'atteste que les risques mentionnés dans la <span class="font-semibold">fiche de liaison</span> transmise à Adaptel sont inchangés pour ces missions.</span>
         </label>
+        <p id="attestation-horodatage" class="hidden mt-1 ml-[26px] text-[11px] font-semibold text-amber-800"></p>
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5 ml-[26px] text-[11px]">
-          <a href="#" onclick="event.preventDefault()" class="inline-flex items-center gap-1 font-semibold text-[#A63629] hover:underline">
+          <a href="client-documents-legaux.html" target="_blank" class="inline-flex items-center gap-1 font-semibold text-[#A63629] hover:underline">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 13H8"></path><path d="M16 17H8"></path><path d="M16 13h-2"></path></svg>
             Consulter la fiche de liaison transmise
           </a>
           <span class="text-gray-500">Les risques ont évolué ?
-            <a href="#" onclick="event.preventDefault()" class="font-semibold text-[#A63629] hover:underline">Mettre à jour la fiche de liaison</a>
+            <a href="client-documents-legaux.html" target="_blank" class="font-semibold text-[#A63629] hover:underline">Mettre à jour la fiche de liaison</a>
           </span>
         </div>
       </div>
@@ -1001,9 +1002,9 @@
     if (collectRecapRows().length === 0) { alert("Cliquez sur au moins un jour du calendrier pour créer une demande."); return; }
     renderMotifsStep();
     document.getElementById('fiche-liaison-check').checked = false;
-    updateEnvoiGate();
     document.getElementById('nouvelle-body').classList.add('hidden');
     document.getElementById('motifs-step').classList.remove('hidden');
+    updateEnvoiGate();
   }
 
   function backToRecap() {
@@ -1083,9 +1084,27 @@
     entry[field] = value;
   }
 
+  function onAttestationChange() {
+    attestationAt = document.getElementById('fiche-liaison-check').checked ? new Date() : null;
+    updateEnvoiGate();
+  }
+
+  // Horodatage de l'attestation : fixé au moment où la case est cochée, remis à zéro quand elle est décochée.
+  // En production, l'horodatage de référence doit être posé côté serveur (l'horloge du navigateur n'est pas fiable).
+  let attestationAt = null;
+
+  function formatHorodatage(d) {
+    return `${d.toLocaleDateString('fr-FR')} à ${d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`;
+  }
+
   // Le bouton d'envoi reste désactivé tant que l'attestation sur la fiche de liaison n'est pas cochée.
   function updateEnvoiGate() {
-    document.getElementById('btn-confirm-envoi').disabled = !document.getElementById('fiche-liaison-check').checked;
+    const atteste = document.getElementById('fiche-liaison-check').checked;
+    if (!atteste) attestationAt = null;
+    const stamp = document.getElementById('attestation-horodatage');
+    stamp.classList.toggle('hidden', !attestationAt);
+    stamp.textContent = attestationAt ? `Attesté le ${formatHorodatage(attestationAt)}` : '';
+    document.getElementById('btn-confirm-envoi').disabled = !atteste;
   }
 
   function confirmEnvoi() {
@@ -1097,7 +1116,7 @@
     }
     const n = rows.length;
     closeNouvelle();
-    alert(`Votre demande a été transmise à Adaptel : ${n} demande(s) seront créées, chacune avec sa propre qualification, son horaire, son motif et sa justification.`);
+    alert(`Votre demande a été transmise à Adaptel : ${n} demande(s) seront créées, chacune avec sa propre qualification, son horaire, son motif et sa justification.\nAttestation fiche de liaison horodatée le ${formatHorodatage(attestationAt)}.`);
   }
 
   document.addEventListener('etab-change', () => {

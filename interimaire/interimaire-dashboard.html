@@ -155,7 +155,7 @@
           <button onclick="dashState.statut = dashState.statut==='terminee'?null:'terminee'; renderDashboard();" id="tile-terminee" class="group relative rounded-2xl bg-gradient-to-r from-violet-500 to-purple-600 p-4 text-white shadow-lg text-left transition-all duration-150 hover:scale-[1.02]">
             <div class="flex items-center justify-between text-sm"><span class="font-medium">Missions terminées</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-75"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="m9 15 2 2 4-4"></path></svg></div>
             <p id="count-terminees" class="mt-2 text-3xl font-bold">—</p>
-            <p class="text-xs uppercase tracking-wide opacity-80">Missions accomplies</p>
+            <p id="sub-terminees" class="text-xs uppercase tracking-wide opacity-80">Missions accomplies</p>
           </button>
           <button onclick="dashState.statut = dashState.statut==='annulee'?null:'annulee'; renderDashboard();" id="tile-annulee" class="group relative rounded-2xl bg-gradient-to-r from-slate-400 to-slate-500 p-4 text-white shadow-lg text-left transition-all duration-150 hover:scale-[1.02]">
             <div class="flex items-center justify-between text-sm"><span class="font-medium">Missions annulées</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-75"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></div>
@@ -255,6 +255,8 @@
     document.getElementById('count-proposees').textContent = MISSIONS.filter(m => m.statut === 'proposee').length;
     document.getElementById('count-validees').textContent = MISSIONS.filter(m => m.statut === 'validee').length;
     document.getElementById('count-terminees').textContent = MISSIONS.filter(m => m.statut === 'terminee').length;
+    const aNoter = MISSIONS.filter(m => m.statut === 'terminee' && !m.evaluation).length;
+    document.getElementById('sub-terminees').textContent = aNoter ? `${aNoter} à noter` : 'Missions accomplies';
     document.getElementById('count-annulees').textContent = MISSIONS.filter(m => m.statut === 'annulee').length;
 
     const recettes = MISSIONS.filter(m => m.statut === 'terminee' && m.releveValide && m.dateDebut.startsWith('2026-09'));

@@ -187,3 +187,105 @@ function demoSetFavori(nom, favori) {
 let demoNextId = 10000;
 // Identifiant numérique unique pour les lignes générées (utilisé dans les onclick / id du DOM).
 const demoId = () => demoNextId++;
+
+// ---------- Qualifications ----------
+// Partagées entre l'onglet Qualifications et les fiches de liaison de la rubrique Légal.
+// Qualifications réelles (métiers) proposées à la demande, regroupées par chantier — les mêmes
+// intitulés que ceux utilisés côté Opérations (planning, fiches intérimaires…).
+const DEMO_QUALIFICATIONS_ETOILE = [
+  { id: "q1", nom: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", taux: 13.5, horaires: [{ libelle: "Matin", debut: "07:00", fin: "15:00", pause: 30 }, { libelle: "Soir", debut: "15:00", fin: "23:00", pause: 30 }], consignes: "Tenue noire élégante, badge visible. Accueil en front-desk, ton chaleureux et professionnel." },
+  { id: "q2", nom: "Hôtesse d'accueil", chantier: "FLEXI HOTE/HOTESSE", taux: 14.0, horaires: [{ libelle: "Matin", debut: "07:00", fin: "15:00", pause: 30 }], consignes: "Tenue noire élégante, badge visible. Accueil en front-desk, ton chaleureux et professionnel." },
+  { id: "q3", nom: "Bagagiste", chantier: "FLEXI BAGAGERIE", taux: 12.6, horaires: [{ libelle: "Matin", debut: "06:00", fin: "14:00", pause: 30 }], consignes: "Tenue technique fournie sur place. Port de charges — chaussures fermées obligatoires." },
+  { id: "q4", nom: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", taux: 13.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 30 }], consignes: "Chaussures antidérapantes obligatoires. Passage au vestiaire du personnel à l'arrivée." },
+  { id: "q5", nom: "Chef de rang", chantier: "FLEXI BANQUET", taux: 14.2, horaires: [{ libelle: "Midi", debut: "11:00", fin: "19:00", pause: 30 }, { libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
+  { id: "q6", nom: "Maître d'hôtel", chantier: "FLEXI BANQUET", taux: 17.0, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
+  { id: "q7", nom: "Serveuse", chantier: "FLEXI BANQUET", taux: 13.9, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
+  { id: "q8", nom: "Sommelière", chantier: "FLEXI BANQUET", taux: 16.5, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "" },
+  { id: "q9", nom: "Barman", chantier: "FLEXI BANQUET", taux: 15.0, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "" },
+  { id: "q10", nom: "Cuisinier", chantier: "FLEXI SOUS-CHEF", taux: 14.5, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
+  { id: "q11", nom: "Chef cuisinier", chantier: "FLEXI SOUS-CHEF", taux: 18.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
+  { id: "q12", nom: "Commis de cuisine", chantier: "FLEXI SOUS-CHEF", taux: 13.1, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
+  { id: "q13", nom: "Pâtissière", chantier: "FLEXI SOUS-CHEF", taux: 15.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "" },
+  { id: "q14", nom: "Plongeur", chantier: "FLEXI SOUS-CHEF", taux: 12.8, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "" }
+];
+
+// Secteur d'activité de chaque chantier : il détermine les champs spécifiques affichés ci-dessous.
+const DEMO_CHANTIER_SECTEUR_ETOILE = {
+  "FLEXI HOTE/HOTESSE": "Hébergement",
+  "FLEXI BAGAGERIE": "Hébergement",
+  "FLEXI HOUSEKEEPING": "Housekeeping",
+  "FLEXI BANQUET": "Restauration",
+  "FLEXI SOUS-CHEF": "Restauration",
+  "FLEXI ROOM SERVICE": "Restauration",
+  "FLEXI SPA": "Hébergement",
+  "FLEXI PLONGE": "Restauration",
+  "FLEXI CONCIERGERIE": "Hébergement",
+  "FLEXI VOITURIER": "Hébergement"
+};
+
+// Secteur d'un chantier : saisi à la main pour Hyatt Étoile, issu du profil de démo pour les autres clients.
+function demoSecteur(chantier) {
+  if (!chantier) return null;
+  const sel = getEtabSelection();
+  return sel.client === DEMO_HAND_CLIENT ? DEMO_CHANTIER_SECTEUR_ETOILE[chantier] : demoProfile(sel.client, chantier).secteur;
+}
+
+// Qualifications ajoutées / retirées par le client depuis l'onglet Qualifications, par client. Gardées dans le
+// navigateur pour que la rubrique Légal (une fiche de liaison par qualification) suive les mêmes qualifications.
+const DEMO_QUALIFS_KEY = 'adaptel-qualifications';
+let demoQualifsEtat = null;
+function demoQualifsModifs() {
+  if (!demoQualifsEtat) {
+    try { demoQualifsEtat = JSON.parse(localStorage.getItem(DEMO_QUALIFS_KEY)) || {}; } catch (e) { demoQualifsEtat = {}; }
+  }
+  const client = getEtabSelection().client;
+  return demoQualifsEtat[client] || (demoQualifsEtat[client] = { ajoutees: [], retirees: [] });
+}
+function demoQualifsSauver() {
+  try { localStorage.setItem(DEMO_QUALIFS_KEY, JSON.stringify(demoQualifsEtat)); } catch (e) {}
+}
+const demoQualifCle = q => q.chantier + '|' + q.nom;
+
+// Qualifications du client / chantier choisi dans le header.
+function demoQualifications() {
+  const sel = getEtabSelection();
+  const modifs = demoQualifsModifs();
+  return demoRows('qualifications', DEMO_QUALIFICATIONS_ETOILE, (chantier, rand, profil) =>
+    profil.qualifs.map(q => ({
+      id: `g${demoId()}`, nom: q.nom, chantier, taux: q.taux,
+      horaires: q.horaires.map(h => ({ ...h })), consignes: q.consignes
+    })))
+    .filter(q => !modifs.retirees.includes(demoQualifCle(q)))
+    .concat(modifs.ajoutees.filter(q => !sel.chantier || q.chantier === sel.chantier));
+}
+
+// Qualifications qu'Adaptel propose pour un secteur (taux de référence et horaire type par défaut).
+function demoCatalogueQualifs(secteur) {
+  const etoile = DEMO_QUALIFICATIONS_ETOILE.map(q => ({ ...q, secteur: DEMO_CHANTIER_SECTEUR_ETOILE[q.chantier] }));
+  const vus = new Set();
+  return [...DEMO_QUALIFS, ...etoile]
+    .filter(q => q.secteur === secteur && !vus.has(q.nom) && vus.add(q.nom))
+    .sort((a, b) => a.nom.localeCompare(b.nom));
+}
+
+function demoAjouterQualif(nom, chantier) {
+  const modifs = demoQualifsModifs();
+  const cle = demoQualifCle({ nom, chantier });
+  // Qualification d'origine retirée puis rajoutée : on la restaure telle quelle.
+  if (modifs.retirees.includes(cle)) modifs.retirees = modifs.retirees.filter(c => c !== cle);
+  else {
+    const c = demoCatalogueQualifs(demoSecteur(chantier)).find(q => q.nom === nom);
+    modifs.ajoutees.push({
+      id: `a${Date.now().toString(36)}`, nom, chantier, taux: c.taux,
+      horaires: c.horaires.map(h => ({ ...h })), consignes: c.consignes || '', ajoutee: true
+    });
+  }
+  demoQualifsSauver();
+}
+
+function demoRetirerQualif(q) {
+  const modifs = demoQualifsModifs();
+  if (q.ajoutee) modifs.ajoutees = modifs.ajoutees.filter(a => a.id !== q.id);
+  else modifs.retirees.push(demoQualifCle(q));
+  demoQualifsSauver();
+}

@@ -75,7 +75,7 @@
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-utilisateurs.html">Utilisateurs</a>
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-roles.html">Rôles</a>
           <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-notifications.html">Notifications</a>
-          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-documents-legaux.html">Documents légaux</a>
+          <a class="block px-4 py-2.5 text-sm rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50 font-medium" href="client-documents-legaux.html">Légal</a>
         </div>
       </div>
     </nav>
@@ -130,10 +130,19 @@
 
     <div class="p-6 space-y-5 max-w-[1200px] w-full mx-auto">
 
-      <div>
-        <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Qualifications</h1>
-        <p class="text-gray-600 text-sm mt-0.5">Horaire type, pause par défaut et consignes propres à chaque poste — repris automatiquement à chaque nouvelle demande de mission</p>
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Qualifications</h1>
+          <p class="text-gray-600 text-sm mt-0.5">Horaire type, pause par défaut et consignes propres à chaque poste — repris automatiquement à chaque nouvelle demande de mission</p>
+          <p class="text-gray-500 text-xs mt-0.5">Chaque qualification a sa fiche de liaison et sa fiche de poste à valider dans <a href="client-documents-legaux.html" class="font-semibold text-[#A63629] hover:underline">Légal</a>.</p>
+        </div>
+        <button type="button" onclick="toggleAjout()" class="h-10 px-4 rounded-lg text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all inline-flex items-center gap-1.5 flex-shrink-0" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          Ajouter une qualification
+        </button>
       </div>
+
+      <div id="ajout-block" class="hidden"></div>
 
 
       <div id="secteur-block"></div>
@@ -276,39 +285,6 @@
     setTimeout(() => appendChatMessage(CHAT_DEPARTMENTS[chatService].reply, 'bot'), 600);
   }
 
-  // Qualifications réelles (métiers) proposées à la demande, regroupées par chantier — les mêmes
-  // intitulés que ceux utilisés côté Opérations (planning, fiches intérimaires…).
-  const QUALIFICATIONS_ETOILE = [
-    { id: "q1", nom: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", taux: 13.5, horaires: [{ libelle: "Matin", debut: "07:00", fin: "15:00", pause: 30 }, { libelle: "Soir", debut: "15:00", fin: "23:00", pause: 30 }], consignes: "Tenue noire élégante, badge visible. Accueil en front-desk, ton chaleureux et professionnel." },
-    { id: "q2", nom: "Hôtesse d'accueil", chantier: "FLEXI HOTE/HOTESSE", taux: 14.0, horaires: [{ libelle: "Matin", debut: "07:00", fin: "15:00", pause: 30 }], consignes: "Tenue noire élégante, badge visible. Accueil en front-desk, ton chaleureux et professionnel." },
-    { id: "q3", nom: "Bagagiste", chantier: "FLEXI BAGAGERIE", taux: 12.6, horaires: [{ libelle: "Matin", debut: "06:00", fin: "14:00", pause: 30 }], consignes: "Tenue technique fournie sur place. Port de charges — chaussures fermées obligatoires." },
-    { id: "q4", nom: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", taux: 13.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 30 }], consignes: "Chaussures antidérapantes obligatoires. Passage au vestiaire du personnel à l'arrivée." },
-    { id: "q5", nom: "Chef de rang", chantier: "FLEXI BANQUET", taux: 14.2, horaires: [{ libelle: "Midi", debut: "11:00", fin: "19:00", pause: 30 }, { libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
-    { id: "q6", nom: "Maître d'hôtel", chantier: "FLEXI BANQUET", taux: 17.0, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
-    { id: "q7", nom: "Serveuse", chantier: "FLEXI BANQUET", taux: 13.9, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
-    { id: "q8", nom: "Sommelière", chantier: "FLEXI BANQUET", taux: 16.5, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "" },
-    { id: "q9", nom: "Barman", chantier: "FLEXI BANQUET", taux: 15.0, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "" },
-    { id: "q10", nom: "Cuisinier", chantier: "FLEXI SOUS-CHEF", taux: 14.5, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
-    { id: "q11", nom: "Chef cuisinier", chantier: "FLEXI SOUS-CHEF", taux: 18.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
-    { id: "q12", nom: "Commis de cuisine", chantier: "FLEXI SOUS-CHEF", taux: 13.1, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
-    { id: "q13", nom: "Pâtissière", chantier: "FLEXI SOUS-CHEF", taux: 15.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "" },
-    { id: "q14", nom: "Plongeur", chantier: "FLEXI SOUS-CHEF", taux: 12.8, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "" }
-  ];
-
-  // Secteur d'activité de chaque chantier : il détermine les champs spécifiques affichés ci-dessous.
-  const CHANTIER_SECTEUR = {
-    "FLEXI HOTE/HOTESSE": "Hébergement",
-    "FLEXI BAGAGERIE": "Hébergement",
-    "FLEXI HOUSEKEEPING": "Housekeeping",
-    "FLEXI BANQUET": "Restauration",
-    "FLEXI SOUS-CHEF": "Restauration",
-    "FLEXI ROOM SERVICE": "Restauration",
-    "FLEXI SPA": "Hébergement",
-    "FLEXI PLONGE": "Restauration",
-    "FLEXI CONCIERGERIE": "Hébergement",
-    "FLEXI VOITURIER": "Hébergement"
-  };
-
   // Champs conditionnels au secteur du chantier (un jeu de champs par secteur, comme côté Opérations).
   const SECTEUR_CHAMPS = {
     "Hébergement": {
@@ -335,7 +311,7 @@
 
   function renderSecteur() {
     const box = document.getElementById('secteur-block');
-    const secteur = secteurOf(currentChantier);
+    const secteur = demoSecteur(currentChantier);
     const cfg = SECTEUR_CHAMPS[secteur];
     if (!cfg) { box.innerHTML = ''; return; }
     box.innerHTML = `
@@ -366,7 +342,7 @@
   }
 
   function saveSecteur() {
-    const cfg = SECTEUR_CHAMPS[secteurOf(currentChantier)];
+    const cfg = SECTEUR_CHAMPS[demoSecteur(currentChantier)];
     if (!cfg) return;
     cfg.fields.forEach(f => {
       const el = document.getElementById(`secteur-${f.key}`);
@@ -378,22 +354,6 @@
   }
 
   let currentChantier = ""; // chantier choisi dans le header ("" = tous)
-
-  // Secteur d'un chantier : saisi à la main pour Hyatt Étoile, issu du profil de démo pour les autres clients.
-  function secteurOf(chantier) {
-    if (!chantier) return null;
-    const sel = getEtabSelection();
-    return sel.client === DEMO_HAND_CLIENT ? CHANTIER_SECTEUR[chantier] : demoProfile(sel.client, chantier).secteur;
-  }
-
-  // Qualifications du client / chantier choisi dans le header.
-  function getQualifications() {
-    return demoRows('qualifications', QUALIFICATIONS_ETOILE, (chantier, rand, profil) =>
-      profil.qualifs.map(q => ({
-        id: `g${demoId()}`, nom: q.nom, chantier, taux: q.taux,
-        horaires: q.horaires.map(h => ({ ...h })), consignes: q.consignes
-      })));
-  }
 
   // Une qualification peut avoir plusieurs horaires types (ex. matin / soir) : chacun sera proposé
   // au choix lors d'une demande de mission.
@@ -434,8 +394,76 @@
     updateRemoveButtons(list);
   }
 
+  // ----- Ajout / retrait de qualifications -----
+  // Le choix se fait dans le catalogue Adaptel du secteur du chantier : le taux de référence et l'horaire type
+  // par défaut en sont repris. Ajouter ou retirer une qualification ajoute ou retire sa fiche de liaison dans Légal.
+  function toggleAjout() {
+    const box = document.getElementById('ajout-block');
+    box.classList.toggle('hidden');
+    if (!box.classList.contains('hidden')) renderAjout();
+  }
+
+  function renderAjout(chantier) {
+    const chantiers = demoChantiers();
+    chantier = chantier || currentChantier || chantiers[0];
+    const presentes = demoQualifications().filter(q => q.chantier === chantier).map(q => q.nom);
+    const options = demoCatalogueQualifs(demoSecteur(chantier)).filter(q => !presentes.includes(q.nom));
+    document.getElementById('ajout-block').innerHTML = `
+      <div id="ajout-card" data-chantier="${esc(chantier)}" class="bg-white rounded-xl border-2 border-[#A63629]/30 shadow-sm p-5">
+        <p class="font-bold text-gray-900">Nouvelle qualification</p>
+        <p class="text-xs text-gray-500 mb-3">Secteur ${esc(demoSecteur(chantier))} — le taux de référence et l'horaire type sont proposés par Adaptel, vous pourrez ajuster horaires et consignes ensuite.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-3 items-end">
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Chantier</label>
+            ${chantiers.length > 1
+              ? `<select id="ajout-chantier" onchange="renderAjout(this.value)" class="${INPUT_CLASS}">${chantiers.map(c => `<option ${c === chantier ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select>`
+              : `<p class="h-10 flex items-center rounded-lg bg-gray-50 border border-gray-100 px-3 text-sm text-gray-700">${esc(chantier)}</p>`}
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Qualification</label>
+            ${options.length
+              ? `<select id="ajout-qualif" class="${INPUT_CLASS}">${options.map(q => `<option value="${esc(q.nom)}">${esc(q.nom)} — ${q.taux.toFixed(2)} €/h</option>`).join('')}</select>`
+              : `<p class="h-10 flex items-center text-sm text-gray-500">Toutes les qualifications du secteur sont déjà ajoutées.</p>`}
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="toggleAjout()" class="h-10 px-4 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-100">Annuler</button>
+            <button type="button" onclick="ajouterQualif()" ${options.length ? '' : 'disabled'} class="h-10 px-4 rounded-lg text-sm font-semibold text-white shadow-sm hover:shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Ajouter</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function ajouterQualif() {
+    const chantier = document.getElementById('ajout-card').dataset.chantier;
+    const nom = document.getElementById('ajout-qualif').value;
+    demoAjouterQualif(nom, chantier);
+    document.getElementById('ajout-block').classList.add('hidden');
+    render();
+    const q = demoQualifications().find(x => x.nom === nom && x.chantier === chantier);
+    const card = document.getElementById(`card-${q.id}`);
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.classList.add('save-flash');
+    setTimeout(() => card.classList.remove('save-flash'), 1200);
+  }
+
+  // Retrait en deux temps : le premier clic affiche la confirmation dans la carte.
+  function demanderRetrait(id) {
+    document.getElementById(`${id}-retrait`).classList.toggle('hidden');
+  }
+
+  function retirerQualif(id) {
+    demoRetirerQualif(demoQualifications().find(x => x.id === id));
+    render();
+  }
+
+  const esc = v => String(v ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+
   function render() {
-    const rows = getQualifications();
+    const rows = demoQualifications();
+    if (!rows.length) {
+      document.getElementById('qualif-list').innerHTML = `<p class="text-sm text-gray-500 text-center py-8 bg-white rounded-xl border border-dashed border-gray-200">Aucune qualification pour cette sélection. Utilisez « Ajouter une qualification ».</p>`;
+      return;
+    }
     document.getElementById('qualif-list').innerHTML = rows.map(q => `
       <div id="card-${q.id}" class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
         <div class="flex items-start justify-between gap-4 flex-wrap mb-4">
@@ -443,7 +471,19 @@
             <h3 class="font-bold text-gray-900">${q.nom}</h3>
             <p class="text-xs text-gray-500">${q.chantier}</p>
           </div>
-          <span class="px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600">Taux de référence : ${q.taux.toFixed(2)} €/h</span>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600">Taux de référence : ${q.taux.toFixed(2)} €/h</span>
+            <button type="button" onclick="demanderRetrait('${q.id}')" title="Retirer cette qualification" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+            </button>
+          </div>
+        </div>
+        <div id="${q.id}-retrait" class="hidden mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+          <p class="text-sm text-red-800">Retirer <span class="font-semibold">${esc(q.nom)}</span> de ${esc(q.chantier)} ? Elle ne sera plus proposée dans les demandes de mission et sa fiche de liaison disparaîtra de Légal.</p>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="demanderRetrait('${q.id}')" class="h-8 px-3 rounded-lg text-xs font-semibold text-gray-600 hover:bg-white">Annuler</button>
+            <button type="button" onclick="retirerQualif('${q.id}')" class="h-8 px-3 rounded-lg text-xs font-semibold text-white bg-red-600 hover:bg-red-700">Retirer</button>
+          </div>
         </div>
         <div>
           <div class="flex items-center justify-between mb-2">
@@ -475,7 +515,7 @@
   }
 
   function saveQualif(id) {
-    const q = getQualifications().find(x => x.id === id);
+    const q = demoQualifications().find(x => x.id === id);
     const horaires = [...document.querySelectorAll(`#${id}-horaires .horaire-row`)].map(r => ({
       libelle: r.querySelector('[data-field="libelle"]').value.trim(),
       debut: r.querySelector('[data-field="debut"]').value,
@@ -484,6 +524,7 @@
     })).filter(h => h.debut && h.fin);
     if (horaires.length) q.horaires = horaires;
     q.consignes = document.getElementById(`${id}-consignes`).value;
+    if (q.ajoutee) demoQualifsSauver();
     const card = document.getElementById(`card-${id}`);
     card.classList.add('save-flash');
     setTimeout(() => card.classList.remove('save-flash'), 1200);
@@ -491,6 +532,7 @@
 
   function renderPage() {
     currentChantier = getEtabSelection().chantier || "";
+    document.getElementById('ajout-block').classList.add('hidden');
     renderSecteur();
     render();
   }

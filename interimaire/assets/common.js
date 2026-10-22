@@ -39,6 +39,7 @@ const ICONS = {
   circleAlert: '<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>',
   car: '<path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L19 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>',
   monitor: '<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>',
+  messageSquare: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
   star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
   utensils: '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
   shieldOff: '<path d="M19.7 14a6.9 6.9 0 0 0 .3-2V5l-8-3-3.2 1.2"/><path d="M4.7 4.7 4 5v7c0 6 8 10 8 10a20.3 20.3 0 0 0 5.62-4.38"/><path d="m2 2 20 20"/>',
@@ -46,6 +47,7 @@ const ICONS = {
   upload: '<path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M20.4 18a1 1 0 0 1-1 1H4.6a1 1 0 0 1-1-1"/>',
   smartphone: '<rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/>',
   refresh: '<path d="M21 12a9 9 0 0 1-15.3 6.4L3 15"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 9"/><path d="M21 3v6h-6"/><path d="M3 21v-6h6"/>',
+  download: '<path d="M12 15V3"/><path d="m7 10 5 5 5-5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>',
   eyeOff: '<path d="M10.7 5.1A9 9 0 0 1 21 12c0 .8-.1 1.5-.3 2.2"/><path d="M6.2 6.2C4 7.8 2.3 10 1.5 12c1.6 4.1 5.7 7 10.5 7 1.6 0 3.1-.3 4.4-.9"/><path d="M14.1 14.1a3 3 0 1 1-4.2-4.2"/><path d="m2 2 20 20"/>'
 };
 function icon(name, cls){
@@ -105,8 +107,8 @@ const MISSIONS = [
   { id:'m6', statut:'validee', qualification:'FLEXI HOUSEKEEPING', etablissement:'Hyatt Regency Paris Madeleine', dateDebut:'2026-10-12', dateFin:'2026-10-12', horaireDebut:'07:00', horaireFin:'15:00', lieu:'24 boulevard Malesherbes, 75008 Paris', taux:11.88, tenue:'Tenue technique fournie par Adaptel', consignes:'' },
   { id:'m7', statut:'validee', qualification:'FLEXI SOUS-CHEF', etablissement:'Novotel Paris Vaugirard', dateDebut:'2026-10-15', dateFin:'2026-10-15', horaireDebut:'09:00', horaireFin:'17:00', lieu:'257 rue de Vaugirard, 75015 Paris', taux:13.10, tenue:'Tenue noire fournie sur place', consignes:'' },
   { id:'m8', statut:'terminee', qualification:'FLEXI HOUSEKEEPING', etablissement:'Hyatt Regency Paris Madeleine', dateDebut:'2026-09-16', dateFin:'2026-09-16', horaireDebut:'07:00', horaireFin:'15:00', lieu:'24 boulevard Malesherbes, 75008 Paris', taux:11.88, tenue:'Tenue technique fournie par Adaptel', consignes:'', releveValide:true, heuresValidees:'07:00–15:00', montant:95.04 },
-  { id:'m9', statut:'terminee', qualification:'CHEF DE RANG', etablissement:'Hyatt Regency Paris Étoile', dateDebut:'2026-09-11', dateFin:'2026-09-11', horaireDebut:'08:00', horaireFin:'17:00', lieu:'203 rue de Vaugirard, 75015 Paris', taux:12.31, tenue:'Tenue de service fournie par l’établissement', consignes:'', releveValide:true, heuresValidees:'08:00–17:00', montant:110.79 },
-  { id:'m10', statut:'terminee', qualification:'FLEXI BANQUET', etablissement:'Hyatt Regency Paris Étoile', dateDebut:'2026-09-04', dateFin:'2026-09-04', horaireDebut:'18:00', horaireFin:'02:00', lieu:'203 rue de Vaugirard, 75015 Paris', taux:12.31, tenue:'Tenue noire fournie sur place', consignes:'', releveValide:true, heuresValidees:'18:00–01:30', montant:92.33 },
+  { id:'m9', statut:'terminee', qualification:'CHEF DE RANG', etablissement:'Hyatt Regency Paris Étoile', dateDebut:'2026-09-11', dateFin:'2026-09-11', horaireDebut:'08:00', horaireFin:'17:00', lieu:'203 rue de Vaugirard, 75015 Paris', taux:12.31, tenue:'Tenue de service fournie par l’établissement', consignes:'', releveValide:true, heuresValidees:'08:00–17:00', montant:110.79, evaluation:{ note:5, commentaire:'Équipe très accueillante, consignes claires dès l’arrivée.', date:'2026-09-12' } },
+  { id:'m10', statut:'terminee', qualification:'FLEXI BANQUET', etablissement:'Hyatt Regency Paris Étoile', dateDebut:'2026-09-04', dateFin:'2026-09-04', horaireDebut:'18:00', horaireFin:'02:00', lieu:'203 rue de Vaugirard, 75015 Paris', taux:12.31, tenue:'Tenue noire fournie sur place', consignes:'', releveValide:true, heuresValidees:'18:00–01:30', montant:92.33, evaluation:{ note:3, commentaire:'', date:'2026-09-05' } },
   { id:'m11', statut:'terminee', qualification:'FLEXI HÔTE/HÔTESSE', etablissement:'Novotel Paris Vaugirard', dateDebut:'2026-08-27', dateFin:'2026-08-27', horaireDebut:'15:00', horaireFin:'23:00', lieu:'257 rue de Vaugirard, 75015 Paris', taux:12.50, tenue:'Tenue professionnelle sombre (non fournie)', consignes:'', releveValide:true, heuresValidees:'15:00–23:00', montant:100.00 },
   { id:'m12', statut:'annulee', qualification:'FLEXI SOUS-CHEF', etablissement:'Novotel Paris Vaugirard', dateDebut:'2026-09-20', dateFin:'2026-09-20', horaireDebut:'09:00', horaireFin:'17:00', lieu:'257 rue de Vaugirard, 75015 Paris', taux:13.10, tenue:'Tenue noire fournie sur place', consignes:'', annulePar:'Client' }
 ];
@@ -151,18 +153,53 @@ function missionCardHTML(m, opts){
             <span class="flex items-center gap-1 truncate max-w-[220px]">${icon('mapPin','w-3.5 h-3.5')} ${m.lieu}</span>
             <span class="flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400">${icon('euro','w-3.5 h-3.5')} ${m.taux.toFixed(2)} €/h</span>
           </div>
+          ${ficheLiaisonLinkHTML(m)}
         </div>
       </div>
       ${actionable ? `
       <div class="flex items-center gap-2 shrink-0" onclick="event.stopPropagation()">
         <button onclick="respondMission('${m.id}', 'decline')" class="btn-ghost inline-flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-semibold">${icon('x','w-3.5 h-3.5')} Décliner</button>
         <button onclick="respondMission('${m.id}', 'confirm')" class="btn-primary inline-flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-semibold">${icon('check','w-3.5 h-3.5')} Confirmer</button>
+      </div>` : m.statut === 'terminee' ? `
+      <div class="flex items-center gap-2 shrink-0" onclick="event.stopPropagation()">
+        ${m.evaluation
+          ? `<span class="inline-flex items-center gap-1.5 text-xs text-secondary cursor-pointer" onclick="openMissionModal('${m.id}')" title="Votre note">${starsHTML(m.evaluation.note, 'w-3.5 h-3.5')}${m.evaluation.commentaire ? icon('messageSquare','w-3.5 h-3.5') : ''}</span>`
+          : `<button onclick="openMissionModal('${m.id}')" class="btn-ghost inline-flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-semibold">${icon('star','w-3.5 h-3.5 text-amber-500')} Noter la mission</button>`}
+        <span class="text-secondary">${icon('chevronRight', 'w-5 h-5')}</span>
       </div>` : `
       <div class="shrink-0 text-secondary">
         ${icon('chevronRight', 'w-5 h-5')}
       </div>`}
     </div>
   </div>`;
+}
+
+/* ---------- Fiche de liaison (téléchargement) ---------- */
+function ficheLiaisonLinkHTML(m){
+  return `<button type="button" onclick="event.stopPropagation(); downloadFicheLiaison('${m.id}')" class="mt-2 inline-flex items-center gap-1 text-[11px] text-secondary hover:underline underline-offset-2 opacity-80 hover:opacity-100" title="Télécharger la fiche de liaison de la mission">${icon('download','w-3 h-3')} Fiche de liaison</button>`;
+}
+function downloadFicheLiaison(id){
+  const m = MISSIONS.find(x => x.id === id);
+  if(!m) return;
+  const periode = m.dateDebut === m.dateFin ? formatDateFR(m.dateDebut) : `${formatDateShortFR(m.dateDebut)} → ${formatDateFR(m.dateFin)}`;
+  const contenu = [
+    `FICHE DE LIAISON – ${m.qualification}`,
+    '',
+    `Établissement : ${m.etablissement}`,
+    `Lieu de mission : ${m.lieu}`,
+    `Période : ${periode}`,
+    `Horaires : ${m.horaireDebut} → ${m.horaireFin}`,
+    `Tenue : ${m.tenue || 'Non communiquée'}`,
+    `Consignes : ${m.consignes || 'Aucune consigne particulière'}`,
+    '',
+    'Document pré-rempli par Adaptel et validé par le client (maquette).'
+  ].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([contenu], { type:'text/plain;charset=utf-8' }));
+  a.download = `fiche-liaison-${m.qualification.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${m.dateDebut}.txt`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast('Fiche de liaison téléchargée.', 'success');
 }
 
 function respondMission(id, action){
@@ -212,6 +249,8 @@ function ensureMissionModal(){
           ${icon('lock', 'w-3.5 h-3.5 flex-shrink-0')}
           <span>Motif de la demande : information interne réservée aux équipes Adaptel — non communiquée à l'intérimaire.</span>
         </div>
+        <div id="mm-fiche"></div>
+        <div id="mm-evaluation" class="hidden"></div>
         <div id="mm-actions" class="flex items-center justify-end gap-2 pt-1"></div>
       </div>
     </div>`;
@@ -233,6 +272,7 @@ function openMissionModal(id){
   document.getElementById('mm-taux').textContent = m.taux.toFixed(2) + ' €/h';
   document.getElementById('mm-tenue').textContent = m.tenue || 'Non communiquée';
   document.getElementById('mm-consignes').textContent = m.consignes && m.consignes.length ? m.consignes : 'Aucune consigne particulière transmise pour cette mission.';
+  document.getElementById('mm-fiche').innerHTML = ficheLiaisonLinkHTML(m);
   const actions = document.getElementById('mm-actions');
   if(m.statut === 'proposee'){
     actions.innerHTML = `
@@ -241,12 +281,95 @@ function openMissionModal(id){
   } else {
     actions.innerHTML = '';
   }
+  renderEvaluationBlock(m);
   document.getElementById('mission-modal').classList.remove('hidden');
   document.getElementById('mission-modal').classList.add('flex');
 }
 function closeMissionModal(){
   const el = document.getElementById('mission-modal');
   if(el){ el.classList.add('hidden'); el.classList.remove('flex'); }
+}
+
+/* ---------- Évaluation des missions terminées ---------- */
+const NOTE_LABEL = ['', 'Très insatisfait', 'Insatisfait', 'Correct', 'Satisfait', 'Très satisfait'];
+let evaluationDraft = 0;
+
+function starsHTML(note, cls){
+  return [1,2,3,4,5].map(i => icon('star', `${cls} ${i <= note ? 'text-amber-400 fill-current' : 'text-[var(--border-strong)]'}`)).join('');
+}
+
+function renderEvaluationBlock(m){
+  const el = document.getElementById('mm-evaluation');
+  if(m.statut !== 'terminee'){ el.classList.add('hidden'); el.innerHTML = ''; return; }
+  el.classList.remove('hidden');
+  if(m.evaluation){
+    const e = m.evaluation;
+    el.innerHTML = `
+      <div class="rounded-xl border-default border p-4 space-y-2">
+        <div class="flex items-center justify-between gap-2 flex-wrap">
+          <p class="text-xs font-semibold text-primary">Votre évaluation</p>
+          <p class="text-[11px] text-secondary">Transmise le ${formatDateFR(e.date)}</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="flex items-center gap-0.5">${starsHTML(e.note, 'w-5 h-5')}</span>
+          <span class="text-xs text-secondary">${NOTE_LABEL[e.note]}</span>
+        </div>
+        ${e.commentaire ? `<p class="text-sm text-primary muted rounded-lg p-3">${escapeHTML(e.commentaire)}</p>` : ''}
+      </div>`;
+    return;
+  }
+  evaluationDraft = 0;
+  el.innerHTML = `
+    <div class="rounded-xl border-default border p-4 space-y-3">
+      <div>
+        <p class="text-xs font-semibold text-primary">Comment s'est passée cette mission ?</p>
+        <p class="text-[11px] text-secondary mt-0.5">Votre avis est transmis aux équipes Adaptel.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div id="ev-stars" class="flex items-center gap-1">
+          ${[1,2,3,4,5].map(i => `<button type="button" onclick="setEvaluationDraft(${i})" class="p-0.5 rounded hover:scale-110 transition-transform" aria-label="${i} sur 5"></button>`).join('')}
+        </div>
+        <span id="ev-label" class="text-xs text-secondary">Sélectionnez une note</span>
+      </div>
+      <div>
+        <label for="ev-commentaire" class="text-xs text-secondary">Commentaire <span class="opacity-70">(facultatif)</span></label>
+        <textarea id="ev-commentaire" rows="3" maxlength="500" placeholder="Accueil, organisation, conditions de travail…" class="mt-1 w-full rounded-lg border-default border px-3 py-2 text-sm card focus:outline-none focus:ring-2" style="--tw-ring-color:var(--brand-primary)"></textarea>
+      </div>
+      <div class="flex justify-end">
+        <button id="ev-submit" onclick="submitEvaluation('${m.id}')" disabled class="btn-primary inline-flex items-center gap-1.5 h-9 px-4 rounded-lg text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed">${icon('check','w-3.5 h-3.5')} Envoyer mon évaluation</button>
+      </div>
+    </div>`;
+  paintEvaluationStars();
+}
+
+function paintEvaluationStars(){
+  document.querySelectorAll('#ev-stars button').forEach((b, i) => {
+    b.innerHTML = icon('star', `w-7 h-7 ${i < evaluationDraft ? 'text-amber-400 fill-current' : 'text-[var(--border-strong)]'}`);
+  });
+  document.getElementById('ev-label').textContent = evaluationDraft ? NOTE_LABEL[evaluationDraft] : 'Sélectionnez une note';
+  document.getElementById('ev-submit').disabled = !evaluationDraft;
+}
+
+function setEvaluationDraft(n){
+  evaluationDraft = n;
+  paintEvaluationStars();
+}
+
+function submitEvaluation(id){
+  const m = MISSIONS.find(x => x.id === id);
+  if(!m || !evaluationDraft) return;
+  m.evaluation = {
+    note: evaluationDraft,
+    commentaire: document.getElementById('ev-commentaire').value.trim(),
+    date: new Date().toISOString().slice(0, 10)
+  };
+  renderEvaluationBlock(m);
+  toast(`Merci ! Votre évaluation de la mission "${m.qualification}" a été transmise.`, 'success');
+  document.dispatchEvent(new CustomEvent('missions-updated'));
+}
+
+function escapeHTML(s){
+  return s.replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 }
 
 /* ---------- Toasts légers ---------- */

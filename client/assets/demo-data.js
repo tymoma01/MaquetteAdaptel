@@ -101,10 +101,13 @@ const demoCache = {};
 // - autres clients : `generate(chantier, rand, profil)` pour chaque chantier couvert.
 // Les lignes générées sont gardées en cache : les modifications faites dans la page (favori, validation…)
 // sont conservées tant qu'on reste sur la page.
-function demoRows(namespace, handRows, generate) {
+// `tousChantiers` : ignore le chantier choisi dans le header et couvre tous les chantiers du client.
+function demoRows(namespace, handRows, generate, tousChantiers = false) {
   const sel = getEtabSelection();
-  if (sel.client === DEMO_HAND_CLIENT) return handRows.filter(r => !sel.chantier || r.chantier === sel.chantier);
-  return demoChantiers().flatMap(ch => {
+  const chantier = tousChantiers ? null : sel.chantier;
+  if (sel.client === DEMO_HAND_CLIENT) return handRows.filter(r => !chantier || r.chantier === chantier);
+  const chantiers = chantier ? [chantier] : ETAB_CLIENTS.find(c => c.nom === sel.client).chantiers;
+  return chantiers.flatMap(ch => {
     const key = [namespace, sel.client, ch].join('|');
     return demoCache[key] || (demoCache[key] = generate(ch, demoRandom(key), demoProfile(sel.client, ch)));
   });
@@ -246,17 +249,18 @@ function demoQualifsSauver() {
 }
 const demoQualifCle = q => q.chantier + '|' + q.nom;
 
-// Qualifications du client / chantier choisi dans le header.
-function demoQualifications() {
+// Qualifications du client / chantier choisi dans le header (de tous ses chantiers avec `tousChantiers`).
+function demoQualifications(tousChantiers = false) {
   const sel = getEtabSelection();
+  const chantier = tousChantiers ? null : sel.chantier;
   const modifs = demoQualifsModifs();
   return demoRows('qualifications', DEMO_QUALIFICATIONS_ETOILE, (chantier, rand, profil) =>
     profil.qualifs.map(q => ({
       id: `g${demoId()}`, nom: q.nom, chantier, taux: q.taux,
       horaires: q.horaires.map(h => ({ ...h })), consignes: q.consignes
-    })))
+    })), tousChantiers)
     .filter(q => !modifs.retirees.includes(demoQualifCle(q)))
-    .concat(modifs.ajoutees.filter(q => !sel.chantier || q.chantier === sel.chantier));
+    .concat(modifs.ajoutees.filter(q => !chantier || q.chantier === chantier));
 }
 
 // Qualifications qu'Adaptel propose pour un secteur (taux de référence et horaire type par défaut).

@@ -589,60 +589,18 @@
   let calYear = 2026, calMonth = 8; // septembre 2026 par défaut
 
   // Chantiers du client (contrats de staffing, ex. "FLEXI BANQUET") et, pour chacun, les qualifications
-  // réellement proposées au clic sur un jour du calendrier — avec leur(s) horaire(s) type(s) et taux de référence
-  // (mêmes valeurs que la fiche Qualifications : une qualification peut avoir plusieurs horaires types, ex. matin / soir).
-  const CHANTIERS_ETOILE = {
-    "FLEXI HOTE/HOTESSE": {
-      qualifications: {
-        "Réceptionniste":    { taux: 13.5, horaires: [{ libelle: "Matin", debut: "07:00", fin: "15:00", pause: 30 }, { libelle: "Soir", debut: "15:00", fin: "23:00", pause: 30 }] },
-        "Hôtesse d'accueil": { taux: 14.0, horaires: [{ libelle: "Matin", debut: "07:00", fin: "15:00", pause: 30 }] }
-      }
-    },
-    "FLEXI BAGAGERIE": {
-      qualifications: {
-        "Bagagiste": { taux: 12.6, horaires: [{ libelle: "Matin", debut: "06:00", fin: "14:00", pause: 30 }] }
-      }
-    },
-    "FLEXI HOUSEKEEPING": {
-      qualifications: {
-        "Femme de chambre": { taux: 13.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 30 }] }
-      }
-    },
-    "FLEXI BANQUET": {
-      qualifications: {
-        "Chef de rang":   { taux: 14.2, horaires: [{ libelle: "Midi", debut: "11:00", fin: "19:00", pause: 30 }, { libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }] },
-        "Maître d'hôtel": { taux: 17.0, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }] },
-        "Serveuse":       { taux: 13.9, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }] },
-        "Sommelière":     { taux: 16.5, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }] },
-        "Barman":         { taux: 15.0, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }] }
-      }
-    },
-    "FLEXI SOUS-CHEF": {
-      qualifications: {
-        "Cuisinier":         { taux: 14.5, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }] },
-        "Chef cuisinier":    { taux: 18.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }] },
-        "Commis de cuisine": { taux: 13.1, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }] },
-        "Pâtissière":        { taux: 15.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }] },
-        "Plongeur":          { taux: 12.8, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }] }
-      }
-    }
-  };
-
-  // Chantiers du client choisi dans le header : saisis ci-dessus pour Hyatt Étoile, issus des profils de démo
-  // (qualifications et horaires types) pour les autres clients.
+  // réellement proposées au clic sur un jour du calendrier — avec leur(s) horaire(s) type(s) et taux de référence.
+  // Repris de l'onglet Qualifications (qualifications ajoutées / retirées par le client comprises) : un chantier
+  // sans qualification n'est pas proposé.
   let CHANTIERS = {};
 
   // Le menu "Chantier" liste les chantiers de CHANTIERS — généré depuis CHANTIERS pour ne jamais désynchroniser
   // la liste affichée des qualifications réellement disponibles par chantier.
   function loadChantiers() {
-    const sel = getEtabSelection();
-    if (sel.client === DEMO_HAND_CLIENT) CHANTIERS = CHANTIERS_ETOILE;
-    else {
-      CHANTIERS = {};
-      ETAB_CLIENTS.find(c => c.nom === sel.client).chantiers.forEach(ch => {
-        CHANTIERS[ch] = { qualifications: Object.fromEntries(demoProfile(sel.client, ch).qualifs.map(q => [q.nom, { taux: q.taux, horaires: q.horaires }])) };
-      });
-    }
+    CHANTIERS = {};
+    demoQualifications(true).forEach(q => {
+      (CHANTIERS[q.chantier] ||= { qualifications: {} }).qualifications[q.nom] = { taux: q.taux, horaires: q.horaires };
+    });
     const select = document.getElementById('f-chantier');
     select.querySelectorAll('option:not([value=""])').forEach(o => o.remove());
     Object.keys(CHANTIERS).forEach(nom => {

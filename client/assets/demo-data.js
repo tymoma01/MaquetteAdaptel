@@ -141,7 +141,10 @@ function demoDemandes(chantier, rand, profil) {
 function demoDepenses(chantier, rand, profil) {
   return profil.qualifs.flatMap(q => Array.from({ length: demoInt(rand, 1, 2) }, () => {
     const heures = demoInt(rand, 1, 15) * 8;
-    return { id: `DEM-${demoInt(rand, 2000, 9999)}`, q: q.nom, chantier, date: demoDate(rand, 1, 23), heures, taux: q.taux, montant: Math.round(heures * q.taux * 100) / 100 };
+    const date = demoDate(rand, 1, 23);
+    // Relevé d'heures : les missions anciennes sont le plus souvent déjà validées, les récentes rarement.
+    const releve = rand() < (Number(date.slice(0, 2)) < 16 ? 0.85 : 0.3) ? 'valide' : 'a_valider';
+    return { id: `DEM-${demoInt(rand, 2000, 9999)}`, q: q.nom, chantier, date, heures, taux: q.taux, montant: Math.round(heures * q.taux * 100) / 100, releve };
   }));
 }
 

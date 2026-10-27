@@ -133,8 +133,8 @@
       <div class="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Qualifications</h1>
-          <p class="text-gray-600 text-sm mt-0.5">Horaire type, pause par défaut et consignes propres à chaque poste — repris automatiquement à chaque nouvelle demande de mission</p>
-          <p class="text-gray-500 text-xs mt-0.5">Chaque qualification a sa fiche de liaison et sa fiche de poste à valider dans <a href="client-documents-legaux.html" class="font-semibold text-[#A63629] hover:underline">Légal</a>.</p>
+          <p class="text-gray-600 text-sm mt-0.5">Horaires types (avec ou sans coupure), pause par défaut et consignes propres à chaque poste — repris automatiquement à chaque nouvelle demande de mission</p>
+          <p class="text-gray-500 text-xs mt-0.5">Chaque qualification a sa fiche de liaison à valider dans <a href="client-documents-legaux.html" class="font-semibold text-[#A63629] hover:underline">Légal</a>.</p>
         </div>
         <button type="button" onclick="toggleAjout()" class="h-10 px-4 rounded-lg text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all inline-flex items-center gap-1.5 flex-shrink-0" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
@@ -360,18 +360,79 @@
   const HORAIRE_GRID = 'sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto]';
   const INPUT_CLASS = 'h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]';
 
+  const SCISSORS_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="6" cy="6" r="3"></circle><path d="M8.12 8.12 12 12"></path><path d="M20 4 8.12 15.88"></path><circle cx="6" cy="18" r="3"></circle><path d="M14.8 14.8 20 20"></path></svg>`;
+
+  // Un horaire type = une ligne (libellé, début, fin, pause) et, s'il est en coupure, une seconde ligne
+  // « Reprise » alignée sous Début / Fin. La coupure s'active d'un clic, pré-remplie (cf. demoCoupureParDefaut).
   function horaireRow(h) {
+    const coupure = demoAvecCoupure(h);
     return `
-      <div class="horaire-row grid grid-cols-2 ${HORAIRE_GRID} gap-3 items-center">
-        <input type="text" data-field="libelle" value="${h.libelle}" placeholder="Ex. Matin, Soir, Coupure…" class="${INPUT_CLASS} col-span-2 sm:col-span-1">
-        <input type="time" data-field="debut" value="${h.debut}" title="Début" class="${INPUT_CLASS}">
-        <input type="time" data-field="fin" value="${h.fin}" title="Fin" class="${INPUT_CLASS}">
-        <input type="number" min="0" step="5" data-field="pause" value="${h.pause}" title="Pause (min)" placeholder="Pause (min)" class="${INPUT_CLASS}">
-        <button type="button" onclick="removeHoraire(this)" title="Supprimer cet horaire type" class="remove-horaire w-9 h-9 rounded-lg flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
-        </button>
+      <div ${h.avantCoupure ? `data-avant-coupure="${esc(JSON.stringify(h.avantCoupure))}"` : ''} class="horaire-row rounded-lg ${coupure ? 'bg-amber-50/50 ring-1 ring-amber-200 p-2 -mx-2' : ''}">
+        <div class="grid grid-cols-2 ${HORAIRE_GRID} gap-3 items-center">
+          <input type="text" data-field="libelle" value="${esc(h.libelle)}" placeholder="Ex. Matin, Soir, Coupure…" class="${INPUT_CLASS} col-span-2 sm:col-span-1">
+          <input type="time" data-field="debut" value="${h.debut}" title="Début" oninput="majCoupure(this)" class="${INPUT_CLASS}">
+          <input type="time" data-field="fin" value="${h.fin}" title="${coupure ? 'Fin du 1er service' : 'Fin'}" oninput="majCoupure(this)" class="${INPUT_CLASS}">
+          <input type="number" min="0" step="5" data-field="pause" value="${h.pause}" title="Pause (min)" placeholder="Pause (min)" class="${INPUT_CLASS}">
+          <button type="button" onclick="removeHoraire(this)" title="Supprimer cet horaire type" class="remove-horaire w-9 h-9 rounded-lg flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+          </button>
+        </div>
+        ${coupure ? `
+        <div class="grid grid-cols-2 ${HORAIRE_GRID} gap-3 items-center mt-2">
+          <p class="col-span-2 sm:col-span-1 text-xs font-semibold text-amber-800 inline-flex items-center gap-1.5">${SCISSORS_ICON}Reprise après coupure</p>
+          <input type="time" data-field="debut2" value="${h.debut2}" title="Reprise (début du 2e service)" oninput="majCoupure(this)" class="${INPUT_CLASS}">
+          <input type="time" data-field="fin2" value="${h.fin2}" title="Fin du 2e service" oninput="majCoupure(this)" class="${INPUT_CLASS}">
+          <p class="coupure-info text-[11px] text-gray-500 col-span-2 sm:col-span-1"></p>
+          <button type="button" onclick="toggleCoupure(this)" title="Retirer la coupure" class="w-9 h-9 rounded-lg flex items-center justify-center text-amber-700 hover:bg-amber-100 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+          </button>
+        </div>
+        <p class="coupure-erreur hidden text-[11px] font-semibold text-red-600 mt-1"></p>` : `
+        <button type="button" onclick="toggleCoupure(this)" class="mt-1 inline-flex items-center gap-1 text-[11px] font-semibold text-gray-500 hover:text-[#A63629]">${SCISSORS_ICON}Ajouter une coupure (2 services dans la journée)</button>`}
       </div>`;
   }
+
+  // Lit l'horaire saisi dans une ligne (coupure comprise si elle est affichée).
+  function lireHoraire(row) {
+    const v = f => { const el = row.querySelector(`[data-field="${f}"]`); return el ? el.value : ''; };
+    const h = { libelle: v('libelle').trim(), debut: v('debut'), fin: v('fin'), pause: parseInt(v('pause'), 10) || 0 };
+    if (row.querySelector('[data-field="debut2"]')) Object.assign(h, { debut2: v('debut2'), fin2: v('fin2') });
+    return h;
+  }
+
+  // Active / retire la coupure d'un horaire : la ligne est redessinée, pré-remplie avec une coupure plausible.
+  function toggleCoupure(btn) {
+    const row = btn.closest('.horaire-row');
+    const h = lireHoraire(row);
+    // Retirée juste après avoir été ajoutée : on retrouve l'horaire d'origine, sinon une seule plage jusqu'à la fin du 2e service.
+    if (demoAvecCoupure(h)) { Object.assign(h, row.dataset.avantCoupure ? JSON.parse(row.dataset.avantCoupure) : { fin: h.fin2 || h.fin }); delete h.debut2; delete h.fin2; }
+    else {
+      if (h.debut && h.fin) h.avantCoupure = { fin: h.fin, pause: h.pause, libelle: h.libelle };
+      if (!h.debut) h.debut = '11:00';
+      if (!h.fin) h.fin = '15:00';
+      Object.assign(h, demoCoupureParDefaut(h));
+      if (!h.libelle) h.libelle = 'Coupure';
+      h.pause = 0; // la coupure tient lieu de pause
+    }
+    row.outerHTML = horaireRow(h);
+    document.querySelectorAll('[id$="-horaires"]').forEach(list => list.querySelectorAll('.horaire-row').forEach(r => majCoupure(r)));
+    document.querySelectorAll('[id$="-horaires"]').forEach(updateRemoveButtons);
+  }
+
+  // Récapitulatif sous la coupure (durée de la coupure, heures travaillées) ou message d'erreur.
+  function majCoupure(el) {
+    const row = el.closest ? el.closest('.horaire-row') : el;
+    const info = row.querySelector('.coupure-info');
+    if (!info) return;
+    const h = lireHoraire(row);
+    if (!h.debut || !h.fin || !h.debut2 || !h.fin2) return;
+    const erreur = demoErreurCoupure(h);
+    row.querySelector('.coupure-erreur').textContent = erreur || '';
+    row.querySelector('.coupure-erreur').classList.toggle('hidden', !erreur);
+    const c = demoDureeCoupure(h);
+    info.textContent = erreur ? '' : `Coupure ${Math.floor(c / 60)}h${c % 60 ? String(c % 60).padStart(2, '0') : ''} · ${fmtHeuresJour(demoHeuresHoraire(h))} travaillées`;
+  }
+  const fmtHeuresJour = n => { const hh = Math.floor(n), mm = Math.round((n - hh) * 60); return mm ? `${hh}h${String(mm).padStart(2, '0')}` : `${hh}h`; };
 
   // On garde toujours au moins un horaire type : la poubelle est masquée quand il n'en reste qu'un.
   function updateRemoveButtons(list) {
@@ -512,16 +573,18 @@
       </div>
     `).join('');
     document.querySelectorAll('[id$="-horaires"]').forEach(updateRemoveButtons);
+    document.querySelectorAll('.horaire-row').forEach(r => majCoupure(r));
   }
 
   function saveQualif(id) {
     const q = demoQualifications().find(x => x.id === id);
-    const horaires = [...document.querySelectorAll(`#${id}-horaires .horaire-row`)].map(r => ({
-      libelle: r.querySelector('[data-field="libelle"]').value.trim(),
-      debut: r.querySelector('[data-field="debut"]').value,
-      fin: r.querySelector('[data-field="fin"]').value,
-      pause: parseInt(r.querySelector('[data-field="pause"]').value, 10) || 0
-    })).filter(h => h.debut && h.fin);
+    const horaires = [...document.querySelectorAll(`#${id}-horaires .horaire-row`)].map(lireHoraire).filter(h => h.debut && h.fin);
+    // Coupure incomplète ou incohérente : on n'enregistre pas, l'erreur reste affichée sous l'horaire.
+    if (horaires.some(h => ('debut2' in h) && (!h.debut2 || !h.fin2 || demoErreurCoupure(h)))) {
+      const err = document.querySelector(`#${id}-horaires .coupure-erreur:not(.hidden)`) || document.querySelector(`#${id}-horaires .coupure-erreur`);
+      if (err) { if (!err.textContent) err.textContent = "Renseignez la reprise et la fin du 2e service."; err.classList.remove('hidden'); err.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      return;
+    }
     if (horaires.length) q.horaires = horaires;
     q.consignes = document.getElementById(`${id}-consignes`).value;
     if (q.ajoutee) demoQualifsSauver();

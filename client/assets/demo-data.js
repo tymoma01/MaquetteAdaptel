@@ -16,7 +16,7 @@ const DEMO_QUALIFS = [
   { nom: "Voiturier", secteur: "Hébergement", taux: 12.8, horaires: [{ libelle: "Soir", debut: "16:00", fin: "00:00", pause: 30 }], consignes: "Permis B obligatoire." },
   { nom: "Femme de chambre", secteur: "Housekeeping", taux: 13.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 30 }], consignes: "Chaussures antidérapantes obligatoires. Passage au vestiaire du personnel à l'arrivée." },
   { nom: "Gouvernante", secteur: "Housekeeping", taux: 15.8, horaires: [{ libelle: "Journée", debut: "08:00", fin: "16:00", pause: 30 }], consignes: "" },
-  { nom: "Chef de rang", secteur: "Restauration", taux: 14.2, horaires: [{ libelle: "Midi", debut: "11:00", fin: "19:00", pause: 30 }, { libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "Tenue de service noire. Briefing 20 min avant le service." },
+  { nom: "Chef de rang", secteur: "Restauration", taux: 14.2, horaires: [{ libelle: "Midi", debut: "11:00", fin: "19:00", pause: 30 }, { libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }, { libelle: "Coupure", debut: "11:00", fin: "15:00", debut2: "18:30", fin2: "23:00", pause: 0 }], consignes: "Tenue de service noire. Briefing 20 min avant le service." },
   { nom: "Serveur", secteur: "Restauration", taux: 13.9, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "Tenue de service noire." },
   { nom: "Barman", secteur: "Restauration", taux: 15.0, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "" },
   { nom: "Commis de cuisine", secteur: "Restauration", taux: 13.1, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
@@ -60,8 +60,56 @@ const demoShuffle = (rand, arr) => arr.map(v => [rand(), v]).sort((a, b) => a[0]
 const demoDate = (rand, from, to) => `${String(demoInt(rand, from, to)).padStart(2, '0')}/09/2026`;
 // "Prénom Nom" → "P. Nom" (format court du planning / tableau de bord).
 const demoShortName = nom => { const [p, ...rest] = nom.split(' '); return `${p[0]}. ${rest.join(' ')}`; };
-// Plage horaire "07:00"–"15:00" → "7h–15h".
-const demoHoraire = h => `${parseInt(h.debut, 10)}h–${parseInt(h.fin, 10)}h`;
+// ---------- Horaires ----------
+// Un horaire (type ou de mission) : { debut, fin, pause } et, pour un horaire en coupure — deux services dans la
+// même journée, ex. midi puis soir —, la reprise { debut2, fin2 }. La pause se déduit du total de la journée.
+const demoAvecCoupure = h => !!(h && h.debut2 && h.fin2);
+const demoMinutes = t => { const [hh, mm] = t.split(':').map(Number); return hh * 60 + mm; };
+const demoHeureAjoutee = (t, min) => { const m = (demoMinutes(t) + min + 1440) % 1440; return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };
+// Durée d'une plage en minutes (passe minuit si besoin).
+const demoDureePlage = (debut, fin) => (demoMinutes(fin) - demoMinutes(debut) + 1440) % 1440 || 1440;
+// Heures travaillées sur la journée : les deux services en cas de coupure, pause déduite.
+const demoHeuresHoraire = h => Math.max(0, demoDureePlage(h.debut, h.fin) + (demoAvecCoupure(h) ? demoDureePlage(h.debut2, h.fin2) : 0) - (h.pause || 0)) / 60;
+// Durée de la coupure (de la fin du 1er service à la reprise), en minutes.
+const demoDureeCoupure = h => (demoMinutes(h.debut2) - demoMinutes(h.fin) + 1440) % 1440;
+// Message d'erreur d'une coupure mal saisie, ou null : la reprise suit le 1er service, sans chevauchement, le tout sur moins de 24h.
+function demoErreurCoupure(h) {
+  if (!demoAvecCoupure(h)) return null;
+  const rel = t => (demoMinutes(t) - demoMinutes(h.debut) + 1440) % 1440;
+  const fin1 = rel(h.fin) || 1440, reprise = rel(h.debut2), fin2 = rel(h.fin2);
+  if (reprise <= fin1) return "La reprise doit commencer après la fin du 1er service.";
+  if (fin2 <= reprise) return "Le 2e service doit finir après la reprise (et le même jour).";
+  return null;
+}
+// Coupure proposée quand on l'active sur un horaire : si l'amplitude saisie est large (≥ 9h, ex. 10h–23h), on garde
+// ses bornes avec 4h de service de chaque côté ; sinon 4h de service, 3h de coupure, 4h de service. Toujours modifiable.
+function demoCoupureParDefaut(h) {
+  const amplitude = demoDureePlage(h.debut, h.fin);
+  const fin = demoHeureAjoutee(h.debut, 240);
+  if (amplitude >= 540) return { fin, debut2: demoHeureAjoutee(h.fin, -240), fin2: h.fin };
+  const debut2 = demoHeureAjoutee(fin, 180);
+  return { fin, debut2, fin2: demoHeureAjoutee(debut2, 240) };
+}
+// "18:30" → "18h30", "07:00" → "7h".
+const demoHeure = t => { const [hh, mm] = t.split(':'); return `${parseInt(hh, 10)}h${mm !== '00' ? mm : ''}`; };
+// Plage horaire "07:00"–"15:00" → "7h–15h" ; en coupure "11h–15h / 18h30–23h".
+const demoHoraire = h => `${demoHeure(h.debut)}–${demoHeure(h.fin)}` + (demoAvecCoupure(h) ? ` / ${demoHeure(h.debut2)}–${demoHeure(h.fin2)}` : '');
+// Même chose au format HH:MM : "11:00–15:00 / 18:30–23:00".
+const demoPlage = h => `${h.debut}–${h.fin}` + (demoAvecCoupure(h) ? ` / ${h.debut2}–${h.fin2}` : '');
+
+// ---------- Statuts & notes des demandes ----------
+// Libellés des statuts d'une demande / mission, communs aux pages Demandes, fiche demande et Planning.
+const DEMO_STATUTS = {
+  encours: { label: "En recherche", pluriel: "En recherche", cls: "bg-amber-100 text-amber-700" },
+  staffee: { label: "Pourvue", pluriel: "Pourvues", cls: "bg-blue-100 text-blue-700" },
+  validee: { label: "Confirmée", pluriel: "Confirmées", cls: "bg-green-100 text-green-700" },
+  termine: { label: "Terminée", pluriel: "Terminées", cls: "bg-gray-100 text-gray-600" },
+  annulee: { label: "Annulée", pluriel: "Annulées", cls: "bg-red-100 text-red-700" }
+};
+// Notes de mission : chaque intérimaire positionné sur une demande est noté séparément ({ [nom]: note sur 5 }).
+const demoNotes = d => d.notes || {};
+// Intérimaires d'une demande réalisée dont la mission n'est pas encore notée.
+const demoANoter = d => d.statut === 'termine' ? (d.interimaires || []).filter(n => !demoNotes(d)[n]) : [];
 
 const demoProfiles = {};
 // Profil d'un chantier : secteur, des qualifications de ce secteur et 2 à 4 intérimaires habituels.
@@ -126,16 +174,27 @@ function demoDemandes(chantier, rand, profil) {
     const statut = jour > '24' ? 'encours' : jour >= '23' ? 'staffee' : rand() < 0.15 ? 'annulee' : 'termine';
     const capacite = demoInt(rand, 1, 2);
     const pourvus = statut === 'staffee' || statut === 'termine' ? capacite : statut === 'encours' ? demoInt(rand, 0, capacite - 1) : 0;
-    const evaluee = statut === 'termine' && rand() < 0.5;
+    const interimaires = pourvus ? demoShuffle(rand, profil.interimaires).slice(0, pourvus).map(i => i.nom) : undefined;
+    const notes = statut === 'termine' ? Object.fromEntries(interimaires.filter(() => rand() < 0.5).map(n => [n, demoInt(rand, 3, 5)])) : undefined;
     return {
       id: `DEM-${3000 + rang * 10 + k}`, q: qualif.nom, chantier, lieu: sel.client,
       dateISO: `2026-09-${jour}`, date: `${jour}/09/2026`, horaire: demoHoraire(h), debutISO: `2026-09-${jour}T${h.debut}:00`,
       statut, capacite, pourvus, enAttente: statut === 'encours' ? demoInt(rand, 0, 1) : 0, refuses: 0, taux: qualif.taux, lot: null,
-      interimaires: pourvus ? demoShuffle(rand, profil.interimaires).slice(0, pourvus).map(i => i.nom) : undefined,
-      evaluee, note: evaluee ? demoInt(rand, 3, 5) : undefined
+      interimaires, notes,
+      annulationMotif: statut === 'annulee' ? demoPick(rand, DEMO_MOTIFS_ANNULATION.slice(0, -1)) : undefined
     };
   });
 }
+
+// Motifs proposés lorsqu'un client demande l'annulation d'une demande (« Autre » impose une précision).
+const DEMO_MOTIFS_ANNULATION = [
+  "Baisse d'activité / réservations annulées",
+  "Événement reporté ou annulé",
+  "Besoin couvert en interne",
+  "Erreur de saisie (date, horaire, qualification)",
+  "Demande en double",
+  "Autre"
+];
 
 // Dépenses du mois d'un chantier (client-depenses.html, et budget du tableau de bord).
 function demoDepenses(chantier, rand, profil) {
@@ -203,7 +262,7 @@ const DEMO_QUALIFICATIONS_ETOILE = [
   { id: "q2", nom: "Hôtesse d'accueil", chantier: "FLEXI HOTE/HOTESSE", taux: 14.0, horaires: [{ libelle: "Matin", debut: "07:00", fin: "15:00", pause: 30 }], consignes: "Tenue noire élégante, badge visible. Accueil en front-desk, ton chaleureux et professionnel." },
   { id: "q3", nom: "Bagagiste", chantier: "FLEXI BAGAGERIE", taux: 12.6, horaires: [{ libelle: "Matin", debut: "06:00", fin: "14:00", pause: 30 }], consignes: "Tenue technique fournie sur place. Port de charges — chaussures fermées obligatoires." },
   { id: "q4", nom: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", taux: 13.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 30 }], consignes: "Chaussures antidérapantes obligatoires. Passage au vestiaire du personnel à l'arrivée." },
-  { id: "q5", nom: "Chef de rang", chantier: "FLEXI BANQUET", taux: 14.2, horaires: [{ libelle: "Midi", debut: "11:00", fin: "19:00", pause: 30 }, { libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
+  { id: "q5", nom: "Chef de rang", chantier: "FLEXI BANQUET", taux: 14.2, horaires: [{ libelle: "Midi", debut: "11:00", fin: "19:00", pause: 30 }, { libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }, { libelle: "Coupure", debut: "11:00", fin: "15:00", debut2: "18:30", fin2: "23:00", pause: 0 }], consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
   { id: "q6", nom: "Maître d'hôtel", chantier: "FLEXI BANQUET", taux: 17.0, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
   { id: "q7", nom: "Serveuse", chantier: "FLEXI BANQUET", taux: 13.9, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "Tenue de service noire, nœud papillon fourni sur place. Briefing 20 min avant le service." },
   { id: "q8", nom: "Sommelière", chantier: "FLEXI BANQUET", taux: 16.5, horaires: [{ libelle: "Soir", debut: "18:00", fin: "02:00", pause: 20 }], consignes: "" },
@@ -212,7 +271,7 @@ const DEMO_QUALIFICATIONS_ETOILE = [
   { id: "q11", nom: "Chef cuisinier", chantier: "FLEXI SOUS-CHEF", taux: 18.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
   { id: "q12", nom: "Commis de cuisine", chantier: "FLEXI SOUS-CHEF", taux: 13.1, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "Veste de cuisine blanche + charlotte. Norme HACCP à respecter strictement." },
   { id: "q13", nom: "Pâtissière", chantier: "FLEXI SOUS-CHEF", taux: 15.0, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "" },
-  { id: "q14", nom: "Plongeur", chantier: "FLEXI SOUS-CHEF", taux: 12.8, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }], consignes: "" }
+  { id: "q14", nom: "Plongeur", chantier: "FLEXI SOUS-CHEF", taux: 12.8, horaires: [{ libelle: "Journée", debut: "09:00", fin: "17:00", pause: 45 }, { libelle: "Coupure", debut: "10:00", fin: "14:30", debut2: "18:00", fin2: "22:30", pause: 0 }], consignes: "" }
 ];
 
 // Secteur d'activité de chaque chantier : il détermine les champs spécifiques affichés ci-dessous.

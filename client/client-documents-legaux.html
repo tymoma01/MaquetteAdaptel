@@ -168,31 +168,38 @@
         <div id="fiches-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
       </div>
 
-      <!-- Déclaration d'accident du travail : le client choisit la mission (et l'intérimaire s'il y en a plusieurs),
-           décrit les faits ; Adaptel reçoit un mail avec la fiche de liaison et la fiche de poste de la mission. -->
+      <!-- Déclaration d'accident du travail : le client part de ce qu'il sait (le jour et la personne) ; la mission
+           s'en déduit parmi les intérimaires présents ce jour-là. Adaptel reçoit un mail avec la fiche de liaison
+           de la mission. -->
       <div class="bg-white rounded-xl border border-gray-100 p-5 space-y-4">
         <div class="flex flex-wrap items-start justify-between gap-2">
           <div>
             <h3 class="font-semibold text-gray-900">Déclarer un accident du travail</h3>
-            <p class="text-xs text-gray-500 mt-0.5">Adaptel, employeur de l'intérimaire, doit être informé dans les 24 heures. La déclaration lui est envoyée par mail avec la fiche de liaison et la fiche de poste de la mission.</p>
+            <p class="text-xs text-gray-500 mt-0.5">Adaptel, employeur de l'intérimaire, doit être informé dans les 24 heures. La déclaration lui est envoyée par mail avec la fiche de liaison de la mission, qui intègre la fiche de poste.</p>
           </div>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Mission concernée</label>
-            <select id="at-mission" onchange="onAtMissionChange()" class="h-9 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]"></select>
-          </div>
-          <div id="at-interimaire-block">
-            <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Intérimaire concerné</label>
-            <div id="at-interimaire" class="min-h-9 flex flex-wrap items-center gap-x-4 gap-y-1"></div>
-          </div>
-        </div>
-        <div id="at-form" class="space-y-3">
-          <div class="grid grid-cols-1 sm:grid-cols-[180px_120px_1fr] gap-3">
+        <div id="at-recherche" class="space-y-3">
+          <p class="text-sm font-medium text-gray-900">1. Qui a été victime de l'accident, et quel jour ?</p>
+          <div class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-3">
             <div>
               <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Date de l'accident</label>
-              <input id="at-date" type="date" class="h-9 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              <div class="flex items-center gap-1.5">
+                <input id="at-date" type="date" oninput="renderAtCandidats()" class="h-9 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+                <button type="button" data-jour="0" onclick="setAtJour(0)" class="at-jour h-9 px-3 rounded-lg border text-xs font-semibold">Aujourd'hui</button>
+                <button type="button" data-jour="1" onclick="setAtJour(1)" class="at-jour h-9 px-3 rounded-lg border text-xs font-semibold">Hier</button>
+              </div>
             </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Intérimaire</label>
+              <input id="at-q" type="search" oninput="renderAtCandidats()" placeholder="Nom, poste ou n° de demande…" autocomplete="off" class="h-9 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+            </div>
+          </div>
+          <div id="at-candidats"></div>
+        </div>
+        <div id="at-choix" class="hidden"></div>
+        <div id="at-form" class="hidden space-y-3">
+          <p class="text-sm font-medium text-gray-900">2. Que s'est-il passé ?</p>
+          <div class="grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-3">
             <div>
               <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Heure</label>
               <input id="at-heure" type="time" class="h-9 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
@@ -434,7 +441,7 @@
   };
   const minutes = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
   // Durée de travail d'un horaire type, pause déduite (gère les vacations qui passent minuit).
-  const dureeHoraire = h => ((minutes(h.fin) - minutes(h.debut) + 1440) % 1440 - h.pause) / 60;
+  const dureeHoraire = h => demoHeuresHoraire(h);
   const estNuit = h => minutes(h.debut) >= 20 * 60 || minutes(h.debut) < 5 * 60 || (minutes(h.fin) > 0 && minutes(h.fin) <= 6 * 60 && minutes(h.fin) < minutes(h.debut));
   const fmtH = n => (Number.isInteger(n) ? n : n.toFixed(1).replace('.', ',')) + ' h';
 
@@ -503,7 +510,7 @@
         <div class="flex items-start justify-between gap-3">
           <div>
             <p class="font-semibold text-gray-900">${esc(q.nom)}</p>
-            <p class="text-xs text-gray-500">${esc(q.chantier)} · ${q.horaires.map(h => `${esc(h.libelle)} ${h.debut}–${h.fin}`).join(', ')}</p>
+            <p class="text-xs text-gray-500">${esc(q.chantier)} · ${q.horaires.map(h => `${esc(h.libelle)} ${demoPlage(h)}`).join(', ')}</p>
           </div>
           <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full border whitespace-nowrap ${classes}">${badge}</span>
         </div>
@@ -558,7 +565,7 @@
     ficheOuverte = q;
     const sel = getEtabSelection();
     const nuit = q.horaires.some(estNuit), jour = q.horaires.some(h => !estNuit(h));
-    const horaires = q.horaires.map(h => `${esc(h.libelle)} ${h.debut}–${h.fin} (${fmtH(dureeHoraire(h))}/jour)`).join(' · ');
+    const horaires = q.horaires.map(h => `${esc(h.libelle)} ${demoPlage(h)} (${fmtH(dureeHoraire(h))}/jour)`).join(' · ');
 
     document.getElementById('fiche-title').textContent = `FICHE DE LIAISON – ${q.nom.toUpperCase()}`;
     document.getElementById('fiche-subtitle').textContent = `${sel.client} · ${q.chantier}` + (f.validee ? ` · Validée ${fmtValidation(f.validee)}` : '');
@@ -587,9 +594,9 @@
 
       ${section(2, 'Caractéristiques du poste', `
         <div class="rounded-xl border border-[#A63629]/30 bg-red-50/30 p-3 mb-3">
-          ${label('Description du poste — fiche de poste', String(f.descriptifPoste || '').trim() ? PREREMPLI : '')}
+          ${label('Description du poste', String(f.descriptifPoste || '').trim() ? PREREMPLI : '')}
           <textarea data-key="descriptifPoste" rows="${Math.min(20, Math.max(6, String(f.descriptifPoste || '').split('\n').length + 1))}" placeholder="Missions principales, environnement de travail, rythme, interlocuteurs, contraintes particulières…" class="${INPUT} border-gray-200 py-2 resize-y">${esc(f.descriptifPoste)}</textarea>
-          <p class="text-[11px] text-gray-500 mt-1">Sert de fiche de poste : elle est transmise à l'intérimaire avec la mission et jointe à la fiche de liaison, notamment en cas de déclaration d'accident du travail. Adaptez-la à votre établissement si besoin.</p>
+          <p class="text-[11px] text-gray-500 mt-1">Tient lieu de fiche de poste : transmise à l'intérimaire avec la mission et à Adaptel en cas de déclaration d'accident du travail. Adaptez-la à votre établissement si besoin.</p>
         </div>
         ${ligne('Poste demandé', `<div class="flex flex-wrap items-center gap-3">${choix('poste', [...m.postes, 'Autre'], m.postes.includes(f.poste) ? f.poste : 'Autre')}<input data-key="posteAutre" value="${esc(f.posteAutre)}" placeholder="Autre : …" class="${INPUT} h-8 border-gray-200 max-w-xs"></div>`)}
         ${m.groupes.map((g, k) => ligne(esc(g.label), cases(`g${k}`, g.options, f.groupes[k].coches, g.autre ? f.groupes[k].autre : undefined))).join('')}
@@ -704,7 +711,7 @@
     showToast(`Fiche de liaison « ${ficheOuverte.nom} » validée`);
     closeFiche();
     renderFiches();
-    onAtMissionChange();
+    renderAtPieces();
   }
 
   // ---------- Déclaration d'accident du travail ----------
@@ -720,41 +727,126 @@
     .filter(m => m.interimaires && m.interimaires.length)
     .sort((a, b) => b.dateISO.localeCompare(a.dateISO));
 
+  // Aujourd'hui dans la démo (mercredi 23/09, comme le tableau de bord).
+  const AT_AUJOURDHUI = '2026-09-23';
+  const decalerJour = (iso, n) => { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
+  const fmtJour = iso => new Date(iso + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+  // Vacation qui finit après minuit ("18h–02h") : un accident à 1h du matin relève de la mission de la veille.
+  const passeMinuit = horaire => {
+    const heures = [...String(horaire).matchAll(/(\d{1,2})h(\d{2})?/g)].map(([, h, m]) => +h * 60 + +(m || 0));
+    return heures.length >= 2 && heures[heures.length - 1] < heures[0];
+  };
+  const sansAccents = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
   let declarationsAT = [];
+  let atChoix = null; // { mission, interimaire }
 
   // Fiche de liaison de la qualification de la mission (celle de l'onglet Qualifications si elle existe).
   function ficheDeMission(m) {
     const q = demoQualifications().find(q => q.nom === m.q && q.chantier === m.chantier) || { nom: m.q, chantier: m.chantier, horaires: [], consignes: '' };
     return modeleFiche(q.nom) ? ficheDe(q) : null;
   }
-  const missionAT = () => missionsAT().find(m => m.id === document.getElementById('at-mission').value);
+
+  // Une ligne par intérimaire et par mission : c'est la personne que le client cherche, pas la demande.
+  const presencesAT = missions => missions.flatMap(m => m.interimaires.map(interimaire => ({ mission: m, interimaire })));
+  const correspond = (p, q) => !q || sansAccents([p.interimaire, p.mission.q, p.mission.id, p.mission.chantier].join(' ')).includes(q);
 
   function renderDeclarationAT() {
-    const missions = missionsAT();
-    const select = document.getElementById('at-mission');
-    document.getElementById('at-form').classList.toggle('hidden', !missions.length);
-    document.getElementById('at-interimaire-block').classList.toggle('hidden', !missions.length);
-    select.disabled = !missions.length;
-    select.innerHTML = missions.length
-      ? missions.map(m => `<option value="${m.id}">${m.date} · ${esc(m.q)} · ${esc(m.chantier)} (${m.id})</option>`).join('')
-      : '<option>Aucune mission pourvue pour cette sélection</option>';
-    onAtMissionChange();
+    atChoix = null;
+    document.getElementById('at-q').value = '';
+    setAtJour(0);
     renderDeclarationsEnvoyees();
   }
 
-  // Changement de mission : intérimaire (choix seulement s'il y en a plusieurs), date pré-remplie, pièces jointes.
-  function onAtMissionChange() {
-    const m = missionAT();
-    if (!m) return;
-    const plusieurs = m.interimaires.length > 1;
-    document.getElementById('at-interimaire').innerHTML = plusieurs
-      ? m.interimaires.map(nom => `
-        <label class="inline-flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
-          <input type="radio" name="at-interimaire" value="${esc(nom)}" class="h-4 w-4 accent-[#A63629]">${esc(nom)}
-        </label>`).join('')
-      : `<p class="h-9 w-full flex items-center rounded-lg bg-gray-50 border border-gray-100 px-3 text-sm text-gray-700">${esc(m.interimaires[0])}</p>`;
-    document.getElementById('at-date').value = m.dateISO;
+  function setAtJour(n) {
+    document.getElementById('at-date').value = decalerJour(AT_AUJOURDHUI, -n);
+    renderAtCandidats();
+  }
 
+  // Intérimaires présents le jour de l'accident (missions du jour + nuits commencées la veille), filtrés par la recherche.
+  // Si la recherche ne trouve personne ce jour-là, on propose ses missions des autres jours (erreur de date fréquente).
+  function renderAtCandidats() {
+    const jour = document.getElementById('at-date').value;
+    const q = sansAccents(document.getElementById('at-q').value.trim());
+    document.getElementById('at-date').max = AT_AUJOURDHUI;
+    document.querySelectorAll('.at-jour').forEach(b => {
+      const actif = jour === decalerJour(AT_AUJOURDHUI, -b.dataset.jour);
+      b.className = `at-jour h-9 px-3 rounded-lg border text-xs font-semibold ${actif ? 'border-[#A63629] bg-[#A63629]/5 text-[#A63629]' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`;
+    });
+
+    const toutes = missionsAT();
+    const veille = jour && decalerJour(jour, -1);
+    const duJour = presencesAT(toutes.filter(m => m.dateISO === jour || (m.dateISO === veille && passeMinuit(m.horaire))));
+    const trouves = duJour.filter(p => correspond(p, q));
+    const ailleurs = q && !trouves.length ? presencesAT(toutes.filter(m => m.dateISO !== jour)).filter(p => correspond(p, q)).slice(0, 5) : [];
+
+    const ligne = p => {
+      const m = p.mission;
+      const nuit = m.dateISO === veille && passeMinuit(m.horaire) ? `<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700">Nuit du ${m.date.slice(0, 5)}</span>` : '';
+      const initiales = p.interimaire.split(' ').map(x => x[0]).join('').slice(0, 2);
+      return `
+        <button type="button" onclick="choisirAT('${m.id}', '${esc(p.interimaire).replace(/'/g, "\\'")}')" class="w-full flex items-center gap-3 px-3 py-2.5 text-left hover:bg-[#A63629]/5 transition-colors">
+          <span class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 text-xs font-semibold flex items-center justify-center flex-shrink-0">${esc(initiales)}</span>
+          <span class="flex-1 min-w-0">
+            <span class="block text-sm font-medium text-gray-900">${esc(p.interimaire)}</span>
+            <span class="block text-xs text-gray-500 truncate">${esc(m.q)} · ${esc(m.chantier)}</span>
+          </span>
+          ${nuit}
+          <span class="text-xs text-gray-500 whitespace-nowrap text-right">${ailleurs.includes(p) ? `${m.date} · ` : ''}${esc(m.horaire)}<span class="block text-[11px] text-gray-400">${m.id}</span></span>
+        </button>`;
+    };
+    const liste = rows => `<div class="rounded-lg border border-gray-200 divide-y divide-gray-100 max-h-72 overflow-y-auto">${rows.map(ligne).join('')}</div>`;
+
+    let html;
+    if (trouves.length) {
+      html = `<p class="text-xs text-gray-500 mb-1.5">${trouves.length}${q ? ` sur ${duJour.length}` : ''} intérimaire${duJour.length > 1 ? 's' : ''} en mission le ${fmtJour(jour)} — sélectionnez la personne concernée</p>${liste(trouves)}`;
+    } else if (ailleurs.length) {
+      html = `<p class="text-xs text-amber-700 mb-1.5">Aucune mission correspondante le ${fmtJour(jour)}. Missions les plus récentes pour « ${esc(document.getElementById('at-q').value.trim())} » :</p>${liste(ailleurs)}`;
+    } else {
+      html = `<p class="rounded-lg border border-dashed border-gray-200 px-3 py-4 text-sm text-gray-500 text-center">${jour ? `Aucun intérimaire${q ? ' correspondant' : ''} en mission le ${fmtJour(jour)}.` : 'Indiquez la date de l\'accident.'}</p>`;
+    }
+    document.getElementById('at-candidats').innerHTML = html;
+  }
+
+  function choisirAT(id, interimaire) {
+    const mission = missionsAT().find(m => m.id === id);
+    atChoix = { mission, interimaire };
+    // Mission d'un autre jour choisie depuis la recherche : la date de l'accident suit.
+    const jour = document.getElementById('at-date').value;
+    if (mission.dateISO !== jour && !(mission.dateISO === decalerJour(jour, -1) && passeMinuit(mission.horaire))) document.getElementById('at-date').value = mission.dateISO;
+    renderAtChoix();
+  }
+
+  function modifierChoixAT() {
+    atChoix = null;
+    renderAtChoix();
+    renderAtCandidats();
+    document.getElementById('at-q').focus();
+  }
+
+  function renderAtChoix() {
+    const choisi = !!atChoix;
+    document.getElementById('at-recherche').classList.toggle('hidden', choisi);
+    document.getElementById('at-choix').classList.toggle('hidden', !choisi);
+    document.getElementById('at-form').classList.toggle('hidden', !choisi);
+    if (!choisi) return;
+    const { mission: m, interimaire } = atChoix;
+    document.getElementById('at-choix').innerHTML = `
+      <div class="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[#A63629]/30 bg-[#A63629]/5 px-4 py-3">
+        <div>
+          <p class="text-[11px] font-semibold text-[#A63629] uppercase tracking-wider">Accident du ${fmtJour(document.getElementById('at-date').value)}</p>
+          <p class="text-sm font-semibold text-gray-900 mt-0.5">${esc(interimaire)}</p>
+          <p class="text-xs text-gray-600">${esc(m.q)} · ${esc(m.chantier)} · mission du ${m.date}, ${esc(m.horaire)} (${m.id})</p>
+        </div>
+        <button type="button" onclick="modifierChoixAT()" class="h-8 px-3 rounded-lg border border-gray-200 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50">Modifier</button>
+      </div>`;
+    renderAtPieces();
+  }
+
+  // Pièce jointe au mail : fiche de liaison de la qualification de la mission, fiche de poste incluse.
+  function renderAtPieces() {
+    if (!atChoix) return;
+    const m = atChoix.mission;
     const f = ficheDeMission(m);
     const piece = (titre, detail, ok) => `
       <div class="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm ${ok ? 'border-gray-200 bg-gray-50 text-gray-700' : 'border-amber-200 bg-amber-50 text-amber-800'}">
@@ -762,26 +854,21 @@
         <span class="font-semibold">${titre}</span><span class="text-xs ${ok ? 'text-gray-500' : ''}">${detail}</span>
       </div>`;
     document.getElementById('at-pieces').innerHTML =
-      piece(`Fiche de liaison – ${esc(m.q)}`,
-        !f ? '· modèle en préparation par Adaptel' : f.validee ? `· validée ${esc(fmtValidation(f.validee))}` : '· non validée : la version pré-remplie sera jointe', f && f.validee)
-      + piece(`Fiche de poste – ${esc(m.q)}`,
-        f && String(f.descriptifPoste || '').trim() ? '· descriptif du poste de la fiche de liaison' : '· descriptif du poste non renseigné dans la fiche de liaison', !!(f && String(f.descriptifPoste || '').trim()));
+      piece(`Fiche de liaison et fiche de poste – ${esc(m.q)}`,
+        !f ? '· modèle en préparation par Adaptel' : f.validee ? `· validée ${esc(fmtValidation(f.validee))}` : '· non validée : la version pré-remplie sera jointe', f && f.validee);
   }
 
   function envoyerDeclarationAT() {
-    const m = missionAT();
-    if (!m) return;
-    const interimaire = m.interimaires.length > 1
-      ? (document.querySelector('input[name="at-interimaire"]:checked') || {}).value
-      : m.interimaires[0];
+    if (!atChoix) return;
+    const { mission: m, interimaire } = atChoix;
     const val = id => document.getElementById(id).value.trim();
-    const manquants = [[!interimaire, "l'intérimaire concerné"], [!val('at-date'), "la date de l'accident"], [!val('at-heure'), "l'heure"], [!val('at-lieu'), 'le lieu'], [!val('at-description'), "ce qu'il s'est passé"]]
+    const manquants = [[!val('at-heure'), "l'heure"], [!val('at-lieu'), 'le lieu'], [!val('at-description'), "ce qu'il s'est passé"]]
       .filter(([vide]) => vide).map(([, l]) => l);
     if (manquants.length) { showToast(`Indiquez ${manquants.join(', ')}`); return; }
 
-    declarationsAT.unshift({ mission: m, interimaire, envoyeLe: new Date(), par: UTILISATEUR.nom });
+    declarationsAT.unshift({ mission: m, interimaire, dateAccident: val('at-date'), envoyeLe: new Date(), par: UTILISATEUR.nom });
     ['at-heure', 'at-lieu', 'at-description', 'at-lesions', 'at-temoins'].forEach(id => { document.getElementById(id).value = ''; });
-    onAtMissionChange();
+    modifierChoixAT();
     renderDeclarationsEnvoyees();
     showToast(`Déclaration d'accident du travail de ${interimaire} envoyée à Adaptel`);
   }
@@ -797,7 +884,7 @@
           <div class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-100 px-3 py-2">
             <div>
               <p class="text-sm font-medium text-gray-900">${esc(d.interimaire)} · ${esc(d.mission.q)}</p>
-              <p class="text-xs text-gray-500">${esc(d.mission.chantier)} · mission du ${d.mission.date} (${d.mission.id})</p>
+              <p class="text-xs text-gray-500">${esc(d.mission.chantier)} · accident du ${d.dateAccident.split('-').reverse().join('/')} · mission ${d.mission.id}</p>
             </div>
             <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full border bg-green-50 text-green-700 border-green-200">Envoyée le ${d.envoyeLe.toLocaleDateString('fr-FR')} à ${d.envoyeLe.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })} par ${esc(d.par)}</span>
           </div>`).join('')}

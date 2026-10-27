@@ -138,8 +138,9 @@
 
       <div id="banner-annulation" class="hidden bg-amber-50 border border-amber-200 text-amber-800 text-sm rounded-xl px-4 py-3 flex items-start gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 flex-shrink-0 mt-0.5"><path d="M12 9v4"></path><path d="M10.363 3.591 2.257 17.05a1.914 1.914 0 0 0 1.636 2.87h16.214a1.914 1.914 0 0 0 1.636-2.87L13.637 3.59a1.914 1.914 0 0 0-3.274 0z"></path><path d="M12 16h.01"></path></svg>
-        <span>Une demande d'annulation a été transmise à Adaptel le <strong id="banner-date"></strong>. Réponse garantie sous 24h — l'intérimaire positionné n'a pas été informé de cette demande.</span>
+        <span>Une demande d'annulation a été transmise à Adaptel le <strong id="banner-date"></strong>. Réponse garantie sous 24h — l'intérimaire positionné n'a pas été informé de cette demande.<span id="banner-motif" class="block mt-1"></span></span>
       </div>
+      <div id="banner-annulee" class="hidden bg-red-50 border border-red-200 text-red-800 text-sm rounded-xl px-4 py-3"></div>
 
       <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
         <div class="flex items-start justify-between gap-4 flex-wrap">
@@ -208,19 +209,15 @@
             <p class="text-[11px] text-gray-400 mt-3">Coordonnées, statut de validation et note moyenne ne sont jamais communiqués côté client.</p>
           </div>
 
-          <!-- EVALUATION -->
+          <!-- EVALUATION : une note par intérimaire positionné (chacun est noté sur sa propre mission). -->
           <div id="evaluation-block" class="hidden bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <h3 class="font-bold text-gray-900 mb-1">Évaluer la mission</h3>
-            <p class="text-xs text-gray-500 mb-4">Cette note évalue la mission elle-même, pas l'intérimaire personnellement. Elle est facultative et indépendante de la validation du relevé d'heures.</p>
-            <div id="eval-form">
-              <div id="eval-stars" class="flex items-center gap-1 mb-3"></div>
-              <textarea id="eval-comment" rows="2" placeholder="Commentaire (facultatif)…" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]"></textarea>
-              <p class="text-[11px] text-gray-400 mt-2">Une note ≤ 3/5 déclenche automatiquement une demande d'interdiction de chantier auprès des équipes Adaptel. Votre évaluation n'est jamais visible par l'intérimaire ni par d'autres clients.</p>
-              <button onclick="submitEvaluation()" class="mt-3 h-9 px-4 rounded-lg text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Envoyer l'évaluation</button>
+            <div class="flex items-start justify-between gap-3 mb-1">
+              <h3 class="font-bold text-gray-900">Noter la mission de chaque intérimaire</h3>
+              <span id="eval-progress" class="text-xs font-semibold text-gray-500 whitespace-nowrap"></span>
             </div>
-            <div id="eval-done" class="hidden bg-green-50 border border-green-200 text-green-800 text-sm rounded-lg px-4 py-3">
-              Merci, votre évaluation a été enregistrée.
-            </div>
+            <p class="text-xs text-gray-500 mb-4">Chaque intérimaire positionné sur cette demande reçoit sa propre note. Facultatif et indépendant de la validation du relevé d'heures.</p>
+            <div id="eval-list" class="space-y-3"></div>
+            <p class="text-[11px] text-gray-400 mt-3">Une note ≤ 3/5 déclenche automatiquement, pour l'intérimaire concerné, une demande d'interdiction de chantier auprès des équipes Adaptel. Vos notes ne sont jamais visibles par les intérimaires ni par d'autres clients.</p>
           </div>
 
         </div>
@@ -237,7 +234,7 @@
 
           <!-- HISTORIQUE EVALUATIONS -->
           <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-            <h3 class="text-sm font-bold text-gray-900 mb-3">Vos dernières évaluations</h3>
+            <h3 class="text-sm font-bold text-gray-900 mb-3">Vos dernières notes</h3>
             <div id="eval-history" class="space-y-2.5"></div>
           </div>
         </div>
@@ -245,10 +242,21 @@
 
       <!-- ANNULATION - volontairement discret, en bas de page -->
       <div id="annulation-block" class="hidden pt-5 mt-2 border-t border-gray-200 text-center">
-        <button id="btn-annulation" onclick="demanderAnnulation()" class="text-xs text-gray-400 hover:text-red-600 underline decoration-dotted">
+        <button id="btn-annulation" onclick="ouvrirAnnulation()" class="text-xs text-gray-400 hover:text-red-600 underline decoration-dotted">
           Besoin de changer de plan ? Demander l'annulation de cette demande
         </button>
         <p id="annulation-hint" class="text-[11px] text-gray-400 mt-1"></p>
+        <!-- Motif d'annulation obligatoire, choisi en un clic ; « Autre » impose une précision. -->
+        <div id="annulation-form" class="hidden max-w-xl mx-auto mt-4 text-left bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+          <p class="text-sm font-bold text-gray-900">Pour quelle raison souhaitez-vous annuler ?</p>
+          <p class="text-[11px] text-gray-500 mb-3">Le motif est transmis à Adaptel avec votre demande d'annulation.</p>
+          <div id="annulation-motifs" class="flex flex-wrap gap-2"></div>
+          <textarea id="annulation-precision" rows="2" oninput="majAnnulationGate()" placeholder="Précisions (facultatif)…" class="mt-3 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]"></textarea>
+          <div class="flex items-center justify-end gap-2 mt-3">
+            <button type="button" onclick="fermerAnnulation()" class="h-9 px-4 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-100">Garder la demande</button>
+            <button id="btn-confirm-annulation" type="button" onclick="demanderAnnulation()" disabled class="h-9 px-4 rounded-lg text-sm font-semibold text-white bg-red-600 hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed">Envoyer la demande d'annulation</button>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -393,20 +401,17 @@
     { id: "DEM-1042", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", dateISO: "2026-09-24", date: "24/09/2026", horaire: "15h–23h", debutISO: "2026-09-24T15:00:00", statut: "encours", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 14.5, lot: "LOT-118", lieu: "Hyatt Regency Paris Étoile" },
     { id: "DEM-1043", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", dateISO: "2026-09-25", date: "25/09/2026", horaire: "15h–23h", debutISO: "2026-09-25T15:00:00", statut: "encours", capacite: 1, pourvus: 0, enAttente: 1, refuses: 0, taux: 14.5, lot: "LOT-118", lieu: "Hyatt Regency Paris Étoile" },
     { id: "DEM-1044", q: "Chef de rang", chantier: "FLEXI BANQUET", dateISO: "2026-09-26", date: "26/09/2026", horaire: "18h–02h", debutISO: "2026-09-26T18:00:00", statut: "encours", capacite: 2, pourvus: 0, enAttente: 0, refuses: 1, taux: 15.2, lot: null, lieu: "Hyatt Regency Paris Étoile" },
+    { id: "DEM-1045", q: "Chef de rang", chantier: "FLEXI BANQUET", dateISO: "2026-09-27", date: "27/09/2026", horaire: "11h–15h / 18h30–23h", debutISO: "2026-09-27T11:00:00", statut: "encours", capacite: 2, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.2, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Marco De Luca"], motif: "Accroissement temporaire d'activité", justification: "Séminaire client — 180 couverts midi et soir" },
     { id: "DEM-1039", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", dateISO: "2026-09-23", date: "23/09/2026", horaire: "7h–15h", debutISO: "2026-09-23T07:00:00", statut: "staffee", capacite: 2, pourvus: 2, enAttente: 0, refuses: 0, taux: 13.8, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Léa Richard", "Sofia Nguyen"] },
-    { id: "DEM-1040", q: "Chef de rang", chantier: "FLEXI BANQUET", dateISO: "2026-09-23", date: "23/09/2026", horaire: "18h–02h", debutISO: "2026-09-23T18:00:00", statut: "staffee", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 15.2, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Marco De Luca"], annulationDemandee: true, annulationDate: "22/09/2026 14:32" },
-    { id: "DEM-1030", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", dateISO: "2026-09-22", date: "22/09/2026", horaire: "7h–15h", debutISO: "2026-09-22T07:00:00", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Anna Pizzol"], evaluee: true, note: 5 },
-    { id: "DEM-1029", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", dateISO: "2026-09-21", date: "21/09/2026", horaire: "7h–15h", debutISO: "2026-09-21T07:00:00", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Anna Pizzol"], evaluee: false },
-    { id: "DEM-1021", q: "Commis de cuisine", chantier: "FLEXI SOUS-CHEF", dateISO: "2026-09-19", date: "19/09/2026", horaire: "9h–17h", debutISO: "2026-09-19T09:00:00", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 16.0, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Julien Martin"], evaluee: true, note: 4 },
-    { id: "DEM-1018", q: "Bagagiste", chantier: "FLEXI BAGAGERIE", dateISO: "2026-09-20", date: "20/09/2026", horaire: "7h–15h", debutISO: "2026-09-20T07:00:00", statut: "annulee", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 13.5, lot: null, lieu: "Hyatt Regency Paris Étoile" }
+    { id: "DEM-1040", q: "Chef de rang", chantier: "FLEXI BANQUET", dateISO: "2026-09-23", date: "23/09/2026", horaire: "18h–02h", debutISO: "2026-09-23T18:00:00", statut: "staffee", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 15.2, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Marco De Luca"], annulationDemandee: true, annulationDate: "22/09/2026 14:32", annulationMotif: "Événement reporté ou annulé" },
+    { id: "DEM-1030", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", dateISO: "2026-09-22", date: "22/09/2026", horaire: "7h–15h", debutISO: "2026-09-22T07:00:00", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Anna Pizzol"], notes: { "Anna Pizzol": 5 } },
+    { id: "DEM-1031", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", dateISO: "2026-09-22", date: "22/09/2026", horaire: "9h–17h", debutISO: "2026-09-22T09:00:00", statut: "termine", capacite: 2, pourvus: 2, enAttente: 0, refuses: 0, taux: 13.0, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Léa Richard", "Sofia Nguyen"], notes: { "Léa Richard": 4 } },
+    { id: "DEM-1029", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", dateISO: "2026-09-21", date: "21/09/2026", horaire: "7h–15h", debutISO: "2026-09-21T07:00:00", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Anna Pizzol"] },
+    { id: "DEM-1021", q: "Commis de cuisine", chantier: "FLEXI SOUS-CHEF", dateISO: "2026-09-19", date: "19/09/2026", horaire: "9h–17h", debutISO: "2026-09-19T09:00:00", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 16.0, lot: null, lieu: "Hyatt Regency Paris Étoile", interimaires: ["Julien Martin"], notes: { "Julien Martin": 4 } },
+    { id: "DEM-1018", q: "Bagagiste", chantier: "FLEXI BAGAGERIE", dateISO: "2026-09-20", date: "20/09/2026", horaire: "7h–15h", debutISO: "2026-09-20T07:00:00", statut: "annulee", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 13.5, lot: null, lieu: "Hyatt Regency Paris Étoile", annulationMotif: "Besoin couvert en interne" }
   ];
 
-  const STATUT_META = {
-    encours: { label: "En cours", cls: "bg-amber-100 text-amber-700" },
-    staffee:  { label: "Staffée", cls: "bg-blue-100 text-blue-700" },
-    termine:  { label: "Terminée", cls: "bg-gray-100 text-gray-600" },
-    annulee:  { label: "Annulée", cls: "bg-red-100 text-red-700" }
-  };
+  // Libellés et couleurs des statuts : communs à toutes les pages (DEMO_STATUTS, assets/demo-data.js).
 
   function initials(nom) { return nom.split(' ').map(p => p[0]).join('').toUpperCase().slice(0,2); }
 
@@ -442,17 +447,14 @@
     }
   }
 
-  let currentRating = 0;
-  function handleStarClick(v) {
-    currentRating = v;
-    renderStars(document.getElementById('eval-stars'), v, true, handleStarClick);
-  }
+  // Notes en cours de saisie, par intérimaire (avant enregistrement).
+  let notesBrouillon = {};
 
   function load() {
     const id = new URLSearchParams(window.location.search).get('id') || DEMANDES[0].id;
     // Demande saisie à la main (Hyatt Étoile) ou générée pour le client choisi dans le header (cf. demo-data.js).
     const c = DEMANDES.find(x => x.id === id) || demoRows('demandes', [], demoDemandes).find(x => x.id === id) || DEMANDES[0];
-    const meta = STATUT_META[c.statut];
+    const meta = DEMO_STATUTS[c.statut];
 
     document.getElementById('c-titre').textContent = `${c.q} — ${c.id}`;
     document.getElementById('c-sous-titre').textContent = `${c.chantier} · ${c.lieu}`;
@@ -471,7 +473,7 @@
       document.getElementById('lot-list').innerHTML = lotRows.map(x => `
         <a href="client-demande-detail.html?id=${x.id}" class="flex items-center justify-between px-3 py-2 rounded-lg text-sm ${x.id===c.id ? 'bg-red-50 border border-[#A63629]/30' : 'hover:bg-gray-50'}">
           <span class="font-medium text-gray-700">${x.date}</span>
-          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${STATUT_META[x.statut].cls}">${STATUT_META[x.statut].label}</span>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${DEMO_STATUTS[x.statut].cls}">${DEMO_STATUTS[x.statut].label}</span>
         </a>`).join('');
     }
 
@@ -515,6 +517,11 @@
     if (c.annulationDemandee) {
       document.getElementById('banner-annulation').classList.remove('hidden');
       document.getElementById('banner-date').textContent = c.annulationDate;
+      document.getElementById('banner-motif').innerHTML = c.annulationMotif ? `Motif indiqué : <strong>${c.annulationMotif}</strong>${c.annulationPrecision ? ` — ${c.annulationPrecision}` : ''}` : '';
+    }
+    if (c.statut === 'annulee') {
+      document.getElementById('banner-annulee').classList.remove('hidden');
+      document.getElementById('banner-annulee').innerHTML = `Demande annulée${c.annulationMotif ? ` — motif : <strong>${c.annulationMotif}</strong>${c.annulationPrecision ? ` (${c.annulationPrecision})` : ''}` : ''}.`;
     }
 
     // bouton annulation (>48h avant le debut, uniquement si pas terminee/annulee)
@@ -538,40 +545,71 @@
       }
     }
 
-    // evaluation
-    if (c.statut === 'termine') {
+    // notes : une par intérimaire positionné
+    if (c.statut === 'termine' && (c.interimaires || []).length) {
       document.getElementById('evaluation-block').classList.remove('hidden');
-      if (c.evaluee) {
-        document.getElementById('eval-form').classList.add('hidden');
-        document.getElementById('eval-done').classList.remove('hidden');
-        document.getElementById('eval-done').innerHTML = `Votre évaluation (${c.note}/5) a déjà été enregistrée pour cette mission. Merci.`;
-      } else {
-        renderStars(document.getElementById('eval-stars'), 0, true, handleStarClick);
-      }
+      renderEvaluations(c);
     }
 
-    // historique evaluations
-    const evalRows = DEMANDES.filter(x => x.evaluee);
+    // historique des notes (une ligne par intérimaire noté)
+    const evalRows = DEMANDES.flatMap(x => (x.interimaires || []).filter(n => demoNotes(x)[n]).map(n => ({ ...x, nom: n, note: demoNotes(x)[n] })));
     document.getElementById('eval-history').innerHTML = evalRows.length ? evalRows.map(x => `
-      <div class="flex items-center justify-between text-sm">
-        <div>
-          <p class="font-medium text-gray-700">${x.q}</p>
-          <p class="text-xs text-gray-400">${x.date}</p>
+      <div class="flex items-center justify-between gap-3 text-sm">
+        <div class="flex items-center gap-2.5 min-w-0">
+          ${avatarHtml(x.nom, 'w-8 h-8', 'text-[10px]')}
+          <div class="min-w-0">
+            <p class="font-medium text-gray-700 truncate">${x.nom}</p>
+            <p class="text-xs text-gray-400 truncate">${x.q} · ${x.date}</p>
+          </div>
         </div>
         <span class="font-bold text-amber-600">${x.note}/5</span>
       </div>
-    `).join('') : `<p class="text-xs text-gray-400">Aucune évaluation laissée pour le moment.</p>`;
+    `).join('') : `<p class="text-xs text-gray-400">Aucune note laissée pour le moment.</p>`;
 
     window._currentDemande = c;
   }
 
-  function submitEvaluation() {
-    if (currentRating === 0) { alert("Sélectionnez une note de 1 à 5 étoiles."); return; }
+  // Une carte par intérimaire : étoiles + commentaire et bouton d'enregistrement, ou la note déjà enregistrée.
+  function renderEvaluations(c) {
+    const notes = demoNotes(c);
+    const reste = demoANoter(c).length;
+    document.getElementById('eval-progress').textContent = `${c.interimaires.length - reste}/${c.interimaires.length} noté${c.interimaires.length > 1 ? 's' : ''}`;
+    document.getElementById('eval-list').innerHTML = c.interimaires.map((nom, i) => {
+      const note = notes[nom];
+      return `
+      <div class="rounded-xl border ${note ? 'border-green-200 bg-green-50/40' : 'border-gray-200 bg-gray-50'} p-4">
+        <div class="flex items-center justify-between gap-3 flex-wrap">
+          <div class="flex items-center gap-3 min-w-0">
+            ${avatarHtml(nom, 'w-10 h-10', 'text-xs')}
+            <div class="min-w-0">
+              <p class="font-semibold text-gray-900 truncate">${nom}</p>
+              <p class="text-xs text-gray-500">${c.q} · ${c.date}</p>
+            </div>
+          </div>
+          <div id="eval-stars-${i}" class="flex items-center gap-1"></div>
+        </div>
+        ${note ? `
+        <p class="text-xs font-semibold text-green-700 mt-2">Note de ${note}/5 enregistrée.${note <= 3 ? ' Une demande d\'interdiction de chantier a été transmise aux équipes Adaptel.' : ''}</p>` : `
+        <div class="flex items-start gap-2 mt-3">
+          <textarea id="eval-comment-${i}" rows="1" placeholder="Commentaire sur la mission de ${nom.split(' ')[0]} (facultatif)…" class="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A63629] resize-none"></textarea>
+          <button type="button" onclick="submitEvaluation(${i})" class="h-9 px-4 rounded-lg text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all whitespace-nowrap" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">Enregistrer</button>
+        </div>
+        <p id="eval-error-${i}" class="hidden text-[11px] font-semibold text-red-600 mt-1">Choisissez une note de 1 à 5 étoiles.</p>`}
+      </div>`;
+    }).join('');
+    c.interimaires.forEach((nom, i) => {
+      const box = document.getElementById(`eval-stars-${i}`);
+      const pick = v => { notesBrouillon[nom] = v; renderStars(box, v, true, pick); document.getElementById(`eval-error-${i}`).classList.add('hidden'); };
+      renderStars(box, notes[nom] || notesBrouillon[nom] || 0, !notes[nom], pick);
+    });
+  }
+
+  function submitEvaluation(i) {
     const c = window._currentDemande;
-    c.evaluee = true; c.note = currentRating;
-    document.getElementById('eval-form').classList.add('hidden');
-    document.getElementById('eval-done').classList.remove('hidden');
-    document.getElementById('eval-done').innerHTML = `Merci, votre évaluation (${currentRating}/5) a été enregistrée.` + (currentRating <= 3 ? ` <br><span class="text-xs">Une demande d'interdiction de chantier a été transmise automatiquement aux équipes Adaptel.</span>` : '');
+    const nom = c.interimaires[i];
+    if (!notesBrouillon[nom]) { document.getElementById(`eval-error-${i}`).classList.remove('hidden'); return; }
+    c.notes = { ...demoNotes(c), [nom]: notesBrouillon[nom] };
+    delete notesBrouillon[nom];
     load();
   }
 
@@ -581,13 +619,50 @@
     load();
   }
 
+  let motifAnnulation = null;
+
+  function ouvrirAnnulation() {
+    if (document.getElementById('btn-annulation').disabled) return;
+    motifAnnulation = null;
+    document.getElementById('annulation-precision').value = '';
+    renderMotifsAnnulation();
+    document.getElementById('annulation-form').classList.remove('hidden');
+    document.getElementById('annulation-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function fermerAnnulation() {
+    document.getElementById('annulation-form').classList.add('hidden');
+  }
+
+  function choisirMotifAnnulation(i) {
+    motifAnnulation = DEMO_MOTIFS_ANNULATION[i];
+    renderMotifsAnnulation();
+    if (motifAnnulation === 'Autre') document.getElementById('annulation-precision').focus();
+  }
+
+  function renderMotifsAnnulation() {
+    document.getElementById('annulation-motifs').innerHTML = DEMO_MOTIFS_ANNULATION.map((m, i) => `
+      <button type="button" onclick="choisirMotifAnnulation(${i})" class="px-3 py-1.5 rounded-full border text-xs font-semibold transition-colors ${m === motifAnnulation ? 'border-red-600 bg-red-600 text-white' : 'border-gray-200 bg-white text-gray-700 hover:border-red-300 hover:bg-red-50'}">${m}</button>`).join('');
+    document.getElementById('annulation-precision').placeholder = motifAnnulation === 'Autre' ? 'Précisez le motif (obligatoire)…' : 'Précisions (facultatif)…';
+    majAnnulationGate();
+  }
+
+  // Envoi possible dès qu'un motif est choisi ; « Autre » exige une précision.
+  function majAnnulationGate() {
+    const precision = document.getElementById('annulation-precision').value.trim();
+    document.getElementById('btn-confirm-annulation').disabled = !motifAnnulation || (motifAnnulation === 'Autre' && !precision);
+  }
+
   function demanderAnnulation() {
     const c = window._currentDemande;
-    if (document.getElementById('btn-annulation').disabled) return;
-    if (!confirm("Demander à Adaptel l'annulation de cette demande ?")) return;
+    if (document.getElementById('btn-confirm-annulation').disabled) return;
     c.annulationDemandee = true;
     c.annulationDate = "23/09/2026 09:00";
+    c.annulationMotif = motifAnnulation;
+    c.annulationPrecision = document.getElementById('annulation-precision').value.trim();
+    fermerAnnulation();
     load();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   document.addEventListener('DOMContentLoaded', load);

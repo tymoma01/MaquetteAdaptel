@@ -138,16 +138,22 @@
           <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Demandes</h1>
           <p class="text-gray-600 text-sm mt-0.5">Suivez vos demandes de mission et faites-en de nouvelles</p>
         </div>
-        <button onclick="openNouvelle()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
-          Faire une demande
-        </button>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button id="btn-reprise-header" onclick="openNouvelle(); reprendreDerniereDemande()" class="hidden inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm text-[#A63629] bg-white border border-[#A63629]/40 shadow-sm hover:bg-red-50 transition-all" title="Ouvre une nouvelle demande pré-remplie avec votre dernière demande">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+            Reprendre la dernière demande
+          </button>
+          <button onclick="openNouvelle()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+            Faire une demande
+          </button>
+        </div>
       </div>
 
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div class="bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm inline-flex gap-1" id="status-tabs">
-          <button data-status="encours" class="status-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">En cours</button>
-          <button data-status="staffee" class="status-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Staffées</button>
+          <button data-status="encours" class="status-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">En recherche</button>
+          <button data-status="staffee" class="status-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Pourvues</button>
           <button data-status="termine" class="status-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Terminées</button>
           <button data-status="" class="status-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all">Toutes</button>
         </div>
@@ -155,7 +161,7 @@
           <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Évaluation</span>
           <div class="bg-white p-1 rounded-lg border border-gray-200 shadow-sm inline-flex gap-1">
             <button data-eval="" class="eval-tab px-3 py-1.5 rounded-md text-xs font-semibold transition-all">Toutes</button>
-            <button data-eval="non" class="eval-tab px-3 py-1.5 rounded-md text-xs font-semibold transition-all">Non notées <span id="eval-count-non" class="ml-1 text-[10px] bg-amber-100 text-amber-700 font-bold px-1.5 py-0.5 rounded-full">0</span></button>
+            <button data-eval="non" class="eval-tab px-3 py-1.5 rounded-md text-xs font-semibold transition-all">À noter <span id="eval-count-non" class="ml-1 text-[10px] bg-amber-100 text-amber-700 font-bold px-1.5 py-0.5 rounded-full">0</span></button>
             <button data-eval="oui" class="eval-tab px-3 py-1.5 rounded-md text-xs font-semibold transition-all">Notées</button>
           </div>
         </div>
@@ -182,6 +188,25 @@
     </div>
 
     <div id="nouvelle-body" class="p-6 space-y-5 relative">
+      <!-- REPRISE : pré-remplit toute la saisie avec la dernière demande passée (chantier, qualifications, horaires, postes, motif). -->
+      <div id="reprise-bar" class="hidden flex items-center justify-between gap-3 rounded-xl border border-dashed border-[#A63629]/40 bg-red-50/40 px-3 py-2.5">
+        <div class="min-w-0">
+          <p class="text-xs font-bold text-gray-900">Même besoin que la dernière fois ?</p>
+          <p id="reprise-resume" class="text-[11px] text-gray-500 truncate"></p>
+        </div>
+        <button type="button" onclick="reprendreDerniereDemande()" class="flex-shrink-0 h-9 px-3 rounded-lg text-xs font-semibold text-white shadow-sm hover:shadow-md inline-flex items-center gap-1.5" style="background: linear-gradient(135deg, #A63629 0%, #8B2B1F 100%);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+          Reprendre la dernière demande
+        </button>
+      </div>
+      <div id="reprise-banner" class="hidden rounded-xl border border-green-200 bg-green-50 px-3 py-2.5">
+        <p class="text-xs font-bold text-green-800" id="reprise-banner-titre"></p>
+        <div class="flex flex-wrap items-center gap-2 mt-1.5 text-[11px] text-green-800">
+          <span>Mêmes jours de la semaine, à partir du</span>
+          <input id="reprise-debut" type="date" onchange="decalerReprise(this.value)" class="h-7 rounded-md border border-green-300 bg-white px-1.5 text-[11px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          <span class="text-green-700/80">— changez la date pour décaler toute la demande, ou modifiez chaque jour ci-dessous.</span>
+        </div>
+      </div>
       <div>
         <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Chantier</label>
         <p class="text-xs text-gray-400 mb-2">Choisissez le chantier concerné par cette demande : le calendrier ci-dessous s'active une fois ce choix fait.</p>
@@ -215,7 +240,7 @@
         <p class="text-xs font-semibold text-gray-500 mb-2" id="recap-count"></p>
         <div id="recap-list" class="space-y-1.5"></div>
         <p id="recap-empty" class="text-sm text-gray-400 text-center py-4 bg-gray-50 rounded-xl border border-dashed border-gray-200">Aucune demande saisie pour le moment — cliquez sur un jour du calendrier ci-dessus.</p>
-        <p id="recap-note" class="hidden text-[11px] text-gray-400 mt-2">Cliquez sur une demande pour la modifier, ou sur ✕ pour la supprimer. Chacune suivra ensuite son propre statut (en cours de staffing, staffée, validée…).</p>
+        <p id="recap-note" class="hidden text-[11px] text-gray-400 mt-2">Cliquez sur une demande pour la modifier, ou sur ✕ pour la supprimer. Chacune suivra ensuite son propre statut (en recherche, pourvue, confirmée…).</p>
       </div>
 
       <div class="flex items-center justify-end gap-3 pt-2">
@@ -271,12 +296,32 @@
                 <input id="j-debut" type="time" onchange="updateQualifField('debut', this.value)" class="h-8 w-full rounded-md border border-gray-200 bg-white px-1.5 text-[11px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
               </div>
               <div>
-                <label class="block text-[9px] font-semibold text-gray-500 uppercase tracking-wider mb-0.5">Fin</label>
+                <label id="j-fin-label" class="block text-[9px] font-semibold text-gray-500 uppercase tracking-wider mb-0.5">Fin</label>
                 <input id="j-fin" type="time" onchange="updateQualifField('fin', this.value)" class="h-8 w-full rounded-md border border-gray-200 bg-white px-1.5 text-[11px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
               </div>
               <div>
                 <label class="block text-[9px] font-semibold text-gray-500 uppercase tracking-wider mb-0.5">Pause (min)</label>
                 <input id="j-pause" type="number" min="0" step="5" onchange="updateQualifField('pause', this.value)" class="h-8 w-full rounded-md border border-gray-200 bg-white px-1.5 text-[11px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+              </div>
+            </div>
+            <!-- COUPURE : deux services dans la journée. Un clic l'active, pré-remplie ; il ne reste qu'à ajuster. -->
+            <div class="mt-2 rounded-md border border-gray-200 bg-white p-2">
+              <label class="flex items-center justify-between gap-2 cursor-pointer">
+                <span class="text-[11px] font-semibold text-gray-700">Coupure <span class="font-normal text-gray-400">· 2 services dans la journée</span></span>
+                <input id="j-coupure" type="checkbox" onchange="toggleCoupureJour(this.checked)" class="h-4 w-4 rounded border-gray-300 accent-[#A63629] cursor-pointer">
+              </label>
+              <div id="j-coupure-fields" class="hidden mt-2">
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <label class="block text-[9px] font-semibold text-gray-500 uppercase tracking-wider mb-0.5">Reprise</label>
+                    <input id="j-debut2" type="time" onchange="updateQualifField('debut2', this.value)" class="h-8 w-full rounded-md border border-gray-200 bg-white px-1.5 text-[11px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+                  </div>
+                  <div>
+                    <label class="block text-[9px] font-semibold text-gray-500 uppercase tracking-wider mb-0.5">Fin 2e service</label>
+                    <input id="j-fin2" type="time" onchange="updateQualifField('fin2', this.value)" class="h-8 w-full rounded-md border border-gray-200 bg-white px-1.5 text-[11px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+                  </div>
+                </div>
+                <p id="j-coupure-info" class="text-[10px] text-gray-500 mt-1.5"></p>
               </div>
             </div>
             <div class="mt-2">
@@ -478,20 +523,15 @@
     { id: "DEM-1042", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "24/09/2026", horaire: "15h–23h", statut: "encours", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 14.5, lot: "LOT-118" },
     { id: "DEM-1043", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "25/09/2026", horaire: "15h–23h", statut: "encours", capacite: 1, pourvus: 0, enAttente: 1, refuses: 0, taux: 14.5, lot: "LOT-118" },
     { id: "DEM-1044", q: "Chef de rang", chantier: "FLEXI BANQUET", date: "26/09/2026", horaire: "18h–02h", statut: "encours", capacite: 2, pourvus: 0, enAttente: 0, refuses: 1, taux: 15.2, lot: null },
+    { id: "DEM-1045", q: "Chef de rang", chantier: "FLEXI BANQUET", date: "27/09/2026", horaire: "11h–15h / 18h30–23h", statut: "encours", capacite: 2, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.2, lot: null, interimaires: ["Marco De Luca"], motif: "Accroissement temporaire d'activité", justification: "Séminaire client — 180 couverts midi et soir" },
     { id: "DEM-1039", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", date: "23/09/2026", horaire: "7h–15h", statut: "staffee", capacite: 2, pourvus: 2, enAttente: 0, refuses: 0, taux: 13.8, lot: null, interimaires: ["Léa Richard", "Sofia Nguyen"] },
-    { id: "DEM-1040", q: "Chef de rang", chantier: "FLEXI BANQUET", date: "23/09/2026", horaire: "18h–02h", statut: "staffee", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 15.2, lot: null, interimaires: ["Marco De Luca"], annulationDemandee: true, annulationDate: "22/09/2026 14:32" },
-    { id: "DEM-1030", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "22/09/2026", horaire: "7h–15h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, interimaires: ["Anna Pizzol"], evaluee: true, note: 5 },
-    { id: "DEM-1029", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "21/09/2026", horaire: "7h–15h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, interimaires: ["Anna Pizzol"], evaluee: false },
-    { id: "DEM-1021", q: "Commis de cuisine", chantier: "FLEXI SOUS-CHEF", date: "19/09/2026", horaire: "9h–17h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 16.0, lot: null, interimaires: ["Julien Martin"], evaluee: true, note: 4 },
-    { id: "DEM-1018", q: "Bagagiste", chantier: "FLEXI BAGAGERIE", date: "20/09/2026", horaire: "7h–15h", statut: "annulee", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 13.5, lot: null }
+    { id: "DEM-1040", q: "Chef de rang", chantier: "FLEXI BANQUET", date: "23/09/2026", horaire: "18h–02h", statut: "staffee", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 15.2, lot: null, interimaires: ["Marco De Luca"], annulationDemandee: true, annulationDate: "22/09/2026 14:32", annulationMotif: "Événement reporté ou annulé" },
+    { id: "DEM-1030", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "22/09/2026", horaire: "7h–15h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, interimaires: ["Anna Pizzol"], notes: { "Anna Pizzol": 5 } },
+    { id: "DEM-1031", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", date: "22/09/2026", horaire: "9h–17h", statut: "termine", capacite: 2, pourvus: 2, enAttente: 0, refuses: 0, taux: 13.0, lot: null, interimaires: ["Léa Richard", "Sofia Nguyen"], notes: { "Léa Richard": 4 } },
+    { id: "DEM-1029", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "21/09/2026", horaire: "7h–15h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 14.5, lot: null, interimaires: ["Anna Pizzol"] },
+    { id: "DEM-1021", q: "Commis de cuisine", chantier: "FLEXI SOUS-CHEF", date: "19/09/2026", horaire: "9h–17h", statut: "termine", capacite: 1, pourvus: 1, enAttente: 0, refuses: 0, taux: 16.0, lot: null, interimaires: ["Julien Martin"], notes: { "Julien Martin": 4 } },
+    { id: "DEM-1018", q: "Bagagiste", chantier: "FLEXI BAGAGERIE", date: "20/09/2026", horaire: "7h–15h", statut: "annulee", capacite: 1, pourvus: 0, enAttente: 0, refuses: 0, taux: 13.5, lot: null, annulationMotif: "Besoin couvert en interne" }
   ];
-
-  const STATUT_META = {
-    encours: { label: "En cours", cls: "bg-amber-100 text-amber-700" },
-    staffee:  { label: "Staffée", cls: "bg-blue-100 text-blue-700" },
-    termine:  { label: "Terminée", cls: "bg-gray-100 text-gray-600" },
-    annulee:  { label: "Annulée", cls: "bg-red-100 text-red-700" }
-  };
 
   let currentStatus = "";
   let currentEvalFilter = ""; // "" | "non" | "oui" — ne s'applique qu'à l'onglet "Terminées"
@@ -505,20 +545,25 @@
     const all = getDemandes();
     let rows = all.filter(c => !currentStatus || c.statut === currentStatus);
     if (currentStatus === 'termine' && currentEvalFilter) {
-      rows = rows.filter(c => currentEvalFilter === 'oui' ? c.evaluee : !c.evaluee);
+      rows = rows.filter(c => currentEvalFilter === 'oui' ? !demoANoter(c).length : demoANoter(c).length > 0);
     }
     const list = document.getElementById('demandes-list');
     document.getElementById('empty-state').classList.toggle('hidden', rows.length > 0);
 
-    const nonNoteesCount = all.filter(c => c.statut === 'termine' && !c.evaluee).length;
+    const nonNoteesCount = all.filter(c => demoANoter(c).length > 0).length;
     document.getElementById('eval-count-non').textContent = nonNoteesCount;
 
     list.innerHTML = rows.map(c => {
-      const meta = STATUT_META[c.statut];
+      const meta = DEMO_STATUTS[c.statut];
       const pct = Math.round((c.pourvus / c.capacite) * 100);
-      const evalBadge = c.statut !== 'termine' ? '' : c.evaluee
-        ? `<span class="inline-flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">${STAR_ICON}${c.note}/5</span>`
-        : `<span class="text-xs font-semibold text-gray-500 bg-gray-100 border border-gray-200 px-2.5 py-1 rounded-full">Non notée</span>`;
+      // Une note par intérimaire : badge complet (toutes les notes), partiel (n restant à noter) ou « À noter ».
+      const notes = demoNotes(c), aNoter = demoANoter(c), nbInterims = (c.interimaires || []).length;
+      const notesTxt = (c.interimaires || []).filter(n => notes[n]).map(n => `${notes[n]}/5`).join(' · ');
+      const evalBadge = c.statut !== 'termine' ? '' : !aNoter.length
+        ? `<span title="${(c.interimaires || []).map(n => `${n} : ${notes[n]}/5`).join('\n')}" class="inline-flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">${STAR_ICON}${notesTxt}</span>`
+        : aNoter.length < nbInterims
+          ? `<span title="Reste à noter : ${aNoter.join(', ')}" class="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 bg-white border border-amber-300 px-2.5 py-1 rounded-full">${STAR_ICON}${notesTxt} · ${aNoter.length} à noter</span>`
+          : `<span class="text-xs font-semibold text-gray-500 bg-gray-100 border border-gray-200 px-2.5 py-1 rounded-full">${nbInterims > 1 ? `${nbInterims} intérimaires à noter` : 'À noter'}</span>`;
       return `
       <a href="client-demande-detail.html?id=${c.id}" class="row-card block bg-white rounded-xl border border-gray-200 shadow-sm p-4">
         <div class="flex items-center justify-between gap-4 flex-wrap">
@@ -528,7 +573,7 @@
             </div>
             <div class="min-w-0">
               <p class="text-sm font-bold text-gray-900 truncate">${c.q} <span class="text-gray-400 font-medium">· ${c.id}</span></p>
-              <p class="text-xs text-gray-500 mt-0.5">${c.chantier} · ${c.date} · ${c.horaire}</p>
+              <p class="text-xs text-gray-500 mt-0.5">${c.chantier} · ${c.date} · ${c.horaire}${c.horaire.includes(' / ') ? ` <span class="ml-1 text-[10px] font-semibold text-amber-800 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">Coupure</span>` : ''}</p>
               ${c.lot ? `<span class="inline-flex items-center gap-1 text-[10px] text-gray-400 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="m10 13-1 1a3 3 0 1 0 4 4l1-1"></path><path d="m14 11 1-1a3 3 0 1 0-4-4l-1 1"></path></svg>Saisie groupée · ${c.lot}</span>` : ''}
             </div>
           </div>
@@ -537,7 +582,8 @@
               <p class="text-xs text-gray-400">Staffing</p>
               <p class="text-sm font-bold text-gray-800">${c.pourvus}/${c.capacite} <span class="text-gray-400 font-medium">(${pct}%)</span></p>
             </div>
-            ${c.annulationDemandee ? `<span class="text-[10px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-1 rounded-full">Annulation demandée</span>` : ''}
+            ${c.annulationDemandee ? `<span title="Motif : ${c.annulationMotif || '—'}" class="text-[10px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-1 rounded-full">Annulation demandée</span>` : ''}
+            ${c.statut === 'annulee' && c.annulationMotif ? `<span class="text-[11px] text-gray-500 max-w-[180px] truncate" title="Motif : ${c.annulationMotif}">${c.annulationMotif}</span>` : ''}
             ${evalBadge}
             <span class="px-2.5 py-1 rounded-full text-xs font-bold ${meta.cls}">${meta.label}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-300"><path d="m9 18 6-6-6-6"></path></svg>
@@ -658,13 +704,9 @@
   function fmtPeriode(debutKey, finKey) {
     return (!finKey || finKey === debutKey) ? fmtDay(debutKey) : `du ${fmtDay(debutKey)} au ${fmtDay(finKey)}`;
   }
-  // Durée travaillée d'une vacation, pause déduite (gère les horaires de nuit qui passent minuit).
-  function heuresVacation(debut, fin, pause) {
-    const [hd, md] = debut.split(':').map(Number), [hf, mf] = fin.split(':').map(Number);
-    let min = (hf * 60 + mf) - (hd * 60 + md);
-    if (min <= 0) min += 24 * 60;
-    return Math.max(0, min - (pause || 0)) / 60;
-  }
+  // Durée travaillée d'une vacation, pause déduite, les deux services comptés en cas de coupure (cf. demo-data.js).
+  const heuresVacation = c => demoHeuresHoraire(c);
+  function addDays(k, n) { const d = keyToDate(k); d.setDate(d.getDate() + n); return dateKey(d.getFullYear(), d.getMonth(), d.getDate()); }
   function fmtHeures(h) { const hh = Math.floor(h), mm = Math.round((h - hh) * 60); return mm ? `${hh}h${pad(mm)}` : `${hh}h`; }
   // Échappe une valeur pour l'insérer dans une chaîne JS à guillemets simples au sein d'un attribut onclick="…" —
   // nécessaire dès qu'un nom de qualification contient une apostrophe (ex. "Maître d'hôtel").
@@ -752,7 +794,7 @@
         <div class="flex items-stretch">
           <button type="button" onclick="toggleQualif('${jsStr(key)}')" class="flex-1 text-left flex items-center justify-between gap-2 px-2.5 py-2 min-w-0">
             <span class="font-semibold text-xs truncate ${c ? 'text-[#A63629]' : 'text-gray-700'}">${sub ? h.libelle : nom}</span>
-            <span class="text-[11px] text-gray-400 whitespace-nowrap flex-shrink-0">${c ? `×${c.capacite} · ` : ''}${c && nbJours(editingDay, c.dateFin) > 1 ? `${nbJours(editingDay, c.dateFin)} j · ` : ''}${vals.debut}–${vals.fin}</span>
+            <span class="text-[11px] text-gray-400 whitespace-nowrap flex-shrink-0">${c ? `×${c.capacite} · ` : ''}${c && nbJours(editingDay, c.dateFin) > 1 ? `${nbJours(editingDay, c.dateFin)} j · ` : ''}${demoHoraire(vals)}</span>
           </button>
           <button type="button" onclick="openHoraireEditor('${jsStr(key)}')" title="Modifier l'horaire" class="px-2 flex items-center justify-center border-l flex-shrink-0 border-gray-100 text-gray-400 hover:text-[#A63629]">${PENCIL_ICON}</button>
         </div>
@@ -781,6 +823,7 @@
     if (!dayConfigs[editingDay][key]) {
       const { nom, q, h } = findLine(key);
       dayConfigs[editingDay][key] = { nom, horaire: h.libelle, debut: h.debut, fin: h.fin, pause: h.pause, taux: q.taux, capacite: currentCapacite, dateFin: currentDateFin || editingDay };
+      if (demoAvecCoupure(h)) Object.assign(dayConfigs[editingDay][key], { debut2: h.debut2, fin2: h.fin2 });
     }
   }
 
@@ -805,6 +848,7 @@
     document.getElementById('j-debut').value = c.debut;
     document.getElementById('j-fin').value = c.fin;
     document.getElementById('j-pause').value = c.pause;
+    renderCoupureJour(c);
     document.getElementById('j-edit-datefin').min = editingDay;
     document.getElementById('j-edit-datefin').value = c.dateFin || editingDay;
     document.getElementById('j-qualif-section').classList.add('hidden');
@@ -838,7 +882,38 @@
     }
     entry[field] = (field === 'pause') ? (parseInt(value, 10) || 0) : (field === 'taux') ? (parseFloat(value) || 0) : value;
     if (field === 'dateFin') renderCalendar();
+    renderCoupureJour(entry);
     renderRecap();
+  }
+
+  // Coupure de la demande en cours d'édition : cochée, elle est pré-remplie (cf. demoCoupureParDefaut) et la fin
+  // saisie devient celle du 1er service ; décochée, on revient à une plage unique.
+  function toggleCoupureJour(on) {
+    const entry = dayConfigs[editingDay] && dayConfigs[editingDay][editingQualif];
+    if (!entry) return;
+    // Décochée juste après avoir été cochée : on retrouve l'horaire d'origine (fin et pause), sinon une seule plage jusqu'à la fin du 2e service.
+    if (on) { entry.avantCoupure = { fin: entry.fin, pause: entry.pause }; Object.assign(entry, demoCoupureParDefaut(entry)); entry.pause = 0; }
+    else { Object.assign(entry, entry.avantCoupure || { fin: entry.fin2 || entry.fin }); delete entry.avantCoupure; delete entry.debut2; delete entry.fin2; }
+    document.getElementById('j-fin').value = entry.fin;
+    document.getElementById('j-pause').value = entry.pause;
+    renderCoupureJour(entry);
+    renderRecap();
+  }
+
+  function fmtMinutes(m) { return fmtHeures(m / 60); }
+
+  function renderCoupureJour(c) {
+    const on = demoAvecCoupure(c);
+    document.getElementById('j-coupure').checked = on;
+    document.getElementById('j-coupure-fields').classList.toggle('hidden', !on);
+    document.getElementById('j-fin-label').textContent = on ? 'Fin 1er serv.' : 'Fin';
+    if (!on) return;
+    document.getElementById('j-debut2').value = c.debut2;
+    document.getElementById('j-fin2').value = c.fin2;
+    const erreur = demoErreurCoupure(c);
+    const info = document.getElementById('j-coupure-info');
+    info.className = `text-[10px] mt-1.5 ${erreur ? 'font-semibold text-red-600' : 'text-gray-500'}`;
+    info.textContent = erreur || `${c.debut}–${c.fin} puis ${c.debut2}–${c.fin2} · coupure ${fmtMinutes(demoDureeCoupure(c))} · ${fmtHeures(heuresVacation(c))} travaillées`;
   }
 
   function openJourModal(key, anchorEl) {
@@ -893,7 +968,8 @@
             <span class="block text-xs text-gray-500 mt-0.5">${selectedChantier} · ${fmtPeriode(r.key, r.dateFin)} · ${r.capacite} poste${r.capacite > 1 ? 's' : ''}</span>
           </span>
           <span class="text-right flex-shrink-0">
-            <span class="block text-xs font-semibold text-gray-700 whitespace-nowrap">${r.debut}–${r.fin}</span>
+            <span class="block text-xs font-semibold whitespace-nowrap ${demoErreurCoupure(r) ? 'text-red-600' : 'text-gray-700'}">${demoPlage(r)}</span>
+            ${demoAvecCoupure(r) ? `<span class="block text-[10px] font-semibold text-amber-700 whitespace-nowrap">${demoErreurCoupure(r) ? 'Coupure à corriger' : `Coupure ${fmtMinutes(demoDureeCoupure(r))}`}</span>` : ''}
             <span class="block text-[11px] text-gray-400 whitespace-nowrap">${r.taux.toFixed(2)} €/h</span>
           </span>
         </button>
@@ -929,6 +1005,8 @@
     selectedChantier = (headerChantier && CHANTIERS[headerChantier]) ? headerChantier : "";
     document.getElementById('f-chantier').value = selectedChantier;
     calYear = 2026; calMonth = 8;
+    repriseSource = null;
+    renderRepriseBar();
     closeJourModal();
     updateChantierGate();
     renderCalendar();
@@ -958,6 +1036,8 @@
   // Clic sur "Suivant" : bascule vers l'étape motif/justification plutôt que d'envoyer directement.
   function goToMotifsStep() {
     if (collectRecapRows().length === 0) { alert("Cliquez sur au moins un jour du calendrier pour créer une demande."); return; }
+    const aCorriger = collectRecapRows().find(r => demoErreurCoupure(r));
+    if (aCorriger) { alert(`Coupure à corriger — ${lineLabel(aCorriger)} du ${fmtDay(aCorriger.key)} : ${demoErreurCoupure(aCorriger)}`); return; }
     renderMotifsStep();
     document.getElementById('fiche-liaison-check').checked = false;
     document.getElementById('nouvelle-body').classList.add('hidden');
@@ -975,7 +1055,7 @@
     const totals = rows.reduce((t, r) => {
       const jours = nbJours(r.key, r.dateFin);
       t.postes += r.capacite;
-      t.heures += heuresVacation(r.debut, r.fin, r.pause) * jours * r.capacite;
+      t.heures += heuresVacation(r) * jours * r.capacite;
       return t;
     }, { postes: 0, heures: 0 });
     document.getElementById('motifs-summary').innerHTML = [
@@ -994,7 +1074,7 @@
 
     document.getElementById('motifs-list').innerHTML = rows.map(r => {
       const jours = nbJours(r.key, r.dateFin);
-      const hVac = heuresVacation(r.debut, r.fin, r.pause);
+      const hVac = heuresVacation(r);
       return `
       <div class="rounded-lg border border-gray-200 p-3">
         <div class="flex items-start justify-between gap-3">
@@ -1003,8 +1083,8 @@
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2 bg-gray-50 rounded-lg px-3 py-2 text-xs">
           <div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Date${jours > 1 ? 's' : ''}</p><p class="font-semibold text-gray-800">${fmtPeriode(r.key, r.dateFin)}${jours > 1 ? ` <span class="font-normal text-gray-500">(${jours} jours)</span>` : ''}</p></div>
-          <div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Horaires</p><p class="font-semibold text-gray-800">${r.debut} – ${r.fin}</p></div>
-          <div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Pause</p><p class="font-semibold text-gray-800">${r.pause} min</p></div>
+          <div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Horaires</p><p class="font-semibold text-gray-800">${r.debut} – ${r.fin}${demoAvecCoupure(r) ? `<br>${r.debut2} – ${r.fin2}` : ''}</p></div>
+          <div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">${demoAvecCoupure(r) ? 'Coupure / pause' : 'Pause'}</p><p class="font-semibold text-gray-800">${demoAvecCoupure(r) ? `${fmtMinutes(demoDureeCoupure(r))}${r.pause ? ` + ${r.pause} min` : ''}` : `${r.pause} min`}</p></div>
           <div><p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Postes</p><p class="font-semibold text-gray-800">${r.capacite} × ${fmtHeures(hVac)}/jour</p></div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
@@ -1073,17 +1153,122 @@
       return;
     }
     const n = rows.length;
+    sauverDerniereDemande(rows);
+    renderRepriseBar();
     closeNouvelle();
     alert(`Votre demande a été transmise à Adaptel : ${n} demande(s) seront créées, chacune avec sa propre qualification, son horaire, son motif et sa justification.\nAttestation fiche de liaison horodatée le ${formatHorodatage(attestationAt)}.`);
   }
 
+  // ---------- Reprendre la dernière demande ----------
+  // Pré-remplit la saisie (chantier, qualifications, horaires — coupures comprises —, postes, durée, motif et
+  // justification) avec la dernière demande passée. Elle est mémorisée dans le navigateur à chaque envoi ; à
+  // défaut, on reprend la demande la plus récente du client (et toute sa saisie groupée).
+  const DERNIERE_DEMANDE_KEY = 'adaptel-derniere-demande';
+  let repriseSource = null; // demande reprise dans la saisie en cours (null = saisie libre)
+
+  function sauverDerniereDemande(rows) {
+    try {
+      const toutes = JSON.parse(localStorage.getItem(DERNIERE_DEMANDE_KEY)) || {};
+      toutes[getEtabSelection().client] = {
+        chantier: selectedChantier, ref: `votre saisie du ${new Date().toLocaleDateString('fr-FR')}`,
+        lignes: rows.map(({ key, qualif, ...config }) => ({ jour: key, cle: qualif, config }))
+      };
+      localStorage.setItem(DERNIERE_DEMANDE_KEY, JSON.stringify(toutes));
+    } catch (e) {}
+  }
+
+  function derniereDemande() {
+    try {
+      const sauvee = (JSON.parse(localStorage.getItem(DERNIERE_DEMANDE_KEY)) || {})[getEtabSelection().client];
+      if (sauvee && CHANTIERS[sauvee.chantier]) return sauvee;
+    } catch (e) {}
+    const num = d => parseInt(d.id.replace(/\D/g, ''), 10);
+    const toutes = demoRows('demandes', DEMANDES_ETOILE, demoDemandes, true).filter(d => d.statut !== 'annulee' && CHANTIERS[d.chantier]);
+    const derniere = toutes.sort((a, b) => num(b) - num(a))[0];
+    if (!derniere) return null;
+    const saisie = derniere.lot ? toutes.filter(d => d.lot === derniere.lot) : [derniere];
+    const sansZero = t => t.replace(/\b0(\d)h/g, '$1h');
+    const lignes = saisie.map(d => {
+      const q = CHANTIERS[d.chantier].qualifications[d.q];
+      if (!q) return null;
+      const h = q.horaires.find(h => demoHoraire(h) === sansZero(d.horaire)) || q.horaires[0];
+      const jour = d.date.split('/').reverse().join('-');
+      const config = { nom: d.q, horaire: h.libelle, debut: h.debut, fin: h.fin, pause: h.pause, taux: q.taux, capacite: d.capacite, dateFin: jour, motif: d.motif, justification: d.justification };
+      if (demoAvecCoupure(h)) Object.assign(config, { debut2: h.debut2, fin2: h.fin2 });
+      return { jour, cle: lineKey(d.q, h), config };
+    }).filter(Boolean);
+    return lignes.length ? { chantier: derniere.chantier, ref: derniere.lot ? `la saisie ${derniere.lot}` : `la demande ${derniere.id}`, lignes } : null;
+  }
+
+  // Bandeau « Reprendre » : visible tant qu'aucune reprise n'est en cours, avec un résumé de ce qui sera repris.
+  function renderRepriseBar() {
+    const d = derniereDemande();
+    document.getElementById('btn-reprise-header').classList.toggle('hidden', !d);
+    document.getElementById('reprise-bar').classList.toggle('hidden', !d || !!repriseSource);
+    document.getElementById('reprise-banner').classList.toggle('hidden', !repriseSource);
+    if (!d) return;
+    const l = d.lignes[0].config;
+    const plus = d.lignes.length > 1 ? ` + ${d.lignes.length - 1} autre(s)` : '';
+    document.getElementById('reprise-resume').textContent = `${lineLabel(l)} (${demoHoraire(l)}) · ${d.chantier} · ${l.capacite} poste${l.capacite > 1 ? 's' : ''}${plus} — ${d.ref}`;
+  }
+
+  function premierJour() { return Object.keys(dayConfigs).sort()[0]; }
+
+  function reprendreDerniereDemande() {
+    const d = derniereDemande();
+    if (!d) return;
+    selectedChantier = d.chantier;
+    document.getElementById('f-chantier').value = d.chantier;
+    // Mêmes jours de la semaine, au plus tôt la semaine suivante et jamais dans le passé.
+    const debut = d.lignes.map(l => l.jour).sort()[0];
+    let decalage = 7;
+    while (keyToDate(addDays(debut, decalage)) < TODAY) decalage += 7;
+    dayConfigs = {};
+    d.lignes.forEach(l => {
+      const jour = addDays(l.jour, decalage);
+      (dayConfigs[jour] ||= {})[l.cle] = { ...l.config, dateFin: addDays(l.config.dateFin || l.jour, decalage) };
+    });
+    repriseSource = d;
+    document.getElementById('reprise-banner-titre').textContent = `Repris de ${d.ref} : ${d.chantier}, ${collectRecapRows().length} demande(s) avec leurs horaires, postes et motifs. Vérifiez puis envoyez.`;
+    afficherReprise();
+  }
+
+  // Décale toute la demande reprise pour qu'elle commence au jour choisi (écarts entre les jours conservés).
+  function decalerReprise(nouveauDebut) {
+    const debut = premierJour();
+    if (!debut || !nouveauDebut) return;
+    if (keyToDate(nouveauDebut) < TODAY) { document.getElementById('reprise-debut').value = debut; return; }
+    const delta = Math.round((keyToDate(nouveauDebut) - keyToDate(debut)) / 86400000);
+    const decalee = {};
+    Object.entries(dayConfigs).forEach(([jour, lignes]) => {
+      decalee[addDays(jour, delta)] = Object.fromEntries(Object.entries(lignes).map(([k, c]) => [k, { ...c, dateFin: addDays(c.dateFin || jour, delta) }]));
+    });
+    dayConfigs = decalee;
+    afficherReprise();
+  }
+
+  function afficherReprise() {
+    const debut = premierJour();
+    const input = document.getElementById('reprise-debut');
+    input.min = dateKey(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate());
+    input.value = debut;
+    calYear = keyToDate(debut).getFullYear(); calMonth = keyToDate(debut).getMonth();
+    closeJourModal();
+    updateChantierGate();
+    renderRepriseBar();
+    renderCalendar();
+    renderRecap();
+  }
+
   document.addEventListener('etab-change', () => {
     loadChantiers();
+    renderRepriseBar();
     render();
   });
 
   document.addEventListener('DOMContentLoaded', () => {
     loadChantiers();
+    renderRepriseBar();
     document.querySelector('.status-tab[data-status=""]').click();
     if (window.location.hash === '#nouvelle') openNouvelle();
   });

@@ -198,13 +198,18 @@ const DEMO_MOTIFS_ANNULATION = [
 
 // Dépenses du mois d'un chantier (client-depenses.html, et budget du tableau de bord).
 function demoDepenses(chantier, rand, profil) {
-  return profil.qualifs.flatMap(q => Array.from({ length: demoInt(rand, 1, 2) }, () => {
+  const ligne = (q, date, heures, releve) => ({ id: `DEM-${demoInt(rand, 2000, 9999)}`, q: q.nom, chantier, date, heures, taux: q.taux, montant: Math.round(heures * q.taux * 100) / 100, releve });
+  const passees = profil.qualifs.flatMap(q => Array.from({ length: demoInt(rand, 1, 2) }, () => {
     const heures = demoInt(rand, 1, 15) * 8;
     const date = demoDate(rand, 1, 23);
     // Relevé d'heures : les missions anciennes sont le plus souvent déjà validées, les récentes rarement.
     const releve = rand() < (Number(date.slice(0, 2)) < 16 ? 0.85 : 0.3) ? 'valide' : 'a_valider';
-    return { id: `DEM-${demoInt(rand, 2000, 9999)}`, q: q.nom, chantier, date, heures, taux: q.taux, montant: Math.round(heures * q.taux * 100) / 100, releve };
+    return ligne(q, date, heures, releve);
   }));
+  // Missions commandées d'ici la fin du mois : pas encore de relevé d'heures, mais déjà dans le prévisionnel.
+  const aVenir = profil.qualifs.filter(() => rand() < 0.6)
+    .map(q => { const heures = demoInt(rand, 1, 8) * 8; return ligne(q, demoDate(rand, 24, 30), heures, 'a_venir'); });
+  return [...passees, ...aVenir];
 }
 
 // Ligne de planning d'un chantier pour la semaine du 21 au 27/09 (client-planning.html, et prochaines

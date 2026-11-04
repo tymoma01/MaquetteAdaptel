@@ -178,13 +178,14 @@
           </div>
         </div>
 
-        <!-- VENTILATION PAR RELEVE D'HEURES : le validé ne fait que grossir jusqu'à rejoindre le prévisionnel -->
+        <!-- VENTILATION PAR RELEVE D'HEURES : le validé ne fait que grossir jusqu'à rejoindre le prévisionnel.
+             Les missions commandées à venir n'ont pas encore de relevé mais comptent dans le prévisionnel. -->
         <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
           <div class="flex items-center justify-between gap-3 flex-wrap mb-4">
             <h3 class="font-bold text-gray-900">Ventilation par relevé d'heures</h3>
             <a href="client-releve-heures.html" class="text-sm font-semibold text-[#A63629] hover:underline">Valider les relevés →</a>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="rounded-xl border border-gray-200 p-4">
               <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Prévisionnel du mois</p>
               <p id="venti-total" class="text-2xl font-bold text-gray-900 mt-1">—</p>
@@ -200,11 +201,18 @@
               <p id="venti-attente" class="text-2xl font-bold text-gray-900 mt-1">—</p>
               <p id="venti-attente-count" class="text-xs text-gray-500 mt-0.5"></p>
             </button>
+            <button type="button" onclick="showReleve('a_venir')" class="text-left rounded-xl border border-sky-200 bg-sky-50/60 p-4 hover:border-sky-400 transition-colors">
+              <p class="text-xs font-semibold text-sky-700 uppercase tracking-wider">Missions à venir</p>
+              <p id="venti-avenir" class="text-2xl font-bold text-gray-900 mt-1">—</p>
+              <p id="venti-avenir-count" class="text-xs text-gray-500 mt-0.5"></p>
+            </button>
           </div>
-          <div class="mt-4 h-2.5 rounded-full bg-amber-200 overflow-hidden" role="img" id="venti-bar-wrap">
-            <div id="venti-bar" class="h-full bg-green-500 rounded-full transition-all" style="width:0"></div>
+          <div class="mt-4 h-2.5 rounded-full bg-gray-100 overflow-hidden flex" role="img" id="venti-bar-wrap">
+            <div id="venti-bar" class="h-full bg-green-500 transition-all" style="width:0"></div>
+            <div id="venti-bar-attente" class="h-full bg-amber-300 transition-all" style="width:0"></div>
+            <div id="venti-bar-avenir" class="h-full bg-sky-300 transition-all" style="width:0"></div>
           </div>
-          <p class="text-xs text-gray-400 mt-2">Le montant validé augmente au fil des validations et rejoint le prévisionnel une fois tous les relevés du mois validés.</p>
+          <p class="text-xs text-gray-400 mt-2">Le prévisionnel inclut les missions commandées qui n'ont pas encore eu lieu. Le montant validé augmente au fil des validations et rejoint le prévisionnel une fois tous les relevés du mois validés.</p>
         </div>
 
         <!-- DONUTS -->
@@ -268,6 +276,7 @@
                   <button type="button" data-releve="" class="releve-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all">Tous</button>
                   <button type="button" data-releve="valide" class="releve-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all">Validé</button>
                   <button type="button" data-releve="a_valider" class="releve-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all">À valider</button>
+                  <button type="button" data-releve="a_venir" class="releve-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all">À venir</button>
                 </div>
               </div>
               <div>
@@ -477,7 +486,12 @@
     { id: "DEM-1029", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "21/09/2026", heures: 60, taux: 14.5, montant: 870.0, releve: "a_valider" },
     { id: "DEM-1018", q: "Bagagiste", chantier: "FLEXI BAGAGERIE", date: "20/09/2026", heures: 80, taux: 13.5, montant: 1080.0, releve: "a_valider" },
     { id: "DEM-1012", q: "Veilleur de nuit", chantier: "FLEXI HOTE/HOTESSE", date: "15/09/2026", heures: 50, taux: 13.0, montant: 650.0, releve: "valide" },
-    { id: "DEM-1005", q: "EMPLOYE POLYVALENT", chantier: "FLEXI BANQUET", date: "10/09/2026", heures: 90, taux: 13.9, montant: 1251.0, releve: "valide" }
+    { id: "DEM-1005", q: "EMPLOYE POLYVALENT", chantier: "FLEXI BANQUET", date: "10/09/2026", heures: 90, taux: 13.9, montant: 1251.0, releve: "valide" },
+    // Missions commandées pas encore réalisées : pas de relevé d'heures, mais comptées dans le prévisionnel.
+    { id: "DEM-1043", q: "Chef de rang", chantier: "FLEXI BANQUET", date: "26/09/2026", heures: 48, taux: 15.2, montant: 729.6, releve: "a_venir" },
+    { id: "DEM-1044", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", date: "25/09/2026", heures: 32, taux: 13.8, montant: 441.6, releve: "a_venir" },
+    { id: "DEM-1046", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "28/09/2026", heures: 40, taux: 14.5, montant: 580.0, releve: "a_venir" },
+    { id: "DEM-1047", q: "Commis de cuisine", chantier: "FLEXI SOUS-CHEF", date: "30/09/2026", heures: 24, taux: 16.0, montant: 384.0, releve: "a_venir" }
   ];
 
   function renderDonut(svgId, legendId, totalId, items) {
@@ -525,7 +539,7 @@
   const parseDateFr = s => { const [j, m, a] = s.split('/').map(Number); return new Date(a, m - 1, j); };
   const parseDateIso = s => { const [a, m, j] = s.split('-').map(Number); return new Date(a, m - 1, j); };
   let currentPeriode = ""; // "" = tout le mois, "semaine", "semaine-1" ou "perso"
-  let currentReleve = "";  // "" = tous, "valide" ou "a_valider"
+  let currentReleve = "";  // "" = tous, "valide", "a_valider" ou "a_venir"
 
   // Bornes [du, au] de la période choisie (null = pas de borne). Les semaines vont du lundi au dimanche.
   function periodeBornes() {
@@ -581,18 +595,23 @@
   // Ventilation du mois entier (indépendante des filtres du tableau, comme les donuts).
   function renderVentilation(rows) {
     const sum = list => list.reduce((s, r) => s + r.montant, 0);
-    const valides = rows.filter(r => r.releve === 'valide'), attente = rows.filter(r => r.releve !== 'valide');
-    const total = sum(rows), totalValide = sum(valides);
-    const pct = total > 0 ? Math.round(totalValide / total * 100) : 0;
+    const valides = rows.filter(r => r.releve === 'valide'), attente = rows.filter(r => r.releve === 'a_valider'), avenir = rows.filter(r => r.releve === 'a_venir');
+    const total = sum(rows), totalValide = sum(valides), totalAttente = sum(attente), totalAvenir = sum(avenir);
+    const part = n => total > 0 ? Math.round(n / total * 100) : 0;
+    const pct = part(totalValide), pctAvenir = part(totalAvenir), pctAttente = total > 0 ? 100 - pct - pctAvenir : 0;
     const plural = n => `${n} mission${n > 1 ? 's' : ''}`;
     document.getElementById('venti-total').textContent = fmtEuros(total);
     document.getElementById('venti-total-count').textContent = plural(rows.length);
     document.getElementById('venti-valide').textContent = fmtEuros(totalValide);
     document.getElementById('venti-valide-count').textContent = `${plural(valides.length)} · ${pct} % du prévisionnel`;
-    document.getElementById('venti-attente').textContent = fmtEuros(total - totalValide);
-    document.getElementById('venti-attente-count').textContent = `${plural(attente.length)} · ${total > 0 ? 100 - pct : 0} % du prévisionnel`;
+    document.getElementById('venti-attente').textContent = fmtEuros(totalAttente);
+    document.getElementById('venti-attente-count').textContent = `${plural(attente.length)} · ${pctAttente} % du prévisionnel`;
+    document.getElementById('venti-avenir').textContent = fmtEuros(totalAvenir);
+    document.getElementById('venti-avenir-count').textContent = `${plural(avenir.length)} · ${pctAvenir} % du prévisionnel`;
     document.getElementById('venti-bar').style.width = pct + '%';
-    document.getElementById('venti-bar-wrap').setAttribute('aria-label', `${pct} % des dépenses validées`);
+    document.getElementById('venti-bar-attente').style.width = pctAttente + '%';
+    document.getElementById('venti-bar-avenir').style.width = pctAvenir + '%';
+    document.getElementById('venti-bar-wrap').setAttribute('aria-label', `${pct} % validé, ${pctAttente} % à valider, ${pctAvenir} % à venir`);
   }
 
   function resetFilters() {
@@ -635,6 +654,12 @@
     });
   }
 
+  const RELEVE_BADGES = {
+    valide: `<span class="px-2.5 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-green-100 text-green-700">Validé</span>`,
+    a_valider: `<span class="px-2.5 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-amber-100 text-amber-700">À valider</span>`,
+    a_venir: `<span class="px-2.5 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-sky-100 text-sky-700">À venir</span>`
+  };
+
   function renderTable() {
     let rows = getTableRows();
     rows.sort((a, b) => {
@@ -658,9 +683,7 @@
         <td class="px-4 py-2.5 text-right text-gray-600">${r.heures} h</td>
         <td class="px-4 py-2.5 text-right text-gray-600">${r.taux.toFixed(2)} €</td>
         <td class="px-4 py-2.5 text-right font-bold text-gray-900">${r.montant.toLocaleString('fr-FR')} €</td>
-        <td class="px-4 py-2.5">${r.releve === 'valide'
-          ? `<span class="px-2.5 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-green-100 text-green-700">Validé</span>`
-          : `<span class="px-2.5 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-amber-100 text-amber-700">À valider</span>`}</td>
+        <td class="px-4 py-2.5">${RELEVE_BADGES[r.releve]}</td>
       </tr>`).join('');
   }
 

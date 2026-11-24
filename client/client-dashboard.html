@@ -172,6 +172,25 @@
         </div>
       </div>
 
+      <!-- CONTRATS A SIGNER (rappel Coffreo) -->
+      <div id="signatures-card" class="hidden rounded-xl border border-red-200 bg-red-50/60 shadow-sm p-5">
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
+            </div>
+            <div>
+              <h3 id="signatures-titre" class="text-gray-900 font-bold">Contrats à signer</h3>
+              <p id="signatures-sous" class="text-sm text-gray-600 mt-0.5"></p>
+            </div>
+          </div>
+          <a href="https://www.coffreo.pro" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-lg text-sm font-semibold h-10 px-4 text-white bg-gradient-to-r from-[#A63629] to-[#8B2B1F] shadow-md hover:shadow-lg transition-all">
+            Signer sur Coffreo
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+          </a>
+        </div>
+        <div id="signatures-liste" class="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2.5"></div>
+      </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
@@ -563,7 +582,50 @@
     return { budget: BUDGET[chantier], missions: PLANNING_ROWS.filter(r => !chantier || r.chantier === chantier) };
   }
 
+  // Contrats de mise à disposition en attente de signature sur Coffreo — même règle que l'application mobile :
+  // une mission pourvue sur deux (hors annulation demandée), un contrat par intérimaire, tous chantiers du client
+  // (Coffreo est au niveau du client). À signer sous 2 jours ouvrés après le début de la mission.
+  const SIGNATURES_ETOILE = [
+    { id: "DEM-1021", nom: "Julien Martin", q: "Commis de cuisine", chantier: "FLEXI SOUS-CHEF", date: "19/09/2026" },
+    { id: "DEM-1030", nom: "Anna Pizzol", q: "Réceptionniste", chantier: "FLEXI HOTE/HOTESSE", date: "22/09/2026" },
+    { id: "DEM-1039", nom: "Léa Richard", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", date: "23/09/2026" },
+    { id: "DEM-1039", nom: "Sofia Nguyen", q: "Femme de chambre", chantier: "FLEXI HOUSEKEEPING", date: "23/09/2026" }
+  ];
+  const isoFr = date => date.split('/').reverse().join('-');
+
+  function contratsASigner(sel) {
+    const liste = sel.client === DEMO_HAND_CLIENT ? SIGNATURES_ETOILE
+      : demoRows('demandes', [], demoDemandes, true)
+          .filter(d => ['staffee', 'termine'].includes(d.statut) && (d.interimaires || []).length && !d.annulationDemandee && d.dateISO >= '2026-09-16')
+          .sort((a, b) => a.dateISO.localeCompare(b.dateISO))
+          .filter((d, i) => i % 2 === 0)
+          .flatMap(d => d.interimaires.map(nom => ({ id: d.id, nom, q: d.q, chantier: d.chantier, date: d.date })));
+    // Urgent : mission commencée avant-hier ou plus tôt (« aujourd'hui » de la démo = 23/09/2026).
+    return liste.map(c => ({ ...c, urgent: isoFr(c.date) < '2026-09-22' }));
+  }
+
+  function renderSignatures(sel) {
+    const liste = contratsASigner(sel);
+    document.getElementById('signatures-card').classList.toggle('hidden', !liste.length);
+    if (!liste.length) return;
+    const urgents = liste.filter(c => c.urgent).length;
+    const s = n => n > 1 ? 's' : '';
+    document.getElementById('signatures-titre').textContent = `${liste.length} contrat${s(liste.length)} de mise à disposition à signer`;
+    document.getElementById('signatures-sous').innerHTML = `À signer sur Coffreo sous 2 jours ouvrés après le début de la mission`
+      + (urgents ? ` — <span class="font-semibold text-red-700">dont ${urgents} en retard</span>` : '') + '.';
+    document.getElementById('signatures-liste').innerHTML = liste.map(c => `
+      <div class="flex items-center gap-3 rounded-lg bg-white border ${c.urgent ? 'border-red-200' : 'border-gray-200'} px-3 py-2.5">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#A63629] to-[#8B2B1F] flex items-center justify-center flex-shrink-0"><span class="text-xs font-bold text-white">${initials(c.nom)}</span></div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-gray-900 truncate">${c.nom} · ${c.q}</p>
+          <p class="text-xs text-gray-500 truncate">${c.chantier} · mission du ${c.date.slice(0, 5)} · <a href="client-demande-detail.html?id=${c.id}" class="text-[#A63629] hover:underline">${c.id}</a></p>
+        </div>
+        ${c.urgent ? '<span class="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[11px] font-bold whitespace-nowrap">Urgent</span>' : '<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[11px] font-bold whitespace-nowrap">À signer</span>'}
+      </div>`).join('');
+  }
+
   function renderDashboard(sel) {
+    renderSignatures(sel);
     const data = dashboardData(sel);
     renderDonut(data.budget);
     renderPlanning(data.missions);

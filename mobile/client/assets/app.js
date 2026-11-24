@@ -276,8 +276,9 @@ App.data = {
   },
   // Contrats de mise à disposition en attente de signature sur Coffreo (démo : une mission pourvue sur deux,
   // un contrat par intérimaire). À signer sous 2 jours ouvrés après le début de la mission.
+  // Tous chantiers du client : Coffreo est au niveau du client, la liste ne doit pas dépendre du chantier choisi.
   signatures() {
-    return this.demandes()
+    return this.demandes(true)
       .filter(d => ['staffee', 'termine'].includes(d.statut) && (d.interimaires || []).length && !d.annulationDemandee && d.dateISO >= '2026-09-16')
       .sort((a, b) => a.dateISO.localeCompare(b.dateISO))
       .filter((d, i) => i % 2 === 0)

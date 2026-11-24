@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Demande</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<div id="page" hidden class="px-4 pt-4 pb-10 space-y-3"></div>
+
+<script>
+  const id = App.param('id') || 'DEM-1042';
+  App.mount({ title: 'Demande', subtitle: id, back: 'demandes.html' });
+
+  let brouillon = {};          // notes en cours de saisie, par intérimaire
+  let motifAnnulation = null;
+
+  function load() {
+    const d = App.data.demande(id);
+    const page = document.getElementById('page');
+    if (!d) { page.innerHTML = `<div class="card p-8 text-center text-gray-500">Demande introuvable pour cet établissement.</div>`; return; }
+    document.getElementById('appbar-title').textContent = d.q;
+    const pct = Math.round(d.pourvus / d.capacite * 100);
+    const peutFavori = d.statut === 'staffee' || d.statut === 'termine' || d.statut === 'validee';
+    const lot = d.lot ? App.data.demandes(true).filter(x => x.lot === d.lot) : [];
+    const hoursLeft = (new Date(d.debutISO) - App.NOW) / 3600000;
+    const annulable = d.statut !== 'termine' && d.statut !== 'annulee';
+
+    page.innerHTML = `
+      ${d.annulationDemandee ? `
+      <div class="rounded-2xl bg-orange-50 border border-orange-200 p-3.5 text-[13px] text-orange-900 flex gap-2.5">
+        ${App.ic('info', 'w-5 h-5 flex-shrink-0 text-orange-600')}
+        <p>Demande d'annulation transmise le <strong>${d.annulationDate}</strong>. Réponse garantie sous 24 h — l'intérimaire positionné n'en est pas informé.${d.annulationMotif ? `<br>Motif : <strong>${App.esc(d.annulationMotif)}</strong>${d.annulationPrecision ? ` — ${App.esc(d.annulationPrecision)}` : ''}` : ''}</p>
+      </div>` : ''}
+      ${d.statut === 'annulee' ? `
+      <div class="rounded-2xl bg-red-50 border border-red-200 p-3.5 text-[13px] text-red-800">Demande annulée${d.annulationMotif ? ` — motif : <strong>${App.esc(d.annulationMotif)}</strong>` : ''}.</div>` : ''}
+      ${d.nouvelle ? `
+      <div class="rounded-2xl bg-green-50 border border-green-200 p-3.5 text-[13px] text-green-800 flex gap-2.5">${App.ic('checkCircle', 'w-5 h-5 flex-shrink-0')}<p>Demande transmise à Adaptel depuis l'application. Vous serez notifié dès qu'un intérimaire sera positionné.</p></div>` : ''}
+
+      <!-- EN-TÊTE -->
+      <section class="card p-4">
+        <div class="flex items-start justify-between gap-2">
+          <div class="min-w-0">
+            <h1 class="text-[19px] font-bold text-gray-900 leading-tight">${App.esc(d.q)}</h1>
+            <p class="text-[13px] text-gray-500 mt-0.5">${App.esc(d.chantier)} · ${App.esc(d.lieu || App.sel().client)}</p>
+            ${d.lot ? `<p class="text-[12px] text-gray-500 mt-1">Issue d'une saisie groupée · <strong>${d.lot}</strong></p>` : ''}
+          </div>
+          ${App.badge(d.statut)}
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-3.5">
+          ${[['Date', d.dateFin && d.dateFin !== d.date ? `${d.date} → ${d.dateFin}` : d.date], ['Horaire', d.horaire], ['Taux horaire', `${d.taux.toFixed(2)} €/h`], ['Postes', `${d.pourvus}/${d.capacite}`]].map(([l, v]) => `
+            <div class="bg-gray-50 rounded-xl p-2.5"><p class="label">${l}</p><p class="text-[14px] font-bold text-gray-900 mt-0.5">${v}</p></div>`).join('')}
+        </div>
+        ${(d.souhaites || []).length ? `<div class="mt-2 bg-gray-50 rounded-xl p-2.5"><p class="label">Intérimaire souhaité</p><div class="flex flex-wrap gap-1.5 mt-1">${d.souhaites.map(n => `<span class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-gray-900">${App.avatar(n, 'w-6 h-6', 'text-[9px]')}${App.esc(n)}</span>`).join('')}</div><p class="text-[11.5px] text-gray-500 mt-1">Demande transmise à Adaptel, sous réserve de sa disponibilité.</p></div>` : ''}
+        ${d.motif ? `<div class="mt-2 bg-gray-50 rounded-xl p-2.5"><p class="label">Motif de recours</p><p class="text-[13.5px] font-semibold text-gray-900 mt-0.5">${App.esc(d.motif)}</p>${d.justification ? `<p class="text-[12.5px] text-gray-500 mt-0.5">${App.esc(d.justification)}</p>` : ''}</div>` : ''}
+      </section>
+
+      <!-- STAFFING -->
+      ${d.statut !== 'annulee' ? `
+      <section class="card p-4">
+        <h2 class="font-bold text-gray-900">Progression du staffing</h2>
+        <div class="flex items-center gap-3 mt-2.5">
+          <div class="flex-1 h-2.5 rounded-full bg-gray-100 overflow-hidden"><div class="h-full ${pct === 100 ? 'bg-green-500' : 'bg-amber-400'}" style="width:${pct}%"></div></div>
+          <span class="text-[14px] font-bold">${d.pourvus} / ${d.capacite}</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mt-3 text-center">
+          <div class="rounded-xl bg-amber-50 py-2"><p class="text-[18px] font-bold text-amber-700">${d.enAttente}</p><p class="text-[11px] font-semibold text-amber-700/80">En attente</p></div>
+          <div class="rounded-xl bg-green-50 py-2"><p class="text-[18px] font-bold text-green-700">${d.pourvus}</p><p class="text-[11px] font-semibold text-green-700/80">Validés</p></div>
+          <div class="rounded-xl bg-gray-100 py-2"><p class="text-[18px] font-bold text-gray-600">${d.refuses}</p><p class="text-[11px] font-semibold text-gray-500">Refusés</p></div>
+        </div>
+        <p class="text-[11.5px] text-gray-400 mt-2.5">Compteurs agrégés — l'identité des candidats non retenus n'est jamais communiquée.</p>
+      </section>` : ''}
+
+      <!-- INTÉRIMAIRES -->
+      ${d.statut !== 'annulee' ? `
+      <section class="card p-4">
+        <h2 class="font-bold text-gray-900 mb-2">Intérimaire(s) positionné(s)</h2>
+        ${(d.interimaires || []).length ? `<div class="divide-y divide-gray-100">${d.interimaires.map((nom, i) => {
+          const fav = demoEstFavori(nom);
+          return `<div class="flex items-center gap-3 py-2.5">
+            ${App.avatar(nom, 'w-11 h-11', 'text-sm')}
+            <div class="flex-1 min-w-0"><p class="text-[14.5px] font-bold text-gray-900 truncate">${App.esc(nom)}</p><p class="text-[12px] text-gray-500">${d.horaire}</p></div>
+            ${peutFavori ? `<button onclick="toggleFavori(${i})" class="h-9 px-3 rounded-full text-[12.5px] font-bold flex items-center gap-1.5 ${fav ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'}">${App.ic('star', 'w-4 h-4', fav ? 'fill="currentColor"' : '')}${fav ? 'Favori' : 'Ajouter'}</button>` : ''}
+          </div>`; }).join('')}</div>`
+          : `<p class="text-[13.5px] text-gray-500">Aucun intérimaire positionné pour le moment.</p>`}
+        <p class="text-[11.5px] text-gray-400 mt-2">Coordonnées, statut de validation et note moyenne ne sont jamais communiqués côté client.</p>
+      </section>` : ''}
+
+      <!-- NOTATION -->
+      ${d.statut === 'termine' && (d.interimaires || []).length ? `
+      <section class="card p-4" id="eval">
+        <div class="flex items-center justify-between">
+          <h2 class="font-bold text-gray-900">Noter la mission</h2>
+          <span class="text-[12px] font-bold text-gray-500">${d.interimaires.length - demoANoter(d).length}/${d.interimaires.length} noté${d.interimaires.length > 1 ? 's' : ''}</span>
+        </div>
+        <p class="text-[12.5px] text-gray-500 mt-1">Une note par intérimaire. Facultatif et indépendant de la validation du relevé d'heures.</p>
+        <div class="space-y-3 mt-3" id="eval-list"></div>
+        <p class="text-[11.5px] text-gray-400 mt-3">Une note ≤ 3/5 déclenche une demande d'interdiction de chantier auprès d'Adaptel. Vos notes ne sont jamais visibles par les intérimaires.</p>
+      </section>` : ''}
+
+      <!-- MÊME SAISIE -->
+      ${lot.length > 1 ? `
+      <section class="card p-4">
+        <h2 class="font-bold text-gray-900 mb-1">Demandes de la même saisie</h2>
+        <div class="divide-y divide-gray-100">${lot.map(x => `
+          <a href="demande.html?id=${x.id}" class="flex items-center justify-between py-2.5 ${x.id === d.id ? 'opacity-50 pointer-events-none' : ''}">
+            <span class="text-[13.5px] font-semibold text-gray-800">${x.date} · ${x.horaire}</span>${App.badge(x.statut)}
+          </a>`).join('')}</div>
+      </section>` : ''}
+
+      <!-- ANNULATION -->
+      ${annulable ? `
+      <section class="pt-2 text-center" id="annulation">
+        ${d.annulationDemandee
+          ? `<p class="text-[12.5px] text-gray-400">Une demande d'annulation est déjà en cours de traitement.</p>`
+          : hoursLeft <= 48
+            ? `<div class="card p-4 text-left">
+                <p class="text-[13.5px] font-bold text-gray-800">Besoin de modifier ou d'annuler ?</p>
+                <p class="text-[12.5px] text-gray-500 mt-1">La mission débute dans moins de 48 h : l'annulation en ligne n'est plus possible. Appelez votre interlocuteur Adaptel.</p>
+                <div class="grid grid-cols-2 gap-2 mt-3">
+                  <a href="tel:0671224590" class="btn btn-primary !h-11 !text-[13.5px]">${App.ic('phone', 'w-4 h-4')}06 71 22 45 90</a>
+                  <a href="tel:0153583030" class="btn btn-outline !h-11 !text-[13.5px]">${App.ic('phone', 'w-4 h-4')}Agence</a>
+                </div>
+              </div>`
+            : `<button onclick="ouvrirAnnulation()" class="text-[13px] font-semibold text-gray-500 underline underline-offset-2">Besoin de changer de plan ? Demander l'annulation</button>
+               <p class="text-[11.5px] text-gray-400 mt-1">Retour d'Adaptel sous 24 h. L'intérimaire n'en est pas informé directement.</p>`}
+      </section>` : ''}
+
+      <!-- HISTORIQUE -->
+      <section class="card p-4">
+        <h2 class="font-bold text-gray-900 mb-1">Vos dernières notes</h2>
+        <div id="history" class="divide-y divide-gray-100"></div>
+      </section>`;
+
+    if (d.statut === 'termine' && (d.interimaires || []).length) renderEval(d);
+
+    const hist = App.data.demandes(true).flatMap(x => (x.interimaires || []).filter(n => demoNotes(x)[n]).map(n => ({ ...x, nom: n, note: demoNotes(x)[n] }))).slice(0, 5);
+    document.getElementById('history').innerHTML = hist.length ? hist.map(x => `
+      <div class="flex items-center gap-3 py-2">
+        ${App.avatar(x.nom, 'w-8 h-8', 'text-[10px]')}
+        <div class="flex-1 min-w-0"><p class="text-[13.5px] font-semibold text-gray-900 truncate">${App.esc(x.nom)}</p><p class="text-[11.5px] text-gray-500">${App.esc(x.q)} · ${x.date}</p></div>
+        <span class="flex items-center gap-1 text-[13px] font-bold text-amber-600">${App.ic('star', 'w-4 h-4', 'fill="currentColor"')}${x.note}/5</span>
+      </div>`).join('') : `<p class="text-[13px] text-gray-400 py-2">Aucune note pour le moment.</p>`;
+  }
+
+  function renderEval(d) {
+    const notes = demoNotes(d);
+    const box = document.getElementById('eval-list');
+    box.innerHTML = '';
+    d.interimaires.forEach((nom, i) => {
+      const note = notes[nom];
+      const el = document.createElement('div');
+      el.className = 'rounded-2xl border border-gray-200 p-3';
+      el.innerHTML = `
+        <div class="flex items-center gap-3">
+          ${App.avatar(nom, 'w-10 h-10')}
+          <div class="flex-1 min-w-0"><p class="text-[14px] font-bold text-gray-900 truncate">${App.esc(nom)}</p><p class="text-[11.5px] text-gray-500">${App.esc(d.q)} · ${d.date}</p></div>
+          ${note ? `<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700">Notée</span>` : ''}
+        </div>
+        <div class="stars mt-2.5"></div>
+        ${note ? `<p class="text-[12px] text-gray-500 mt-2">Note de ${note}/5 enregistrée.${note <= 3 ? " Une demande d'interdiction de chantier a été transmise à Adaptel." : ''}</p>` : `
+        <textarea rows="2" class="field mt-2.5 !text-[14px]" id="com-${i}" placeholder="Commentaire sur la mission de ${App.esc(nom.split(' ')[0])} (facultatif)…"></textarea>
+        <p class="hidden text-[12px] font-semibold text-red-600 mt-1.5" id="err-${i}">Choisissez une note de 1 à 5 étoiles.</p>
+        <p class="hidden text-[12px] font-semibold text-orange-700 mt-1.5" id="warn-${i}">Une note ≤ 3 transmettra une demande d'interdiction de chantier.</p>
+        <button onclick="enregistrer(${i})" class="btn btn-primary w-full !h-11 !text-[14px] mt-2.5">Enregistrer la note</button>`}`;
+      const pick = v => { brouillon[nom] = v; draw(); document.getElementById(`err-${i}`)?.classList.add('hidden'); document.getElementById(`warn-${i}`)?.classList.toggle('hidden', v > 3); };
+      const draw = () => el.querySelector('.stars').replaceChildren(App.stars(note || brouillon[nom] || 0, note ? null : pick, 'w-9 h-9'));
+      draw();
+      box.appendChild(el);
+    });
+  }
+
+  function enregistrer(i) {
+    const d = App.data.demande(id);
+    const nom = d.interimaires[i];
+    if (!brouillon[nom]) { document.getElementById(`err-${i}`).classList.remove('hidden'); return; }
+    App.data.majDemande(id, { notes: { ...demoNotes(d), [nom]: brouillon[nom] } });
+    App.toast(`Note de ${brouillon[nom]}/5 enregistrée pour ${nom.split(' ')[0]}`);
+    delete brouillon[nom];
+    load();
+  }
+
+  function toggleFavori(i) {
+    const nom = App.data.demande(id).interimaires[i];
+    const fav = !demoEstFavori(nom);
+    demoSetFavori(nom, fav);
+    App.toast(fav ? `${nom} ajouté(e) à vos favoris` : `${nom} retiré(e) de vos favoris`, fav ? 'ok' : 'info');
+    load();
+  }
+
+  // ---------- Annulation : motif obligatoire, « Autre » impose une précision ----------
+  function ouvrirAnnulation() {
+    motifAnnulation = null;
+    const sh = App.sheet({
+      title: "Demander l'annulation",
+      subtitle: 'Le motif est transmis à Adaptel avec votre demande.',
+      body: `<div class="space-y-2" id="motifs"></div>
+        <textarea id="precision" rows="2" class="field mt-3 !text-[14px]" placeholder="Précisions (facultatif)…"></textarea>`,
+      footer: `<div class="grid grid-cols-2 gap-2">
+        <button onclick="App.closeSheet()" class="btn btn-ghost">Garder</button>
+        <button id="btn-annuler" onclick="envoyerAnnulation()" class="btn btn-primary" disabled>Envoyer</button>
+      </div>`,
+    });
+    const draw = () => {
+      sh.querySelector('#motifs').innerHTML = DEMO_MOTIFS_ANNULATION.map((m, i) => `
+        <button data-i="${i}" class="w-full text-left px-3.5 py-3 rounded-xl border text-[14px] font-semibold flex items-center justify-between ${motifAnnulation === m ? 'border-brand bg-brand/5 text-brand' : 'border-gray-200 text-gray-700'}">${App.esc(m)}${motifAnnulation === m ? App.ic('check', 'w-5 h-5') : ''}</button>`).join('');
+      sh.querySelectorAll('[data-i]').forEach(b => b.onclick = () => { motifAnnulation = DEMO_MOTIFS_ANNULATION[b.dataset.i]; draw(); });
+      sh.querySelector('#precision').placeholder = motifAnnulation === 'Autre' ? 'Précisez le motif (obligatoire)…' : 'Précisions (facultatif)…';
+      gate();
+    };
+    const gate = () => sh.querySelector('#btn-annuler').disabled = !motifAnnulation || (motifAnnulation === 'Autre' && !sh.querySelector('#precision').value.trim());
+    sh.querySelector('#precision').oninput = gate;
+    draw();
+  }
+  function envoyerAnnulation() {
+    App.data.majDemande(id, { annulationDemandee: true, annulationDate: '23/09/2026 09:00', annulationMotif: motifAnnulation, annulationPrecision: document.getElementById('precision').value.trim() });
+    App.closeSheet();
+    App.toast("Demande d'annulation transmise à Adaptel");
+    load();
+    document.getElementById('scroll').scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  load();
+</script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Accueil</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<div id="page" hidden class="px-4 pt-4 pb-28 space-y-4">
+
+  <div>
+    <h1 class="text-[24px] font-bold text-gray-900 leading-tight">Bonjour Thomas</h1>
+    <p class="text-[13.5px] text-gray-500 mt-0.5">Mercredi 23 septembre · <span id="scope"></span></p>
+  </div>
+
+  <!-- À FAIRE : ce qui attend une action du client -->
+  <div id="todo" class="space-y-2"></div>
+
+  <!-- ACTIONS PRINCIPALES -->
+  <div class="grid grid-cols-2 gap-2.5">
+    <a href="nouvelle-demande.html" class="press col-span-2 brand-grad rounded-2xl p-4 text-white flex items-center gap-3 shadow-lg shadow-brand/20">
+      <span class="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center"></span>
+      <span class="flex-1">
+        <span class="block font-bold text-[16px]">Faire une demande</span>
+        <span class="block text-[12.5px] text-white/80">Choisissez les jours, on s'occupe du reste</span>
+      </span>
+      <span data-ic="right"></span>
+    </a>
+    <a href="nouvelle-demande.html?reprise=1" id="btn-reprise" class="press card p-3.5 flex flex-col gap-2">
+      <span class="w-9 h-9 rounded-xl bg-brand/10 text-brand flex items-center justify-center" data-ic="repeat"></span>
+      <span class="text-[13.5px] font-bold text-gray-900 leading-tight">Reprendre la dernière demande</span>
+    </a>
+    <a href="interimaires.html?f=favoris" class="press card p-3.5 flex flex-col gap-2">
+      <span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center" data-ic="star"></span>
+      <span class="text-[13.5px] font-bold text-gray-900 leading-tight">Mes intérimaires favoris</span>
+    </a>
+  </div>
+
+  <!-- DÉPENSES DU MOIS -->
+  <a href="depenses.html" id="depenses-card" class="press card block p-4"></a>
+
+  <!-- PROCHAINES MISSIONS -->
+  <section class="card p-4">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="font-bold text-gray-900">Prochaines missions</h2>
+      <a href="planning.html" class="text-[13px] font-semibold text-brand">Planning</a>
+    </div>
+    <div id="missions" class="divide-y divide-gray-100"></div>
+  </section>
+
+  <!-- INTERLOCUTEUR -->
+  <section class="card p-4">
+    <p class="label mb-2.5">Votre interlocuteur Adaptel</p>
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-12 rounded-full brand-grad text-white font-bold flex items-center justify-center">JC</div>
+      <div class="flex-1 min-w-0">
+        <p class="font-bold text-gray-900">Julien Castex</p>
+        <p class="text-[13px] text-gray-500">Commercial grands comptes</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-2 mt-3.5">
+      <a href="tel:0671224590" class="btn btn-primary !h-11 !text-[14px]"><span data-ic="phone"></span>Appeler</a>
+      <a href="support.html" class="btn btn-outline !h-11 !text-[14px]"><span data-ic="chat"></span>Écrire</a>
+    </div>
+  </section>
+
+  <!-- RACCOURCIS -->
+  <section class="card divide-y divide-gray-100 overflow-hidden">
+    <a href="accident.html" class="row-link flex items-center gap-3 px-4 py-3.5">
+      <span class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center" data-ic="alert"></span>
+      <span class="flex-1"><span class="block text-[14px] font-bold text-gray-900">Déclarer un accident du travail</span><span class="block text-[12px] text-gray-500">À transmettre à Adaptel sous 24 h</span></span>
+      <span class="text-gray-300" data-ic="right"></span>
+    </a>
+    <a href="https://www.coffreo.pro" target="_blank" rel="noopener" class="row-link flex items-center gap-3 px-4 py-3.5">
+      <span class="w-9 h-9 rounded-xl bg-gray-100 text-gray-600 flex items-center justify-center" data-ic="file"></span>
+      <span class="flex-1"><span class="block text-[14px] font-bold text-gray-900">Coffreo</span><span class="block text-[12px] text-gray-500">Contrats et signature électronique</span></span>
+      <span id="coffreo-badge" class="hidden min-w-[20px] h-5 px-1.5 rounded-full bg-red-500 text-white text-[11px] font-bold flex items-center justify-center"></span>
+      <span class="text-gray-300" data-ic="external"></span>
+    </a>
+  </section>
+</div>
+
+<script>
+  App.mount({ tab: 'accueil' });
+  document.querySelectorAll('[data-ic]').forEach(el => el.innerHTML = App.ic(el.dataset.ic, el.closest('.brand-grad') && !el.closest('.btn') ? 'w-6 h-6' : 'w-[18px] h-[18px]'));
+  document.querySelector('.brand-grad .w-11').innerHTML = App.ic('plus', 'w-6 h-6');
+
+  const JOURS_SEMAINE = ["Lun. 21/09", "Mar. 22/09", "Aujourd'hui", "Demain", "Ven. 25/09", "Sam. 26/09", "Dim. 27/09"];
+
+  function render() {
+    const sel = App.sel();
+    document.getElementById('scope').textContent = sel.chantier || sel.client;
+
+    // ---- À faire ----
+    const releves = App.data.releves().filter(r => r.statut === 'a_valider');
+    const demandes = App.data.demandes();
+    const aNoter = demandes.filter(d => demoANoter(d).length);
+    const enRecherche = demandes.filter(d => d.statut === 'encours');
+    const todo = [];
+    const signatures = App.data.signatures();
+    if (signatures.length) {
+      const urgents = signatures.filter(c => c.urgent).length;
+      todo.push({ onclick: 'ouvrirSignatures()', icon: 'pencil', cls: 'bg-red-50 text-red-600', titre: `${App.plural(signatures.length, 'contrat')} à signer`, sous: urgents ? `Dont ${App.plural(urgents, 'urgent')} · signature sur Coffreo` : 'Signature électronique sur Coffreo', alerte: urgents > 0 });
+    }
+    if (releves.length) todo.push({ href: 'releves.html', icon: 'clock', cls: 'bg-amber-50 text-amber-600', titre: `${App.plural(releves.length, 'relevé')} d'heures à valider`, sous: 'Validez pour mettre à jour votre prévisionnel' });
+    if (aNoter.length) todo.push({ href: 'demandes.html?f=termine&eval=non', icon: 'star', cls: 'bg-amber-50 text-amber-500', titre: `${App.plural(aNoter.length, 'mission')} à noter`, sous: 'Votre avis aide Adaptel à mieux vous servir' });
+    if (enRecherche.length) todo.push({ href: 'demandes.html?f=encours', icon: 'search', cls: 'bg-blue-50 text-blue-600', titre: `${App.plural(enRecherche.length, 'demande')} en recherche`, sous: 'Adaptel recherche vos intérimaires' });
+    document.getElementById('todo').innerHTML = todo.map(t => `
+      <a ${t.href ? `href="${t.href}"` : `href="#" onclick="${t.onclick}; return false"`} class="press card flex items-center gap-3 px-3.5 py-3 ${t.alerte ? '!border-red-200' : ''}">
+        <span class="w-10 h-10 rounded-xl ${t.cls} flex items-center justify-center flex-shrink-0">${App.ic(t.icon, 'w-5 h-5')}</span>
+        <span class="flex-1 min-w-0"><span class="block text-[14.5px] font-bold text-gray-900">${t.titre}</span><span class="block text-[12px] ${t.alerte ? 'text-red-600 font-semibold' : 'text-gray-500'} truncate">${t.sous}</span></span>
+        ${App.ic('right', 'w-5 h-5 text-gray-300')}
+      </a>`).join('');
+
+    const nbSig = document.getElementById('coffreo-badge');
+    nbSig.textContent = signatures.length;
+    nbSig.classList.toggle('hidden', !signatures.length);
+
+    // ---- Dépenses ----
+    const card = document.getElementById('depenses-card');
+    if (!App.isPriv()) {
+      card.removeAttribute('href');
+      card.innerHTML = `
+        <div class="flex items-center gap-3 text-gray-400">
+          ${App.ic('lock', 'w-6 h-6')}
+          <div><p class="text-[14px] font-bold text-gray-500">Dépenses prévisionnelles</p><p class="text-[12px]">Réservé aux rôles Manager et Admin</p></div>
+        </div>`;
+    } else {
+      const rows = App.data.depenses();
+      const sum = f => rows.filter(f).reduce((s, r) => s + r.montant, 0);
+      const total = sum(() => true), v = sum(r => r.releve === 'valide'), a = sum(r => r.releve === 'a_valider'), f = sum(r => r.releve === 'a_venir');
+      const pct = n => total ? (n / total * 100) : 0;
+      card.innerHTML = `
+        <div class="flex items-center justify-between">
+          <p class="label">Dépenses prévisionnelles · Septembre</p>
+          ${App.ic('right', 'w-5 h-5 text-gray-300')}
+        </div>
+        <p class="text-[28px] font-bold text-gray-900 mt-1 leading-none">${App.euros(total)}</p>
+        <div class="flex h-2.5 rounded-full overflow-hidden bg-gray-100 mt-3">
+          <div style="width:${pct(v)}%;background:${App.RELEVE.valide.bar}"></div>
+          <div style="width:${pct(a)}%;background:${App.RELEVE.a_valider.bar}"></div>
+          <div style="width:${pct(f)}%;background:${App.RELEVE.a_venir.bar}"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mt-3 text-[11.5px]">
+          ${[['Validé', v, 'valide'], ['À valider', a, 'a_valider'], ['À venir', f, 'a_venir']].map(([l, n, k]) => `
+            <div><p class="flex items-center gap-1.5 text-gray-500"><span class="w-2 h-2 rounded-full" style="background:${App.RELEVE[k].bar}"></span>${l}</p><p class="font-bold text-gray-900 text-[13.5px] mt-0.5">${App.euros(n)}</p></div>`).join('')}
+        </div>`;
+    }
+
+    // ---- Prochaines missions ----
+    const missions = App.data.planning()
+      .flatMap(l => l.missions.filter(m => m.day >= 2).map(m => ({ ...m, chantier: l.chantier })))
+      .sort((a, b) => a.day - b.day).slice(0, 5);
+    document.getElementById('missions').innerHTML = missions.length ? missions.map(m => `
+      <a href="planning.html?day=${m.day}" class="flex items-center gap-3 py-2.5">
+        ${App.avatar(m.nom, 'w-10 h-10')}
+        <div class="flex-1 min-w-0">
+          <p class="text-[14px] font-bold text-gray-900 truncate">${m.nom === '—' ? '<span class="text-amber-700">À pourvoir</span>' : App.esc(m.nom)} <span class="font-medium text-gray-500">· ${m.horaire}</span></p>
+          <p class="text-[12px] text-gray-500 truncate">${App.esc(m.q)} · ${App.esc(m.chantier)}</p>
+        </div>
+        <span class="text-[11.5px] font-bold ${m.day === 2 ? 'text-brand' : 'text-gray-500'} whitespace-nowrap">${JOURS_SEMAINE[m.day]}</span>
+      </a>`).join('') : `<p class="text-sm text-gray-400 py-6 text-center">Aucune mission à venir.</p>`;
+  }
+
+  // Contrats à signer : la signature se fait sur Coffreo (pas dans l'application).
+  function ouvrirSignatures() {
+    const liste = App.data.signatures();
+    App.sheet({
+      title: 'Contrats à signer',
+      subtitle: `${App.plural(liste.length, 'contrat')} de mise à disposition · Coffreo`,
+      body: `
+        <p class="text-[12.5px] text-gray-600 mb-3">Les contrats doivent être signés au plus tard <strong>2 jours ouvrés</strong> après le début de la mission.</p>
+        <div class="card divide-y divide-gray-100 overflow-hidden">
+          ${liste.map(c => `
+            <div class="flex items-center gap-3 px-3 py-2.5">
+              ${App.avatar(c.nom, 'w-10 h-10')}
+              <div class="flex-1 min-w-0">
+                <p class="text-[14px] font-bold text-gray-900 truncate">${App.esc(c.nom)}</p>
+                <p class="text-[12px] text-gray-500 truncate">${App.esc(c.q)} · ${App.esc(c.chantier)} · ${c.date.slice(0, 5)}</p>
+              </div>
+              ${c.urgent ? '<span class="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[11px] font-bold whitespace-nowrap">Urgent</span>' : '<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[11px] font-bold whitespace-nowrap">À signer</span>'}
+            </div>`).join('')}
+        </div>`,
+      footer: `<a href="https://www.coffreo.pro" target="_blank" rel="noopener" onclick="App.closeSheet()" class="btn btn-primary w-full">${App.ic('external', 'w-5 h-5')}Signer sur Coffreo</a>`,
+    });
+  }
+
+  document.addEventListener('etab-change', render);
+  render();
+</script>
+</body>
+</html>

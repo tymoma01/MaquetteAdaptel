@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Support</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<!-- Messagerie : reprise du chat flottant de l'espace web (choix du service, réponse sous 2 h), en plein écran. -->
+<div id="page" hidden class="min-h-full flex flex-col">
+  <div id="messages" class="flex-1 px-4 pt-4 pb-4 space-y-3 text-[14px]"></div>
+  <div class="sticky bottom-0 bg-white border-t border-gray-100 px-3 pt-2.5 pb-5 flex items-center gap-2">
+    <input id="input" type="text" placeholder="Choisissez un service pour commencer…" disabled class="field flex-1 !h-11 !rounded-full disabled:bg-gray-100" onkeydown="if(event.key==='Enter') envoyer()">
+    <button id="send" onclick="envoyer()" disabled class="w-11 h-11 rounded-full brand-grad text-white flex items-center justify-center flex-shrink-0 disabled:opacity-40" aria-label="Envoyer"></button>
+  </div>
+</div>
+
+<script>
+  App.mount({ title: 'Support Adaptel', subtitle: 'Réponse garantie sous 2 h', back: 'index.html',
+    right: `<a href="tel:0671224590" class="w-10 h-10 rounded-full flex items-center justify-center text-brand active:bg-gray-100" aria-label="Appeler">${App.ic('phone', 'w-5 h-5')}</a>` });
+  document.getElementById('send').innerHTML = App.ic('send', 'w-5 h-5');
+
+  const SERVICES = {
+    commercial: { label: 'Service commercial', icon: 'briefcase', reply: 'Merci, votre message a bien été transmis au service commercial. Un conseiller vous répond sous 2 h.' },
+    administratif: { label: 'Service administratif', icon: 'file', reply: 'Merci, votre message a bien été transmis au service administratif. Un conseiller vous répond sous 2 h.' },
+  };
+  let service = null;
+  const box = document.getElementById('messages');
+
+  function bulle(texte, de) {
+    const w = document.createElement('div');
+    w.className = de === 'user' ? 'flex justify-end' : 'flex justify-start';
+    w.innerHTML = `<div class="${de === 'user' ? 'brand-grad text-white rounded-2xl rounded-br-md' : 'bg-white border border-gray-200 rounded-2xl rounded-bl-md'} px-3.5 py-2.5 max-w-[82%] shadow-sm">${App.esc(texte)}</div>`;
+    box.appendChild(w);
+    document.getElementById('scroll').scrollTo({ top: 1e6, behavior: 'smooth' });
+  }
+  function choixService() {
+    const w = document.createElement('div');
+    w.id = 'picker';
+    w.className = 'bg-white border border-gray-200 rounded-2xl rounded-bl-md p-3 max-w-[88%] shadow-sm space-y-2';
+    w.innerHTML = `<p class="text-gray-700">Avec qui souhaitez-vous échanger ?</p>` + Object.entries(SERVICES).map(([k, s]) =>
+      `<button onclick="choisir('${k}')" class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border border-gray-200 text-left font-semibold text-gray-800 active:bg-brand/5">${App.ic(s.icon, 'w-4 h-4 text-brand')}${s.label}</button>`).join('');
+    box.appendChild(w);
+  }
+  function choisir(k) {
+    service = k;
+    document.getElementById('picker')?.remove();
+    bulle(`Vous échangez maintenant avec le ${SERVICES[k].label.toLowerCase()}. Posez votre question.`, 'bot');
+    document.getElementById('appbar-sub').innerHTML = `${SERVICES[k].label} · <button onclick="changer()" class="underline">changer</button>`;
+    const input = document.getElementById('input');
+    input.disabled = false; input.placeholder = 'Écrire un message…';
+    document.getElementById('send').disabled = false;
+    input.focus();
+  }
+  function changer() {
+    service = null;
+    document.getElementById('appbar-sub').textContent = 'Réponse garantie sous 2 h';
+    document.getElementById('input').disabled = true;
+    document.getElementById('send').disabled = true;
+    choixService();
+  }
+  function envoyer() {
+    const input = document.getElementById('input');
+    const t = input.value.trim();
+    if (!t || !service) return;
+    bulle(t, 'user');
+    input.value = '';
+    setTimeout(() => bulle(SERVICES[service].reply, 'bot'), 600);
+  }
+
+  bulle("Bonjour Thomas 👋 Une question sur une demande, un relevé d'heures ou une facture ? Les équipes Adaptel vous répondent ici.", 'bot');
+  choixService();
+</script>
+</body>
+</html>

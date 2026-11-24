@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Intérimaires</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<div id="page" hidden class="pb-10">
+  <div class="bg-white border-b border-gray-100 sticky top-0 z-[3] pt-3 pb-3">
+    <div class="px-4 flex gap-2">
+      <div class="relative flex-1">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" id="ic-search"></span>
+        <input id="search" type="search" autocomplete="off" oninput="render()" placeholder="Nom ou prénom…" class="field pl-9 !h-10 !text-[14px]">
+      </div>
+    </div>
+    <div class="hscroll px-4 mt-2.5" id="tabs"></div>
+    <!-- Jour de mission : les 14 derniers jours, un point quand au moins un intérimaire a travaillé -->
+    <div class="hscroll px-4 mt-2.5" id="days"></div>
+  </div>
+  <div class="px-4 pt-3">
+    <p class="text-[11.5px] text-gray-500 bg-gray-100 rounded-xl px-3 py-2 flex gap-2"><span id="ic-info" class="flex-shrink-0"></span>Marquer un favori aide Adaptel à prioriser vos demandes, sans affectation automatique ni contact direct.</p>
+    <p id="count" class="text-[12px] text-gray-500 mt-3 mb-2 px-1"></p>
+    <div id="list" class="space-y-2.5"></div>
+  </div>
+</div>
+
+<script>
+  App.mount({ title: 'Intérimaires', subtitle: 'Ayant travaillé chez vous ces 2 dernières semaines', back: 'menu.html' });
+  document.getElementById('ic-search').innerHTML = App.ic('search', 'w-4 h-4');
+  document.getElementById('ic-info').innerHTML = App.ic('info', 'w-4 h-4');
+
+  let onglet = App.param('f') === 'favoris' ? 'favoris' : 'recents';
+  let jour = null;
+  const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+  function render() {
+    const all = App.data.interimaires();
+    document.getElementById('tabs').innerHTML = [['recents', 'Récents (2 sem.)', all.length], ['favoris', 'Favoris', all.filter(i => i.favori).length]].map(([k, l, n]) =>
+      `<button onclick="onglet='${k}'; render()" class="chip ${onglet === k ? 'active' : ''}">${k === 'favoris' ? App.ic('star', 'w-3.5 h-3.5', 'fill="currentColor"') : ''}${l}<span class="count">${n}</span></button>`).join('');
+
+    const avecMission = new Set(all.flatMap(p => p.missions.map(m => m.date)));
+    document.getElementById('days').innerHTML = `<button onclick="setJour(null)" class="chip !h-[52px] !rounded-2xl !px-3 flex-col !gap-0 ${!jour ? 'active' : ''}"><span class="text-[11px]">Tous</span><span class="text-[13px] font-bold">14 j</span></button>` +
+      Array.from({ length: 14 }, (_, i) => App.addDays(App.TODAY, -i)).map(d => {
+        const k = App.fmtFr(d);
+        return `<button onclick="setJour('${k}')" class="chip !h-[52px] !rounded-2xl !px-0 w-11 flex-col !gap-0 flex-shrink-0 ${jour === k ? 'active' : ''} ${avecMission.has(k) ? '' : 'opacity-40'}">
+          <span class="text-[10.5px] font-semibold">${App.JOURS[d.getDay()].slice(0, 2)}</span><span class="text-[15px] font-bold leading-none">${d.getDate()}</span>
+          <span class="w-1 h-1 rounded-full mt-0.5 ${avecMission.has(k) ? (jour === k ? 'bg-white' : 'bg-brand') : ''}"></span>
+        </button>`;
+      }).join('');
+
+    const q = norm(document.getElementById('search').value.trim());
+    const rows = (onglet === 'favoris' ? all.filter(i => i.favori) : all)
+      .filter(i => q.split(/\s+/).every(m => norm(i.nom).includes(m)))
+      .filter(i => !jour || i.missions.some(m => m.date === jour))
+      .sort((a, b) => App.parseFr(b.derniere) - App.parseFr(a.derniere));
+    document.getElementById('count').textContent = `${App.plural(rows.length, 'intérimaire')} · du plus récent au plus ancien${jour ? ` · ${App.jourLong(App.parseFr(jour))}` : ''}`;
+    window._rows = rows;
+    document.getElementById('list').innerHTML = rows.length ? rows.map((p, i) => {
+      const top = p.missions.slice(0, 3);
+      const affichees = !jour || top.some(m => m.date === jour) ? top : [...top.slice(0, 2), p.missions.find(m => m.date === jour)];
+      return `
+      <div class="card p-3.5">
+        <div class="flex items-center gap-3">
+          ${App.avatar(p.nom, 'w-12 h-12', 'text-sm')}
+          <div class="flex-1 min-w-0">
+            <p class="text-[15px] font-bold text-gray-900 truncate">${App.esc(p.nom)}</p>
+            <p class="text-[12px] text-gray-500 truncate">${p.quals.slice(0, 2).map(App.esc).join(', ')}${p.quals.length > 2 ? ` +${p.quals.length - 2}` : ''}</p>
+            ${p.enMission ? `<p class="text-[11px] font-bold text-green-700 flex items-center gap-1 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>En mission actuellement</p>` : ''}
+          </div>
+          <button onclick="toggleFavori(${i})" class="w-11 h-11 rounded-full flex items-center justify-center ${p.favori ? 'bg-amber-50 text-amber-400' : 'bg-gray-50 text-gray-300'}" aria-pressed="${p.favori}" aria-label="Favori">${App.ic('star', 'w-6 h-6', 'fill="currentColor"')}</button>
+        </div>
+        <div class="mt-2.5 pt-2.5 border-t border-gray-100">
+          <p class="label mb-1">${p.missions.length > 1 ? 'Dernières missions' : 'Dernière mission'}</p>
+          ${affichees.map(m => `<p class="text-[12.5px] text-gray-700 flex gap-2 py-0.5 ${m.date === jour ? 'font-bold text-brand' : ''}"><span class="w-11 font-semibold text-gray-500 flex-shrink-0">${m.date.slice(0, 5)}</span><span class="truncate">${App.esc(m.chantier)} <span class="text-gray-400">· ${App.esc(m.q)}</span></span></p>`).join('')}
+        </div>
+      </div>`;
+    }).join('') : `<div class="card p-8 text-center text-[13.5px] text-gray-400">Aucun intérimaire pour ces filtres.</div>`;
+  }
+  function setJour(k) { jour = k; render(); }
+  function toggleFavori(i) {
+    const p = window._rows[i];
+    demoSetFavori(p.nom, !p.favori);
+    App.toast(!p.favori ? `${p.nom} ajouté(e) aux favoris` : `${p.nom} retiré(e) des favoris`, !p.favori ? 'ok' : 'info');
+    render();
+  }
+  document.addEventListener('etab-change', render);
+  render();
+</script>
+</body>
+</html>

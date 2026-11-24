@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Relevés d'heures</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<div id="page" hidden class="pb-28">
+  <div class="bg-white border-b border-gray-100 sticky top-0 z-[3] pt-3 pb-3">
+    <div class="px-4 flex items-end justify-between gap-2">
+      <div>
+        <h1 class="text-[22px] font-bold text-gray-900 leading-tight">Relevés d'heures</h1>
+        <p class="text-[12.5px] text-gray-500">Validez les heures de vos missions terminées</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 px-4 mt-3">
+      <div class="hscroll flex-1" id="tabs"></div>
+      <button onclick="ouvrirFiltres()" id="btn-filtres" class="relative w-[34px] h-[34px] rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-600 flex-shrink-0"></button>
+    </div>
+  </div>
+  <div id="list" class="px-4 pt-3 space-y-2.5"></div>
+  <div class="px-4 pt-4">
+    <button onclick="exporter()" class="w-full text-[13px] font-semibold text-gray-500 flex items-center justify-center gap-1.5 py-2" id="btn-export"></button>
+  </div>
+</div>
+
+<script>
+  App.mount({ tab: 'releves' });
+  document.getElementById('btn-filtres').innerHTML = App.ic('filter', 'w-4 h-4');
+  document.getElementById('btn-export').innerHTML = `${App.ic('download', 'w-4 h-4')}Recevoir l'export par e-mail`;
+
+  let statut = 'a_valider';
+  let filtres = { periode: '', nom: '', q: '' };
+  let selection = new Set();       // relevés cochés pour la validation groupée (cases toujours visibles)
+  let barre = null;
+
+  function getRows() {
+    const lundi = App.addDays(App.TODAY, -((App.TODAY.getDay() + 6) % 7));
+    return App.data.releves().filter(r => {
+      const d = App.parseFr(r.date);
+      return (!statut || r.statut === statut)
+        && (!filtres.nom || r.nom === filtres.nom)
+        && (!filtres.q || r.q === filtres.q)
+        && (filtres.periode !== 'semaine' || d >= lundi)
+        && (filtres.periode !== 'mois' || d.getMonth() === App.TODAY.getMonth());
+    });
+  }
+
+  function render() {
+    const all = App.data.releves();
+    document.getElementById('tabs').innerHTML = [['a_valider', 'À valider'], ['valide', 'Validés'], ['', 'Tous']].map(([k, l]) =>
+      `<button onclick="setStatut('${k}')" class="chip ${statut === k ? 'active' : ''}">${l}<span class="count">${all.filter(r => !k || r.statut === k).length}</span></button>`).join('');
+    const nbFiltres = Object.values(filtres).filter(Boolean).length;
+    document.getElementById('btn-filtres').innerHTML = App.ic('filter', 'w-4 h-4') + (nbFiltres ? `<span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-brand text-white text-[9.5px] font-bold flex items-center justify-center">${nbFiltres}</span>` : '');
+
+    const rows = getRows();
+    const selectables = rows.filter(r => r.statut === 'a_valider');
+    const cles = new Set(selectables.map(r => r.key));
+    selection.forEach(k => { if (!cles.has(k)) selection.delete(k); });
+
+    document.getElementById('list').innerHTML = (selectables.length > 1 ? `
+      <label class="flex items-center gap-3 px-1 pb-1 text-[13px] font-semibold text-gray-700">
+        <input type="checkbox" class="check" ${selection.size === selectables.length ? 'checked' : ''} onchange="toutSelectionner(this.checked)">Tout sélectionner (${selectables.length})
+      </label>` : '') + (rows.length ? rows.map(carte).join('') : `
+      <div class="card p-8 text-center">
+        <div class="w-14 h-14 rounded-full bg-green-50 text-green-600 flex items-center justify-center mx-auto">${App.ic('checkCircle', 'w-7 h-7')}</div>
+        <p class="font-bold text-gray-800 mt-3">${statut === 'a_valider' ? 'Tout est à jour' : 'Aucun relevé'}</p>
+        <p class="text-[13px] text-gray-500 mt-1">${statut === 'a_valider' ? 'Aucun relevé n\'attend votre validation.' : 'Aucun relevé pour ces filtres.'}</p>
+      </div>`);
+    renderBarre();
+    App.renderTabbar();
+  }
+
+  function carte(r) {
+    const duree = App.dureeMin(r.debut, r.fin, r.pause);
+    const prevuMin = (() => { const m = r.prevu.match(/(\d+)h(\d+)/); return m ? Number(m[1]) * 60 + Number(m[2]) : null; })();
+    const ecart = prevuMin !== null ? duree - prevuMin : 0;
+    const aValider = r.statut === 'a_valider';
+    const coche = selection.has(r.key);
+    return `
+    <div class="card overflow-hidden ${coche ? '!border-brand ring-1 ring-brand' : ''}">
+      <div class="flex items-start gap-3 p-3.5" ${aValider ? `onclick="cocher('${App.js(r.key)}')"` : ''}>
+        ${aValider ? `<input type="checkbox" class="check mt-2" ${coche ? 'checked' : ''} aria-label="Sélectionner" onclick="event.stopPropagation(); cocher('${App.js(r.key)}')">` : ''}
+        ${App.avatar(r.nom, 'w-10 h-10')}
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-2">
+            <div class="min-w-0"><p class="text-[14.5px] font-bold text-gray-900 truncate">${App.esc(r.nom)}</p><p class="text-[12px] text-gray-500 truncate">${App.esc(r.q)} · ${App.esc(r.chantier)}</p></div>
+            ${App.releveBadge(r.statut)}
+          </div>
+          <p class="text-[12.5px] font-semibold text-gray-600 mt-1.5">${App.jourLong(App.parseFr(r.date))}</p>
+          <div class="grid grid-cols-3 gap-1.5 mt-2">
+            <div class="bg-gray-50 rounded-lg px-2 py-1.5"><p class="text-[10px] font-bold uppercase text-gray-400">Horaires</p><p class="text-[13px] font-bold text-gray-900">${r.debut.replace(':', 'h')}–${r.fin.replace(':', 'h')}</p></div>
+            <div class="bg-gray-50 rounded-lg px-2 py-1.5"><p class="text-[10px] font-bold uppercase text-gray-400">Pause</p><p class="text-[13px] font-bold text-gray-900">${r.pause} min</p></div>
+            <div class="bg-gray-50 rounded-lg px-2 py-1.5"><p class="text-[10px] font-bold uppercase text-gray-400">Durée</p><p class="text-[13px] font-bold text-gray-900">${App.fmtDuree(duree)}</p></div>
+          </div>
+          <p class="text-[11.5px] mt-1.5 ${Math.abs(ecart) >= 15 ? 'text-orange-700 font-semibold' : 'text-gray-500'}">
+            Prévu ${r.prevu}${ecart ? ` · ${ecart > 0 ? '+' : '−'}${App.fmtDuree(Math.abs(ecart))}` : ' · conforme'}
+            ${r.modifie ? ` · <span class="text-indigo-700 font-bold">Modifié par vous</span>` : ''}
+          </p>
+        </div>
+      </div>
+      ${aValider ? `
+      <div class="grid grid-cols-2 border-t border-gray-100">
+        <button onclick="modifier('${App.js(r.key)}')" class="h-11 text-[13.5px] font-bold text-gray-700 flex items-center justify-center gap-1.5 active:bg-gray-50">${App.ic('pencil', 'w-4 h-4')}Modifier</button>
+        <button onclick="valider(['${App.js(r.key)}'])" class="h-11 text-[13.5px] font-bold text-green-700 flex items-center justify-center gap-1.5 border-l border-gray-100 active:bg-green-50">${App.ic('check', 'w-4 h-4')}Valider</button>
+      </div>` : ''}
+    </div>`;
+  }
+
+  // ---------- Validation ----------
+  function valider(keys) {
+    keys.forEach(k => App.data.majReleve(k, { statut: 'valide' }));
+    App.toast(keys.length > 1 ? `${keys.length} relevés validés` : 'Relevé validé');
+    keys.forEach(k => selection.delete(k));
+    render();
+  }
+
+  // ---------- Sélection (validation groupée) ----------
+  function cocher(k) { selection.has(k) ? selection.delete(k) : selection.add(k); render(); }
+  function toutSelectionner(on) { selection = new Set(on ? getRows().filter(r => r.statut === 'a_valider').map(r => r.key) : []); render(); }
+  function renderBarre() {
+    if (barre) { barre.remove(); barre = null; }
+    if (!selection.size) return;
+    barre = document.createElement('div');
+    barre.className = 'absolute left-3 right-3 z-10 rounded-2xl bg-gray-900 text-white p-2 pl-4 flex items-center gap-3 shadow-2xl';
+    barre.style.bottom = document.getElementById('tabbar').offsetHeight + 12 + 'px';
+    barre.innerHTML = `<button onclick="selection.clear(); render()" class="w-8 h-8 -ml-2 rounded-full flex items-center justify-center text-gray-400 active:bg-white/10" aria-label="Tout désélectionner">${App.ic('x', 'w-4 h-4')}</button>
+      <span class="flex-1 text-[14px] font-bold -ml-1">${App.plural(selection.size, 'relevé')} sélectionné${selection.size > 1 ? 's' : ''}</span>
+      <button onclick="valider([...selection])" class="h-10 px-4 rounded-xl bg-green-500 disabled:opacity-40 text-[14px] font-bold flex items-center gap-1.5">${App.ic('check', 'w-4 h-4')}Valider</button>`;
+    document.getElementById('phone').appendChild(barre);
+  }
+
+  // ---------- Modification ----------
+  function modifier(key) {
+    const r = App.data.releves().find(x => x.key === key);
+    const sh = App.sheet({
+      title: 'Modifier le relevé',
+      subtitle: `${App.esc(r.nom)} · ${App.esc(r.q)} · ${r.date}`,
+      body: `
+        <div class="grid grid-cols-3 gap-2">
+          <label class="block"><span class="label">Début</span><input id="e-debut" type="time" class="field mt-1 !px-2" value="${r.debut}"></label>
+          <label class="block"><span class="label">Fin</span><input id="e-fin" type="time" class="field mt-1 !px-2" value="${r.fin}"></label>
+          <label class="block"><span class="label">Pause (min)</span><input id="e-pause" type="number" inputmode="numeric" min="0" max="240" step="5" class="field mt-1 !px-2" value="${r.pause}"></label>
+        </div>
+        <div class="flex items-center justify-between bg-gray-50 rounded-xl px-3.5 py-3 mt-3">
+          <span class="text-[13.5px] text-gray-600">Heures travaillées <span class="text-gray-400">(prévu ${r.prevu})</span></span>
+          <span id="e-duree" class="text-[18px] font-bold text-gray-900"></span>
+        </div>
+        <label class="block mt-3"><span class="label">Motif de la modification</span>
+          <textarea id="e-motif" rows="2" class="field mt-1 !text-[14px]" placeholder="Ex. départ anticipé, pause prolongée…">${App.esc(r.motif || '')}</textarea></label>
+        <p id="e-err" class="hidden text-[12.5px] font-semibold text-red-600 mt-2"></p>`,
+      footer: `<div class="grid grid-cols-2 gap-2">
+        <button onclick="enregistrer('${App.js(key)}', false)" class="btn btn-outline">Enregistrer</button>
+        <button onclick="enregistrer('${App.js(key)}', true)" class="btn btn-primary">Enregistrer et valider</button>
+      </div>`,
+    });
+    const maj = () => { const f = lire(); sh.querySelector('#e-duree').textContent = f.error ? '—' : App.fmtDuree(f.duree); };
+    sh.querySelectorAll('input').forEach(i => i.oninput = maj);
+    maj();
+  }
+  function lire() {
+    const debut = document.getElementById('e-debut').value, fin = document.getElementById('e-fin').value;
+    const pause = Number(document.getElementById('e-pause').value) || 0;
+    if (!debut || !fin) return { error: "Renseignez l'heure de début et de fin." };
+    const duree = App.dureeMin(debut, fin, pause);
+    if (pause < 0 || duree <= 0) return { error: 'La pause dépasse la durée de la vacation.' };
+    return { debut, fin, pause, duree };
+  }
+  function enregistrer(key, etValider) {
+    const f = lire();
+    if (f.error) { const e = document.getElementById('e-err'); e.textContent = f.error; e.classList.remove('hidden'); return; }
+    const r = App.data.releves().find(x => x.key === key);
+    const modifie = r.modifie || r.debut !== f.debut || r.fin !== f.fin || r.pause !== f.pause;
+    App.data.majReleve(key, { debut: f.debut, fin: f.fin, pause: f.pause, modifie, motif: document.getElementById('e-motif').value.trim(), ...(etValider ? { statut: 'valide' } : {}) });
+    App.closeSheet();
+    App.toast(etValider ? 'Relevé modifié et validé' : 'Relevé modifié');
+    render();
+  }
+
+  // ---------- Filtres ----------
+  function ouvrirFiltres() {
+    const all = App.data.releves();
+    const opts = (champ, cur) => [...new Set(all.map(r => r[champ]))].sort().map(v => `<option ${v === cur ? 'selected' : ''}>${App.esc(v)}</option>`).join('');
+    const sh = App.sheet({
+      title: 'Filtrer les relevés',
+      body: `
+        <p class="label mb-1.5">Période</p>
+        <div class="flex gap-2 mb-4" id="f-per">${[['', 'Toutes'], ['semaine', 'Cette semaine'], ['mois', 'Ce mois-ci']].map(([k, l]) => `<button data-p="${k}" class="chip ${filtres.periode === k ? 'active' : ''}">${l}</button>`).join('')}</div>
+        <label class="block mb-3"><span class="label">Intérimaire</span><select id="f-nom" class="field mt-1"><option value="">Tous</option>${opts('nom', filtres.nom)}</select></label>
+        <label class="block"><span class="label">Qualification</span><select id="f-q" class="field mt-1"><option value="">Toutes</option>${opts('q', filtres.q)}</select></label>`,
+      footer: `<div class="grid grid-cols-2 gap-2"><button id="f-reset" class="btn btn-ghost">Effacer</button><button id="f-ok" class="btn btn-primary">Appliquer</button></div>`,
+    });
+    let per = filtres.periode;
+    sh.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { per = b.dataset.p; sh.querySelectorAll('[data-p]').forEach(x => x.classList.toggle('active', x === b)); });
+    sh.querySelector('#f-reset').onclick = () => { filtres = { periode: '', nom: '', q: '' }; App.closeSheet(); render(); };
+    sh.querySelector('#f-ok').onclick = () => { filtres = { periode: per, nom: sh.querySelector('#f-nom').value, q: sh.querySelector('#f-q').value }; App.closeSheet(); render(); };
+  }
+
+  function exporter() { App.toast(`Export envoyé à ${App.USER.email}`); }
+  function setStatut(k) { statut = k; render(); }
+  document.addEventListener('etab-change', () => { selection.clear(); render(); });
+  render();
+</script>
+</body>
+</html>

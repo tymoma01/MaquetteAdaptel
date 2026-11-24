@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Menu</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<div id="page" hidden class="px-4 pt-4 pb-10 space-y-4"></div>
+
+<script>
+  App.mount({ title: 'Menu', back: 'index.html' });
+
+  const item = (href, icon, titre, sous, opts = {}) => `
+    <a href="${href}" ${opts.ext ? 'target="_blank" rel="noopener"' : ''} ${opts.onclick ? `onclick="${opts.onclick}; return false;"` : ''} class="row-link flex items-center gap-3 px-4 py-3 ${opts.off ? 'opacity-60' : ''}">
+      <span class="w-9 h-9 rounded-xl ${opts.cls || 'bg-gray-100 text-gray-600'} flex items-center justify-center flex-shrink-0">${App.ic(icon, 'w-[18px] h-[18px]')}</span>
+      <span class="flex-1 min-w-0"><span class="block text-[14.5px] font-semibold text-gray-900">${titre}</span>${sous ? `<span class="block text-[12px] text-gray-500 truncate">${sous}</span>` : ''}</span>
+      ${opts.badge || ''}
+      ${App.ic(opts.ext ? 'external' : opts.off ? 'monitor' : 'right', 'w-[18px] h-[18px] text-gray-300')}
+    </a>`;
+  const section = (titre, html) => `<section><p class="label px-1 mb-1.5">${titre}</p><div class="card divide-y divide-gray-100 overflow-hidden">${html}</div></section>`;
+
+  function render() {
+    const s = App.sel();
+    const nb = App.nbNonLues();
+    const favs = App.data.interimaires().filter(i => i.favori).length;
+    document.getElementById('page').innerHTML = `
+      <section class="card p-4 flex items-center gap-3">
+        <div class="w-14 h-14 rounded-full brand-grad text-white text-lg font-bold flex items-center justify-center">TY</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-[17px] font-bold text-gray-900">${App.USER.nom}</p>
+          <p class="text-[13px] text-gray-500">${App.USER.fonction}</p>
+          <p class="text-[12px] font-semibold text-brand mt-0.5">Rôle : ${App.role()}</p>
+        </div>
+      </section>
+
+      <button onclick="App.openSitePicker()" class="card w-full text-left p-4 flex items-center gap-3">
+        <span class="w-9 h-9 rounded-xl bg-brand/10 text-brand flex items-center justify-center">${App.ic('building', 'w-[18px] h-[18px]')}</span>
+        <span class="flex-1 min-w-0"><span class="block label">Établissement</span><span class="block text-[14.5px] font-bold text-gray-900 truncate">${App.esc(s.client)}</span><span class="block text-[12.5px] text-gray-500 truncate">${App.esc(App.scopeLabel())}</span></span>
+        <span class="text-[13px] font-bold text-brand">Changer</span>
+      </button>
+
+      ${section('Mon activité', [
+        item('interimaires.html', 'users', 'Intérimaires', 'Récents et favoris', { badge: favs ? `<span class="text-[11px] font-bold text-amber-600 flex items-center gap-0.5">${App.ic('star', 'w-3 h-3', 'fill="currentColor"')}${favs}</span>` : '' }),
+        item('fiches.html', 'file', 'Fiches de liaison', 'Risques et EPI par qualification'),
+        item('accident.html', 'alert', 'Déclarer un accident du travail', 'À transmettre sous 24 h', { cls: 'bg-red-50 text-red-600' }),
+      ].join(''))}
+
+      ${section('Aide et contact', [
+        item('#', 'phone', 'Mon interlocuteur Adaptel', `${App.INTERLOCUTEUR.nom} · ${App.INTERLOCUTEUR.tel}`, { onclick: 'App.contactSheet()', cls: 'bg-brand/10 text-brand' }),
+        item('support.html', 'chat', 'Messagerie support', 'Commercial ou administratif · réponse sous 2 h'),
+        item('https://www.coffreo.pro', 'file', 'Coffreo', 'Contrats et signature électronique', { ext: true }),
+      ].join(''))}
+
+      ${section('Compte', [
+        item('notifications.html?vue=prefs', 'bell', 'Notifications', 'Push et e-mail, par événement', { badge: nb ? `<span class="min-w-[20px] h-5 px-1.5 rounded-full bg-brand text-white text-[11px] font-bold flex items-center justify-center">${nb}</span>` : '' }),
+        item('#', 'shield', 'Connexion et sécurité', 'Face ID / empreinte, mot de passe', { onclick: "App.toast('Connexion biométrique activée', 'ok')" }),
+      ].join(''))}
+
+      <section>
+        <p class="label px-1 mb-1.5">Paramètres d'administration</p>
+        <div class="card overflow-hidden">
+          <div class="px-4 py-3 bg-gray-50 border-b border-gray-100 flex gap-2.5 text-[12px] text-gray-600">
+            ${App.ic('monitor', 'w-4 h-4 flex-shrink-0 mt-0.5 text-gray-400')}
+            <p>Ces réglages, peu fréquents et denses, restent sur l'<strong>espace client web</strong>. Ils s'appliquent automatiquement à l'application.</p>
+          </div>
+          <div class="divide-y divide-gray-100">
+            ${[['briefcase', 'Qualifications', 'Taux, horaires types et consignes par chantier'], ['users', 'Utilisateurs', 'Accès de vos équipes'], ['settings', 'Rôles', 'Droits par rôle']].map(([ic, t, s]) => item('#', ic, t, s, { off: true, onclick: `App.toast('À gérer depuis l\\'espace client web', 'info')` })).join('')}
+          </div>
+        </div>
+      </section>
+
+      <button onclick="App.toast('Vous êtes déconnecté (démo)', 'info')" class="card w-full p-4 flex items-center justify-center gap-2 text-[14.5px] font-bold text-red-600">${App.ic('logout', 'w-5 h-5')}Se déconnecter</button>
+      <p class="text-center text-[11px] text-gray-400">Adaptel Client · version 1.0 (maquette)</p>`;
+  }
+  document.addEventListener('etab-change', render);
+  render();
+</script>
+</body>
+</html>

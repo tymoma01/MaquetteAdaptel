@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Demandes</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<div id="page" hidden class="pb-28">
+  <div class="bg-white border-b border-gray-100 sticky top-0 z-[3] pt-3 pb-3">
+    <div class="px-4 flex items-end justify-between">
+      <div>
+        <h1 class="text-[22px] font-bold text-gray-900 leading-tight">Demandes</h1>
+        <p class="text-[12.5px] text-gray-500">Suivez vos demandes de mission</p>
+      </div>
+      <a href="nouvelle-demande.html?reprise=1" id="btn-reprise" class="text-[12.5px] font-bold text-brand flex items-center gap-1 pb-0.5"></a>
+    </div>
+    <div class="hscroll px-4 mt-3" id="tabs"></div>
+    <div id="eval" class="hidden px-4 mt-2.5 flex items-center gap-2">
+      <span class="text-[11.5px] font-semibold text-gray-400">Évaluation</span>
+      <div class="flex bg-gray-100 rounded-xl p-0.5 text-[12px] font-bold" id="eval-tabs"></div>
+    </div>
+  </div>
+  <div id="list" class="px-4 pt-3 space-y-2.5"></div>
+</div>
+
+<script>
+  App.mount({ tab: 'demandes', fab: { href: 'nouvelle-demande.html', label: 'Demande' } });
+  document.getElementById('btn-reprise').innerHTML = `${App.ic('repeat', 'w-4 h-4')}Reprendre la dernière`;
+
+  let statut = App.param('f') ?? '';
+  let evalF = App.param('eval') ?? '';
+  const STATUT_TABS = [['', 'Toutes'], ['encours', 'En recherche'], ['staffee', 'Pourvues'], ['validee', 'Confirmées'], ['termine', 'Terminées'], ['annulee', 'Annulées']];
+
+  function render() {
+    const all = App.data.demandes().sort((a, b) => b.dateISO.localeCompare(a.dateISO) || b.id.localeCompare(a.id));
+    document.getElementById('tabs').innerHTML = STATUT_TABS
+      .filter(([k]) => !k || k === statut || all.some(d => d.statut === k))
+      .map(([k, l]) => `<button onclick="setStatut('${k}')" class="chip ${statut === k ? 'active' : ''}">${l}<span class="count">${all.filter(d => !k || d.statut === k).length}</span></button>`).join('');
+
+    const nonNotees = all.filter(d => demoANoter(d).length).length;
+    document.getElementById('eval').classList.toggle('hidden', statut !== 'termine');
+    document.getElementById('eval-tabs').innerHTML = [['', 'Toutes'], ['non', `À noter (${nonNotees})`], ['oui', 'Notées']].map(([k, l]) =>
+      `<button onclick="setEval('${k}')" class="px-3 h-7 rounded-[10px] ${evalF === k ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'}">${l}</button>`).join('');
+
+    let rows = all.filter(d => !statut || d.statut === statut);
+    if (statut === 'termine' && evalF) rows = rows.filter(d => evalF === 'oui' ? !demoANoter(d).length : demoANoter(d).length > 0);
+
+    document.getElementById('list').innerHTML = rows.length ? rows.map(d => {
+      const pct = Math.round(d.pourvus / d.capacite * 100);
+      const aNoter = demoANoter(d);
+      const notes = demoNotes(d);
+      const noteTxt = (d.interimaires || []).filter(n => notes[n]).map(n => `${notes[n]}/5`).join(' · ');
+      return `
+      <a href="demande.html?id=${d.id}" class="press card block p-3.5">
+        <div class="flex items-start justify-between gap-2">
+          <div class="min-w-0">
+            <p class="text-[15px] font-bold text-gray-900 truncate">${App.esc(d.q)}</p>
+            <p class="text-[12.5px] text-gray-500 truncate">${App.esc(d.chantier)} · ${d.id}</p>
+          </div>
+          ${App.badge(d.statut)}
+        </div>
+        <div class="flex items-center gap-3 mt-2.5 text-[13px] text-gray-700">
+          <span class="flex items-center gap-1.5 font-semibold">${App.ic('calendar', 'w-4 h-4 text-gray-400')}${d.dateFin && d.dateFin !== d.date ? `${d.date.slice(0, 5)} → ${d.dateFin.slice(0, 5)}` : d.date.slice(0, 5)}</span>
+          <span class="flex items-center gap-1.5 font-semibold min-w-0">${App.ic('clock', 'w-4 h-4 text-gray-400 flex-shrink-0')}<span class="truncate">${d.horaire}</span></span>
+        </div>
+        ${d.statut !== 'annulee' ? `
+        <div class="flex items-center gap-2.5 mt-2.5">
+          <div class="flex-1 h-1.5 rounded-full bg-gray-100 overflow-hidden"><div class="h-full ${pct === 100 ? 'bg-green-500' : 'bg-amber-400'}" style="width:${pct}%"></div></div>
+          <span class="text-[12px] font-bold text-gray-700">${d.pourvus}/${d.capacite} poste${d.capacite > 1 ? 's' : ''}</span>
+        </div>` : ''}
+        ${(d.annulationDemandee || d.lot || d.statut === 'termine' || (d.statut === 'annulee' && d.annulationMotif) || d.horaire.includes(' / ')) ? `
+        <div class="flex flex-wrap gap-1.5 mt-2.5">
+          ${d.horaire.includes(' / ') ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-700">Coupure</span>` : ''}
+          ${d.lot ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-gray-100 text-gray-600">Saisie groupée · ${d.lot}</span>` : ''}
+          ${d.annulationDemandee ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-orange-100 text-orange-700">Annulation demandée</span>` : ''}
+          ${d.statut === 'annulee' && d.annulationMotif ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-red-50 text-red-700">${App.esc(d.annulationMotif)}</span>` : ''}
+          ${d.statut === 'termine' ? (aNoter.length
+            ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 flex items-center gap-1">${App.ic('star', 'w-3 h-3', 'fill="currentColor"')}${noteTxt ? noteTxt + ' · ' : ''}${aNoter.length} à noter</span>`
+            : `<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 flex items-center gap-1">${App.ic('star', 'w-3 h-3', 'fill="currentColor"')}${noteTxt}</span>`) : ''}
+        </div>` : ''}
+      </a>`;
+    }).join('') : `<div class="card p-8 text-center text-[14px] text-gray-400">Aucune demande pour ce filtre.</div>`;
+  }
+
+  function setStatut(k) { statut = k; evalF = ''; render(); }
+  function setEval(k) { evalF = k; render(); }
+  document.addEventListener('etab-change', render);
+  render();
+</script>
+</body>
+</html>

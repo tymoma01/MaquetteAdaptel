@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Fiches de liaison</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="../../client/assets/fiches-liaison.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<!-- Consultation des fiches de liaison (une par qualification). La saisie complète de la fiche — long formulaire
+     de risques, EPI, formation… — reste sur l'espace web (Paramètres > Légal). -->
+<div id="page" hidden class="px-4 pt-3 pb-10">
+  <div class="hscroll -mx-4 px-4 pb-3" id="chantiers"></div>
+  <p class="text-[12.5px] text-gray-500 mb-3 px-1">Pré-remplies par Adaptel. Elles sont jointes à chaque demande avec votre attestation horodatée.</p>
+  <div id="list" class="space-y-2"></div>
+</div>
+
+<script>
+  App.mount({ title: 'Fiches de liaison', subtitle: 'Prévention des risques par poste', back: history.length > 1 ? 'javascript:history.back()' : 'menu.html' });
+
+  const quals = demoQualifications(true);
+  const chantiers = [...new Set(quals.map(q => q.chantier))];
+  let chantier = App.param('chantier') || App.sel().chantier || '';
+  if (chantier && !chantiers.includes(chantier)) chantier = '';
+  const sauvees = (() => { try { return JSON.parse(localStorage.getItem('adaptel-fiches-liaison')) || {}; } catch (e) { return {}; } })();
+  // Démo : une fiche sur trois reste à compléter, sauf si elle a été validée depuis l'espace web.
+  const validee = (q, i) => (sauvees[[App.sel().client, q.chantier, q.nom].join('|')] || {}).validee || i % 3 !== 2;
+
+  function render() {
+    document.getElementById('chantiers').innerHTML = [['', 'Tous'], ...chantiers.map(c => [c, c])].map(([k, l]) =>
+      `<button onclick="chantier='${App.js(k)}'; render()" class="chip ${chantier === k ? 'active' : ''}">${App.esc(l)}</button>`).join('');
+    const rows = quals.map((q, i) => ({ ...q, i })).filter(q => !chantier || q.chantier === chantier);
+    document.getElementById('list').innerHTML = rows.map(q => {
+      const m = modeleFiche(q.nom);
+      const ok = m && validee(q, q.i);
+      return `
+      <button onclick="ouvrir(${q.i})" class="press card w-full text-left p-3.5 flex items-center gap-3">
+        <span class="w-10 h-10 rounded-xl ${!m ? 'bg-gray-100 text-gray-400' : ok ? 'bg-green-50 text-green-600' : 'bg-amber-50 text-amber-600'} flex items-center justify-center flex-shrink-0">${App.ic('file', 'w-5 h-5')}</span>
+        <span class="flex-1 min-w-0">
+          <span class="block text-[14.5px] font-bold text-gray-900 truncate">${App.esc(q.nom)}</span>
+          <span class="block text-[12px] text-gray-500 truncate">${App.esc(q.chantier)}${m ? ` · ${m.risques.filter(r => r[2]).length} risques · ${m.epi.filter(e => e[1]).length} EPI` : ''}</span>
+        </span>
+        <span class="px-2 py-0.5 rounded-full text-[11px] font-bold whitespace-nowrap ${!m ? 'bg-gray-100 text-gray-500' : ok ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}">${!m ? 'En préparation' : ok ? 'Validée' : 'À compléter'}</span>
+      </button>`;
+    }).join('');
+  }
+
+  function ouvrir(i) {
+    const q = quals[i];
+    const m = modeleFiche(q.nom);
+    if (!m) { App.toast("Adaptel prépare le modèle de fiche de ce poste", 'info'); return; }
+    const ok = validee(q, i);
+    const taches = (m.groupes.find(g => /Tâches/.test(g.label)) || { options: [] }).options.filter(o => o[1]).map(o => o[0]);
+    App.sheet({
+      title: `Fiche de liaison · ${App.esc(q.nom)}`,
+      subtitle: `${App.esc(q.chantier)} · ${App.esc(m.secteur)}`,
+      body: `
+        <div class="rounded-xl ${ok ? 'bg-green-50 text-green-800' : 'bg-amber-50 text-amber-800'} px-3 py-2.5 text-[12.5px] font-semibold flex gap-2">${App.ic(ok ? 'checkCircle' : 'info', 'w-4 h-4 flex-shrink-0 mt-0.5')}${ok ? 'Fiche validée — elle accompagne vos demandes pour ce poste.' : "Quelques champs restent à compléter. Finalisez-la depuis l'espace client web."}</div>
+        ${m.descriptif ? `<p class="text-[13px] text-gray-700 mt-3 leading-relaxed">${App.esc(m.descriptif.split('\n')[0])}</p>` : ''}
+        ${taches.length ? `<p class="label mt-4 mb-1.5">Tâches</p><ul class="space-y-1">${taches.map(t => `<li class="text-[13px] text-gray-700 flex gap-2">${App.ic('check', 'w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5')}${App.esc(t)}</li>`).join('')}</ul>` : ''}
+        <p class="label mt-4 mb-1.5">Risques identifiés</p>
+        <div class="space-y-1.5">${m.risques.filter(r => r[2]).map(r => `<details class="rounded-xl bg-gray-50 px-3 py-2"><summary class="text-[13px] font-semibold text-gray-800">${App.esc(r[0])}</summary><p class="text-[12px] text-gray-600 mt-1.5">${App.esc(r[1])}</p></details>`).join('')}</div>
+        <p class="label mt-4 mb-1.5">Équipements de protection</p>
+        <div class="flex flex-wrap gap-1.5">${m.epi.filter(e => e[1]).map(e => `<span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-800 text-[12px] font-semibold">${App.esc(e[0])}</span>`).join('')}</div>`,
+      footer: `<div class="grid grid-cols-2 gap-2">
+        <a href="support.html" class="btn btn-outline !text-[13.5px]">Signaler un changement</a>
+        <button onclick="App.closeSheet(); App.toast('Lien envoyé par e-mail pour finaliser sur ordinateur', 'info')" class="btn btn-primary !text-[13.5px]">${App.ic('monitor', 'w-4 h-4')}Modifier sur le web</button>
+      </div>`,
+    });
+  }
+  render();
+</script>
+</body>
+</html>

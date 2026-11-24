@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Planning</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<div id="page" hidden class="pb-28">
+  <!-- EN-TÊTE COLLANT : semaine + jours -->
+  <div class="bg-white border-b border-gray-100 sticky top-0 z-[3]">
+    <div class="flex items-center justify-between px-3 pt-3">
+      <button onclick="shiftWeek(-1)" class="w-9 h-9 rounded-full flex items-center justify-center active:bg-gray-100" id="prev"></button>
+      <div class="text-center">
+        <p id="week-label" class="text-[15px] font-bold text-gray-900"></p>
+        <button id="today-btn" onclick="goToday()" class="text-[12px] font-semibold text-brand hidden">Revenir à aujourd'hui</button>
+      </div>
+      <button onclick="shiftWeek(1)" class="w-9 h-9 rounded-full flex items-center justify-center active:bg-gray-100" id="next"></button>
+    </div>
+    <div id="days" class="grid grid-cols-7 gap-1 px-2 pt-2 pb-2.5"></div>
+    <div class="flex items-center gap-2 px-4 pb-3">
+      <div class="flex bg-gray-100 rounded-xl p-0.5 text-[12.5px] font-bold">
+        <button data-vue="jour" class="vue-btn px-3 h-8 rounded-[10px]">Jour</button>
+        <button data-vue="semaine" class="vue-btn px-3 h-8 rounded-[10px]">Semaine</button>
+      </div>
+      <div class="hscroll flex-1" id="statut-filtres"></div>
+    </div>
+  </div>
+
+  <div id="content" class="px-4 pt-4 space-y-4"></div>
+  <p class="px-6 pt-5 text-[11.5px] text-gray-400 text-center leading-relaxed">
+    <span class="inline-block w-2.5 h-2.5 rounded-full ring-2 ring-purple-400 align-middle mr-1"></span>
+    Contour violet : 7ᵉ jour de mission consécutif (heures supplémentaires).
+  </p>
+</div>
+
+<script>
+  App.mount({ tab: 'planning', fab: { href: 'nouvelle-demande.html', label: 'Demande' } });
+  document.getElementById('prev').innerHTML = App.ic('left', 'w-5 h-5');
+  document.getElementById('next').innerHTML = App.ic('right', 'w-5 h-5');
+
+  const LUNDI = new Date(2026, 8, 21);
+  const STYLE = {
+    encours: 'bg-amber-50 border-amber-200', staffee: 'bg-blue-50 border-blue-200', validee: 'bg-green-50 border-green-200',
+    termine: 'bg-gray-50 border-gray-200', annulee: 'bg-red-50 border-red-200'
+  };
+  const BARRE = { encours: '#f59e0b', staffee: '#3b82f6', validee: '#16a34a', termine: '#9ca3af', annulee: '#ef4444' };
+  let weekOffset = 0;
+  let day = App.param('day') !== null ? Number(App.param('day')) : 2;
+  let vue = 'jour';
+  let filtre = '';
+
+  // Missions de la semaine affichée. Seule la semaine du 21/09 a des données de démo.
+  function missions() {
+    if (weekOffset !== 0) return [];
+    return App.data.planning().flatMap(l => l.missions.map(m => ({ ...m, chantier: l.chantier })));
+  }
+  const dateOf = d => App.addDays(LUNDI, weekOffset * 7 + d);
+
+  function render() {
+    const all = missions();
+    const fin = dateOf(6);
+    const fmt = d => d.toLocaleString('fr-FR', { day: 'numeric', month: 'short' });
+    document.getElementById('week-label').textContent = `${fmt(dateOf(0))} → ${fmt(fin)} ${fin.getFullYear()}`;
+    document.getElementById('today-btn').classList.toggle('hidden', weekOffset === 0 && (vue === 'semaine' || day === 2));
+
+    // Bandeau des jours
+    document.getElementById('days').innerHTML = Array.from({ length: 7 }, (_, d) => {
+      const date = dateOf(d);
+      const n = all.filter(m => m.day === d).length;
+      const isToday = date.getTime() === App.TODAY.getTime();
+      const active = vue === 'jour' && d === day;
+      return `<button onclick="setDay(${d})" class="flex flex-col items-center gap-0.5 py-1.5 rounded-xl ${active ? 'brand-grad text-white' : isToday ? 'bg-brand/10 text-brand' : 'text-gray-700'}">
+        <span class="text-[10.5px] font-semibold ${active ? 'text-white/80' : 'text-gray-400'}">${App.JOURS[date.getDay()].slice(0, 3)}</span>
+        <span class="text-[16px] font-bold leading-none">${date.getDate()}</span>
+        <span class="h-1.5 flex gap-0.5 mt-0.5">${n ? `<span class="w-1.5 h-1.5 rounded-full ${active ? 'bg-white' : 'bg-brand'}"></span>` : ''}${n > 2 ? `<span class="w-1.5 h-1.5 rounded-full ${active ? 'bg-white/70' : 'bg-brand/50'}"></span>` : ''}</span>
+      </button>`;
+    }).join('');
+
+    // Filtres de statut (avec le nombre de missions concernées)
+    const visibles = vue === 'jour' ? all.filter(m => m.day === day) : all;
+    document.getElementById('statut-filtres').innerHTML = [['', 'Tous'], ...Object.entries(DEMO_STATUTS).filter(([k]) => k !== 'annulee').map(([k, s]) => [k, s.label])]
+      .map(([k, l]) => `<button onclick="setFiltre('${k}')" class="chip !h-8 !px-3 !text-[12px] ${filtre === k ? 'active' : ''}">${k ? `<span class="w-2 h-2 rounded-full" style="background:${BARRE[k]}"></span>` : ''}${l}<span class="count">${visibles.filter(m => !k || m.statut === k).length}</span></button>`).join('');
+
+    document.querySelectorAll('.vue-btn').forEach(b => {
+      const on = b.dataset.vue === vue;
+      b.className = `vue-btn px-3 h-8 rounded-[10px] ${on ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'}`;
+    });
+
+    const content = document.getElementById('content');
+    const filtrees = all.filter(m => !filtre || m.statut === filtre);
+    if (vue === 'jour') {
+      const rows = filtrees.filter(m => m.day === day);
+      const date = dateOf(day);
+      const titre = `<p class="text-[13px] font-bold text-gray-500">${App.jourLong(date)}${date.getTime() === App.TODAY.getTime() ? ' · aujourd\'hui' : ''}</p>`;
+      if (!rows.length) { content.innerHTML = titre + vide(); return; }
+      // Regroupé par chantier
+      const parChantier = {};
+      rows.forEach(m => (parChantier[m.chantier] ||= []).push(m));
+      content.innerHTML = titre + Object.entries(parChantier).map(([ch, ms]) => `
+        <section>
+          <p class="label mb-2 flex items-center gap-1.5">${App.ic('pin', 'w-3.5 h-3.5')}${App.esc(ch)}</p>
+          <div class="space-y-2">${ms.map(carte).join('')}</div>
+        </section>`).join('');
+    } else {
+      const jours = Array.from({ length: 7 }, (_, d) => d).map(d => ({ d, rows: filtrees.filter(m => m.day === d) }));
+      if (!filtrees.length) { content.innerHTML = vide(); return; }
+      content.innerHTML = jours.map(({ d, rows }) => `
+        <section>
+          <p class="text-[13px] font-bold ${dateOf(d).getTime() === App.TODAY.getTime() ? 'text-brand' : 'text-gray-500'} mb-2">${App.jourLong(dateOf(d))}</p>
+          ${rows.length ? `<div class="space-y-2">${rows.map(m => carte(m, true)).join('')}</div>` : `<p class="text-[12.5px] text-gray-400 pl-1">Aucune mission</p>`}
+        </section>`).join('');
+    }
+  }
+
+  function vide() {
+    return `<div class="card p-6 text-center">
+      <div class="w-12 h-12 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mx-auto">${App.ic('calendar', 'w-6 h-6')}</div>
+      <p class="font-bold text-gray-700 mt-3">Aucune mission</p>
+      <p class="text-[13px] text-gray-500 mt-1">${filtre ? 'Aucune mission avec ce statut.' : 'Rien de planifié sur cette période.'}</p>
+      <a href="nouvelle-demande.html" class="btn btn-outline !h-10 !text-[13.5px] mt-4">${App.ic('plus', 'w-4 h-4')}Faire une demande</a>
+    </div>`;
+  }
+
+  let affichees = [];
+  function carte(m, avecChantier) {
+    const i = affichees.push(m) - 1;
+    return `
+      <button onclick="openSlot(${i})" class="press w-full text-left flex items-stretch gap-3 rounded-2xl border ${STYLE[m.statut]} ${m.heuresup ? 'ring-2 ring-purple-400' : ''} p-3 bg-white">
+        <span class="w-1 rounded-full" style="background:${BARRE[m.statut]}"></span>
+        ${App.avatar(m.nom, 'w-10 h-10')}
+        <span class="flex-1 min-w-0">
+          <span class="flex items-center justify-between gap-2">
+            <span class="text-[14.5px] font-bold text-gray-900 truncate">${m.nom === '—' ? 'À pourvoir' : App.esc(m.nom)}</span>
+            <span class="text-[13px] font-bold text-gray-800 whitespace-nowrap">${m.horaire}</span>
+          </span>
+          <span class="flex items-center justify-between gap-2 mt-0.5">
+            <span class="text-[12.5px] text-gray-500 truncate">${App.esc(m.q)}${avecChantier ? ' · ' + App.esc(m.chantier) : ''}</span>
+            ${App.badge(m.statut)}
+          </span>
+        </span>
+      </button>`;
+  }
+
+  function openSlot(i) {
+    const m = affichees[i];
+    // Demande correspondante (même chantier, même qualification, même jour) pour « Voir la demande ».
+    const dateFr = App.fmtFr(dateOf(m.day));
+    const dem = App.data.demandes().find(d => d.chantier === m.chantier && d.q === m.q && d.date === dateFr);
+    App.sheet({
+      title: 'Détail de la mission',
+      body: `
+        <div class="flex items-center gap-3">
+          ${App.avatar(m.nom, 'w-14 h-14', 'text-sm')}
+          <div class="min-w-0">
+            <p class="text-[17px] font-bold text-gray-900">${m.nom === '—' ? 'Intérimaire en recherche' : App.esc(m.nom)}</p>
+            <p class="text-[13px] text-gray-500">${App.esc(m.q)}</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-4">
+          ${[['Date', App.jourLong(dateOf(m.day))], ['Horaire', m.horaire], ['Chantier', m.chantier], ['Statut', DEMO_STATUTS[m.statut].label]].map(([l, v]) => `
+            <div class="bg-gray-50 rounded-xl p-3"><p class="label">${l}</p><p class="text-[14px] font-bold text-gray-900 mt-0.5">${App.esc(v)}</p></div>`).join('')}
+        </div>
+        ${m.heuresup ? `<div class="mt-3 rounded-xl bg-purple-50 border border-purple-200 text-purple-800 text-[13px] font-semibold p-3 flex gap-2">${App.ic('alert', 'w-4 h-4 flex-shrink-0 mt-0.5')}7ᵉ jour de mission consécutif pour cet intérimaire sur ce chantier : heures supplémentaires.</div>` : ''}
+        <p class="text-[12px] text-gray-400 mt-4 leading-relaxed">Les coordonnées de l'intérimaire ne sont pas communiquées, conformément à la politique de confidentialité Adaptel. Pour toute question, contactez votre interlocuteur.</p>`,
+      footer: `<div class="grid ${dem ? 'grid-cols-2' : 'grid-cols-1'} gap-2">
+        <button onclick="App.closeSheet(); App.contactSheet()" class="btn btn-outline">${App.ic('phone', 'w-4 h-4')}Contacter</button>
+        ${dem ? `<a href="demande.html?id=${dem.id}" class="btn btn-primary">Voir la demande</a>` : ''}
+      </div>`,
+    });
+  }
+
+  function setDay(d) { day = d; vue = 'jour'; affichees = []; render(); }
+  function setFiltre(k) { filtre = k; affichees = []; render(); }
+  function shiftWeek(dir) { weekOffset += dir; affichees = []; render(); }
+  function goToday() { weekOffset = 0; day = 2; vue = 'jour'; affichees = []; render(); }
+  document.querySelectorAll('.vue-btn').forEach(b => b.onclick = () => { vue = b.dataset.vue; affichees = []; render(); });
+  document.addEventListener('etab-change', () => { affichees = []; render(); });
+  render();
+</script>
+</body>
+</html>

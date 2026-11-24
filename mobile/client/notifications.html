@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Notifications</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<div id="page" hidden class="pb-10">
+  <div class="bg-white border-b border-gray-100 sticky top-0 z-[3] px-4 py-2.5">
+    <div class="flex bg-gray-100 rounded-xl p-0.5 text-[13px] font-bold" id="vues"></div>
+  </div>
+  <div id="content" class="px-4 pt-3"></div>
+</div>
+
+<script>
+  App.mount({ title: 'Notifications', back: 'index.html' });
+  let vue = App.param('vue') === 'prefs' ? 'prefs' : 'recues';
+
+  // Mêmes événements que la page Notifications de l'espace web ; le canal « Application » devient « Push ».
+  const GROUPES = [
+    { titre: 'Demandes', items: [
+      { id: 'dem-nouvelle', label: 'Nouvelle demande transmise', desc: "Confirmation d'envoi de votre demande", email: true, app: true },
+      { id: 'dem-confirmee', label: 'Demande pourvue', desc: 'Un ou plusieurs intérimaires affectés', email: true, app: true },
+      { id: 'dem-modifiee', label: "Modification d'une demande", desc: "Changement d'horaire, de poste ou de créneau", email: true, app: true },
+      { id: 'dem-annulee', label: "Annulation d'une demande", desc: 'Une demande a été annulée par Adaptel', email: true, app: true, locked: 'app' } ] },
+    { titre: 'Planning et intérimaires', items: [
+      { id: 'plan-modif', label: 'Modification du planning', desc: 'Ajout, retrait ou changement de mission', email: false, app: true },
+      { id: 'interim-absence', label: 'Absence ou retard signalé', desc: 'Un intérimaire signale une absence ou un retard', email: true, app: true, locked: 'app' } ] },
+    { titre: "Relevés d'heures et facturation", items: [
+      { id: 'rh-rappel', label: 'Rappel de validation', desc: 'Un relevé attend votre validation', email: true, app: true },
+      { id: 'facture-dispo', label: 'Nouvelle facture disponible', desc: 'Une facture est prête à être consultée', email: true, app: false } ] },
+    { titre: 'Compte et support', items: [
+      { id: 'support-reponse', label: 'Réponse du support', desc: "Le support a répondu à l'une de vos demandes", email: false, app: true },
+      { id: 'compte-securite', label: 'Alerte de sécurité', desc: 'Connexion inhabituelle, mot de passe modifié', email: true, app: true, locked: 'email' } ] },
+  ];
+  const PREFS_KEY = 'adaptel-mobile-notifs';
+  let prefs = (() => { try { return JSON.parse(localStorage.getItem(PREFS_KEY)) || {}; } catch (e) { return {}; } })();
+  const val = (it, canal) => prefs[it.id + '|' + canal] ?? it[canal];
+
+  const ICON_CLS = { alert: 'bg-orange-50 text-orange-600', clock: 'bg-amber-50 text-amber-600', check: 'bg-green-50 text-green-600', briefcase: 'bg-blue-50 text-blue-600', star: 'bg-amber-50 text-amber-500', chat: 'bg-brand/10 text-brand' };
+
+  function render() {
+    const nb = App.nbNonLues();
+    document.getElementById('vues').innerHTML = [['recues', `Reçues${nb ? ` (${nb})` : ''}`], ['prefs', 'Préférences']].map(([k, l]) =>
+      `<button onclick="vue='${k}'; render()" class="flex-1 h-9 rounded-[10px] ${vue === k ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'}">${l}</button>`).join('');
+    const c = document.getElementById('content');
+    if (vue === 'recues') {
+      c.innerHTML = `
+        ${nb ? `<div class="flex justify-end mb-1"><button onclick="toutLire()" class="text-[12.5px] font-bold text-brand py-1">Tout marquer comme lu</button></div>` : ''}
+        <div class="card divide-y divide-gray-100 overflow-hidden">
+          ${App.NOTIFS.map(n => {
+            const lu = App.etat.lus[n.id];
+            return `<a href="${n.lien}" onclick="lire('${n.id}')" class="row-link flex gap-3 px-3.5 py-3 ${lu ? '' : 'bg-brand/[0.03]'}">
+              <span class="w-10 h-10 rounded-xl ${ICON_CLS[n.type]} flex items-center justify-center flex-shrink-0">${App.ic(n.type, 'w-5 h-5', n.type === 'star' ? 'fill="currentColor"' : '')}</span>
+              <span class="flex-1 min-w-0">
+                <span class="flex items-center justify-between gap-2"><span class="text-[14px] ${lu ? 'font-semibold' : 'font-bold'} text-gray-900">${n.titre}</span>${lu ? '' : '<span class="w-2 h-2 rounded-full bg-brand flex-shrink-0"></span>'}</span>
+                <span class="block text-[12.5px] text-gray-600 mt-0.5 leading-snug">${App.esc(n.texte)}</span>
+                <span class="block text-[11px] text-gray-400 mt-1">${n.quand}</span>
+              </span>
+            </a>`;
+          }).join('')}
+        </div>`;
+    } else {
+      c.innerHTML = `
+        <p class="text-[12.5px] text-gray-500 mb-3 px-1">Les notifications <strong>push</strong> arrivent sur ce téléphone ; les <strong>e-mails</strong> à ${App.USER.email}.</p>
+        <div class="space-y-4">
+          ${GROUPES.map(g => `
+            <section>
+              <p class="label px-1 mb-1.5">${g.titre}</p>
+              <div class="card divide-y divide-gray-100">
+                ${g.items.map(it => `
+                  <div class="px-3.5 py-3">
+                    <p class="text-[14px] font-bold text-gray-900">${it.label}</p>
+                    <p class="text-[12px] text-gray-500">${it.desc}</p>
+                    <div class="flex items-center gap-5 mt-2">
+                      ${[['app', 'Push'], ['email', 'E-mail']].map(([canal, l]) => `
+                        <label class="flex items-center gap-2 text-[12.5px] font-semibold text-gray-700">
+                          <input type="checkbox" class="toggle" ${val(it, canal) ? 'checked' : ''} ${it.locked === canal ? 'disabled' : ''} onchange="setPref('${it.id}', '${canal}', this.checked)">
+                          ${l}${it.locked === canal ? App.ic('lock', 'w-3.5 h-3.5 text-gray-400') : ''}
+                        </label>`).join('')}
+                    </div>
+                  </div>`).join('')}
+              </div>
+            </section>`).join('')}
+        </div>
+        <p class="text-[11.5px] text-gray-400 mt-3 px-1 flex gap-1.5">${App.ic('lock', 'w-3.5 h-3.5 flex-shrink-0 mt-0.5')}Les canaux verrouillés sont obligatoires pour les alertes importantes.</p>`;
+    }
+  }
+  function lire(id) { App.etat.lus[id] = true; App.save(); }
+  function toutLire() { App.NOTIFS.forEach(n => App.etat.lus[n.id] = true); App.save(); App.renderAppbar(); render(); }
+  function setPref(id, canal, on) {
+    prefs[id + '|' + canal] = on;
+    try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) {}
+    App.toast('Préférence enregistrée');
+  }
+  render();
+</script>
+</body>
+</html>

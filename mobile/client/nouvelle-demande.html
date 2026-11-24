@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Nouvelle demande</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<!-- Parcours en 3 étapes : 1. chantier  2. jours, qualifications et horaires  3. motif, justification et attestation.
+     Même logique que la modale « Nouvelle demande » de l'espace web (client-demandes.html). -->
+<div id="page" hidden class="min-h-full flex flex-col">
+  <div class="px-4 pt-3">
+    <div class="flex gap-1.5" id="progress"></div>
+  </div>
+  <div id="step" class="flex-1 px-4 pt-4 pb-6"></div>
+  <div id="bottom" class="sticky bottom-0 bg-white/95 backdrop-blur border-t border-gray-100 px-4 pt-3 pb-5"></div>
+</div>
+
+<script>
+  App.mount({ title: 'Nouvelle demande', subtitle: 'Étape 1 sur 3 · Chantier', back: 'demandes.html', backJs: 'retour()' });
+
+  const TODAY = App.TODAY;
+  const MOTIFS = ["Accroissement temporaire d'activité", "Remplacement d'un salarié absent", "Emploi saisonnier", "Tâche occasionnelle non durable"];
+
+  let etape = 1;
+  let chantier = '';
+  let dayConfigs = {};           // "AAAA-MM-JJ" → { "Qualif|Horaire": config }
+  let calY = 2026, calM = 8;
+  let reprise = null;            // demande reprise (bandeau + décalage de date)
+  let attestationAt = null;
+  let envoi = null;              // résultat de l'envoi (écran de confirmation)
+
+  // ---------- Chantiers et qualifications (onglet Qualifications de l'espace web) ----------
+  let CHANTIERS = {};
+  function loadChantiers() {
+    CHANTIERS = {};
+    demoQualifications(true).forEach(q => {
+      (CHANTIERS[q.chantier] ||= { qualifications: {} }).qualifications[q.nom] = { taux: q.taux, horaires: q.horaires };
+    });
+  }
+
+  // ---------- Dates ----------
+  const pad = n => String(n).padStart(2, '0');
+  const dateKey = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
+  const keyToDate = k => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d); };
+  const fmtDay = k => { const [y, m, d] = k.split('-'); return `${d}/${m}/${y}`; };
+  const fmtCourt = k => keyToDate(k).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
+  const addDays = (k, n) => { const d = App.addDays(keyToDate(k), n); return dateKey(d.getFullYear(), d.getMonth(), d.getDate()); };
+  const nbJours = (a, b) => Math.round((keyToDate(b || a) - keyToDate(a)) / 86400000) + 1;
+  const fmtPeriode = (a, b) => (!b || a === b) ? fmtCourt(a) : `du ${fmtCourt(a)} au ${fmtCourt(b)}`;
+  const TODAY_KEY = dateKey(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate());
+
+  const lineKey = (nom, h) => `${nom}|${h.libelle}`;
+  const lineLabel = c => c.horaire ? `${c.nom} · ${c.horaire}` : c.nom;
+  function findLine(key) {
+    for (const [nom, q] of Object.entries(CHANTIERS[chantier].qualifications)) {
+      const h = q.horaires.find(x => lineKey(nom, x) === key);
+      if (h) return { nom, q, h };
+    }
+  }
+  function rows() {
+    return Object.keys(dayConfigs).sort().flatMap(key => Object.entries(dayConfigs[key]).map(([ligne, c]) => ({ key, ligne, ...c })));
+  }
+  const conf = (key, ligne) => dayConfigs[key] && dayConfigs[key][ligne];
+
+  // =====================================================================
+  function render() {
+    const titres = ['Chantier', 'Jours et postes', 'Motif et envoi'];
+    document.getElementById('appbar-sub').textContent = etape <= 3 ? `Étape ${etape} sur 3 · ${titres[etape - 1]}` : 'Demande envoyée';
+    document.getElementById('progress').innerHTML = [1, 2, 3].map(i => `<span class="flex-1 h-1.5 rounded-full ${i <= etape ? 'bg-brand' : 'bg-gray-200'}"></span>`).join('');
+    document.getElementById('progress').parentElement.hidden = etape > 3;
+    ({ 1: renderChantier, 2: renderJours, 3: renderMotifs, 4: renderFin })[etape]();
+    document.getElementById('scroll').scrollTo({ top: 0 });
+  }
+  function retour() {
+    if (etape === 2 || etape === 3) { etape--; render(); }
+    else location.href = etape === 4 ? 'demandes.html' : 'demandes.html';
+  }
+
+  // ---------- Étape 1 : chantier ----------
+  function renderChantier() {
+    const d = derniereDemande();
+    const noms = Object.keys(CHANTIERS);
+    document.getElementById('step').innerHTML = `
+      ${d ? `
+      <button onclick="reprendre()" class="press w-full text-left rounded-2xl border border-brand/25 bg-brand/5 p-3.5 flex items-center gap-3 mb-5">
+        <span class="w-10 h-10 rounded-xl bg-brand text-white flex items-center justify-center flex-shrink-0">${App.ic('repeat', 'w-5 h-5')}</span>
+        <span class="flex-1 min-w-0">
+          <span class="block text-[14px] font-bold text-gray-900">Même besoin que la dernière fois ?</span>
+          <span class="block text-[12px] text-gray-600 line-clamp-2">${App.esc(resumeReprise(d))}</span>
+        </span>
+        ${App.ic('right', 'w-5 h-5 text-brand')}
+      </button>` : ''}
+      <h2 class="text-[20px] font-bold text-gray-900">Pour quel chantier ?</h2>
+      <p class="text-[13px] text-gray-500 mt-0.5 mb-3">Seuls les chantiers avec au moins une qualification sont proposés.</p>
+      ${noms.length > 8 ? `<div class="relative mb-2"><span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">${App.ic('search', 'w-4 h-4')}</span><input id="ch-search" type="search" oninput="filtrerChantiers()" class="field pl-9" placeholder="Rechercher un chantier…"></div>` : ''}
+      <div id="ch-list" class="space-y-2"></div>`;
+    filtrerChantiers();
+    document.getElementById('bottom').innerHTML = `<button onclick="suivant()" class="btn btn-primary w-full" ${chantier ? '' : 'disabled'}>Continuer${chantier ? ` · ${App.esc(chantier)}` : ''}</button>`;
+  }
+  function filtrerChantiers() {
+    const q = etabNormalize((document.getElementById('ch-search') || {}).value || '');
+    document.getElementById('ch-list').innerHTML = Object.entries(CHANTIERS).filter(([n]) => !q || etabNormalize(n).includes(q)).map(([nom, c]) => {
+      const quals = Object.keys(c.qualifications);
+      const on = nom === chantier;
+      return `<button onclick="choisirChantier('${App.js(nom)}')" class="w-full text-left rounded-2xl border p-3.5 flex items-center gap-3 ${on ? 'border-brand bg-brand/5' : 'border-gray-200 bg-white'}">
+        <span class="w-10 h-10 rounded-xl ${on ? 'bg-brand text-white' : 'bg-gray-100 text-gray-500'} flex items-center justify-center flex-shrink-0">${App.ic('pin', 'w-5 h-5')}</span>
+        <span class="flex-1 min-w-0"><span class="block text-[14.5px] font-bold ${on ? 'text-brand' : 'text-gray-900'} truncate">${App.esc(nom)}</span><span class="block text-[12px] text-gray-500 truncate">${quals.slice(0, 3).map(App.esc).join(', ')}${quals.length > 3 ? ` +${quals.length - 3}` : ''}</span></span>
+        ${on ? App.ic('checkCircle', 'w-6 h-6 text-brand') : ''}
+      </button>`;
+    }).join('') || `<p class="text-center text-sm text-gray-400 py-6">Aucun chantier ne correspond.</p>`;
+  }
+  function choisirChantier(nom) {
+    if (nom !== chantier && rows().length) { dayConfigs = {}; reprise = null; App.toast('Saisie réinitialisée pour ce chantier', 'info'); }
+    chantier = nom;
+    renderChantier();
+  }
+
+  // ---------- Étape 2 : calendrier + récapitulatif ----------
+  function renderJours() {
+    const r = rows();
+    document.getElementById('step').innerHTML = `
+      ${reprise ? `
+      <div class="rounded-2xl bg-blue-50 border border-blue-200 p-3.5 mb-4">
+        <p class="text-[13px] font-bold text-blue-900">Repris de ${App.esc(reprise.ref)}</p>
+        <p class="text-[12px] text-blue-800 mt-0.5">Mêmes jours de la semaine. Changez la date de début pour tout décaler, ou modifiez chaque demande ci-dessous.</p>
+        <label class="flex items-center gap-2 mt-2.5 text-[12.5px] font-semibold text-blue-900">À partir du
+          <input type="date" class="field !h-10 !w-auto flex-1 !text-[14px]" min="${TODAY_KEY}" value="${Object.keys(dayConfigs).sort()[0] || ''}" onchange="decaler(this.value)">
+        </label>
+      </div>` : ''}
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="label">${App.esc(chantier)}</p>
+          <h2 class="text-[20px] font-bold text-gray-900 leading-tight">Quels jours ?</h2>
+        </div>
+        <button onclick="etape = 1; render()" class="text-[12.5px] font-bold text-brand">Changer de chantier</button>
+      </div>
+      <p class="text-[13px] text-gray-500 mt-0.5">Touchez un jour pour choisir les qualifications et horaires.</p>
+
+      <div class="card p-3 mt-3">
+        <div class="flex items-center justify-between mb-2">
+          <button onclick="shiftMois(-1)" class="w-9 h-9 rounded-full flex items-center justify-center active:bg-gray-100">${App.ic('left', 'w-5 h-5')}</button>
+          <p class="text-[15px] font-bold">${App.MOIS[calM]} ${calY}</p>
+          <button onclick="shiftMois(1)" class="w-9 h-9 rounded-full flex items-center justify-center active:bg-gray-100">${App.ic('right', 'w-5 h-5')}</button>
+        </div>
+        <div class="grid grid-cols-7 gap-1 text-center text-[11px] font-bold text-gray-400 mb-1">${['L', 'M', 'M', 'J', 'V', 'S', 'D'].map(j => `<span>${j}</span>`).join('')}</div>
+        <div class="grid grid-cols-7 gap-1" id="cal"></div>
+        <div class="flex items-center gap-4 mt-2.5 text-[11px] text-gray-500 px-1">
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-brand"></span>Début de mission</span>
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-brand/15"></span>Jours suivants</span>
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-bold text-gray-900">Récapitulatif</h3>
+          <span class="text-[12px] font-semibold text-gray-500">${r.length ? App.plural(r.length, 'demande') : ''}</span>
+        </div>
+        ${r.length ? `<div class="space-y-2">${r.map(c => {
+          const err = demoErreurCoupure(c);
+          return `
+          <div class="card flex items-stretch overflow-hidden ${err ? '!border-red-300' : ''}">
+            <button onclick="ouvrirJour('${c.key}', '${App.js(c.ligne)}')" class="flex-1 min-w-0 text-left p-3">
+              <p class="text-[14px] font-bold text-gray-900 truncate">${App.esc(lineLabel(c))}</p>
+              <p class="text-[12px] text-gray-500 truncate">${fmtPeriode(c.key, c.dateFin)} · ${App.plural(c.capacite, 'poste')}</p>
+              <p class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                <span class="text-[12px] font-bold text-gray-800 bg-gray-100 rounded-md px-1.5 py-0.5">${demoPlage(c)}</span>
+                ${demoAvecCoupure(c) ? `<span class="text-[11px] font-bold rounded-md px-1.5 py-0.5 ${err ? 'bg-red-100 text-red-700' : 'bg-indigo-50 text-indigo-700'}">${err ? 'Coupure à corriger' : 'Coupure'}</span>` : ''}
+                <span class="text-[11.5px] text-gray-500">${c.taux.toFixed(2)} €/h</span>
+              </p>
+            </button>
+            <button onclick="supprimer('${c.key}', '${App.js(c.ligne)}')" class="w-12 flex items-center justify-center text-gray-400 active:bg-red-50 active:text-red-600 border-l border-gray-100" aria-label="Supprimer">${App.ic('x', 'w-5 h-5')}</button>
+          </div>`; }).join('')}</div>`
+        : `<div class="rounded-2xl border-2 border-dashed border-gray-200 p-5 text-center text-[13px] text-gray-400">Aucune demande saisie — touchez un jour du calendrier.</div>`}
+      </div>`;
+    renderCal();
+    document.getElementById('bottom').innerHTML = `<button onclick="suivant()" class="btn btn-primary w-full" ${r.length ? '' : 'disabled'}>Suivant${r.length ? ` · ${App.plural(r.length, 'demande')}` : ''}</button>`;
+  }
+
+  function renderCal() {
+    const first = new Date(calY, calM, 1);
+    const nb = new Date(calY, calM + 1, 0).getDate();
+    const offset = (first.getDay() + 6) % 7;
+    const couverts = new Set();
+    Object.entries(dayConfigs).forEach(([start, lignes]) => Object.values(lignes).forEach(c => {
+      for (let i = 1; i < nbJours(start, c.dateFin); i++) couverts.add(addDays(start, i));
+    }));
+    let html = '';
+    for (let i = 0; i < offset; i++) html += '<span></span>';
+    for (let d = 1; d <= nb; d++) {
+      const key = dateKey(calY, calM, d);
+      const past = key < TODAY_KEY;
+      const n = dayConfigs[key] ? Object.keys(dayConfigs[key]).length : 0;
+      const cls = past ? 'past' : n ? 'sel' : couverts.has(key) ? 'cov' : 'active:bg-gray-100';
+      html += `<button type="button" class="cal-cell ${cls} ${key === TODAY_KEY && !n ? 'ring-1 ring-brand/40' : ''}" ${past ? 'disabled' : `onclick="ouvrirJour('${key}')"`}>${d}${n ? `<span class="n">${n}</span>` : ''}</button>`;
+    }
+    document.getElementById('cal').innerHTML = html;
+  }
+  function shiftMois(dir) {
+    calM += dir;
+    if (calM > 11) { calM = 0; calY++; }
+    if (calM < 0) { calM = 11; calY--; }
+    renderJours();
+  }
+
+  // ---------- Feuille d'un jour : qualifications × horaires types, puis éditeur d'horaire ----------
+  let jour = null, edition = null, capacite = 1, dateFin = null, sheetJour = null;
+  function ouvrirJour(key, ligne = null) {
+    jour = key; edition = ligne; capacite = 1; dateFin = key;
+    sheetJour = App.sheet({ title: `${App.jourLong(keyToDate(key))}`, subtitle: App.esc(chantier), body: '<div id="jour-body"></div>', footer: '<div id="jour-footer"></div>', onClose: () => { sheetJour = null; renderJours(); } });
+    renderJourSheet();
+  }
+  function renderJourSheet() {
+    if (!sheetJour) return;
+    const body = sheetJour.querySelector('#jour-body');
+    const footer = sheetJour.querySelector('#jour-footer');
+    if (edition && conf(jour, edition)) { renderEditeur(body, footer); return; }
+    edition = null;
+    const quals = CHANTIERS[chantier].qualifications;
+    const ligne = (nom, h, q, sous) => {
+      const k = lineKey(nom, h);
+      const c = conf(jour, k);
+      return `
+      <div class="flex items-stretch rounded-xl border ${c ? 'border-brand bg-brand/5' : 'border-gray-200'} overflow-hidden">
+        <button onclick="basculer('${App.js(k)}')" class="flex-1 min-w-0 flex items-center gap-3 px-3 py-2.5 text-left">
+          <span class="w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 ${c ? 'bg-brand border-brand text-white' : 'border-gray-300'}">${c ? App.ic('check', 'w-4 h-4') : ''}</span>
+          <span class="flex-1 min-w-0">
+            <span class="block text-[14px] font-bold ${c ? 'text-brand' : 'text-gray-900'} truncate">${App.esc(sous ? h.libelle : nom)}</span>
+            <span class="block text-[12px] text-gray-500">${c ? `×${c.capacite} · ` : ''}${c && nbJours(jour, c.dateFin) > 1 ? `${nbJours(jour, c.dateFin)} j · ` : ''}${demoHoraire(c || h)}</span>
+          </span>
+        </button>
+        <button onclick="editer('${App.js(k)}')" class="w-11 flex items-center justify-center text-gray-500 border-l ${c ? 'border-brand/20' : 'border-gray-100'}" aria-label="Modifier l'horaire">${App.ic('pencil', 'w-4 h-4')}</button>
+      </div>`;
+    };
+    body.innerHTML = `
+      <div class="grid grid-cols-2 gap-2 mb-4">
+        <div class="bg-gray-50 rounded-xl p-2.5">
+          <p class="label mb-1.5">Postes</p>
+          <div class="flex items-center justify-between">
+            <button onclick="setCapacite(-1)" class="w-9 h-9 rounded-lg bg-white border border-gray-200 flex items-center justify-center">${App.ic('minus', 'w-4 h-4')}</button>
+            <span class="text-[18px] font-bold">${capacite}</span>
+            <button onclick="setCapacite(1)" class="w-9 h-9 rounded-lg bg-white border border-gray-200 flex items-center justify-center">${App.ic('plus', 'w-4 h-4')}</button>
+          </div>
+        </div>
+        <div class="bg-gray-50 rounded-xl p-2.5">
+          <p class="label mb-1.5">Jusqu'au</p>
+          <input type="date" class="field !h-9 !text-[13.5px] !px-2" min="${jour}" value="${dateFin}" onchange="setDateFin(this.value)">
+        </div>
+      </div>
+      <p class="text-[12px] text-gray-500 -mt-2 mb-3">Postes et date de fin s'appliquent aux qualifications que vous cochez ensuite.</p>
+      <div class="space-y-2">
+        ${Object.entries(quals).map(([nom, q]) => q.horaires.length === 1 ? ligne(nom, q.horaires[0], q, false) : `
+          <div>
+            <p class="text-[12.5px] font-bold text-gray-700 mb-1.5 mt-1">${App.esc(nom)} <span class="font-medium text-gray-400">· ${q.horaires.length} horaires types</span></p>
+            <div class="space-y-1.5">${q.horaires.map(h => ligne(nom, h, q, true)).join('')}</div>
+          </div>`).join('')}
+      </div>`;
+    const n = dayConfigs[jour] ? Object.keys(dayConfigs[jour]).length : 0;
+    footer.innerHTML = `<button onclick="App.closeSheet()" class="btn btn-primary w-full">${n ? `Valider · ${App.plural(n, 'demande')} ce jour` : 'Fermer'}</button>`;
+  }
+  function setCapacite(d) { capacite = Math.max(1, Math.min(20, capacite + d)); renderJourSheet(); }
+  function setDateFin(v) { dateFin = v && v >= jour ? v : jour; renderJourSheet(); }
+  function ajouter(k) {
+    if (!dayConfigs[jour]) dayConfigs[jour] = {};
+    if (dayConfigs[jour][k]) return;
+    const { nom, q, h } = findLine(k);
+    dayConfigs[jour][k] = { nom, horaire: h.libelle, debut: h.debut, fin: h.fin, pause: h.pause, taux: q.taux, capacite, dateFin };
+    if (demoAvecCoupure(h)) Object.assign(dayConfigs[jour][k], { debut2: h.debut2, fin2: h.fin2 });
+  }
+  function basculer(k) {
+    if (conf(jour, k)) { delete dayConfigs[jour][k]; if (!Object.keys(dayConfigs[jour]).length) delete dayConfigs[jour]; }
+    else ajouter(k);
+    renderJourSheet();
+  }
+  function editer(k) { ajouter(k); edition = k; renderJourSheet(); }
+
+  function renderEditeur(body, footer) {
+    const c = conf(jour, edition);
+    const on = demoAvecCoupure(c);
+    body.innerHTML = `
+      <div class="flex items-center justify-between bg-gray-50 rounded-xl px-3 py-2.5 mb-3">
+        <div><p class="text-[14px] font-bold text-gray-900">${App.esc(lineLabel(c))}</p><p class="text-[12px] text-gray-500">${c.taux.toFixed(2)} €/h</p></div>
+        <div class="flex items-center gap-2">
+          <button onclick="majCapacite(-1)" class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center">${App.ic('minus', 'w-4 h-4')}</button>
+          <span class="text-[15px] font-bold w-8 text-center" id="ed-cap">×${c.capacite}</span>
+          <button onclick="majCapacite(1)" class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center">${App.ic('plus', 'w-4 h-4')}</button>
+        </div>
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <label class="block"><span class="label">Début</span><input type="time" class="field mt-1 !px-2" value="${c.debut}" onchange="maj('debut', this.value)"></label>
+        <label class="block"><span class="label">${on ? 'Fin 1ᵉʳ serv.' : 'Fin'}</span><input type="time" class="field mt-1 !px-2" value="${c.fin}" onchange="maj('fin', this.value)"></label>
+        <label class="block"><span class="label">Pause (min)</span><input type="number" min="0" step="5" inputmode="numeric" class="field mt-1 !px-2" value="${c.pause}" onchange="maj('pause', this.value)"></label>
+      </div>
+      <div class="mt-3 rounded-xl border border-gray-200 p-3">
+        <label class="flex items-center justify-between gap-3">
+          <span><span class="block text-[14px] font-bold text-gray-900">Coupure</span><span class="block text-[12px] text-gray-500">Deux services dans la journée</span></span>
+          <input type="checkbox" class="toggle" ${on ? 'checked' : ''} onchange="coupure(this.checked)">
+        </label>
+        ${on ? `
+        <div class="grid grid-cols-2 gap-2 mt-3">
+          <label class="block"><span class="label">Reprise</span><input type="time" class="field mt-1" value="${c.debut2}" onchange="maj('debut2', this.value)"></label>
+          <label class="block"><span class="label">Fin 2ᵉ service</span><input type="time" class="field mt-1" value="${c.fin2}" onchange="maj('fin2', this.value)"></label>
+        </div>` : ''}
+        <p id="ed-info" class="text-[12px] mt-2"></p>
+      </div>
+      <label class="block mt-3"><span class="label">Date de fin de mission</span><input type="date" class="field mt-1" min="${jour}" value="${c.dateFin || jour}" onchange="maj('dateFin', this.value)"></label>`;
+    infoEditeur();
+    footer.innerHTML = `<div class="grid grid-cols-2 gap-2">
+      <button onclick="basculer('${App.js(edition)}'); edition = null; renderJourSheet()" class="btn btn-ghost !text-red-600">Retirer</button>
+      <button onclick="edition = null; renderJourSheet()" class="btn btn-primary">Valider</button>
+    </div>`;
+  }
+  function infoEditeur() {
+    const c = conf(jour, edition);
+    const el = document.getElementById('ed-info');
+    const err = demoErreurCoupure(c);
+    el.className = `text-[12px] mt-2 ${err ? 'font-semibold text-red-600' : 'text-gray-500'}`;
+    el.textContent = err || (demoAvecCoupure(c)
+      ? `${c.debut}–${c.fin} puis ${c.debut2}–${c.fin2} · coupure ${App.fmtH(demoDureeCoupure(c) / 60)} · ${App.fmtH(demoHeuresHoraire(c))} travaillées`
+      : `${App.fmtH(demoHeuresHoraire(c))} travaillées par jour`);
+  }
+  function maj(champ, v) {
+    const c = conf(jour, edition);
+    if (champ === 'dateFin') v = v && v >= jour ? v : jour;
+    c[champ] = champ === 'pause' ? (parseInt(v, 10) || 0) : v;
+    infoEditeur();
+  }
+  function majCapacite(d) { const c = conf(jour, edition); c.capacite = Math.max(1, Math.min(20, c.capacite + d)); document.getElementById('ed-cap').textContent = `×${c.capacite}`; }
+  function coupure(on) {
+    const c = conf(jour, edition);
+    if (on) { c.avantCoupure = { fin: c.fin, pause: c.pause }; Object.assign(c, demoCoupureParDefaut(c)); c.pause = 0; }
+    else { Object.assign(c, c.avantCoupure || { fin: c.fin2 || c.fin }); delete c.avantCoupure; delete c.debut2; delete c.fin2; }
+    renderJourSheet();
+  }
+  function supprimer(key, ligne) {
+    delete dayConfigs[key][ligne];
+    if (!Object.keys(dayConfigs[key]).length) delete dayConfigs[key];
+    renderJours();
+  }
+
+  // ---------- Étape 3 : motif, justification, intérimaire souhaité, attestation ----------
+  function renderMotifs() {
+    const r = rows();
+    const tot = r.reduce((t, c) => { t.postes += c.capacite; t.heures += demoHeuresHoraire(c) * nbJours(c.key, c.dateFin) * c.capacite; return t; }, { postes: 0, heures: 0 });
+    document.getElementById('step').innerHTML = `
+      <h2 class="text-[20px] font-bold text-gray-900 leading-tight">Motif et justification</h2>
+      <p class="text-[13px] text-gray-500 mt-0.5">Requis pour chaque demande avant l'envoi.</p>
+      <div class="grid grid-cols-3 gap-2 mt-3">
+        ${[['Demandes', r.length], ['Postes', tot.postes], ['Heures', App.fmtH(tot.heures)]].map(([l, v]) => `<div class="card p-2.5 text-center"><p class="text-[18px] font-bold text-gray-900">${v}</p><p class="text-[11px] font-semibold text-gray-500">${l}</p></div>`).join('')}
+      </div>
+
+      ${r.length > 1 ? `
+      <div class="rounded-2xl bg-gray-900 text-white p-3.5 mt-4">
+        <p class="text-[14px] font-bold">Même motif pour toutes</p>
+        <p class="text-[12px] text-white/70 mt-0.5">Renseignez une fois, ajustez ensuite si besoin.</p>
+        <select id="bulk-motif" class="field mt-2.5 !h-11 !text-[14px]"><option value="">Motif de recours…</option>${MOTIFS.map(m => `<option>${m}</option>`).join('')}</select>
+        <textarea id="bulk-just" rows="2" class="field mt-2 !text-[14px]" placeholder="Justification commune…"></textarea>
+        <button onclick="appliquerTous()" class="btn w-full !h-11 !text-[14px] mt-2.5 bg-white text-gray-900">Appliquer à toutes</button>
+      </div>` : ''}
+
+      <div class="space-y-3 mt-4">
+        ${r.map((c, i) => {
+          const j = nbJours(c.key, c.dateFin);
+          const manque = c._erreur && (!c.motif || !(c.justification || '').trim());
+          return `
+          <div class="card p-3.5 ${manque ? '!border-red-300' : ''}">
+            <div class="flex items-start justify-between gap-2">
+              <div class="min-w-0"><p class="text-[14.5px] font-bold text-gray-900 truncate">${App.esc(lineLabel(c))}</p><p class="text-[12px] text-gray-500">${fmtPeriode(c.key, c.dateFin)}${j > 1 ? ` (${j} jours)` : ''}</p></div>
+              <span class="text-[11.5px] font-bold text-gray-600 bg-gray-100 rounded-full px-2 py-0.5 whitespace-nowrap">${App.fmtH(demoHeuresHoraire(c) * j * c.capacite)}</span>
+            </div>
+            <p class="text-[12px] text-gray-600 mt-1.5">${demoPlage(c)} · ${demoAvecCoupure(c) ? `coupure ${App.fmtH(demoDureeCoupure(c) / 60)}` : `pause ${c.pause} min`} · ${App.plural(c.capacite, 'poste')}</p>
+            <select class="field mt-2.5 !h-11 !text-[14px]" onchange="setMotif(${i}, 'motif', this.value)">
+              <option value="">Motif de recours…</option>${MOTIFS.map(m => `<option ${c.motif === m ? 'selected' : ''}>${m}</option>`).join('')}
+            </select>
+            <textarea rows="2" class="field mt-2 !text-[14px]" placeholder="Justification (ex. salarié remplacé, événement…)" onchange="setMotif(${i}, 'justification', this.value)">${App.esc(c.justification || '')}</textarea>
+            ${j > 1 ? `<p class="text-[11.5px] text-gray-500 mt-2 flex items-center gap-1.5">${App.ic('file', 'w-3.5 h-3.5 flex-shrink-0')}Un seul contrat pour les ${j} jours</p>` : ''}
+            <div class="mt-3 pt-3 border-t border-gray-100">
+              <p class="label mb-1.5">Intérimaire souhaité <span class="normal-case tracking-normal font-medium text-gray-400">· facultatif</span></p>
+              <div id="souh-${i}">${htmlSouhait(i, c)}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <div class="card p-3.5 mt-4">
+        <label class="flex items-start gap-3">
+          <input type="checkbox" class="check mt-0.5" id="attest" ${attestationAt ? 'checked' : ''} onchange="attester(this.checked)">
+          <span class="text-[13.5px] text-gray-800">J'atteste que les risques mentionnés dans la <strong>fiche de liaison</strong> transmise à Adaptel sont inchangés pour ces missions.</span>
+        </label>
+        <p id="horodatage" class="text-[11.5px] font-semibold text-green-700 mt-2 pl-9 ${attestationAt ? '' : 'hidden'}">${attestationAt ? `Attesté le ${horodatage(attestationAt)}` : ''}</p>
+        <div class="flex flex-wrap gap-x-4 gap-y-1 mt-2.5 pl-9 text-[12.5px] font-semibold">
+          <a href="fiches.html?chantier=${encodeURIComponent(chantier)}" class="text-brand">Consulter la fiche</a>
+          <span class="text-gray-500">Risques modifiés ? <a href="fiches.html?chantier=${encodeURIComponent(chantier)}" class="text-brand">Mettre à jour</a></span>
+        </div>
+      </div>`;
+    document.getElementById('bottom').innerHTML = `<button id="btn-envoi" onclick="envoyer()" class="btn btn-primary w-full" ${attestationAt ? '' : 'disabled'}>${App.ic('send', 'w-5 h-5')}Confirmer l'envoi</button>`;
+  }
+  function setMotif(i, champ, v) {
+    const c = rows()[i];
+    dayConfigs[c.key][c.ligne][champ] = v;
+  }
+  function appliquerTous() {
+    const m = document.getElementById('bulk-motif').value, j = document.getElementById('bulk-just').value.trim();
+    if (!m && !j) { App.toast('Choisissez un motif ou une justification', 'warn'); return; }
+    rows().forEach(c => {
+      const e = dayConfigs[c.key][c.ligne];
+      if (m) e.motif = m;
+      if (j) e.justification = j;
+    });
+    renderMotifs();
+    App.toast('Appliqué à toutes les demandes');
+  }
+  // ---------- Intérimaire souhaité : seulement ceux venus chez le client ces 14 derniers jours ----------
+  function recents() {
+    const limite = App.addDays(TODAY, -14);
+    const m = {};
+    App.data.interimaires().forEach(p => { if (App.parseFr(p.derniere) >= limite) m[p.nom] = p.derniere; });
+    return m;
+  }
+  function htmlSouhait(i, c) {
+    const liste = c.souhaites || [];
+    return `
+      ${liste.length ? `<div class="flex flex-wrap gap-1.5 mb-2">${liste.map(nom => `
+        <span class="inline-flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full bg-brand/5 border border-brand/20 text-[12.5px] font-bold text-gray-900">
+          ${App.avatar(nom, 'w-6 h-6', 'text-[9px]')}${App.esc(nom)}
+          <button onclick="retirerSouhait(${i}, '${App.js(nom)}')" class="text-gray-400" aria-label="Retirer">${App.ic('x', 'w-3.5 h-3.5')}</button>
+        </span>`).join('')}</div>` : ''}
+      ${liste.length < c.capacite ? `
+      <div class="relative">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">${App.ic('search', 'w-4 h-4')}</span>
+        <input type="search" autocomplete="off" class="field pl-9 !h-11 !text-[14px]" placeholder="${liste.length ? 'Ajouter un autre intérimaire…' : "Nom de l'intérimaire…"}" oninput="suggerer(${i}, this.value)">
+      </div>
+      <div id="sugg-${i}"></div>` : ''}
+      <p class="text-[11.5px] text-gray-400 mt-1.5">Possible uniquement pour un intérimaire venu chez vous ces 2 dernières semaines.</p>`;
+  }
+  function suggerer(i, v) {
+    const box = document.getElementById(`sugg-${i}`);
+    const q = etabNormalize(v.trim());
+    if (q.length < 2) { box.innerHTML = ''; return; }
+    const c = rows()[i];
+    const rec = recents();
+    const res = DEMO_INTERIMAIRES.filter(p => etabNormalize(p.nom).includes(q) && !(c.souhaites || []).includes(p.nom))
+      .sort((a, b) => (b.nom in rec) - (a.nom in rec) || a.nom.localeCompare(b.nom)).slice(0, 6);
+    box.innerHTML = `<div class="mt-1.5 rounded-xl border border-gray-200 divide-y divide-gray-100 overflow-hidden">${res.length ? res.map(p => {
+      const ok = p.nom in rec;
+      return ok
+        ? `<button onclick="ajouterSouhait(${i}, '${App.js(p.nom)}')" class="w-full flex items-center gap-2.5 px-3 py-2.5 text-left active:bg-gray-50">
+            ${App.avatar(p.nom, 'w-8 h-8')}
+            <span class="flex-1 min-w-0"><span class="block text-[13.5px] font-bold text-gray-900 truncate">${App.esc(p.nom)}</span><span class="block text-[11.5px] text-gray-500 truncate">${App.esc(p.quals.join(', '))} · venu le ${rec[p.nom].slice(0, 5)}</span></span>
+            ${App.ic('plus', 'w-4 h-4 text-brand')}
+          </button>`
+        : `<div class="flex items-center gap-2.5 px-3 py-2.5 bg-gray-50/60" aria-disabled="true">
+            <span class="opacity-40">${App.avatar(p.nom, 'w-8 h-8')}</span>
+            <span class="flex-1 min-w-0"><span class="block text-[13.5px] font-semibold text-gray-400 truncate">${App.esc(p.nom)}</span><span class="block text-[11.5px] text-gray-400 truncate">Pas venu ces 2 dernières semaines</span></span>
+            ${App.ic('lock', 'w-4 h-4 text-gray-300')}
+          </div>`;
+    }).join('') : `<p class="px-3 py-3 text-[12.5px] text-gray-500">Aucun intérimaire trouvé. Adaptel choisira le meilleur profil disponible.</p>`}</div>`;
+  }
+  function majSouhait(i, f) {
+    const c = rows()[i];
+    const e = dayConfigs[c.key][c.ligne];
+    e.souhaites = f(e.souhaites || []);
+    document.getElementById(`souh-${i}`).innerHTML = htmlSouhait(i, { ...c, souhaites: e.souhaites });
+  }
+  function ajouterSouhait(i, nom) { majSouhait(i, l => [...l, nom]); }
+  function retirerSouhait(i, nom) { majSouhait(i, l => l.filter(n => n !== nom)); }
+
+  const horodatage = d => `${d.toLocaleDateString('fr-FR')} à ${d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`;
+  function attester(on) {
+    attestationAt = on ? new Date() : null;
+    const el = document.getElementById('horodatage');
+    el.classList.toggle('hidden', !on);
+    el.textContent = on ? `Attesté le ${horodatage(attestationAt)}` : '';
+    document.getElementById('btn-envoi').disabled = !on;
+  }
+
+  function envoyer() {
+    const r = rows();
+    if (r.some(c => !c.motif || !(c.justification || '').trim())) {
+      r.forEach(c => dayConfigs[c.key][c.ligne]._erreur = true);
+      renderMotifs();
+      App.toast('Indiquez un motif et une justification pour chaque demande', 'warn');
+      return;
+    }
+    const client = App.sel().client;
+    const lot = r.length > 1 ? `LOT-${200 + Object.values(App.etat.nouvelles).flat().length}` : null;
+    const base = 5000 + Object.values(App.etat.nouvelles).flat().length;
+    const creees = r.map((c, i) => ({
+      id: `DEM-${base + i}`, q: c.nom, chantier, lieu: client,
+      dateISO: c.key, date: fmtDay(c.key), dateFin: c.dateFin !== c.key ? fmtDay(c.dateFin) : null,
+      horaire: demoHoraire(c), debutISO: `${c.key}T${c.debut}:00`,
+      statut: 'encours', capacite: c.capacite, pourvus: 0, enAttente: 0, refuses: 0, taux: c.taux, lot,
+      motif: c.motif, justification: c.justification, souhaites: c.souhaites || [], nouvelle: true
+    }));
+    App.etat.nouvelles[client] = [...creees, ...(App.etat.nouvelles[client] || [])];
+    App.save();
+    // Mémorise la saisie pour « Reprendre la dernière demande » (même format que l'espace web).
+    try {
+      const toutes = JSON.parse(localStorage.getItem('adaptel-derniere-demande')) || {};
+      toutes[client] = { chantier, ref: `votre saisie du ${new Date().toLocaleDateString('fr-FR')}`, lignes: r.map(({ key, ligne, _erreur, ...config }) => ({ jour: key, cle: ligne, config })) };
+      localStorage.setItem('adaptel-derniere-demande', JSON.stringify(toutes));
+    } catch (e) {}
+    const contrats = r.reduce((t, c) => t + c.capacite, 0);   // un seul contrat par poste, quelle que soit la durée
+    envoi = { creees, contrats, at: attestationAt };
+    etape = 4;
+    render();
+  }
+
+  // ---------- Confirmation ----------
+  function renderFin() {
+    document.getElementById('step').innerHTML = `
+      <div class="text-center pt-8">
+        <div class="w-20 h-20 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto">${App.ic('check', 'w-10 h-10')}</div>
+        <h2 class="text-[22px] font-bold text-gray-900 mt-4">Demande transmise</h2>
+        <p class="text-[14px] text-gray-600 mt-1.5 px-4">${App.plural(envoi.creees.length, 'demande')} créée${envoi.creees.length > 1 ? 's' : ''} pour <strong>${App.esc(chantier)}</strong> · ${App.plural(envoi.contrats, 'contrat')} au total.</p>
+        <p class="text-[12px] text-gray-400 mt-2">Attestation fiche de liaison horodatée le ${horodatage(envoi.at)}</p>
+      </div>
+      <div class="card divide-y divide-gray-100 mt-6">
+        ${envoi.creees.map(d => `<a href="demande.html?id=${d.id}" class="flex items-center gap-3 p-3">
+          <div class="flex-1 min-w-0"><p class="text-[14px] font-bold text-gray-900 truncate">${App.esc(d.q)}</p><p class="text-[12px] text-gray-500">${d.date}${d.dateFin ? ` → ${d.dateFin}` : ''} · ${d.horaire} · ${App.plural(d.capacite, 'poste')}</p>${d.souhaites.length ? `<p class="text-[12px] text-brand font-semibold truncate">Souhaité : ${App.esc(d.souhaites.join(', '))}</p>` : ''}</div>
+          ${App.badge(d.statut)}
+        </a>`).join('')}
+      </div>
+      <p class="text-[12.5px] text-gray-500 text-center mt-4 px-4">Vous recevrez une notification dès qu'un intérimaire sera positionné.</p>`;
+    document.getElementById('bottom').innerHTML = `<div class="grid grid-cols-2 gap-2">
+      <a href="index.html" class="btn btn-ghost">Accueil</a>
+      <a href="demandes.html?f=encours" class="btn btn-primary">Mes demandes</a>
+    </div>`;
+  }
+
+  function suivant() {
+    if (etape === 1 && !chantier) return;
+    if (etape === 2) {
+      const r = rows();
+      const err = r.find(c => demoErreurCoupure(c));
+      if (err) { App.toast(`Coupure à corriger : ${lineLabel(err)} du ${fmtDay(err.key)}`, 'warn'); return; }
+    }
+    if (etape === 2) attestationAt = null;
+    etape++;
+    render();
+  }
+
+  // ---------- Reprendre la dernière demande ----------
+  function derniereDemande() {
+    try {
+      const s = (JSON.parse(localStorage.getItem('adaptel-derniere-demande')) || {})[App.sel().client];
+      if (s && CHANTIERS[s.chantier]) return s;
+    } catch (e) {}
+    const num = d => parseInt(d.id.replace(/\D/g, ''), 10);
+    const toutes = demoRows('demandes', DEMANDES_ETOILE, demoDemandes, true).filter(d => d.statut !== 'annulee' && CHANTIERS[d.chantier]);
+    const der = toutes.sort((a, b) => num(b) - num(a))[0];
+    if (!der) return null;
+    const saisie = der.lot ? toutes.filter(d => d.lot === der.lot) : [der];
+    const sansZero = t => t.replace(/\b0(\d)h/g, '$1h');
+    const lignes = saisie.map(d => {
+      const q = CHANTIERS[d.chantier].qualifications[d.q];
+      if (!q) return null;
+      const h = q.horaires.find(h => demoHoraire(h) === sansZero(d.horaire)) || q.horaires[0];
+      const j = d.date.split('/').reverse().join('-');
+      const config = { nom: d.q, horaire: h.libelle, debut: h.debut, fin: h.fin, pause: h.pause, taux: q.taux, capacite: d.capacite, dateFin: j, motif: d.motif, justification: d.justification };
+      if (demoAvecCoupure(h)) Object.assign(config, { debut2: h.debut2, fin2: h.fin2 });
+      return { jour: j, cle: lineKey(d.q, h), config };
+    }).filter(Boolean);
+    return lignes.length ? { chantier: der.chantier, ref: der.lot ? `la saisie ${der.lot}` : `la demande ${der.id}`, lignes } : null;
+  }
+  function resumeReprise(d) {
+    const l = d.lignes[0].config;
+    return `${lineLabel(l)} (${demoHoraire(l)}) · ${d.chantier} · ${App.plural(l.capacite, 'poste')}${d.lignes.length > 1 ? ` + ${d.lignes.length - 1} autre(s)` : ''} — ${d.ref}`;
+  }
+  function reprendre() {
+    const d = derniereDemande();
+    if (!d) return;
+    chantier = d.chantier;
+    const debut = d.lignes.map(l => l.jour).sort()[0];
+    let dec = 7;
+    while (keyToDate(addDays(debut, dec)) < TODAY) dec += 7;
+    dayConfigs = {};
+    d.lignes.forEach(l => { (dayConfigs[addDays(l.jour, dec)] ||= {})[l.cle] = { ...l.config, dateFin: addDays(l.config.dateFin || l.jour, dec) }; });
+    reprise = d;
+    const premier = keyToDate(Object.keys(dayConfigs).sort()[0]);
+    calY = premier.getFullYear(); calM = premier.getMonth();
+    etape = 2;
+    render();
+    App.toast(`Repris : ${App.plural(rows().length, 'demande')} avec horaires, postes et motifs`);
+  }
+  function decaler(nouveau) {
+    const debut = Object.keys(dayConfigs).sort()[0];
+    if (!debut || !nouveau || nouveau < TODAY_KEY) { renderJours(); return; }
+    const delta = Math.round((keyToDate(nouveau) - keyToDate(debut)) / 86400000);
+    const d2 = {};
+    Object.entries(dayConfigs).forEach(([j, lignes]) => { d2[addDays(j, delta)] = Object.fromEntries(Object.entries(lignes).map(([k, c]) => [k, { ...c, dateFin: addDays(c.dateFin || j, delta) }])); });
+    dayConfigs = d2;
+    const p = keyToDate(nouveau); calY = p.getFullYear(); calM = p.getMonth();
+    renderJours();
+  }
+
+  // ---------- Démarrage ----------
+  loadChantiers();
+  const ch = App.sel().chantier;
+  if (ch && CHANTIERS[ch]) chantier = ch;
+  if (App.param('reprise') && derniereDemande()) reprendre();
+  else render();
+</script>
+</body>
+</html>

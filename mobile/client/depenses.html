@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Dépenses prévisionnelles</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<div id="page" hidden class="pb-28">
+  <div class="bg-white border-b border-gray-100 pt-3 pb-3 px-4">
+    <h1 class="text-[22px] font-bold text-gray-900 leading-tight">Dépenses prévisionnelles</h1>
+    <p class="text-[12.5px] text-gray-500">Pour un prévisionnel à jour, pensez à valider vos relevés.</p>
+  </div>
+  <div id="content" class="px-4 pt-4 space-y-3"></div>
+</div>
+
+<script>
+  App.mount({ tab: 'depenses' });
+
+  const SERIES = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#c3c2b7'];
+  let mois = 8, annee = 2026;
+  let axe = 'q';                                     // donut : par qualification ou par chantier
+  let f = { releve: '', periode: '', q: '', du: '', au: '', hMin: '', hMax: '' };
+  let tri = 'montant';
+
+  function render() {
+    const content = document.getElementById('content');
+    if (!App.isPriv()) {
+      content.innerHTML = `
+        <div class="card p-8 text-center">
+          <div class="w-14 h-14 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mx-auto">${App.ic('lock', 'w-7 h-7')}</div>
+          <p class="font-bold text-gray-700 mt-3">Réservé aux rôles Manager et Admin</p>
+          <p class="text-[13px] text-gray-500 mt-1">Votre rôle ne permet pas de consulter les dépenses prévisionnelles de cet établissement.</p>
+        </div>`;
+      return;
+    }
+    // Seul septembre 2026 a des données de démo.
+    const rows = mois === 8 && annee === 2026 ? App.data.depenses() : [];
+    const sum = l => l.reduce((s, r) => s + r.montant, 0);
+    const parts = ['valide', 'a_valider', 'a_venir'].map(k => ({ k, l: rows.filter(r => r.releve === k) }));
+    const total = sum(rows);
+    const pct = n => total ? Math.round(n / total * 100) : 0;
+
+    content.innerHTML = `
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-1">
+          <button onclick="shiftMois(-1)" class="w-9 h-9 rounded-full flex items-center justify-center active:bg-gray-200">${App.ic('left', 'w-5 h-5')}</button>
+          <p class="text-[15px] font-bold w-36 text-center">${App.MOIS[mois]} ${annee}</p>
+          <button onclick="shiftMois(1)" class="w-9 h-9 rounded-full flex items-center justify-center active:bg-gray-200">${App.ic('right', 'w-5 h-5')}</button>
+        </div>
+        <button onclick="App.toast('Export envoyé à ' + App.USER.email)" class="h-9 px-3 rounded-full bg-white border border-gray-200 text-[12.5px] font-bold text-gray-700 flex items-center gap-1.5">${App.ic('download', 'w-4 h-4')}Export</button>
+      </div>
+
+      <!-- TOTAL + VENTILATION -->
+      <section class="card p-4">
+        <p class="label">Prévisionnel du mois</p>
+        <p class="text-[32px] font-bold text-gray-900 leading-tight">${App.euros(total)}</p>
+        <p class="text-[12px] text-gray-500">${App.plural(rows.length, 'mission')} · ${App.esc(App.scopeLabel())}</p>
+        <div class="flex h-3 rounded-full overflow-hidden bg-gray-100 mt-3" role="img" aria-label="Ventilation par relevé d'heures">
+          ${parts.map(p => `<div style="width:${pct(sum(p.l))}%;background:${App.RELEVE[p.k].bar}"></div>`).join('')}
+        </div>
+        <div class="grid grid-cols-3 gap-2 mt-3">
+          ${parts.map(p => `
+            <button onclick="setReleve('${p.k}')" class="text-left rounded-xl p-2.5 border ${f.releve === p.k ? 'border-brand bg-brand/5' : 'border-gray-100 bg-gray-50'}">
+              <p class="flex items-center gap-1.5 text-[11px] font-semibold text-gray-500"><span class="w-2 h-2 rounded-full" style="background:${App.RELEVE[p.k].bar}"></span>${{ valide: 'Validé', a_valider: 'À valider', a_venir: 'À venir' }[p.k]}</p>
+              <p class="text-[14.5px] font-bold text-gray-900 mt-0.5">${App.euros(sum(p.l))}</p>
+              <p class="text-[10.5px] text-gray-400">${App.plural(p.l.length, 'mission')} · ${pct(sum(p.l))} %</p>
+            </button>`).join('')}
+        </div>
+        ${parts[1].l.length ? `<a href="releves.html" class="mt-3 flex items-center justify-between rounded-xl bg-amber-50 px-3 py-2.5 text-[13px] font-bold text-amber-800">Valider les relevés en attente ${App.ic('right', 'w-4 h-4')}</a>` : ''}
+        <p class="text-[11.5px] text-gray-400 mt-2.5">Le prévisionnel inclut les missions commandées à venir. Le montant validé rejoint le prévisionnel une fois tous les relevés du mois validés.</p>
+      </section>
+
+      <!-- RÉPARTITION -->
+      <section class="card p-4">
+        <div class="flex items-center justify-between">
+          <h2 class="font-bold text-gray-900">Répartition</h2>
+          <div class="flex bg-gray-100 rounded-xl p-0.5 text-[12px] font-bold">
+            ${[['q', 'Qualification'], ['chantier', 'Chantier']].map(([k, l]) => `<button onclick="axe='${k}'; render()" class="px-2.5 h-7 rounded-[10px] ${axe === k ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'}">${l}</button>`).join('')}
+          </div>
+        </div>
+        ${donut(aggregate(rows, axe), total)}
+      </section>
+
+      <!-- DÉTAIL -->
+      <section>
+        <div class="flex items-center justify-between mb-2 mt-1">
+          <h2 class="font-bold text-gray-900">Détail des demandes</h2>
+          <div class="flex items-center gap-1.5">
+            <button onclick="ouvrirTri()" class="h-8 px-2.5 rounded-full bg-white border border-gray-200 text-[12px] font-bold text-gray-600 flex items-center gap-1">${App.ic('sort', 'w-3.5 h-3.5')}${{ montant: 'Montant', date: 'Date', heures: 'Heures', q: 'Qualif.' }[tri]}</button>
+            <button onclick="ouvrirFiltres()" class="relative h-8 px-2.5 rounded-full bg-white border border-gray-200 text-[12px] font-bold text-gray-600 flex items-center gap-1">${App.ic('filter', 'w-3.5 h-3.5')}Filtres${nbFiltres() ? `<span class="ml-0.5 w-4 h-4 rounded-full bg-brand text-white text-[9.5px] flex items-center justify-center">${nbFiltres()}</span>` : ''}</button>
+          </div>
+        </div>
+        <div id="detail"></div>
+      </section>`;
+    renderDetail(rows);
+  }
+
+  function aggregate(rows, key) {
+    const map = {};
+    rows.forEach(r => map[r[key]] = (map[r[key]] || 0) + r.montant);
+    const items = Object.entries(map).sort((a, b) => b[1] - a[1]).map(([label, montant]) => ({ label, montant }));
+    if (items.length <= SERIES.length) return items;
+    return [...items.slice(0, SERIES.length - 1), { label: 'Autres', montant: items.slice(SERIES.length - 1).reduce((s, i) => s + i.montant, 0) }];
+  }
+
+  function donut(items, total) {
+    if (!total) return `<p class="text-center text-[13px] text-gray-400 py-8">Aucune dépense ce mois-ci.</p>`;
+    const r = 70, c = 2 * Math.PI * r;
+    let off = 0;
+    const segs = items.map((it, i) => {
+      const len = it.montant / total * c;
+      const s = `<circle cx="90" cy="90" r="${r}" fill="none" stroke="${SERIES[i % SERIES.length]}" stroke-width="22" stroke-dasharray="${Math.max(len - 1.5, 0).toFixed(1)} ${(c - len + 1.5).toFixed(1)}" stroke-dashoffset="${(-off).toFixed(1)}" transform="rotate(-90 90 90)"></circle>`;
+      off += len;
+      return s;
+    }).join('');
+    return `
+      <div class="flex items-center gap-4 mt-3">
+        <div class="relative w-[140px] h-[140px] flex-shrink-0">
+          <svg viewBox="0 0 180 180" class="w-full h-full"><circle cx="90" cy="90" r="${r}" fill="none" stroke="#f1f0ed" stroke-width="22"></circle>${segs}</svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center"><p class="text-[15px] font-bold">${App.euros(total)}</p><p class="text-[10px] font-semibold text-gray-400 uppercase">Total</p></div>
+        </div>
+        <div class="flex-1 min-w-0 space-y-1.5">
+          ${items.map((it, i) => `
+            <div class="flex items-center justify-between gap-2 text-[12.5px]">
+              <span class="flex items-center gap-1.5 min-w-0 text-gray-700"><span class="w-2.5 h-2.5 rounded-sm flex-shrink-0" style="background:${SERIES[i % SERIES.length]}"></span><span class="truncate">${App.esc(it.label)}</span></span>
+              <span class="font-bold text-gray-900 whitespace-nowrap">${Math.round(it.montant / total * 100)} %</span>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  // ---------- Détail filtré ----------
+  function bornes() {
+    const lundi = App.addDays(App.TODAY, -((App.TODAY.getDay() + 6) % 7));
+    if (f.periode === 'semaine') return [lundi, App.addDays(lundi, 6)];
+    if (f.periode === 'semaine-1') return [App.addDays(lundi, -7), App.addDays(lundi, -1)];
+    if (f.periode === 'perso') return [f.du ? new Date(f.du + 'T00:00') : null, f.au ? new Date(f.au + 'T00:00') : null];
+    return [null, null];
+  }
+  const nbFiltres = () => ['releve', 'periode', 'q', 'hMin', 'hMax'].filter(k => f[k] !== '').length;
+  function renderDetail(all) {
+    const [du, au] = bornes();
+    const rows = all.filter(r => {
+      const d = App.parseFr(r.date);
+      return (!f.releve || r.releve === f.releve) && (!f.q || r.q === f.q)
+        && (f.hMin === '' || r.heures >= Number(f.hMin)) && (f.hMax === '' || r.heures <= Number(f.hMax))
+        && (!du || d >= du) && (!au || d <= au);
+    }).sort((a, b) => tri === 'date' ? App.parseFr(b.date) - App.parseFr(a.date) : tri === 'q' ? a.q.localeCompare(b.q) : b[tri] - a[tri]);
+    const total = rows.reduce((s, r) => s + r.montant, 0);
+    document.getElementById('detail').innerHTML = `
+      <div class="flex items-center justify-between text-[12px] text-gray-500 mb-2 px-1">
+        <span>${App.plural(rows.length, 'demande')} · <strong class="text-gray-800">${App.euros(total, 2)}</strong></span>
+        ${nbFiltres() ? `<button onclick="effacer()" class="font-bold text-brand">Effacer les filtres</button>` : ''}
+      </div>
+      ${rows.length ? `<div class="card divide-y divide-gray-100">${rows.map(r => `
+        <div class="flex items-center gap-3 px-3.5 py-3">
+          <div class="flex-1 min-w-0">
+            <p class="text-[14px] font-bold text-gray-900 truncate">${App.esc(r.q)}</p>
+            <p class="text-[11.5px] text-gray-500 truncate">${r.id} · ${App.esc(r.chantier)}</p>
+            <p class="text-[11.5px] text-gray-500 mt-0.5">${r.date.slice(0, 5)} · ${r.heures} h × ${r.taux.toFixed(2)} €</p>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <p class="text-[14.5px] font-bold text-gray-900">${App.euros(r.montant, 2)}</p>
+            <div class="mt-1">${App.releveBadge(r.releve)}</div>
+          </div>
+        </div>`).join('')}</div>` : `<div class="card p-6 text-center text-[13px] text-gray-400">Aucune demande ne correspond à ces filtres.</div>`}`;
+  }
+
+  function setReleve(k) { f.releve = f.releve === k ? '' : k; render(); document.getElementById('detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  function effacer() { f = { releve: '', periode: '', q: '', du: '', au: '', hMin: '', hMax: '' }; render(); }
+  function shiftMois(d) { mois += d; if (mois > 11) { mois = 0; annee++; } if (mois < 0) { mois = 11; annee--; } render(); }
+
+  function ouvrirTri() {
+    const sh = App.sheet({
+      title: 'Trier par',
+      body: `<div class="space-y-1.5">${[['montant', 'Montant (décroissant)'], ['date', 'Date (plus récente)'], ['heures', "Nombre d'heures"], ['q', 'Qualification (A → Z)']].map(([k, l]) => `
+        <button data-k="${k}" class="w-full flex items-center justify-between px-3.5 py-3 rounded-xl border text-[14px] font-semibold ${tri === k ? 'border-brand bg-brand/5 text-brand' : 'border-gray-200 text-gray-700'}">${l}${tri === k ? App.ic('check', 'w-5 h-5') : ''}</button>`).join('')}</div>`,
+    });
+    sh.querySelectorAll('[data-k]').forEach(b => b.onclick = () => { tri = b.dataset.k; App.closeSheet(); render(); });
+  }
+
+  function ouvrirFiltres() {
+    const rows = App.data.depenses();
+    const heures = rows.map(r => r.heures);
+    const g = { ...f };
+    const sh = App.sheet({
+      title: 'Filtrer le détail',
+      body: `
+        <p class="label mb-1.5">Relevé d'heures</p>
+        <div class="flex flex-wrap gap-2 mb-4">${[['', 'Tous'], ['valide', 'Validé'], ['a_valider', 'À valider'], ['a_venir', 'À venir']].map(([k, l]) => `<button data-r="${k}" class="chip ${g.releve === k ? 'active' : ''}">${l}</button>`).join('')}</div>
+        <p class="label mb-1.5">Période</p>
+        <div class="flex flex-wrap gap-2">${[['', 'Tout le mois'], ['semaine', 'Cette semaine'], ['semaine-1', 'Semaine dernière'], ['perso', 'Personnalisée']].map(([k, l]) => `<button data-p="${k}" class="chip ${g.periode === k ? 'active' : ''}">${l}</button>`).join('')}</div>
+        <div id="perso" class="grid grid-cols-2 gap-2 mt-2 ${g.periode === 'perso' ? '' : 'hidden'}">
+          <label class="block"><span class="label">Du</span><input id="f-du" type="date" min="2026-09-01" max="2026-09-30" class="field mt-1" value="${g.du}"></label>
+          <label class="block"><span class="label">Au</span><input id="f-au" type="date" min="2026-09-01" max="2026-09-30" class="field mt-1" value="${g.au}"></label>
+        </div>
+        <label class="block mt-4"><span class="label">Qualification</span><select id="f-q" class="field mt-1"><option value="">Toutes</option>${[...new Set(rows.map(r => r.q))].sort().map(q => `<option ${g.q === q ? 'selected' : ''}>${App.esc(q)}</option>`).join('')}</select></label>
+        <p class="label mt-4 mb-1">Nombre d'heures</p>
+        <div class="flex items-center gap-2 text-[13px] text-gray-500">de <input id="f-hmin" type="number" inputmode="numeric" min="0" class="field !h-10" placeholder="${heures.length ? Math.min(...heures) : ''}" value="${g.hMin}"> à <input id="f-hmax" type="number" inputmode="numeric" min="0" class="field !h-10" placeholder="${heures.length ? Math.max(...heures) : ''}" value="${g.hMax}"> h</div>`,
+      footer: `<div class="grid grid-cols-2 gap-2"><button id="f-reset" class="btn btn-ghost">Effacer</button><button id="f-ok" class="btn btn-primary">Appliquer</button></div>`,
+    });
+    const group = (attr, champ) => sh.querySelectorAll(`[data-${attr}]`).forEach(b => b.onclick = () => {
+      g[champ] = b.dataset[attr];
+      sh.querySelectorAll(`[data-${attr}]`).forEach(x => x.classList.toggle('active', x === b));
+      sh.querySelector('#perso').classList.toggle('hidden', g.periode !== 'perso');
+    });
+    group('r', 'releve'); group('p', 'periode');
+    sh.querySelector('#f-reset').onclick = () => { App.closeSheet(); effacer(); };
+    sh.querySelector('#f-ok').onclick = () => {
+      f = { ...g, q: sh.querySelector('#f-q').value, du: sh.querySelector('#f-du').value, au: sh.querySelector('#f-au').value, hMin: sh.querySelector('#f-hmin').value, hMax: sh.querySelector('#f-hmax').value };
+      App.closeSheet(); render();
+    };
+  }
+
+  document.addEventListener('etab-change', render);
+  render();
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adaptel Client · Accident du travail</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/app.css">
+<script src="../../client/assets/etab-selector.js"></script>
+<script src="../../client/assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+
+<!-- Déclaration d'accident du travail (rubrique Légal de l'espace web) : on part du jour et de la personne,
+     la mission s'en déduit. Adaptel reçoit un mail avec la fiche de liaison de la mission. -->
+<div id="page" hidden class="min-h-full flex flex-col">
+  <div id="step" class="flex-1 px-4 pt-4 pb-6"></div>
+  <div id="bottom" class="sticky bottom-0 bg-white/95 backdrop-blur border-t border-gray-100 px-4 pt-3 pb-5"></div>
+</div>
+
+<script>
+  App.mount({ title: 'Accident du travail', subtitle: 'À déclarer à Adaptel sous 24 h', back: 'menu.html', backJs: 'retour()' });
+
+  const LUNDI = new Date(2026, 8, 21);
+  let date = App.fmtFr(App.TODAY);
+  let victime = null;
+  let photos = 0;
+  let envoye = false;
+
+  // Intérimaires présents le jour choisi : planning de la semaine + relevés d'heures.
+  function presents() {
+    const d = App.parseFr(date);
+    const idx = Math.round((d - LUNDI) / 86400000);
+    const fromPlanning = idx >= 0 && idx < 7 ? App.data.planning().flatMap(l => l.missions.filter(m => m.day === idx && m.nom !== '—').map(m => {
+      const i = DEMO_INTERIMAIRES.find(x => demoShortName(x.nom) === m.nom);
+      return { nom: i ? i.nom : m.nom, q: m.q, chantier: l.chantier, horaire: m.horaire };
+    })) : [];
+    const fromReleves = App.data.releves().filter(r => r.date === date).map(r => ({ nom: r.nom, q: r.q, chantier: r.chantier, horaire: `${r.debut.replace(':', 'h')}–${r.fin.replace(':', 'h')}` }));
+    const vus = new Set();
+    return [...fromPlanning, ...fromReleves].filter(p => !vus.has(p.nom + p.chantier) && vus.add(p.nom + p.chantier));
+  }
+
+  function render() {
+    const step = document.getElementById('step');
+    const bottom = document.getElementById('bottom');
+    if (envoye) {
+      step.innerHTML = `
+        <div class="text-center pt-10">
+          <div class="w-20 h-20 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto">${App.ic('check', 'w-10 h-10')}</div>
+          <h2 class="text-[22px] font-bold text-gray-900 mt-4">Déclaration envoyée</h2>
+          <p class="text-[14px] text-gray-600 mt-1.5 px-2">Adaptel a reçu la déclaration concernant <strong>${App.esc(victime.nom)}</strong> (${App.esc(victime.q)}, ${App.esc(victime.chantier)}) avec la fiche de liaison de la mission.</p>
+          <p class="text-[12.5px] text-gray-500 mt-3">Votre interlocuteur vous rappellera si des précisions sont nécessaires.</p>
+        </div>`;
+      bottom.innerHTML = `<div class="grid grid-cols-2 gap-2"><button onclick="App.contactSheet()" class="btn btn-outline">${App.ic('phone', 'w-4 h-4')}Appeler</button><a href="index.html" class="btn btn-primary">Accueil</a></div>`;
+      return;
+    }
+    if (!victime) {
+      const hier = App.fmtFr(App.addDays(App.TODAY, -1));
+      const q = etabNormalize((document.getElementById('q') || {}).value || '');
+      const liste = presents().filter(p => !q || etabNormalize(`${p.nom} ${p.q} ${p.chantier}`).includes(q));
+      step.innerHTML = `
+        <div class="rounded-2xl bg-red-50 border border-red-200 p-3.5 flex gap-2.5 text-[12.5px] text-red-900">
+          ${App.ic('alert', 'w-5 h-5 flex-shrink-0 text-red-600')}
+          <p>Adaptel, employeur de l'intérimaire, doit être informé dans les <strong>24 heures</strong>. En cas d'urgence vitale, appelez d'abord le <a href="tel:15" class="font-bold underline">15</a> ou le <a href="tel:112" class="font-bold underline">112</a>.</p>
+        </div>
+        <h2 class="text-[18px] font-bold text-gray-900 mt-5">1. Qui, et quel jour ?</h2>
+        <div class="flex gap-2 mt-3">
+          <button onclick="setDate('${App.fmtFr(App.TODAY)}')" class="chip ${date === App.fmtFr(App.TODAY) ? 'active' : ''}">Aujourd'hui</button>
+          <button onclick="setDate('${hier}')" class="chip ${date === hier ? 'active' : ''}">Hier</button>
+          <input type="date" class="field !h-[34px] !rounded-full !text-[13px] flex-1 !px-3" value="${date.split('/').reverse().join('-')}" max="2026-09-23" onchange="setDate(this.value.split('-').reverse().join('/'))">
+        </div>
+        <div class="relative mt-3">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">${App.ic('search', 'w-4 h-4')}</span>
+          <input id="q" type="search" oninput="render()" value="${App.esc((document.getElementById('q') || {}).value || '')}" placeholder="Nom, poste, chantier…" class="field pl-9">
+        </div>
+        <p class="label mt-4 mb-2">Intérimaires présents · ${App.jourLong(App.parseFr(date))}</p>
+        <div class="space-y-2">
+          ${liste.length ? liste.map((p, i) => `
+            <button onclick='choisir(${JSON.stringify(p).replace(/'/g, "&#39;")})' class="press card w-full text-left flex items-center gap-3 p-3">
+              ${App.avatar(p.nom, 'w-10 h-10')}
+              <span class="flex-1 min-w-0"><span class="block text-[14.5px] font-bold text-gray-900 truncate">${App.esc(p.nom)}</span><span class="block text-[12px] text-gray-500 truncate">${App.esc(p.q)} · ${App.esc(p.chantier)} · ${p.horaire}</span></span>
+              ${App.ic('right', 'w-5 h-5 text-gray-300')}
+            </button>`).join('') : `<div class="card p-6 text-center text-[13px] text-gray-400">Aucun intérimaire en mission ce jour-là${q ? ' pour cette recherche' : ''}.</div>`}
+        </div>`;
+      bottom.innerHTML = `<p class="text-center text-[12.5px] text-gray-500">Choisissez la personne concernée pour continuer.</p>`;
+      const input = document.getElementById('q');
+      if (input.value) { input.focus(); input.setSelectionRange(input.value.length, input.value.length); }
+      return;
+    }
+    step.innerHTML = `
+      <div class="card p-3 flex items-center gap-3">
+        ${App.avatar(victime.nom, 'w-11 h-11', 'text-sm')}
+        <div class="flex-1 min-w-0"><p class="text-[14.5px] font-bold text-gray-900 truncate">${App.esc(victime.nom)}</p><p class="text-[12px] text-gray-500 truncate">${App.esc(victime.q)} · ${App.esc(victime.chantier)} · ${date}</p></div>
+        <button onclick="victime = null; render()" class="text-[12.5px] font-bold text-brand">Changer</button>
+      </div>
+      <h2 class="text-[18px] font-bold text-gray-900 mt-5">2. Que s'est-il passé ?</h2>
+      <div class="grid grid-cols-[110px_1fr] gap-2 mt-3">
+        <label class="block"><span class="label">Heure</span><input id="heure" type="time" class="field mt-1 !px-2"></label>
+        <label class="block"><span class="label">Lieu précis</span><input id="lieu" class="field mt-1" placeholder="Ex. cuisine, chambre 412…"></label>
+      </div>
+      <label class="block mt-3"><span class="label">Circonstances</span><textarea id="desc" rows="4" class="field mt-1" placeholder="Activité en cours, circonstances, déroulé des faits…"></textarea></label>
+      <label class="block mt-3"><span class="label">Blessures constatées</span><input id="lesions" class="field mt-1" placeholder="Facultatif — ex. coupure à la main gauche"></label>
+      <label class="block mt-3"><span class="label">Témoins</span><input id="temoins" class="field mt-1" placeholder="Facultatif — nom et téléphone"></label>
+      <p class="label mt-4 mb-1.5">Photos</p>
+      <div class="flex gap-2">
+        ${Array.from({ length: photos }, (_, i) => `<div class="w-16 h-16 rounded-xl bg-gray-200 flex items-center justify-center text-gray-400 text-[11px] font-bold">IMG ${i + 1}</div>`).join('')}
+        <button onclick="photos++; render()" class="w-16 h-16 rounded-xl border-2 border-dashed border-gray-300 text-gray-400 flex flex-col items-center justify-center text-[10px] font-bold">${App.ic('camera', 'w-5 h-5')}Ajouter</button>
+      </div>
+      <div class="rounded-2xl bg-gray-50 p-3 mt-4">
+        <p class="label mb-1.5">Joint automatiquement au mail</p>
+        <p class="text-[13px] text-gray-700 flex items-center gap-2">${App.ic('file', 'w-4 h-4 text-brand')}Fiche de liaison · ${App.esc(victime.q)} (avec fiche de poste)</p>
+        <p class="text-[13px] text-gray-700 flex items-center gap-2 mt-1">${App.ic('briefcase', 'w-4 h-4 text-brand')}Mission du ${date} · ${victime.horaire}</p>
+      </div>
+      <p id="err" class="hidden text-[12.5px] font-semibold text-red-600 mt-3"></p>`;
+    bottom.innerHTML = `<button onclick="envoyer()" class="btn btn-primary w-full">${App.ic('send', 'w-5 h-5')}Envoyer la déclaration à Adaptel</button>`;
+  }
+  function setDate(d) { date = d; render(); }
+  function choisir(p) { victime = p; render(); document.getElementById('scroll').scrollTo({ top: 0 }); }
+  function envoyer() {
+    const manque = [['heure', "l'heure"], ['lieu', 'le lieu'], ['desc', 'les circonstances']].filter(([id]) => !document.getElementById(id).value.trim()).map(([, l]) => l);
+    if (manque.length) { const e = document.getElementById('err'); e.textContent = `Indiquez ${manque.join(', ')}.`; e.classList.remove('hidden'); return; }
+    envoye = true;
+    render();
+    document.getElementById('scroll').scrollTo({ top: 0 });
+  }
+  function retour() {
+    if (victime && !envoye) { victime = null; render(); }
+    else location.href = 'menu.html';
+  }
+  document.addEventListener('etab-change', render);
+  render();
+</script>
+</body>
+</html>

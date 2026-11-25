@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptel - Exports</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-white border-r border-gray-200 flex flex-col shadow-lg h-screen sticky top-0" style="width:256px;">
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-light text-[#A63629] tracking-tight">Adaptel</h1>
+          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Backoffice</p>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 ml-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-600"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+      <a class="block" href="maquette-accueil.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span class="font-medium">Accueil</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-clients.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Clients</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-chantiers.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span class="font-medium">Chantiers</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-candidatures.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M2 21a8 8 0 0 1 13.292-6"></path><circle cx="10" cy="8" r="5"></circle><path d="M19 16v6"></path><path d="M22 19h-6"></path></svg>
+          <span class="font-medium">Candidatures</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-interimaires.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <span class="font-medium">Intérimaires</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-planning.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+          <span class="font-medium">Planning</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-disponibilites.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+          <span class="font-medium">Disponibilités</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-recherche-de-dispo.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <span class="font-medium">Recherche dispo.</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-demandes.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          <span class="font-medium">Demandes</span>
+        </div>
+      </a>
+      <a class="block" id="nav-releves-link" href="maquette-releves-heures.html">
+        <div id="nav-releves" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          <span class="font-medium">Relevés d'heures</span>
+        </div>
+      </a>
+      <a class="block" id="nav-reporting-link" href="maquette-reporting.html">
+        <div id="nav-reporting" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+          <span class="font-medium">Reporting</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-support.html">
+        <div id="nav-support" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path></svg>
+            <span class="font-medium">Support</span>
+          </div>
+          <span id="support-badge" class="bg-[#A63629] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+        </div>
+      </a>
+      <a class="block" id="nav-utilisateurs-link" href="maquette-utilisateurs.html">
+        <div id="nav-utilisateurs" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span class="font-medium">Utilisateurs</span>
+        </div>
+      </a>
+      <a class="block" id="nav-administration-link" href="maquette-administration.html">
+        <div id="nav-administration" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path></svg>
+          <span class="font-medium">Administration</span>
+        </div>
+      </a>
+      <a class="block" id="nav-exports-link" href="maquette-exports.html">
+        <div id="nav-exports" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>
+          <span class="font-medium">Exports</span>
+        </div>
+      </a>
+      <a class="block" href="maquette-parametres.html">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
+          <span class="font-medium">Paramètres</span>
+        </div>
+      </a>
+      <a class="block" href="#">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span class="font-medium">Compte</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+      <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+        <span class="font-medium">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-auto flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end gap-3 sticky top-0 z-40">
+      <!-- Demo-only role switcher: exports reserved to master admins -->
+      <div class="flex items-center gap-2 mr-auto">
+        <span class="text-xs text-gray-400 uppercase tracking-wider font-medium">Aperçu démo — rôle :</span>
+        <select id="role-select" class="h-9 rounded-lg border border-gray-200 bg-white px-2 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A63629]">
+          <option value="master" selected>Administrateur master</option>
+          <option value="admin">Administratif Adaptel</option>
+          <option value="chef">Chef de secteur</option>
+          <option value="collab">Collaborateur d'agence</option>
+        </select>
+      </div>
+      <button type="button" class="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-900 shadow-sm transition-all hover:bg-gray-50 w-10 px-0" title="Mode clair">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+      </button>
+      <div class="relative">
+        <button class="relative p-2 rounded-lg transition-all duration-200 hover:bg-gray-100" title="Notifications (5 non lues)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-colors text-[#A63629]"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+          <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-[#A63629] rounded-full">5</span>
+          <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full border border-white bg-green-500"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="flex-1">
+      <div class="p-6 space-y-6">
+
+        <!-- AUTHORIZED VIEW -->
+        <div id="exports-content" class="space-y-6">
+
+          <!-- TITLE -->
+          <div class="mx-auto max-w-[1500px] space-y-2">
+            <h1 class="text-3xl font-bold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] bg-clip-text text-transparent">Exports</h1>
+            <p class="text-sm text-gray-600 max-w-2xl">Extraction des données opérationnelles (planning, interdictions, intérimaires, demandes…) au format Excel ou CSV, pour analyse ou archivage.</p>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 text-[#A63629] shadow-sm px-2.5 py-1 text-xs font-semibold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path></svg>
+              Accès réservé aux administrateurs master
+            </span>
+          </div>
+
+          <div class="mx-auto max-w-[1500px] grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+
+            <!-- CATALOGUE -->
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+              <div class="p-6 border-b border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-semibold text-gray-900">1. Choisir les données à exporter</h3>
+                <p class="text-sm text-gray-500 mt-0.5">Un export = un fichier, une ligne par enregistrement</p>
+              </div>
+              <div id="export-catalog" class="p-5 grid gap-3 sm:grid-cols-2"></div>
+            </div>
+
+            <!-- CONFIGURATION -->
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden lg:sticky lg:top-20 self-start">
+              <div class="p-6 border-b border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-semibold text-gray-900">2. Paramétrer l'export</h3>
+                <p id="cfg-subtitle" class="text-sm text-gray-500 mt-0.5">—</p>
+              </div>
+              <div class="p-6 space-y-4">
+                <div id="cfg-period" class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="text-sm text-gray-700 font-semibold">Du</label>
+                    <input id="cfg-from" type="date" value="2026-11-01" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                  </div>
+                  <div>
+                    <label class="text-sm text-gray-700 font-semibold">Au</label>
+                    <input id="cfg-to" type="date" value="2026-11-30" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="text-sm text-gray-700 font-semibold">Agence</label>
+                    <select id="cfg-agence" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                      <option value="">Toutes</option><option>001</option><option>002</option><option>003</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="text-sm text-gray-700 font-semibold">Secteur</label>
+                    <select id="cfg-secteur" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                      <option value="">Tous</option><option>Restauration</option><option>Housekeeping</option><option>Hébergement</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label class="text-sm text-gray-700 font-semibold">Client / chantier</label>
+                  <select id="cfg-client" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+                    <option value="">Tous les clients</option>
+                    <option>CONSTELLATION ETOILE - HYATT REGENCY P (tous chantiers)</option>
+                    <option>HYATT REGENCY P — FLEXI BANQUET</option>
+                    <option>HYATT REGENCY P — FLEXI HOUSEKEEPING</option>
+                    <option>HYATT REGENCY P — FLEXI HOTE/HOTESSE</option>
+                  </select>
+                </div>
+                <div>
+                  <div class="flex items-center justify-between">
+                    <label class="text-sm text-gray-700 font-semibold">Colonnes</label>
+                    <button type="button" id="cfg-toggle-cols" class="text-xs font-semibold text-[#A63629] hover:underline">Tout décocher</button>
+                  </div>
+                  <div id="cfg-columns" class="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-1.5 rounded-lg border border-gray-200 p-3 max-h-56 overflow-y-auto"></div>
+                </div>
+                <div>
+                  <label class="text-sm text-gray-700 font-semibold">Format</label>
+                  <div class="mt-1.5 grid grid-cols-2 gap-2">
+                    <label class="flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm cursor-pointer has-[:checked]:border-[#A63629] has-[:checked]:bg-red-50">
+                      <input type="radio" name="cfg-format" value="xlsx" checked class="text-[#A63629] focus:ring-[#A63629]"> Excel (.xlsx)
+                    </label>
+                    <label class="flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm cursor-pointer has-[:checked]:border-[#A63629] has-[:checked]:bg-red-50">
+                      <input type="radio" name="cfg-format" value="csv" class="text-[#A63629] focus:ring-[#A63629]"> CSV
+                    </label>
+                  </div>
+                </div>
+                <div class="rounded-lg bg-gray-50 border border-gray-200 px-3 py-2.5 text-xs text-gray-600">
+                  Estimation : <span id="cfg-estimate" class="font-semibold text-gray-900">—</span>
+                </div>
+                <button type="button" id="btn-generate" class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-[#A63629] to-[#8B2B1F] text-white shadow-lg shadow-[#A63629]/20 hover:opacity-95 h-10 px-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>
+                  Générer l'export
+                </button>
+                <p class="text-[11px] text-gray-400 text-center">Les exports contiennent des données personnelles : chaque génération est tracée dans l'historique.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- HISTORIQUE -->
+          <div class="mx-auto max-w-[1500px]">
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+              <div class="p-6 border-b border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#A63629]"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                  Historique des exports
+                </h3>
+                <p class="text-sm text-gray-500 mt-0.5">Fichiers disponibles au téléchargement pendant 30 jours</p>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500 border-b border-gray-200">
+                    <tr>
+                      <th class="px-4 py-3 text-left font-semibold">Date</th>
+                      <th class="px-4 py-3 text-left font-semibold">Auteur</th>
+                      <th class="px-4 py-3 text-left font-semibold">Export</th>
+                      <th class="px-4 py-3 text-left font-semibold">Période</th>
+                      <th class="px-4 py-3 text-left font-semibold">Filtres</th>
+                      <th class="px-4 py-3 text-right font-semibold">Lignes</th>
+                      <th class="px-4 py-3 text-left font-semibold">Format</th>
+                      <th class="px-4 py-3 text-right font-semibold">Fichier</th>
+                    </tr>
+                  </thead>
+                  <tbody id="history-body" class="divide-y divide-gray-100"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACCESS DENIED VIEW -->
+        <div id="exports-denied" class="hidden">
+          <div class="mx-auto max-w-[700px] mt-12 text-center bg-white rounded-xl border border-gray-200 shadow-sm p-10">
+            <div class="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-gray-400"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path></svg>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">Onglet non disponible pour votre rôle</h2>
+            <p class="text-sm text-gray-500 mt-2 max-w-md mx-auto">Les exports sont réservés aux administrateurs master — un nombre très restreint de personnes désignées par la direction.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  // ===== Catalogue des exports (démo) =====
+  const EXPORTS = {
+    planning: {
+      label: "Planning", desc: "Missions, positionnements et statuts par jour", dated: true, est: 1240,
+      icon: '<path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path>',
+      cols: ["Date", "Horaires", "Client", "Chantier", "Qualification", "Intérimaire", "ID intérimaire", "Statut", "Positionné par", "Date de positionnement", "Agence"],
+      sample: [["19/11/2026","18:00-23:30","HYATT REGENCY P","FLEXI BANQUET","Serveur","AARAB Nadia","006904283","Validé","Julie PETIT","17/11/2026","001"],
+               ["20/11/2026","07:00-15:00","HYATT REGENCY P","FLEXI HOUSEKEEPING","Femme de chambre","DIALLO Awa","007120045","Provisoire","Sophie LAURENT","18/11/2026","002"]]
+    },
+    interdictions: {
+      label: "Interdictions", desc: "Intérimaires interdits par chantier ou client", dated: true, est: 86,
+      icon: '<circle cx="12" cy="12" r="10"></circle><path d="m4.9 4.9 14.2 14.2"></path>',
+      cols: ["Client", "Chantier", "Type", "ID intérimaire", "Intérimaire", "Date de l'interdiction", "Mission concernée", "Positionné par", "Note", "Commentaires", "Saisie par"],
+      sample: [["HYATT REGENCY P","FLEXI BANQUET","Intérimaire","006904283","AARAB Nadia","12/08/2026","10/08/2026","Sophie LAURENT","Comportement inapproprié avec le client","Signalé par le chef de rang","Julien Castex"],
+               ["HYATT REGENCY P","FLEXI BANQUET","Intérimaire","005812234","BENSAID Karim","20/07/2026","18/07/2026","Julie PETIT","Retard répété","3 retards constatés en 2026","Julien Castex"]]
+    },
+    plantes: {
+      label: "Plantes", desc: "Intérimaires positionnés qui ne se sont pas présentés", dated: true, est: 64,
+      icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="m17 8 5 5"></path><path d="m22 8-5 5"></path>',
+      cols: ["Date", "ID intérimaire", "Intérimaire", "Client", "Chantier", "N° demande", "Qualification", "Prévenance", "Motif", "Commentaire", "Positionné par", "Remplacé par", "Signalée par", "Nb plantes (12 mois)"],
+      sample: [["21/09/2026","006904283","KACI Mehdi","Fouquet's Barrière","Cuisine centrale","DEM-2609-03","Commis de cuisine","Non prévenu","Injoignable / sans nouvelles","","Julie PETIT","ROUSSEL Léa","Sophie LAURENT","2"],
+               ["14/11/2026","005812234","BENSAID Karim","HYATT REGENCY P","FLEXI BANQUET","DEM-2611-14","Serveur","Prévenu le jour même","Maladie","Prévenu à 16h pour 18h","Sophie LAURENT","","Julie PETIT","1"]]
+    },
+    annulations: {
+      label: "Annulations client", desc: "Demandes ou jours annulés par le client", dated: true, est: 112,
+      icon: '<path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle>',
+      cols: ["Date d'annulation", "N° demande", "Client", "Chantier", "Qualification", "Jours annulés", "Portée", "Délai de prévenance", "Motif", "Commentaire", "Intérimaire positionné", "Annulée par"],
+      sample: [["20/09/2026","DEM-2609-05","La Table du Marais","Événement privé","Barman","21/09/2026","Demande entière","< 24h","Événement annulé","Événement annulé par le client.","","Client"],
+               ["12/11/2026","DEM-2611-09","HYATT REGENCY P","FLEXI BANQUET","Serveur","15/11/2026","1 jour","3 jours","Baisse d'activité","","AARAB Nadia","Julien Castex"]]
+    },
+    depannages: {
+      label: "Dépannages", desc: "Rajouts de dernière minute (mission reçue pour le jour même)", dated: true, est: 178,
+      icon: '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path>',
+      cols: ["N° demande", "Reçue le", "Début de mission", "Délai avant prise de poste", "Client", "Chantier", "Qualification", "Nb postes", "Origine", "Intérimaire positionné", "Positionné par", "Statut"],
+      sample: [["DEM-2609-09","21/09/2026 15:40","21/09/2026 19:00","3h20","HYATT REGENCY P","FLEXI BANQUET","Serveur","2","Rajout client","ROUSSEL Léa","Julie PETIT","Pourvue"],
+               ["DEM-2609-10","21/09/2026 08:05","21/09/2026 11:00","2h55","Fouquet's Barrière","Cuisine centrale","Commis de cuisine","1","Remplacement suite à plante","","Sophie LAURENT","Non pourvue"]]
+    },
+    depannagesNonHonores: {
+      label: "Dépannages non honorés", desc: "Dépannages jour même que l'agence n'a pas pu pourvoir (en tout ou partie)", dated: true, est: 41,
+      icon: '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path><path d="m2 2 20 20"></path>',
+      cols: ["N° demande", "Reçue le", "Début de mission", "Délai avant prise de poste", "Client", "Chantier", "Qualification", "Nb postes demandés", "Postes pourvus", "Postes non pourvus", "Origine", "Motif de non-honoration", "Traité par", "Client prévenu le", "Commentaire", "Agence"],
+      sample: [["DEM-2609-10","21/09/2026 08:05","21/09/2026 11:00","2h55","Fouquet's Barrière","Cuisine centrale","Commis de cuisine","1","0","1","Remplacement suite à plante","Aucun intérimaire disponible","Sophie LAURENT","21/09/2026 10:15","12 intérimaires contactés, aucun dispo","001"],
+               ["DEM-2611-21","14/11/2026 16:10","14/11/2026 18:00","1h50","HYATT REGENCY P","FLEXI BANQUET","Serveur","4","2","2","Rajout client","Délai trop court","Julie PETIT","14/11/2026 17:20","Client informé par téléphone","001"]]
+    },
+    interimaires: {
+      label: "Intérimaires", desc: "Fiches, qualifications, documents et statut", dated: false, est: 3420,
+      icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="m16 11 2 2 4-4"></path>',
+      cols: ["ID intérimaire", "Nom", "Prénom", "Téléphone", "Email", "Qualifications", "Agence", "Statut", "Visite médicale", "Dernière mission"],
+      sample: [["006904283","AARAB","Nadia","06 12 34 56 78","n.aarab@mail.fr","Serveur","001","Actif","15/03/2026","19/11/2026"]]
+    },
+    demandes: {
+      label: "Demandes clients", desc: "Demandes reçues, pourvues ou annulées", dated: true, est: 540,
+      icon: '<path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect>',
+      cols: ["N° demande", "Date de création", "Client", "Chantier", "Qualification", "Dates", "Nb postes", "Postes pourvus", "Statut", "Créée par"],
+      sample: [["D-2026-1182","10/11/2026","HYATT REGENCY P","FLEXI BANQUET","Serveur","19/11/2026","6","6","Pourvue","Client"]]
+    },
+    releves: {
+      label: "Relevés d'heures", desc: "Heures réalisées, validées et contestées", dated: true, est: 980,
+      icon: '<path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle>',
+      cols: ["Date", "Intérimaire", "ID intérimaire", "Client", "Chantier", "Heures prévues", "Heures réalisées", "Pauses", "Statut", "Validé par"],
+      sample: [["19/11/2026","AARAB Nadia","006904283","HYATT REGENCY P","FLEXI BANQUET","5,5","6","0,5","Validé","Client"]]
+    },
+    favoris: {
+      label: "Favoris", desc: "Intérimaires favoris par chantier", dated: false, est: 210,
+      icon: '<path d="M11.5 2.3a.5.5 0 0 1 .9 0l2.3 4.7 5.2.8a.5.5 0 0 1 .3.9l-3.8 3.6.9 5.2a.5.5 0 0 1-.7.5L12 15.5l-4.6 2.5a.5.5 0 0 1-.7-.5l.9-5.2L3.8 8.7a.5.5 0 0 1 .3-.9l5.2-.8z"></path>',
+      cols: ["Client", "Chantier", "ID intérimaire", "Intérimaire", "Ajouté par", "Date d'ajout"],
+      sample: [["HYATT REGENCY P","FLEXI BANQUET","007120045","DIALLO Awa","Client","02/10/2026"]]
+    },
+    clients: {
+      label: "Clients & chantiers", desc: "Référentiel clients, chantiers et interlocuteurs", dated: false, est: 145,
+      icon: '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle>',
+      cols: ["Client", "SIRET", "Chantier", "Adresse", "Secteur", "Agence", "Interlocuteur Adaptel", "Statut"],
+      sample: [["CONSTELLATION ETOILE - HYATT REGENCY P","00000000000000","FLEXI BANQUET","3 Place du Général Koenig, 75017 Paris","Restauration","001","Julien Castex","Actif"]]
+    },
+    disponibilites: {
+      label: "Disponibilités", desc: "Disponibilités déclarées par les intérimaires", dated: true, est: 2600,
+      icon: '<path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path>',
+      cols: ["Date", "ID intérimaire", "Intérimaire", "Créneau", "Qualification", "Agence", "Source"],
+      sample: [["21/11/2026","006904283","AARAB Nadia","Soir","Serveur","001","App mobile"]]
+    }
+  };
+
+  let current = "planning";
+  let history = [
+    { date: "24/11/2026 17:42", auteur: "Admin Principal", type: "planning", periode: "01/11/2026 → 30/11/2026", filtres: "Agence 001", lignes: 1240, format: "xlsx" },
+    { date: "20/11/2026 09:15", auteur: "Admin Principal", type: "interdictions", periode: "01/01/2026 → 20/11/2026", filtres: "HYATT REGENCY P", lignes: 12, format: "csv" },
+    { date: "03/11/2026 11:02", auteur: "Admin Principal", type: "releves", periode: "01/10/2026 → 31/10/2026", filtres: "—", lignes: 1018, format: "xlsx" }
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  const fmtDate = (v) => v ? v.split("-").reverse().join("/") : "…";
+
+  function renderCatalog() {
+    $("export-catalog").innerHTML = Object.entries(EXPORTS).map(([key, e]) => {
+      const active = key === current;
+      return `<button type="button" data-key="${key}" class="text-left rounded-xl border p-4 flex gap-3 transition-all ${active ? "border-[#A63629] bg-red-50/60 ring-1 ring-[#A63629]" : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"}">
+        <div class="h-10 w-10 rounded-lg flex items-center justify-center flex-shrink-0 ${active ? "bg-[#A63629] text-white" : "bg-gray-100 text-gray-600"}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">${e.icon}</svg>
+        </div>
+        <div class="min-w-0">
+          <p class="font-semibold text-gray-900">${e.label}</p>
+          <p class="text-xs text-gray-500 mt-0.5">${e.desc}</p>
+          <p class="text-[11px] text-gray-400 mt-1.5">${e.cols.length} colonnes${e.dated ? " · filtrable par période" : ""}</p>
+        </div>
+      </button>`;
+    }).join("");
+    document.querySelectorAll("#export-catalog [data-key]").forEach(b =>
+      b.addEventListener("click", () => { current = b.dataset.key; renderCatalog(); renderConfig(); }));
+  }
+
+  function renderConfig() {
+    const e = EXPORTS[current];
+    $("cfg-subtitle").textContent = "Export : " + e.label;
+    $("cfg-period").classList.toggle("hidden", !e.dated);
+    $("cfg-columns").innerHTML = e.cols.map((c, i) =>
+      `<label class="flex items-center gap-2 text-xs text-gray-700"><input type="checkbox" checked data-col="${i}" class="rounded text-[#A63629] focus:ring-[#A63629]"> ${c}</label>`).join("");
+    $("cfg-toggle-cols").textContent = "Tout décocher";
+    updateEstimate();
+  }
+
+  function selectedCols() {
+    return [...document.querySelectorAll("#cfg-columns [data-col]:checked")].map(c => +c.dataset.col);
+  }
+
+  function filtersLabel() {
+    const parts = [$("cfg-agence").value && "Agence " + $("cfg-agence").value, $("cfg-secteur").value, $("cfg-client").value].filter(Boolean);
+    return parts.length ? parts.join(" · ") : "—";
+  }
+
+  function estimateRows() {
+    const e = EXPORTS[current];
+    let n = e.est;
+    if ($("cfg-agence").value) n = Math.round(n / 3);
+    if ($("cfg-secteur").value) n = Math.round(n / 3);
+    if ($("cfg-client").value) n = Math.round(n / 5);
+    return Math.max(n, e.sample.length);
+  }
+
+  function updateEstimate() {
+    const n = selectedCols().length;
+    $("cfg-estimate").textContent = `~${estimateRows().toLocaleString("fr-FR")} lignes · ${n} colonne${n > 1 ? "s" : ""}`;
+    $("btn-generate").disabled = n === 0;
+    $("btn-generate").classList.toggle("opacity-50", n === 0);
+  }
+
+  function renderHistory() {
+    $("history-body").innerHTML = history.map((h, i) => `
+      <tr class="hover:bg-gray-50">
+        <td class="px-4 py-3 whitespace-nowrap text-gray-700">${h.date}</td>
+        <td class="px-4 py-3 whitespace-nowrap text-gray-900 font-medium">${h.auteur}</td>
+        <td class="px-4 py-3 whitespace-nowrap">${EXPORTS[h.type].label}</td>
+        <td class="px-4 py-3 whitespace-nowrap text-gray-600">${h.periode}</td>
+        <td class="px-4 py-3 text-gray-600">${h.filtres}</td>
+        <td class="px-4 py-3 text-right font-mono text-gray-700">${h.lignes.toLocaleString("fr-FR")}</td>
+        <td class="px-4 py-3"><span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${h.format === "xlsx" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-700"}">${h.format.toUpperCase()}</span></td>
+        <td class="px-4 py-3 text-right"><button type="button" data-dl="${i}" class="inline-flex items-center justify-center rounded-lg text-xs font-semibold border border-gray-200 bg-white shadow-sm hover:bg-gray-50 h-8 px-3">Télécharger</button></td>
+      </tr>`).join("");
+    document.querySelectorAll("[data-dl]").forEach(b => b.addEventListener("click", () => {
+      const h = history[+b.dataset.dl];
+      download(h.type, EXPORTS[h.type].cols.map((_, i) => i));
+    }));
+  }
+
+  // Démo : télécharge un CSV avec les données d'exemple (séparateur ; pour Excel FR)
+  function download(type, cols) {
+    const e = EXPORTS[type];
+    const esc = (v) => /[;"\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
+    const rows = [cols.map(i => e.cols[i]), ...e.sample.map(r => cols.map(i => r[i] ?? ""))];
+    const csv = "﻿" + rows.map(r => r.map(esc).join(";")).join("\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    a.download = `adaptel-export-${type}-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  $("btn-generate").addEventListener("click", () => {
+    const e = EXPORTS[current];
+    const cols = selectedCols();
+    if (!cols.length) return;
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, "0");
+    history.unshift({
+      date: `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`,
+      auteur: "Admin Principal",
+      type: current,
+      periode: e.dated ? `${fmtDate($("cfg-from").value)} → ${fmtDate($("cfg-to").value)}` : "—",
+      filtres: filtersLabel(),
+      lignes: estimateRows(),
+      format: document.querySelector('[name="cfg-format"]:checked').value
+    });
+    renderHistory();
+    download(current, cols);
+  });
+
+  $("cfg-toggle-cols").addEventListener("click", () => {
+    const boxes = document.querySelectorAll("#cfg-columns [data-col]");
+    const allOn = [...boxes].every(b => b.checked);
+    boxes.forEach(b => b.checked = !allOn);
+    $("cfg-toggle-cols").textContent = allOn ? "Tout cocher" : "Tout décocher";
+    updateEstimate();
+  });
+  $("cfg-columns").addEventListener("change", updateEstimate);
+  ["cfg-agence", "cfg-secteur", "cfg-client"].forEach(id => $(id).addEventListener("change", updateEstimate));
+
+  // ===== Visibilité selon le rôle (démo) =====
+  const roleSelect = $("role-select");
+  function applyRoleVisibility() {
+    const allowed = roleSelect.value === "master";
+    $("nav-exports-link").classList.toggle("hidden", !allowed);
+    $("nav-administration-link").classList.toggle("hidden", roleSelect.value !== "master");
+    $("exports-content").classList.toggle("hidden", !allowed);
+    $("exports-denied").classList.toggle("hidden", allowed);
+  }
+  roleSelect.addEventListener("change", applyRoleVisibility);
+
+  renderCatalog();
+  renderConfig();
+  renderHistory();
+  applyRoleVisibility();
+</script>
+
+</body>
+</html>

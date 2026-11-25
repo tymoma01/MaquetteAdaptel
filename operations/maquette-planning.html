@@ -116,6 +116,12 @@
           <span class="font-medium">Administration</span>
         </div>
       </a>
+      <a class="block" id="nav-exports-link" href="maquette-exports.html">
+        <div id="nav-exports" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>
+          <span class="font-medium">Exports</span>
+        </div>
+      </a>
       <a class="block" href="maquette-parametres.html">
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-700 hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M10 8h4"></path><path d="M12 21v-9"></path><path d="M12 8V3"></path><path d="M17 16h4"></path><path d="M19 12V3"></path><path d="M19 21v-5"></path><path d="M3 14h4"></path><path d="M5 10V3"></path><path d="M5 21v-7"></path></svg>
@@ -330,7 +336,7 @@
                 <div class="w-6 h-6 bg-amber-200 text-amber-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">SM</div>
                 <div class="min-w-0 leading-tight">
                   <p class="text-xs font-bold text-gray-900 truncate">Sofia MARTINS</p>
-                  <p class="text-[10px] text-amber-800 font-medium">Notification envoyée · <span class="underline">Voir candidats</span></p>
+                  <p class="text-[10px] text-amber-800 font-medium truncate" title="Placé par Léa GIRARD — cliquer pour voir les candidats">Notification envoyée · <span class="text-gray-500 font-normal">par L. Girard</span></p>
                 </div>
               </div>
             </div>
@@ -376,7 +382,7 @@
                 <div class="w-6 h-6 bg-green-200 text-green-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">MK</div>
                 <div class="min-w-0 leading-tight">
                   <p class="text-xs font-bold text-gray-900 truncate">Mehdi KACI</p>
-                  <p class="text-[10px] text-green-800 font-semibold">Confirmé · <span class="underline">Voir candidats</span></p>
+                  <p class="text-[10px] text-green-800 font-semibold truncate" title="Placé par Claire MARTIN — cliquer pour voir les candidats">Confirmé · <span class="text-gray-500 font-normal">par C. Martin</span></p>
                 </div>
               </div>
             </div>
@@ -573,7 +579,7 @@
                 <div class="w-6 h-6 bg-purple-200 text-purple-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">LR</div>
                 <div class="min-w-0 leading-tight">
                   <p class="text-xs font-bold text-gray-900 truncate">Léa ROUSSEL</p>
-                  <p class="text-[10px] text-purple-800 font-semibold">Contrat établi</p>
+                  <p class="text-[10px] text-purple-800 font-semibold truncate" title="Placé par Samir MOREAU">Contrat établi · <span class="text-gray-500 font-normal">par S. Moreau</span></p>
                 </div>
               </div>
             </div>
@@ -900,6 +906,14 @@
         <button type="button" id="p-block-btn" onclick="toggleBlockInterim(currentPanelCmd)" class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold border h-10 transition-colors"></button>
         <p id="p-block-hint" class="text-[11px] text-gray-500 mt-1.5 leading-snug"></p>
       </div>
+      <!-- PLANTE : l'intérimaire positionné ne s'est pas présenté (absence non remplacée / prévenue trop tard) -->
+      <div id="p-plante-wrap" class="hidden">
+        <div id="p-plante-info" class="hidden mb-2 rounded-lg border border-orange-200 bg-orange-50 px-3 py-2 text-xs text-orange-900"></div>
+        <button type="button" id="p-plante-btn" onclick="openPlanteModal(currentPanelCmd)" class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold border border-orange-300 bg-white text-orange-700 hover:bg-orange-50 h-10 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="m17 8 5 5"></path><path d="m22 8-5 5"></path></svg>
+          <span id="p-plante-label">Signaler une plante</span>
+        </button>
+      </div>
       <button type="button" id="p-cancel-btn" onclick="openCancelModal(currentPanelCmd)" class="w-full inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold border border-red-300 bg-white text-red-600 hover:bg-red-50 h-10 transition-colors">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M4.929 4.929 19.07 19.071"></path><circle cx="12" cy="12" r="10"></circle></svg>
         Annuler la demande
@@ -966,10 +980,84 @@
           <p class="text-xs text-red-600 mt-0.5">Tous les jours restants seront annulés, y compris ceux déjà attribués.</p>
         </div>
       </label>
+      <div class="pt-1 space-y-3">
+        <div>
+          <p class="text-sm font-semibold text-gray-900">À l'initiative de</p>
+          <div class="mt-1.5 grid grid-cols-2 gap-2">
+            <label class="flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm cursor-pointer has-[:checked]:border-[#A63629] has-[:checked]:bg-red-50">
+              <input type="radio" name="cancel-origin" value="Client" checked class="w-4 h-4 text-[#A63629]"> Client
+            </label>
+            <label class="flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm cursor-pointer has-[:checked]:border-[#A63629] has-[:checked]:bg-red-50">
+              <input type="radio" name="cancel-origin" value="Adaptel" class="w-4 h-4 text-[#A63629]"> Adaptel
+            </label>
+          </div>
+        </div>
+        <div>
+          <label class="text-sm font-semibold text-gray-900">Motif</label>
+          <select id="cancel-motif" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+            <option>Baisse d'activité</option>
+            <option>Événement annulé</option>
+            <option>Poste pourvu en interne</option>
+            <option>Erreur de saisie</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <textarea id="cancel-comment" rows="2" placeholder="Commentaire (facultatif)..." class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm"></textarea>
+      </div>
     </div>
     <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
       <button type="button" onclick="closeCancelModal()" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-100 transition-colors">Fermer</button>
       <button type="button" onclick="confirmCancelDemande()" class="px-5 py-2 rounded-lg bg-red-600 text-white text-sm font-semibold shadow hover:bg-red-700 transition-colors">Confirmer l'annulation</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODALE PLANTE -->
+<div id="plante-backdrop" class="fixed inset-0 bg-gray-900/30 z-[80] hidden"></div>
+<div id="plante-modal" class="fixed inset-0 z-[90] hidden flex items-center justify-center p-4 pointer-events-none">
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-md pointer-events-auto">
+    <div class="p-5 border-b border-gray-100 flex items-start justify-between gap-3">
+      <div>
+        <h3 class="font-bold text-gray-900 text-lg">Signaler une plante</h3>
+        <p id="plante-modal-recap" class="text-xs text-gray-500 mt-0.5">—</p>
+      </div>
+      <button type="button" onclick="closePlanteModal()" class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    <div class="p-5 space-y-4">
+      <div>
+        <label class="text-sm font-semibold text-gray-900">Jour concerné</label>
+        <select id="plante-day" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm"></select>
+      </div>
+      <div>
+        <p class="text-sm font-semibold text-gray-900">Prévenance</p>
+        <div class="mt-1.5 space-y-1.5">
+          <label class="flex items-center gap-2 text-sm text-gray-800"><input type="radio" name="plante-prevenance" value="Non prévenu" checked class="w-4 h-4 text-[#A63629]"> Non prévenu (ne s'est pas présenté)</label>
+          <label class="flex items-center gap-2 text-sm text-gray-800"><input type="radio" name="plante-prevenance" value="Prévenu le jour même" class="w-4 h-4 text-[#A63629]"> Prévenu le jour même</label>
+          <label class="flex items-center gap-2 text-sm text-gray-800"><input type="radio" name="plante-prevenance" value="Prévenu la veille" class="w-4 h-4 text-[#A63629]"> Prévenu la veille</label>
+        </div>
+      </div>
+      <div>
+        <label class="text-sm font-semibold text-gray-900">Motif</label>
+        <select id="plante-motif" class="mt-1 flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm">
+          <option>Injoignable / sans nouvelles</option>
+          <option>Maladie</option>
+          <option>Problème de transport</option>
+          <option>Raison personnelle</option>
+          <option>Autre</option>
+        </select>
+      </div>
+      <textarea id="plante-comment" rows="2" placeholder="Commentaire (facultatif)..." class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm"></textarea>
+      <label class="flex items-start gap-2 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2.5 text-xs text-amber-900 font-medium cursor-pointer">
+        <input type="checkbox" id="plante-restaff" checked class="mt-0.5 rounded text-[#A63629] focus:ring-[#A63629]">
+        Rechercher un remplaçant : le poste repasse « À staffer » (dépannage)
+      </label>
+      <p class="text-[11px] text-gray-400">La plante est tracée et apparaît dans l'export des plantes (onglet Exports).</p>
+    </div>
+    <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+      <button type="button" onclick="closePlanteModal()" class="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-100 transition-colors">Fermer</button>
+      <button type="button" onclick="confirmPlante()" class="px-5 py-2 rounded-lg bg-orange-600 text-white text-sm font-semibold shadow hover:bg-orange-700 transition-colors">Enregistrer la plante</button>
     </div>
   </div>
 </div>
@@ -1284,6 +1372,7 @@
     document.getElementById('p-validate-wrap').classList.toggle('hidden', !VALIDATE_ELIGIBLE_STATUTS.includes(statut));
     document.getElementById('p-cancel-btn').classList.toggle('hidden', statut === 'Annulée');
     renderPanelBlock(cmd);
+    renderPanelPlante(cmd);
     renderPanelJours(cmd);
 
     backdrop.classList.remove('hidden');
@@ -1324,7 +1413,7 @@
           <div class="w-6 h-6 bg-amber-200 text-amber-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">${initialsFromName(name)}</div>
           <div class="min-w-0 leading-tight">
             <p class="text-xs font-bold text-gray-900 truncate">${name}</p>
-            <p class="text-[10px] text-amber-800 font-medium">Notification envoyée · <span class="underline">Voir candidats</span></p>
+            <p class="text-[10px] text-amber-800 font-medium truncate" title="${placedByTitle()}">Notification envoyée · ${placedByHtml()}</p>
           </div>
         `;
       }
@@ -1356,7 +1445,7 @@
         <div class="w-6 h-6 bg-green-200 text-green-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">${initialsFromName(name)}</div>
         <div class="min-w-0 leading-tight">
           <p class="text-xs font-bold text-gray-900 truncate">${name}</p>
-          <p class="text-[10px] text-green-800 font-semibold">Confirmé · <span class="underline">Voir candidats</span></p>
+          <p class="text-[10px] text-green-800 font-semibold truncate" title="${placedByTitle()}">Confirmé · ${placedByHtml()}</p>
         </div>
       `;
     }
@@ -1511,6 +1600,7 @@
   }
 
   let cancelModalCmd = null;
+  const cancellationsLog = [];
 
   function openCancelModal(cmd) {
     if (!cmd) return;
@@ -1525,6 +1615,9 @@
       </label>
     `).join('');
     document.querySelector('input[name="cancel-scope"][value="jour"]').checked = true;
+    document.querySelector('input[name="cancel-origin"][value="Client"]').checked = true;
+    document.getElementById('cancel-motif').selectedIndex = 0;
+    document.getElementById('cancel-comment').value = '';
     updateCancelScope();
     document.getElementById('cancel-demande-backdrop').classList.remove('hidden');
     document.getElementById('cancel-demande-modal').classList.remove('hidden');
@@ -1591,6 +1684,9 @@
     if (!cmd) return;
     const scope = document.querySelector('input[name="cancel-scope"]:checked').value;
     const days = getDays(cmd);
+    const origin = document.querySelector('input[name="cancel-origin"]:checked').value;
+    // Trace de l'annulation (alimente l'export des annulations client)
+    cancellationsLog.push({ cmd, origin, motif: document.getElementById('cancel-motif').value, comment: document.getElementById('cancel-comment').value, at: new Date() });
 
     if (scope === 'totale') {
       days.forEach(d => { d.cancelled = true; });
@@ -1622,6 +1718,77 @@
     }
 
     closeCancelModal();
+  }
+
+  // ===== PLANTES : l'intérimaire positionné ne vient pas =====
+  const PLANTE_ELIGIBLE_STATUTS = ['Validé', 'Contrat établi'];
+  const plantes = {}; // cmd -> { name, day, prevenance, motif, comment }
+  let planteModalCmd = null;
+
+  function renderPanelPlante(cmd) {
+    const wrap = document.getElementById('p-plante-wrap');
+    const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
+    const name = row ? row.dataset.interimaire : '';
+    const p = plantes[cmd];
+    if (!row || (!p && (!name || !PLANTE_ELIGIBLE_STATUTS.includes(row.dataset.statut)))) { wrap.classList.add('hidden'); return; }
+    wrap.classList.remove('hidden');
+    const info = document.getElementById('p-plante-info');
+    info.classList.toggle('hidden', !p);
+    document.getElementById('p-plante-btn').classList.toggle('hidden', !!p);
+    if (p) info.innerHTML = `<p class="font-semibold">Plante signalée — ${p.name}</p><p class="mt-0.5">${p.day} · ${p.prevenance} · ${p.motif}</p>${p.comment ? `<p class="mt-0.5 italic">"${p.comment}"</p>` : ''}`;
+    else document.getElementById('p-plante-label').textContent = `Signaler une plante de ${name}`;
+  }
+
+  function openPlanteModal(cmd) {
+    const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
+    if (!row || !row.dataset.interimaire) return;
+    planteModalCmd = cmd;
+    document.getElementById('plante-modal-recap').textContent = `${row.dataset.interimaire} · ${cmd} · ${row.dataset.client || ''}`;
+    const days = getDays(cmd).filter(d => !d.cancelled);
+    const opts = days.length ? days : [{ label: document.getElementById('p-fin').textContent }];
+    document.getElementById('plante-day').innerHTML = opts.map(d => `<option>${d.label}</option>`).join('');
+    document.querySelector('input[name="plante-prevenance"][value="Non prévenu"]').checked = true;
+    document.getElementById('plante-motif').selectedIndex = 0;
+    document.getElementById('plante-comment').value = '';
+    document.getElementById('plante-restaff').checked = true;
+    document.getElementById('plante-backdrop').classList.remove('hidden');
+    document.getElementById('plante-modal').classList.remove('hidden');
+  }
+
+  function closePlanteModal() {
+    document.getElementById('plante-backdrop').classList.add('hidden');
+    document.getElementById('plante-modal').classList.add('hidden');
+    planteModalCmd = null;
+  }
+  document.getElementById('plante-backdrop').addEventListener('click', closePlanteModal);
+
+  function confirmPlante() {
+    const cmd = planteModalCmd;
+    if (!cmd) return;
+    const row = document.querySelector(`.planning-row[data-cmd="${cmd}"]`);
+    const name = row.dataset.interimaire;
+    plantes[cmd] = {
+      name,
+      day: document.getElementById('plante-day').value,
+      prevenance: document.querySelector('input[name="plante-prevenance"]:checked').value,
+      motif: document.getElementById('plante-motif').value,
+      comment: document.getElementById('plante-comment').value.trim()
+    };
+    const box = document.getElementById('assign-box-' + cmd);
+    if (box && !document.getElementById('plante-tag-' + cmd)) {
+      const tag = document.createElement('p');
+      tag.id = 'plante-tag-' + cmd;
+      tag.className = 'mt-1 inline-flex items-center gap-1 rounded-md bg-orange-600 text-white text-[10px] font-semibold px-1.5 py-0.5';
+      tag.title = `Plante signalée : ${name}`;
+      tag.textContent = `Plante · ${name}`;
+      box.insertAdjacentElement('afterend', tag);
+    }
+    const restaff = document.getElementById('plante-restaff').checked;
+    closePlanteModal();
+    renderPanelPlante(cmd);
+    showToast(restaff
+      ? `Plante de ${name} enregistrée — recherche d'un remplaçant à lancer (dépannage).`
+      : `Plante de ${name} enregistrée.`);
   }
 
   closeBtn.addEventListener('click', closePanel);
@@ -1930,7 +2097,7 @@
         <div class="w-6 h-6 bg-fuchsia-200 text-fuchsia-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">${candidate.init}</div>
         <div class="min-w-0 leading-tight">
           <p class="text-xs font-bold text-gray-900 truncate">${candidate.name}</p>
-          <p class="text-[10px] text-fuchsia-700 font-semibold">PROV — candidat AFT · <span class="underline">Voir candidats</span></p>
+          <p class="text-[10px] text-fuchsia-700 font-semibold truncate" title="${placedByTitle()}">PROV — candidat AFT · ${placedByHtml()}</p>
         </div>
       `;
     }
@@ -2037,6 +2204,11 @@
     hideCandTooltip();
   }
 
+  // Personne du planning connectée : son nom est affiché sur chaque placement qu'elle effectue
+  const currentPlanner = { short: 'C. Martin', full: 'Claire MARTIN' };
+  function placedByHtml() { return `<span class="text-gray-500 font-normal">par ${currentPlanner.short}</span>`; }
+  function placedByTitle() { return `Placé par ${currentPlanner.full} — cliquer pour voir les candidats`; }
+
   function assignCandidate(cmd, name) {
     const cfg = demandeConfig[cmd];
     const candidate = interimRoster.find(p => p.name === name);
@@ -2057,7 +2229,7 @@
         <div class="w-6 h-6 bg-amber-200 text-amber-900 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0">${candidate.init}</div>
         <div class="min-w-0 leading-tight">
           <p class="text-xs font-bold text-gray-900 truncate">${candidate.name}</p>
-          <p class="text-[10px] text-amber-800 font-medium">Notification envoyée · <span class="underline">Voir candidats</span></p>
+          <p class="text-[10px] text-amber-800 font-medium truncate" title="${placedByTitle()}">Notification envoyée · ${placedByHtml()}</p>
         </div>
       `;
     }
